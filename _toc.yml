@@ -1,0 +1,12 @@
+format: jb-book
+root: intro
+parts: 
+  - caption: NLA with Python
+    chapters:
+      - file: NLA_numpy/introduction
+  - caption: Basics of Machine Learning
+    chapters:
+      - file: ML/ML
+  - caption: Optimization
+    chapters:
+      - file: Optimization/Optimization
