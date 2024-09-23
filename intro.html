@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Calcolo Numerico &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>Statistical and Mathematical Methods for Machine Learning (SMM) &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -57,10 +57,12 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction to Python for Linear Algebra" href="NLA_numpy/introduction.html" />
+    <link rel="next" title="Python Basics" href="NLA_numpy/basics_python.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -176,13 +178,16 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Calcolo Numerico
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Numerical Linear Algebra with Python</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/introduction.html">Introduction to Python for Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -376,7 +381,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Calcolo Numerico</h1>
+    <h1>Statistical and Mathematical Methods for Machine Learning (SMM)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -386,8 +391,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#argomenti-trattati">Argomenti trattati</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricevimento-e-contatti">Ricevimento e contatti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics">Topics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hour">Office hour</a></li>
 </ul>
             </nav>
         </div>
@@ -399,16 +404,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="calcolo-numerico">
-<h1>Calcolo Numerico<a class="headerlink" href="#calcolo-numerico" title="Link to this heading">#</a></h1>
-<p>A seguire gli strumenti di supporto alla didattica per il corso di Calcolo Numerico Modulo B, anno accademico 2024-2025, a cura di Davide Evangelista.</p>
-<section id="argomenti-trattati">
-<h2>Argomenti trattati<a class="headerlink" href="#argomenti-trattati" title="Link to this heading">#</a></h2>
-<p>Il modulo B è diviso in 3 parti. Nella prima parte introdurremo le basi del linguaggio di programmazione Python, con particolare riferimento alla libreria <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, utile per tutte le operazioni che richiedono l’utilizzo di vettori, matrici e tensori, oltre che di <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, utilizzata invece per tutta la parte di visualizzazione.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="statistical-and-mathematical-methods-for-machine-learning-smm">
+<h1>Statistical and Mathematical Methods for Machine Learning (SMM)<a class="headerlink" href="#statistical-and-mathematical-methods-for-machine-learning-smm" title="Link to this heading">#</a></h1>
+<p>What follows are the teaching materials for the Statistical and Mathematical Methods for Machine Learning (SMM, in the following), Module 2, for the Academic Year 2024-2025, helded by professor Davide Evangelista.</p>
+<section id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading">#</a></h2>
+<p>Module 2 of the SMM course is divided into 3 parts. In the first part (which will be covered in the first 2 to 3 lessons), we will briefly recall the basics of Python programming language, which will be our tool to test the algorithms. Moreover, we will introduce <code class="docutils literal notranslate"><span class="pre">numpy</span></code> (arguably the most used Python library for vetor and matrix manipulation), <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> (for visualization) and other add-on libraries for <code class="docutils literal notranslate"><span class="pre">numpy</span></code> such as <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy</span></code>.</p>
+<p>In the second part of the course, we will introduce the basics of Machine Learning, and in particular we will study how to implement some simple yet effective Machine Learning algorithms for Dimensionality Reduction, Classification and Regression. Clearly, the focus will always be to deeply understand the math behind those concepts, and how their implementation relates to basic linear algebra concepts you studied during your bachelor degree.</p>
+<p>In the last part, we will discuss Optimization techiniques such as Gradient Descent and Stochastic Gradient Descent (SGD), for the solution of the <em>training problem</em> in Machine Learning algorithms. Moreover, we will introduce two frameworks (i.e. Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP)) commonly used in Machine Learning applications, with the aim of understanding the origin of some commonly-used formula you will see in the following courses, over the Master degree.</p>
 </section>
-<section id="ricevimento-e-contatti">
-<h2>Ricevimento e contatti<a class="headerlink" href="#ricevimento-e-contatti" title="Link to this heading">#</a></h2>
-<p>L’orario di ricevimento è fissato per Mercoledì mattina, nella fascia oraria 9-12. E’ richiesto l’invio di una comunicazione via e-mail per fissare l’incontro, all’indirizzo <a class="reference external" href="mailto:davide&#46;evangelista5&#37;&#52;&#48;unibo&#46;it">davide<span>&#46;</span>evangelista5<span>&#64;</span>unibo<span>&#46;</span>it</a>.</p>
+<section id="office-hour">
+<h2>Office hour<a class="headerlink" href="#office-hour" title="Link to this heading">#</a></h2>
+<p>The office hour is Wednesday morning, from 9a.m. to 12p.m., via Microsoft Teams or in my office, at Ex Veneta, close to the Zanolini train station.</p>
+<p>Either cases, it is <strong>mandatory</strong> to set an appointment by e-mail, via the address <code class="docutils literal notranslate"><span class="pre">davide.evangelista5&#64;unibo.it</span></code>.</p>
 </section>
 <div class="toctree-wrapper compound">
 </div>
@@ -449,11 +457,11 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="NLA_numpy/introduction.html"
+       href="NLA_numpy/basics_python.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Introduction to Python for Linear Algebra</p>
+        <p class="prev-next-title">Python Basics</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -473,8 +481,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#argomenti-trattati">Argomenti trattati</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricevimento-e-contatti">Ricevimento e contatti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics">Topics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hour">Office hour</a></li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ML &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>Matrix and Vector Manipulation &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/ML';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLA_numpy/introduction_to_python_numpy2024';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Optimization" href="../Optimization/Optimization.html" />
-    <link rel="prev" title="Solving Linear Systems with Python" href="../NLA_numpy/linear_systems.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,8 +183,8 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction_to_numpy.html">Introduction to Python for NLA</a></li>
 
 
 
@@ -191,12 +193,12 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_systems.html">Solving Linear Systems with Python</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">ML</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/ML.html">ML</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
@@ -272,7 +274,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FML/ML.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FNLA_numpy/introduction_to_python_numpy2024.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -302,7 +304,7 @@
       
       
       
-      <li><a href="../_sources/ML/ML.ipynb" target="_blank"
+      <li><a href="../_sources/NLA_numpy/introduction_to_python_numpy2024.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -312,7 +314,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.ipynb</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -373,7 +375,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -384,11 +388,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ML</h1>
+    <h1>Matrix and Vector Manipulation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Matrix and Vector Manipulation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#read-data-with-pandas">Read data with pandas</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -398,9 +412,39 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="ml">
-<h1>ML<a class="headerlink" href="#ml" title="Link to this heading">#</a></h1>
-<p><strong>Work in progress…</strong></p>
+  <section id="matrix-and-vector-manipulation">
+<h1>Matrix and Vector Manipulation<a class="headerlink" href="#matrix-and-vector-manipulation" title="Link to this heading">#</a></h1>
+<p>Numpy also implements the basic operations on matrix and vectors. In particular, the following functions can be useful in this course:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.norm(a,</span> <span class="pre">p)</span></code>: Computes the $<span class="math notranslate nohighlight">\(p\)</span><span class="math notranslate nohighlight">\(-norm of a vector or a matrix \)</span><span class="math notranslate nohighlight">\(a\)</span>$;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.cond(A,</span> <span class="pre">p)</span></code>: Computes the condition number in <span class="math notranslate nohighlight">\(p\)</span>-norm of a matrix $<span class="math notranslate nohighlight">\(A\)</span>$;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.matrix_rank(A)</span></code>: Computes the rank of the matrix $<span class="math notranslate nohighlight">\(A\)</span>$;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.inv(A)</span></code>: When invertible, compute the inverse matrix of $<span class="math notranslate nohighlight">\(A\)</span>$. <em>Warning:</em> Very slow;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.transpose(A)</span></code>: Compute the transpose matrix of $<span class="math notranslate nohighlight">\(A\)</span>$. It is equivalent to <code class="docutils literal notranslate"><span class="pre">A.T</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.reshape(a,</span> <span class="pre">new_shape)</span></code>: Reshape an array <code class="docutils literal notranslate"><span class="pre">a</span></code> to a given shape.</p></li>
+</ul>
+</section>
+<section id="read-data-with-pandas">
+<h1>Read data with pandas<a class="headerlink" href="#read-data-with-pandas" title="Link to this heading">#</a></h1>
+<p>Since we will frequently work with data, it will be important to be able to manipulate them. In this class, we will learn how to load a dataset into Python by using a library called <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, whose documentation can be found <a class="reference external" href="https://pandas.pydata.org/docs/user_guide/index.html#user-guide">here</a>.</p>
+<p>As an example, download the data from Kaggle at the following link: <a class="reference external" href="https://www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014">www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014</a>.</p>
+<p>Then, place it in the same folder as the Python file on which you are working and use the following code to load it in memory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read data from a csv file</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/US_births_2000-2014_SSA.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Pandas uses similar function name as numpy to keep everything coherent. For example, we can check the shape of <code class="docutils literal notranslate"><span class="pre">data</span></code> by using the function <code class="docutils literal notranslate"><span class="pre">print(data.shape)</span></code>. Moreover, a pandas dataframe can be casted into a numpy array by simply</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Cast into numpy array</span>
+<span class="n">np_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Check that the dimension didn&#39;t change</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> should be equal to </span><span class="si">{</span><span class="n">np_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -416,7 +460,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./ML"
+            path: "./NLA_numpy"
         },
         predefinedOutput: true
     }
@@ -433,30 +477,29 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../NLA_numpy/linear_systems.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Solving Linear Systems with Python</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="../Optimization/Optimization.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Optimization</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Matrix and Vector Manipulation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#read-data-with-pandas">Read data with pandas</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
