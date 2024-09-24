@@ -3,10 +3,16 @@ root: intro
 parts: 
   - caption: NLA with Python
     chapters:
-      - file: NLA_numpy/introduction
+      - file: NLA_numpy/basics_python
+      - file: NLA_numpy/introduction_to_numpy
+      - file: NLA_numpy/matplotlib
+      - file: NLA_numpy/linear_systems
   - caption: Basics of Machine Learning
     chapters:
       - file: ML/ML
   - caption: Optimization
     chapters:
       - file: Optimization/Optimization
+  - caption: Homeworks
+    chapters:
+      - file: Homeworks/HW1
