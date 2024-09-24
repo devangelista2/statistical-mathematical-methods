@@ -398,7 +398,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path">Path</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errors">Errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling">Error handling</a></li>
 </ul>
             </nav>
         </div>
@@ -801,7 +801,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0000373091576404
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.6586564687462508
 </pre></div>
 </div>
 </div>
@@ -818,7 +818,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4239408456245368
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5313996395718067
 </pre></div>
 </div>
 </div>
@@ -848,10 +848,236 @@ x - \frac{f(x)}{f'(x)}.
 <section id="path">
 <h2>Path<a class="headerlink" href="#path" title="Link to this heading">#</a></h2>
 <p>A key concept which is also particularly relevant for this course is the concept of <code class="docutils literal notranslate"><span class="pre">path</span></code>. The <code class="docutils literal notranslate"><span class="pre">path</span></code> is the address that describes a position of a specific file on your computer, and being able to describe the path for a specific file in Python will be important, for example, to load a dataset which is saved into a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
-<p>There are two kind of paths: the <strong>absolute path</strong></p>
+<p>There are two kind of paths: the <strong>absolute path</strong>, which is the full address pointing to a file (e.g. <code class="docutils literal notranslate"><span class="pre">C:\Users\devangelista2\Desktop\CN24\file.csv</span></code>), and the <strong>relative path</strong>, which describes the position of the object, relatively to the position of the project where we are working on. For example, if we are working on the project folder <code class="docutils literal notranslate"><span class="pre">CN24</span></code>, the relative path for <code class="docutils literal notranslate"><span class="pre">file.csv</span></code> is <code class="docutils literal notranslate"><span class="pre">./file.csv</span></code>.</p>
+<p>The folder project from which we describe the position of files on a relative path is called <code class="docutils literal notranslate"><span class="pre">working</span> <span class="pre">directory</span></code>.</p>
+<p>The Python functions to work with paths are contained in the built-in package <code class="docutils literal notranslate"><span class="pre">os</span></code>. For example, we can check the absolute path of the working directory as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/davideevangelista/statistical-mathematical-methods/NLA_numpy
+</pre></div>
+</div>
+</div>
+</div>
+<p>To list all the file names in a given path (which can be defined by using strings):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a path (possibly relative to the current Working Directory)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data&quot;</span>
+
+<span class="c1"># Print the files in the given path</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;US_births_2000-2014_SSA.csv&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Pay attention, while working with data (as we will do, for example, in the final part of the course), to provide the code with either the correct relative path or the correct absolute path for the file containing the data, to avoid errors.</p>
+</div>
 </section>
-<section id="errors">
-<h2>Errors<a class="headerlink" href="#errors" title="Link to this heading">#</a></h2>
+<section id="error-handling">
+<h2>Error handling<a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
+<p>Error handling is a crucial part of programming. Errors can occur for many reasons, such as invalid input, division by zero, or trying to access a non-existent file. Python provides tools to handle these errors gracefully, ensuring the program doesn’t crash unexpectedly, while also aiding in debugging.</p>
+<p>When an error occurs in Python, the program generates an error message known as a traceback. This message includes detailed information about the type of error and where it occurred in the code. Learning how to read tracebacks is essential for identifying the cause of errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+
+<span class="c1"># This will generate an error because we are trying to divide by zero</span>
+<span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># This will generate an error because we are trying to divide by zero</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="nn">Cell In[19], line 2,</span> in <span class="ni">divide</span><span class="nt">(a, b)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+
+<span class="ne">ZeroDivisionError</span>: division by zero
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s how to interpret this traceback:</p>
+<ul class="simple">
+<li><p><strong>Traceback (most recent call last)</strong>: Indicates that the error occurred in the most recent operation.</p></li>
+<li><p><strong>Cell In[..], line 5</strong>: Shows the line of code where the error was raised.</p></li>
+<li><p><strong>Cell In[..], line 2, in divide</strong>: Points out that the error occurred in the function divide, specifically at line 2.</p></li>
+<li><p><strong>ZeroDivisionError: division by zero</strong>: Specifies the type of error (ZeroDivisionError) and the reason for it (“division by zero”).</p></li>
+</ul>
+<p>In the following, a list of the most common errors in Python with their explanation:</p>
+<ol class="arabic simple">
+<li><p><strong>SyntaxError</strong>: Occurs when there are syntax issues in the code, such as missing parentheses or colons.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Syntax error&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">5</span>
+             <span class="o">^</span>
+<span class="ne">SyntaxError</span>: expected &#39;:&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>TypeError</strong>: Happens when an operation is applied to incompatible data types.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10&quot;</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10&quot;</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="ne">TypeError</span>: can only concatenate str (not &quot;int&quot;) to str
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>NameError</strong>: Occurs when you try to use a variable or function that hasn’t been defined.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;p&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>IndexError</strong>: Raised when you try to access a list element using an index that is out of range.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="ne">IndexError</span>: list index out of range
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p><strong>ValueError</strong>: Raised when a function receives an argument with the right type, but an inappropriate value.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">24</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+
+<span class="ne">ValueError</span>: invalid literal for int() with base 10: &#39;abc&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong>Exercise</strong>: Below is a code with a few errors. Try to correct it and make it work.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_average</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">multiply_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="n">reslt</span>
+
+<span class="k">def</span> <span class="nf">find_largest</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+    <span class="n">largest</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">largest</span><span class="p">:</span>
+            <span class="n">largest</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">largest</span>
+
+<span class="k">def</span> <span class="nf">get_number_input</span><span class="p">():</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter a number: &quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">nm</span>
+
+<span class="c1"># Main program</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The average is:&quot;</span><span class="p">,</span> <span class="n">compute_average</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">b</span> <span class="o">=</span> <span class="s2">&quot;10&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The product is:&quot;</span><span class="p">,</span> <span class="n">multiply_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The largest number is:&quot;</span><span class="p">,</span> <span class="n">find_largest</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
+
+<span class="n">user_number</span> <span class="o">=</span> <span class="n">get_number_input</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You entered:&quot;</span><span class="p">,</span> <span class="n">user_number</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span>
+               <span class="o">^</span>
+<span class="ne">SyntaxError</span>: &#39;(&#39; was never closed
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -927,7 +1153,7 @@ x - \frac{f(x)}{f'(x)}.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path">Path</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errors">Errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling">Error handling</a></li>
 </ul>
   </nav></div>
 
