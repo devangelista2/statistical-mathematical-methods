@@ -435,12 +435,13 @@ document.write(`
 <ol class="arabic simple">
 <li><p>The Machine epsilon <span class="math notranslate nohighlight">\(\epsilon\)</span> is defined as the smallest floating point number such that it holds: <span class="math notranslate nohighlight">\(fl(1 + \epsilon) &gt; 1\)</span>. Compute <span class="math notranslate nohighlight">\(\epsilon\)</span>. <em>Tips:</em> use a <code class="docutils literal notranslate"><span class="pre">while</span></code> structure.</p></li>
 <li><p>Let’s consider the sequence <span class="math notranslate nohighlight">\(a_n = (1 + \frac{1}{n})^n\)</span>. It is well known that: <span class="math notranslate nohighlight">\(\lim_{n \to \infty} a_n = e\)</span>, where <span class="math notranslate nohighlight">\(e\)</span> is the Nepero number. Choose diﬀerent values for <span class="math notranslate nohighlight">\(n\)</span>, compute <span class="math notranslate nohighlight">\(a_n\)</span> and compare it to the real value of the Nepero number. What happens if you choose a large value of <span class="math notranslate nohighlight">\(n\)</span>?</p></li>
-<li><p>Let’s consider the matrices:
-$<span class="math notranslate nohighlight">\(
-A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}
-\)</span><span class="math notranslate nohighlight">\(
-Compute the rank of \)</span>A<span class="math notranslate nohighlight">\( and \)</span>B<span class="math notranslate nohighlight">\( and their eigenvalues. Are \)</span>A<span class="math notranslate nohighlight">\( and \)</span>B$ full-rank matrices? Can you infer some relationship between the values of the eigenvalues and the full-rank condition? Please, corroborate your deduction with other examples. <em>Tips:</em> Please, have a look at <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code>.</p></li>
+<li><p>Let’s consider the matrices:</p></li>
 </ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}
+\end{split}\]</div>
+<p>Compute the rank of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> and their eigenvalues. Are <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> full-rank matrices? Can you infer some relationship between the values of the eigenvalues and the full-rank condition? Please, corroborate your deduction with other examples. <em>Tips:</em> Please, have a look at <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code>.</p>
 </section>
 </section>
 
