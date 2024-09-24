@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Statistical and Mathematical Methods for Machine Learning (SMM) &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>HW 1: Linear Algebra and Floating Point Arithmetic &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -18,51 +18,51 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Python Basics" href="NLA_numpy/basics_python.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Optimization" href="../Optimization/Optimization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -94,7 +94,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="search.html"
+      action="../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -125,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -145,7 +143,7 @@
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="../intro.html">
   
   
   
@@ -156,8 +154,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
   
   
 </a></div>
@@ -176,30 +174,30 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
                     Statistical and Mathematical Methods for Machine Learning (SMM)
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/basics_python.html">Python Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="ML/ML.html">ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/ML.html">ML</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Optimization/Optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/Optimization.html">Optimization</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
 </ul>
 
     </div>
@@ -271,7 +269,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FHomeworks/HW1.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -301,7 +299,7 @@
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="../_sources/Homeworks/HW1.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -311,7 +309,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -385,7 +383,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Statistical and Mathematical Methods for Machine Learning (SMM)</h1>
+    <h1>HW 1: Linear Algebra and Floating Point Arithmetic</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -395,8 +393,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics">Topics</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hour">Office hour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-methods-for-the-solution-of-linear-systems">Direct Methods for the solution of Linear Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating point arithmetic</a></li>
 </ul>
             </nav>
         </div>
@@ -408,28 +406,42 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="statistical-and-mathematical-methods-for-machine-learning-smm">
-<h1>Statistical and Mathematical Methods for Machine Learning (SMM)<a class="headerlink" href="#statistical-and-mathematical-methods-for-machine-learning-smm" title="Link to this heading">#</a></h1>
-<p>What follows are the teaching materials for the Statistical and Mathematical Methods for Machine Learning (SMM, in the following), Module 2, for the Academic Year 2024-2025, helded by professor Davide Evangelista.</p>
-<section id="topics">
-<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading">#</a></h2>
-<p>Module 2 of the SMM course is divided into 3 parts. In the first part (which will be covered in the first 2 to 3 lessons), we will briefly recall the basics of Python programming language, which will be our tool to test the algorithms. Moreover, we will introduce <code class="docutils literal notranslate"><span class="pre">numpy</span></code> (arguably the most used Python library for vetor and matrix manipulation), <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> (for visualization) and other add-on libraries for <code class="docutils literal notranslate"><span class="pre">numpy</span></code> such as <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy</span></code>.</p>
-<p>In the second part of the course, we will introduce the basics of Machine Learning, and in particular we will study how to implement some simple yet effective Machine Learning algorithms for Dimensionality Reduction, Classification and Regression. Clearly, the focus will always be to deeply understand the math behind those concepts, and how their implementation relates to basic linear algebra concepts you studied during your bachelor degree.</p>
-<p>In the last part, we will discuss Optimization techiniques such as Gradient Descent and Stochastic Gradient Descent (SGD), for the solution of the <em>training problem</em> in Machine Learning algorithms. Moreover, we will introduce two frameworks (i.e. Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP)) commonly used in Machine Learning applications, with the aim of understanding the origin of some commonly-used formula you will see in the following courses, over the Master degree.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="hw-1-linear-algebra-and-floating-point-arithmetic">
+<h1>HW 1: Linear Algebra and Floating Point Arithmetic<a class="headerlink" href="#hw-1-linear-algebra-and-floating-point-arithmetic" title="Link to this heading">#</a></h1>
+<p>We recall that the submission of the homeworks has <strong>NO</strong> deadline. You can submit them whenever you want, on Virtuale. You are only required to upload it on Virtuale <strong>BEFORE</strong> your exam session, since the Homeworks will be a central part of the oral exam.</p>
+<section id="direct-methods-for-the-solution-of-linear-systems">
+<h2>Direct Methods for the solution of Linear Systems<a class="headerlink" href="#direct-methods-for-the-solution-of-linear-systems" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Given a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>, the vector <span class="math notranslate nohighlight">\(x_{true} = (1,1,...,1)^T \in \mathbb{R}^n\)</span>, and a value for <span class="math notranslate nohighlight">\(n\)</span>, write a script that:</p>
+<ul class="simple">
+<li><p>Computes the right-hand side of the linear system <span class="math notranslate nohighlight">\(y = A x_{true}\)</span> (test problem).</p></li>
+<li><p>Computes the condition number in 2-norm of the matrix <span class="math notranslate nohighlight">\(A\)</span>. It is ill-conditioned? What if we use the <span class="math notranslate nohighlight">\(\infty\)</span>-norm instead of the 2-norm?</p></li>
+<li><p>Solves the linear system <span class="math notranslate nohighlight">\(Ax = y\)</span> with the function <code class="docutils literal notranslate"><span class="pre">np.linalg.solve()</span></code>.</p></li>
+<li><p>Computes the relative error between the computed solution and the true solution <span class="math notranslate nohighlight">\(x_{true}\)</span>.</p></li>
+<li><p>Plot a graph (using <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code>) with the relative errors as a function of <span class="math notranslate nohighlight">\(n\)</span> and (in a different window) the condition number in 2-norm and in <span class="math notranslate nohighlight">\(\infty\)</span>-norm, as a function of <span class="math notranslate nohighlight">\(n\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Test the program above with the following choices of <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>:</p>
+<ul class="simple">
+<li><p>A random matrix (created with the function <code class="docutils literal notranslate"><span class="pre">np.random.rand()</span></code>) with size varying in <span class="math notranslate nohighlight">\(n = \{10, 20, 30, ..., 100\}\)</span>.</p></li>
+<li><p>The Vandermonde matrix (<code class="docutils literal notranslate"><span class="pre">np.vander</span></code>) with dimension <span class="math notranslate nohighlight">\(n= \{5,10,15,20,25,30\}\)</span> with respect to the vector <span class="math notranslate nohighlight">\(v = {1,2,3,...,n}\)</span>.</p></li>
+<li><p>The Hilbert matrix (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.hilbert</span></code>) with dimension <span class="math notranslate nohighlight">\(n= \{4, 5, 6, ..., 12\}\)</span>.</p></li>
+</ul>
+</li>
+</ol>
 </section>
-<section id="office-hour">
-<h2>Office hour<a class="headerlink" href="#office-hour" title="Link to this heading">#</a></h2>
-<p>The office hour is Wednesday morning, from 9a.m. to 12p.m., via Microsoft Teams or in my office, at Ex Veneta, close to the Zanolini train station.</p>
-<p>Either cases, it is <strong>mandatory</strong> to set an appointment by e-mail, via the address <code class="docutils literal notranslate"><span class="pre">davide.evangelista5&#64;unibo.it</span></code>.</p>
+<section id="floating-point-arithmetic">
+<h2>Floating point arithmetic<a class="headerlink" href="#floating-point-arithmetic" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>The Machine epsilon <span class="math notranslate nohighlight">\(\epsilon\)</span> is defined as the smallest floating point number such that it holds: <span class="math notranslate nohighlight">\(fl(1 + \epsilon) &gt; 1\)</span>. Compute <span class="math notranslate nohighlight">\(\epsilon\)</span>. <em>Tips:</em> use a <code class="docutils literal notranslate"><span class="pre">while</span></code> structure.</p></li>
+<li><p>Let’s consider the sequence <span class="math notranslate nohighlight">\(a_n = (1 + \frac{1}{n})^n\)</span>. It is well known that: <span class="math notranslate nohighlight">\(\lim_{n \to \infty} a_n = e\)</span>, where <span class="math notranslate nohighlight">\(e\)</span> is the Nepero number. Choose diﬀerent values for <span class="math notranslate nohighlight">\(n\)</span>, compute <span class="math notranslate nohighlight">\(a_n\)</span> and compare it to the real value of the Nepero number. What happens if you choose a large value of <span class="math notranslate nohighlight">\(n\)</span>?</p></li>
+<li><p>Let’s consider the matrices:
+$<span class="math notranslate nohighlight">\(
+A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}
+\)</span><span class="math notranslate nohighlight">\(
+Compute the rank of \)</span>A<span class="math notranslate nohighlight">\( and \)</span>B<span class="math notranslate nohighlight">\( and their eigenvalues. Are \)</span>A<span class="math notranslate nohighlight">\( and \)</span>B$ full-rank matrices? Can you infer some relationship between the values of the eigenvalues and the full-rank condition? Please, corroborate your deduction with other examples. <em>Tips:</em> Please, have a look at <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code>.</p></li>
+</ol>
 </section>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -445,7 +457,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./."
+            path: "./Homeworks"
         },
         predefinedOutput: true
     }
@@ -462,14 +474,14 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="right-next"
-       href="NLA_numpy/basics_python.html"
-       title="next page">
+    <a class="left-prev"
+       href="../Optimization/Optimization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Python Basics</p>
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Optimization</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -487,8 +499,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics">Topics</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hour">Office hour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-methods-for-the-solution-of-linear-systems">Direct Methods for the solution of Linear Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating point arithmetic</a></li>
 </ul>
   </nav></div>
 
@@ -537,8 +549,8 @@ By Davide Evangelista
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
