@@ -1,0 +1,740 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dimensionality Reduction &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/PCA2024';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVD.html">SVD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PCA.html">PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/Optimization.html">Optimization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FML/PCA2024.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/ML/PCA2024.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dimensionality Reduction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Dimensionality Reduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-of-pca-pseudocode">Implementation of PCA (Pseudocode)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-example">Python example</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-digits">Visualizing the digits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#splitting-the-dataset">Splitting the dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-svd">A note on SVD</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-clusters-in-python">Visualizing clusters in Python</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-example">Working example</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#homework">Homework</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dimensionality-reduction">
+<h1>Dimensionality Reduction<a class="headerlink" href="#dimensionality-reduction" title="Link to this heading">#</a></h1>
+<p>While working with data, it is common to have access to very high-dimensional unstructured informations (e.g. images, sounds, …). To work with them, it is necessary to find a way to project them into a low-dimensional space where data which is semantically similar is close. This approach is called <strong>dimensionality reduction</strong>.</p>
+<p>For example, assume our data can be stored in an $<span class="math notranslate nohighlight">\(d \times N\)</span><span class="math notranslate nohighlight">\( array,
+\)</span><span class="math notranslate nohighlight">\(
+    X = [ x^1 x^2 \dots x^N ] \in \mathbb{R}^{d \times N}
+\)</span><span class="math notranslate nohighlight">\(
+where each datapoint \)</span><span class="math notranslate nohighlight">\(x^j \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(. The idea of dimensionality reduction techniques in ML is to find a projector operator \)</span><span class="math notranslate nohighlight">\(P: \mathbb{R}^d \to \mathbb{R}^k\)</span><span class="math notranslate nohighlight">\(, with \)</span><span class="math notranslate nohighlight">\(k \ll d\)</span><span class="math notranslate nohighlight">\(, such that in the projected space \)</span><span class="math notranslate nohighlight">\(P(x)\)</span>$, images semantically similar are close together. If the points in a projected space forms isolated popoulations such that <em>inside</em> of each popoulation the points are close, while the distance <em>between</em> popoulations is large, we call them <strong>clusters</strong>. A clusering algorithm is an algorithm which is able to find clusters from high-dimensional data.</p>
+</section>
+<section id="principal-component-analysis-pca">
+<h1>Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Link to this heading">#</a></h1>
+<p>Principal Componenti Analyisis (PCA) is probabily the simplest yet effective technique to perform dimensionality reduction and clustering. It is an unsupervised algorithm, thus it does not require any label.</p>
+<p>The idea is the following: consider a dataset $<span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span><span class="math notranslate nohighlight">\( of high-dimensional data and assume we want to project it into a low-dimensional space \)</span><span class="math notranslate nohighlight">\(\mathbb{R}^k\)</span>$. Define</p>
+<div class="math notranslate nohighlight">
+\[
+    Z = [z^1 z^2 \dots z^N] \in \mathbb{R}^{k \times N}
+\]</div>
+<p>the projected version of $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\(. We want to find a matrix \)</span><span class="math notranslate nohighlight">\(P \in \mathbb{R}^{k \times d}\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(Z = PX\)</span><span class="math notranslate nohighlight">\(, with the constraint that in the projected space we want to keep as much information as possible from the original data \)</span><span class="math notranslate nohighlight">\(X\)</span>$.</p>
+<p>You already studied that, when you want to project a matrix by keeping informations, a good idea is to use the Singular Value Decomposition (SVD) of it and, in particular, the Truncated SVD (TSVD). Let $<span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    X = U \Sigma V^T
+\]</div>
+<p>is the SVD of $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\(, where \)</span><span class="math notranslate nohighlight">\(U \in \mathbb{R}^{d \times d}\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(V \in \mathbb{R}^{N \times N}\)</span><span class="math notranslate nohighlight">\( are orthogonal matrices (\)</span><span class="math notranslate nohighlight">\(U^T U = U U^T = I\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(V V^T = V^T V = I\)</span><span class="math notranslate nohighlight">\(), while \)</span><span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{d \times N}\)</span><span class="math notranslate nohighlight">\( is a diagonal matrix whose diagonal elements \)</span><span class="math notranslate nohighlight">\(\sigma_i\)</span><span class="math notranslate nohighlight">\( are the singular values of \)</span><span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\(, in decreasing order (\)</span><span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_d\)</span><span class="math notranslate nohighlight">\(). Since the singular values represents the _quantity of informations_ contained in the corresponding singular vectors, keeping the first \)</span><span class="math notranslate nohighlight">\(k\)</span><span class="math notranslate nohighlight">\( singular values and vectors can be the solution to our projection problem. Indeed, given \)</span><span class="math notranslate nohighlight">\(k &lt; d\)</span><span class="math notranslate nohighlight">\(, we define the Truncated SVD of \)</span><span class="math notranslate nohighlight">\(X\)</span>$ as</p>
+<div class="math notranslate nohighlight">
+\[
+    X_k = U_k \Sigma_k V^T_k
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(U_k \in \mathbb{R}^{d \times k}\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\Sigma_k \in \mathbb{R}^{k \times k}\)</span><span class="math notranslate nohighlight">\(, and \)</span><span class="math notranslate nohighlight">\(V_k \in \mathbb{R}^{k \times N}\)</span>$.</p>
+<p>The PCA use this idea and defines the projection matrix as $<span class="math notranslate nohighlight">\(P = U_k\)</span>$, and consequently,</p>
+<div class="math notranslate nohighlight">
+\[
+    Z = U_k^T X
+\]</div>
+<p>is the projected space. Here, the columns of $<span class="math notranslate nohighlight">\(U_k\)</span><span class="math notranslate nohighlight">\( are called **feature vectors**, while the columns of \)</span><span class="math notranslate nohighlight">\(Z\)</span><span class="math notranslate nohighlight">\( are the **principal components** of \)</span><span class="math notranslate nohighlight">\(X\)</span>$.</p>
+</section>
+<section id="implementation-of-pca-pseudocode">
+<h1>Implementation of PCA (Pseudocode)<a class="headerlink" href="#implementation-of-pca-pseudocode" title="Link to this heading">#</a></h1>
+<p>To implement PCA, we first need to <em>center</em> the data. This can be done by defining its centroid.</p>
+<blockquote>
+<div><p><strong><em>Centroid:</em></strong> Given a set
+$<span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N]\)</span><span class="math notranslate nohighlight">\(
+its _centroid_ is defined to be
+\)</span><span class="math notranslate nohighlight">\(c(X) = \frac{1}{N} \sum_{i=1}^N x^i\)</span>$</p>
+</div></blockquote>
+<p>Thus, the implementation of PCA is as follows:</p>
+<ul class="simple">
+<li><p>Consider the dataset $<span class="math notranslate nohighlight">\(X\)</span>$;</p></li>
+<li><p>Compute the centered version of $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( as \)</span><span class="math notranslate nohighlight">\(X_c = X - c(X)\)</span>$, where the subtraction between matrix and vector is executed column-by-column;</p></li>
+<li><p>Compute the SVD of $<span class="math notranslate nohighlight">\(X_c\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(X_c = U\Sigma V^T\)</span>$;</p></li>
+<li><p>Given $<span class="math notranslate nohighlight">\(k &lt; n\)</span><span class="math notranslate nohighlight">\(, compute the Truncated SVD of \)</span><span class="math notranslate nohighlight">\(X_c\)</span><span class="math notranslate nohighlight">\(: \)</span><span class="math notranslate nohighlight">\(X_{c, k} = U_k \Sigma_k V_k^T\)</span>$;</p></li>
+<li><p>Compute the projected dataset $<span class="math notranslate nohighlight">\(Z_k = U_k^T X_c\)</span>$;</p></li>
+</ul>
+</section>
+<section id="python-example">
+<h1>Python example<a class="headerlink" href="#python-example" title="Link to this heading">#</a></h1>
+<p>For the following example, I’m assuming you downloaded the MNIST dataset, either from Virtuale or from Kaggle (<a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">click here</a> do download it), renamed it <code class="docutils literal notranslate"><span class="pre">data.csv</span></code> and placed it in the same folder of the Python file on which you are working.</p>
+<p>The first step is to load the dataset into memory, this can be done with Pandas as we saw into the <a href="{{ site.baseurl }}{% link _teaching/introduction_to_python_numpy2024.md %}">introductory post</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Load data into memory</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After that, it is important to inspect the data, i.e. to look at its structure and understand how it is distributed. This can be done either by reading at the documentation of the website where the data has been downloaded or by using the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> method <code class="docutils literal notranslate"><span class="pre">.head()</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect the data</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of the data: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>which prints out all the columns of <code class="docutils literal notranslate"><span class="pre">data</span></code> and the first 5 rows of each column. With this command, we realize that our dataset is a $<span class="math notranslate nohighlight">\(42000 \times 785\)</span>$ frame, where the columns from the second to the last are the pixels of an image representing an handwritten digit, while the first column is the <em>target</em>, i.e. the integer describing the represented digit.</p>
+<p>Following the <a href="{{ site.baseurl }}{% link _teaching/short_introduction_to_ML2024.md %}">introductory post on Machine Learning</a>, first of all we convert the dataframe into a matrix with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and then we split the input matrix $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( and the corresponding target vector \)</span><span class="math notranslate nohighlight">\(Y\)</span><span class="math notranslate nohighlight">\(. Finally, we note that \)</span><span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( is an \)</span><span class="math notranslate nohighlight">\(N \times d\)</span><span class="math notranslate nohighlight">\( matrix, where \)</span><span class="math notranslate nohighlight">\(N = 42000\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(d = 784\)</span><span class="math notranslate nohighlight">\(. Since in our notations the shape of \)</span><span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( **must** be \)</span><span class="math notranslate nohighlight">\(d \times N\)</span>$, we have to transpose it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert data into a matrix</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Split data into a matrix X and a vector Y where:</span>
+<span class="c1">#</span>
+<span class="c1"># X is dimension (42000, 784)</span>
+<span class="c1"># Y is dimension (42000, )</span>
+<span class="c1"># Y is the first column of data, while X is the rest</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">d</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<section id="visualizing-the-digits">
+<h2>Visualizing the digits<a class="headerlink" href="#visualizing-the-digits" title="Link to this heading">#</a></h2>
+<p>We already said that $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( is a dataset of images representing handwritten digits. We can clearly visualize some of them. In the documentation, we can read that each datapoint is a \)</span><span class="math notranslate nohighlight">\(28 \times 28\)</span>$ grey-scale image, which has been flattened. Flattening is the operation of taking a 2-dimensional array (a matrix) and converting it to a 1-dimensional array, by concatenating the rows of it. This can be implemented in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> with the function <code class="docutils literal notranslate"><span class="pre">a.flatten()</span></code>, where <code class="docutils literal notranslate"><span class="pre">a</span></code> is a 2-dimensional numpy array.</p>
+<p><img alt="" src="https://www.w3resource.com/w3r_images/numpy-manipulation-ndarray-flatten-function-image-1.png" /></p>
+<p>Since we know that the dimension of each image was $<span class="math notranslate nohighlight">\(28 \times 28\)</span>$ before flattening, we can invert this procedure by <strong>reshaping</strong> them. After that, we can simply visualize it with the function <code class="docutils literal notranslate"><span class="pre">plt.imshow()</span></code> from <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, by setting the <code class="docutils literal notranslate"><span class="pre">cmap</span></code> to <code class="docutils literal notranslate"><span class="pre">'gray'</span></code> since the images are grey-scale.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="c1"># Visualize the image of index &#39;idx&#39; from the dataset &#39;X&#39;</span>
+
+    <span class="c1"># Load an image in memory</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+    
+    <span class="c1"># Reshape it</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+
+    <span class="c1"># Visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Visualize image number 10 and the corresponding digit.</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">visualize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The associated digit is: </span><span class="si">{</span><span class="n">Y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="splitting-the-dataset">
+<h2>Splitting the dataset<a class="headerlink" href="#splitting-the-dataset" title="Link to this heading">#</a></h2>
+<p>Before implementing the algorithm performing PCA, you are required to split the dataset into a training set and a test set, following the <a href="{{ site.baseurl }}{% link _teaching/short_introduction_to_ML2024.md %}">introductory post on Machine Learning</a>. Remember that to correctly split $<span class="math notranslate nohighlight">\(X\)</span>$, it has to be random.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Ntrain</span><span class="p">):</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+    <span class="n">train_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[:</span><span class="n">Ntrain</span><span class="p">]</span>
+    <span class="n">test_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">Ntrain</span><span class="p">:]</span>
+
+    <span class="n">Xtrain</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">train_idx</span><span class="p">]</span>
+    <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
+    
+    <span class="n">Xtest</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">Ytest</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">),</span> <span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span>
+
+<span class="c1"># Test it</span>
+<span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">),</span> <span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">30_000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Xtrain</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Xtest</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now the dataset $<span class="math notranslate nohighlight">\((X, Y)\)</span><span class="math notranslate nohighlight">\( is divided into the train and test components, and you can implement the PCA algorithm on \)</span><span class="math notranslate nohighlight">\(X_{train}\)</span><span class="math notranslate nohighlight">\(. Remember to not access \)</span><span class="math notranslate nohighlight">\(X_{test}\)</span>$ during training.</p>
+</section>
+<section id="a-note-on-svd">
+<h2>A note on SVD<a class="headerlink" href="#a-note-on-svd" title="Link to this heading">#</a></h2>
+<p>In Python, the (reduced) SVD decomposition of a matrix $<span class="math notranslate nohighlight">\(A\)</span>$ can be implemented as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># SVD of a matrix A</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">VT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where $<span class="math notranslate nohighlight">\(U \in \mathbb{R}^{d \times k}\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(VT \in \mathbb{N \times k}\)</span><span class="math notranslate nohighlight">\(, with \)</span><span class="math notranslate nohighlight">\(k = rank(A)\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(s \in \mathbb{R}^k\)</span><span class="math notranslate nohighlight">\( is a vector containing the \)</span><span class="math notranslate nohighlight">\(k\)</span><span class="math notranslate nohighlight">\( non-zero singular values of \)</span><span class="math notranslate nohighlight">\(A\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\sigma_1, \dots, \sigma_k\)</span>$, in decreasing order.</p>
+</section>
+</section>
+<section id="visualizing-clusters-in-python">
+<h1>Visualizing clusters in Python<a class="headerlink" href="#visualizing-clusters-in-python" title="Link to this heading">#</a></h1>
+<p>When $<span class="math notranslate nohighlight">\(k=2\)</span><span class="math notranslate nohighlight">\(, it is possible to visualize clusters in Python. In particular, we want to plot the datapoints, with the color of the corresponding class, to check how well the clustering algorithm performed in 2-dimensions. This can be done by the `matplotlib` function `plt.scatter`. In particular, if \)</span><span class="math notranslate nohighlight">\(Z = [z^1 z^2 \dots z^N] \in \mathbb{R}^{2 \times N}\)</span><span class="math notranslate nohighlight">\( is the projected dataset and \)</span><span class="math notranslate nohighlight">\(Y \in \mathbb{R}^N\)</span>$ is the vector of the corresponding classes, then</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the clusters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>will do the job.</p>
+<section id="working-example">
+<h2>Working example<a class="headerlink" href="#working-example" title="Link to this heading">#</a></h2>
+<p>Here I report a working example on how to visualize clusters on <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> with the function <code class="docutils literal notranslate"><span class="pre">plt.scatter()</span></code>. In the example, we generate two clusters, composed by normally distributed datapoints in 2-dimensions, from two different gaussian distributions. The first class is labelled as 0, while the second one is labelled as 1. The datapoints are colored into the scatterplot with a different color for each class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Create two cloud of points in 2-dimensional space</span>
+<span class="c1"># and plot it, divided by color</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+
+<span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="p">))</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="p">))</span>
+
+<span class="c1"># Visualize them (coloring by class)</span>
+
+<span class="c1"># Join together x1 x2, y1 y2</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+
+<span class="c1"># Visualize</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This is the result:</p>
+<p><img alt="" src="assets/images/PCA/scatterplot_example.png" /></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="homework">
+<h1>Homework<a class="headerlink" href="#homework" title="Link to this heading">#</a></h1>
+<p>On Virtuale, you can find the Homework 2, referred to this class.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Dimensionality Reduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis-pca">Principal Component Analysis (PCA)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-of-pca-pseudocode">Implementation of PCA (Pseudocode)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-example">Python example</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-digits">Visualizing the digits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#splitting-the-dataset">Splitting the dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-svd">A note on SVD</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-clusters-in-python">Visualizing clusters in Python</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-example">Working example</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#homework">Homework</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
