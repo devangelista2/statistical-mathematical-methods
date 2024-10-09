@@ -9,7 +9,9 @@ parts:
       - file: NLA_numpy/linear_systems
   - caption: Basics of Machine Learning
     chapters:
-      - file: ML/ML
+      - file: ML/intro_ML
+      - file: ML/SVD
+      - file: ML/PCA
   - caption: Optimization
     chapters:
       - file: Optimization/Optimization
