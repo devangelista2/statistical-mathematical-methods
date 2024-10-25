@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>HW 1: Linear Algebra and Floating Point Arithmetic &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>Optimization in Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -59,11 +59,9 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW1';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/stochastic_gradient_descent2024';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="HW 2: SVD and PCA for Machine Learning" href="HW2.html" />
-    <link rel="prev" title="Stochastic Gradient Descent" href="../Optimization/SGD.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -125,6 +123,8 @@
     <div class="bd-container__inner bd-page-width">
       
       
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -196,13 +196,13 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
 </ul>
 
     </div>
@@ -274,7 +274,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FHomeworks/HW1.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FOptimization/stochastic_gradient_descent2024.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -304,7 +304,7 @@
       
       
       
-      <li><a href="../_sources/Homeworks/HW1.ipynb" target="_blank"
+      <li><a href="../_sources/Optimization/stochastic_gradient_descent2024.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -314,7 +314,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.ipynb</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -388,7 +388,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>HW 1: Linear Algebra and Floating Point Arithmetic</h1>
+    <h1>Optimization in Machine Learning</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -398,9 +398,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-methods-for-the-solution-of-linear-systems">Direct Methods for the solution of Linear Systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating point arithmetic</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Optimization in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drawbacks-of-sgd">Drawbacks of SGD</a></li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -411,42 +415,85 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="hw-1-linear-algebra-and-floating-point-arithmetic">
-<h1>HW 1: Linear Algebra and Floating Point Arithmetic<a class="headerlink" href="#hw-1-linear-algebra-and-floating-point-arithmetic" title="Link to this heading">#</a></h1>
-<p>We recall that the submission of the homeworks has <strong>NO</strong> deadline. You can submit them whenever you want, on Virtuale. You are only required to upload it on Virtuale <strong>BEFORE</strong> your exam session, since the Homeworks will be a central part of the oral exam.</p>
-<section id="direct-methods-for-the-solution-of-linear-systems">
-<h2>Direct Methods for the solution of Linear Systems<a class="headerlink" href="#direct-methods-for-the-solution-of-linear-systems" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Given a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>, the vector <span class="math notranslate nohighlight">\(x_{true} = (1,1,...,1)^T \in \mathbb{R}^n\)</span>, and a value for <span class="math notranslate nohighlight">\(n\)</span>, write a script that:</p>
-<ul class="simple">
-<li><p>Computes the right-hand side of the linear system <span class="math notranslate nohighlight">\(y = A x_{true}\)</span> (test problem).</p></li>
-<li><p>Computes the condition number in 2-norm of the matrix <span class="math notranslate nohighlight">\(A\)</span>. It is ill-conditioned? What if we use the <span class="math notranslate nohighlight">\(\infty\)</span>-norm instead of the 2-norm?</p></li>
-<li><p>Solves the linear system <span class="math notranslate nohighlight">\(Ax = y\)</span> with the function <code class="docutils literal notranslate"><span class="pre">np.linalg.solve()</span></code>.</p></li>
-<li><p>Computes the relative error between the computed solution and the true solution <span class="math notranslate nohighlight">\(x_{true}\)</span>.</p></li>
-<li><p>Plot a graph (using <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code>) with the relative errors as a function of <span class="math notranslate nohighlight">\(n\)</span> and (in a different window) the condition number in 2-norm and in <span class="math notranslate nohighlight">\(\infty\)</span>-norm, as a function of <span class="math notranslate nohighlight">\(n\)</span>.</p></li>
-</ul>
-</li>
-<li><p>Test the program above with the following choices of <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>:</p>
-<ul class="simple">
-<li><p>A random matrix (created with the function <code class="docutils literal notranslate"><span class="pre">np.random.rand()</span></code>) with size varying in <span class="math notranslate nohighlight">\(n = \{10, 20, 30, ..., 100\}\)</span>.</p></li>
-<li><p>The Vandermonde matrix (<code class="docutils literal notranslate"><span class="pre">np.vander</span></code>) with dimension <span class="math notranslate nohighlight">\(n= \{5,10,15,20,25,30\}\)</span> with respect to the vector <span class="math notranslate nohighlight">\(v = {1,2,3,...,n}\)</span>.</p></li>
-<li><p>The Hilbert matrix (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.hilbert</span></code>) with dimension <span class="math notranslate nohighlight">\(n= \{4, 5, 6, ..., 12\}\)</span>.</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<section id="floating-point-arithmetic">
-<h2>Floating point arithmetic<a class="headerlink" href="#floating-point-arithmetic" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>The Machine epsilon <span class="math notranslate nohighlight">\(\epsilon\)</span> is defined as the smallest floating point number such that it holds: <span class="math notranslate nohighlight">\(fl(1 + \epsilon) &gt; 1\)</span>. Compute <span class="math notranslate nohighlight">\(\epsilon\)</span>. <em>Tips:</em> use a <code class="docutils literal notranslate"><span class="pre">while</span></code> structure.</p></li>
-<li><p>Let’s consider the sequence <span class="math notranslate nohighlight">\(a_n = (1 + \frac{1}{n})^n\)</span>. It is well known that: <span class="math notranslate nohighlight">\(\lim_{n \to \infty} a_n = e\)</span>, where <span class="math notranslate nohighlight">\(e\)</span> is the Nepero number. Choose diﬀerent values for <span class="math notranslate nohighlight">\(n\)</span>, compute <span class="math notranslate nohighlight">\(a_n\)</span> and compare it to the real value of the Nepero number. What happens if you choose a large value of <span class="math notranslate nohighlight">\(n\)</span>?</p></li>
-<li><p>Let’s consider the matrices:</p></li>
-</ol>
+  <section id="optimization-in-machine-learning">
+<h1>Optimization in Machine Learning<a class="headerlink" href="#optimization-in-machine-learning" title="Link to this heading">#</a></h1>
+<p>While working with Machine Learning (ML) it is common to have a dataset $<span class="math notranslate nohighlight">\(\mathbb{D} = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N\)</span><span class="math notranslate nohighlight">\( and a parametric function \)</span><span class="math notranslate nohighlight">\(f_w(x)\)</span><span class="math notranslate nohighlight">\( whose specific shape depends on the task. As already cited, _training_ a Machine Learning model is basically an optimization problem, where we need to find parameters \)</span><span class="math notranslate nohighlight">\(w\)</span><span class="math notranslate nohighlight">\( (known as *weights*), such that \)</span><span class="math notranslate nohighlight">\(f_w(x_i) \approx y_i\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span><span class="math notranslate nohighlight">\(. To do that, we usually consider a **loss function** (see &lt;a href=&quot;{{ site.baseurl }}{% link _teaching/short_introduction_to_ML2024.md %}&quot;&gt;the related post&lt;/a&gt; for more details), which in this case depends on the weights \)</span><span class="math notranslate nohighlight">\(w\)</span><span class="math notranslate nohighlight">\( and the dataset \)</span><span class="math notranslate nohighlight">\(\mathbb{D}\)</span><span class="math notranslate nohighlight">\(. We will indicate is as \)</span><span class="math notranslate nohighlight">\(\ell(w; \mathbb{D})\)</span>$.</p>
+<p>In most of the cases, $<span class="math notranslate nohighlight">\(\ell(w; \mathbb{D})\)</span>$ can be written as a sum of simpler components, each depending on a specific datapoint, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+	\ell(w; \mathbb{D}) = \sum_{i=1}^N \ell_i(w; x^{(i)}, y^{(i)})
+\]</div>
+<p>and the training optimization problem becomes</p>
+<div class="math notranslate nohighlight">
+\[
+	w^* = \arg\min_w \ell(w; \mathbb{D}) = \arg\min_w  \sum_{i=1}^N \ell_i(w; x^{(i)}, y^{(i)})
+\]</div>
+<p>Which can be solved by <a href="{{ site.baseurl }}{% link _teaching/gradient_descent.md %}">Gradient Descent</a>, as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}
+	\begin{cases}
+		w_0 \in \mathbb{R}^d \\
+		w_{k+1} = w_k - \alpha_k \nabla_w \ell(w_k; \mathbb{D}) = w_k - \alpha_k \sum_{i=1}^N \nabla_w \ell_i(w_k; x^{(i)}, y^{(i)})
+	\end{cases}
 \end{split}\]</div>
-<p>Compute the rank of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> and their eigenvalues. Are <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> full-rank matrices? Can you infer some relationship between the values of the eigenvalues and the full-rank condition? Please, corroborate your deduction with other examples. <em>Tips:</em> Please, have a look at <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code>.</p>
+<p>Where we used that $<span class="math notranslate nohighlight">\(\nabla_w \ell(w_k; \mathbb{D}) = \nabla_w \sum_{i=1}^N \ell_i(w_k; x^{(i)}, y^{(i)}) = \sum_{i=1}^N \nabla_w \ell_i(w_k; x^{(i)}, y^{(i)})\)</span>$.</p>
+<p>Thus, to compute each iteration of Gradient Descent we need the gradient with respect to the weights of the objective functions, that can be computed by summing up the gradients of the independent functions $<span class="math notranslate nohighlight">\(\ell_i(w; x^{(i)}, y^{(i)})\)</span>$.</p>
+<p>As an example, a common loss function in Machine Learning is the Mean Squared Error (MSE), defined by</p>
+<div class="math notranslate nohighlight">
+\[
+	\ell(w; \mathbb{D}) = \sum_{i=1}^N MSE(f_w(x_i), y_i)
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+	MSE(y, y') = \frac{|| y - y' ||_2^2}{n} \quad y, y' \in \mathbb{R}^n
+\]</div>
+<p>Here, computing $<span class="math notranslate nohighlight">\(\nabla_w \ell(w; \mathbb{D})\)</span>$ is not hard, since</p>
+<div class="math notranslate nohighlight">
+\[
+	\nabla_w \ell(w; \mathbb{D}) = \nabla_w \sum_{i=1}^N MSE(f_w(x_i), y_i) = \ell(w; \mathbb{D}) \sum_{i=1}^N \nabla_w MSE(f_w(x_i), y_i)
+\]</div>
+<p>but</p>
+<div class="math notranslate nohighlight">
+\[
+	\nabla_w MSE(f_w(x_i), y_i) = \frac{1}{n} \nabla_w || f_w(x_i) - y_i ||_2^2 = \frac{2}{n} \nabla_w f_w(x_i)^T (f_w(x_i) - y_i)
+\]</div>
+<p>by applying the chain rule. When $<span class="math notranslate nohighlight">\(\nabla_w f_w(x_i)\)</span><span class="math notranslate nohighlight">\( can be explicitly computed (it depends on the shape of \)</span><span class="math notranslate nohighlight">\(f_w\)</span>$), then the gradient descent iteration to solve the training optimization problem can be implemented as</p>
+<div class="math notranslate nohighlight">
+\[
+	w_{k+1} = w_k - \alpha_k \underbrace{\frac{1}{N} \sum_{i=1}^N \frac{2}{n} \nabla_w f_w(x_i)^T (f_w(x_i) - y_i)}_{\nabla_w \ell(w; \mathbb{D})}
+\]</div>
+</section>
+<section id="stochastic-gradient-descent-sgd">
+<h1>Stochastic Gradient Descent (SGD)<a class="headerlink" href="#stochastic-gradient-descent-sgd" title="Link to this heading">#</a></h1>
+<p>Unfortunately, even if it is easy to compute the gradient of $<span class="math notranslate nohighlight">\(\ell_i(w; x^{(i)}, y^{(i)})\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i\)</span><span class="math notranslate nohighlight">\(, when the number of samples \)</span><span class="math notranslate nohighlight">\(N\)</span><span class="math notranslate nohighlight">\( is large (which is common in Machine Learning), the computation of the full gradient \)</span><span class="math notranslate nohighlight">\(\nabla_w \ell(w; \mathbb{D})\)</span><span class="math notranslate nohighlight">\( is prohibitive, mostly because of memory limitations. For this reason, in such optimization problems, instead of using a standard GD algorithm, it is better using the Stochastic Gradient Descent (SGD) method. That is a variant of the classical GD where, instead of computing \)</span><span class="math notranslate nohighlight">\(\nabla_w \ell(w; \mathbb{D}) = \sum_{i=1}^N \nabla_w \ell_i(w; x^{(i)}, y^{(i)})\)</span>$, the summation is reduced to a limited number of terms, called a \emph{batch}. The idea is the following:</p>
+<ul class="simple">
+<li><p>Given a number $<span class="math notranslate nohighlight">\(N_{batch} \ll N\)</span><span class="math notranslate nohighlight">\( (usually called `batch_size`), randomly extract a subdataset \)</span><span class="math notranslate nohighlight">\(\mathcal{M}\)</span><span class="math notranslate nohighlight">\( with \)</span><span class="math notranslate nohighlight">\(\|\mathcal{M}\| = N_{batch}\)</span><span class="math notranslate nohighlight">\( from \)</span><span class="math notranslate nohighlight">\(\mathbb{D}\)</span>$. This set will be called a <strong>batch</strong>;</p></li>
+<li><p>Approximate the true gradient</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\nabla_w \ell(w; \mathbb{D}) = \sum_{i=1}^N \nabla_w \ell_i(w; x^{(i)}, y^{(i)})
+\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_w \ell(w; \mathcal{M}) = \sum_{i\in \mathcal{M}} \nabla_w \ell_i(w; x^{(i)}, y^{(i)})
+\]</div>
+<ul class="simple">
+<li><p>Compute one single iteration of the GD algorithm</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ 
+w_{k+1} = w_k - \alpha_k \nabla_w \ell(w; \mathcal{M});
+\]</div>
+<ul class="simple">
+<li><p>Repeat until you have extracted the full dataset. Notice that the random sampling at each iteration is done without replacement.</p></li>
+</ul>
+<p>Each iteration of the algorithm above is usually called <em>batch iteration</em>. When the whole dataset has been processed, we say that we completed an <strong>epoch</strong> of the SGD method. This algorithm should be repeated for a fixed number $<span class="math notranslate nohighlight">\(E\)</span>$ of epochs to reach convergence.</p>
+<section id="drawbacks-of-sgd">
+<h2>Drawbacks of SGD<a class="headerlink" href="#drawbacks-of-sgd" title="Link to this heading">#</a></h2>
+<p>Unfortunately, one of the biggest drawbacks of SGD with respect to GD, is that now we cannot check the convergence anymore (since we can’t obviously compute the gradient of $<span class="math notranslate nohighlight">\(\ell(w; \mathbb{D})\)</span><span class="math notranslate nohighlight">\( to check its distance from zero, as it is required for the first Stopping Criteria) and we can't use the backtracking algorithm, for the same reason. As a consequence, the algorithm will stop ONLY after reaching the fixed number of epochs, and we must set a good value for the step size \)</span><span class="math notranslate nohighlight">\(\alpha_k\)</span>$ by hand. Those problems are partially solved by recent algorithms like SGD with Momentum, Adam, AdaGrad, … whose study is beyond the scope of the course.</p>
 </section>
 </section>
 
@@ -463,7 +510,7 @@ A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatri
         },
         kernelOptions: {
             name: "python3",
-            path: "./Homeworks"
+            path: "./Optimization"
         },
         predefinedOutput: true
     }
@@ -480,24 +527,6 @@ A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatri
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../Optimization/SGD.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Stochastic Gradient Descent</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="HW2.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">HW 2: SVD and PCA for Machine Learning</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -514,9 +543,13 @@ A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatri
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-methods-for-the-solution-of-linear-systems">Direct Methods for the solution of Linear Systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating point arithmetic</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Optimization in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drawbacks-of-sgd">Drawbacks of SGD</a></li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>

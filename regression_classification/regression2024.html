@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>HW 1: Linear Algebra and Floating Point Arithmetic &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>Regression in Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -59,11 +59,9 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW1';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression_classification/regression2024';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="HW 2: SVD and PCA for Machine Learning" href="HW2.html" />
-    <link rel="prev" title="Stochastic Gradient Descent" href="../Optimization/SGD.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -125,6 +123,8 @@
     <div class="bd-container__inner bd-page-width">
       
       
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -200,9 +200,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
 </ul>
 
     </div>
@@ -274,7 +274,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FHomeworks/HW1.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fregression_classification/regression2024.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -304,7 +304,7 @@
       
       
       
-      <li><a href="../_sources/Homeworks/HW1.ipynb" target="_blank"
+      <li><a href="../_sources/regression_classification/regression2024.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -314,7 +314,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.ipynb</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -388,7 +388,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>HW 1: Linear Algebra and Floating Point Arithmetic</h1>
+    <h1>Regression in Machine Learning</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -398,9 +398,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-methods-for-the-solution-of-linear-systems">Direct Methods for the solution of Linear Systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating point arithmetic</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regression in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
 </ul>
+
             </nav>
         </div>
     </div>
@@ -411,43 +413,70 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="hw-1-linear-algebra-and-floating-point-arithmetic">
-<h1>HW 1: Linear Algebra and Floating Point Arithmetic<a class="headerlink" href="#hw-1-linear-algebra-and-floating-point-arithmetic" title="Link to this heading">#</a></h1>
-<p>We recall that the submission of the homeworks has <strong>NO</strong> deadline. You can submit them whenever you want, on Virtuale. You are only required to upload it on Virtuale <strong>BEFORE</strong> your exam session, since the Homeworks will be a central part of the oral exam.</p>
-<section id="direct-methods-for-the-solution-of-linear-systems">
-<h2>Direct Methods for the solution of Linear Systems<a class="headerlink" href="#direct-methods-for-the-solution-of-linear-systems" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Given a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>, the vector <span class="math notranslate nohighlight">\(x_{true} = (1,1,...,1)^T \in \mathbb{R}^n\)</span>, and a value for <span class="math notranslate nohighlight">\(n\)</span>, write a script that:</p>
-<ul class="simple">
-<li><p>Computes the right-hand side of the linear system <span class="math notranslate nohighlight">\(y = A x_{true}\)</span> (test problem).</p></li>
-<li><p>Computes the condition number in 2-norm of the matrix <span class="math notranslate nohighlight">\(A\)</span>. It is ill-conditioned? What if we use the <span class="math notranslate nohighlight">\(\infty\)</span>-norm instead of the 2-norm?</p></li>
-<li><p>Solves the linear system <span class="math notranslate nohighlight">\(Ax = y\)</span> with the function <code class="docutils literal notranslate"><span class="pre">np.linalg.solve()</span></code>.</p></li>
-<li><p>Computes the relative error between the computed solution and the true solution <span class="math notranslate nohighlight">\(x_{true}\)</span>.</p></li>
-<li><p>Plot a graph (using <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code>) with the relative errors as a function of <span class="math notranslate nohighlight">\(n\)</span> and (in a different window) the condition number in 2-norm and in <span class="math notranslate nohighlight">\(\infty\)</span>-norm, as a function of <span class="math notranslate nohighlight">\(n\)</span>.</p></li>
-</ul>
-</li>
-<li><p>Test the program above with the following choices of <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>:</p>
-<ul class="simple">
-<li><p>A random matrix (created with the function <code class="docutils literal notranslate"><span class="pre">np.random.rand()</span></code>) with size varying in <span class="math notranslate nohighlight">\(n = \{10, 20, 30, ..., 100\}\)</span>.</p></li>
-<li><p>The Vandermonde matrix (<code class="docutils literal notranslate"><span class="pre">np.vander</span></code>) with dimension <span class="math notranslate nohighlight">\(n= \{5,10,15,20,25,30\}\)</span> with respect to the vector <span class="math notranslate nohighlight">\(v = {1,2,3,...,n}\)</span>.</p></li>
-<li><p>The Hilbert matrix (<code class="docutils literal notranslate"><span class="pre">scipy.linalg.hilbert</span></code>) with dimension <span class="math notranslate nohighlight">\(n= \{4, 5, 6, ..., 12\}\)</span>.</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<section id="floating-point-arithmetic">
-<h2>Floating point arithmetic<a class="headerlink" href="#floating-point-arithmetic" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>The Machine epsilon <span class="math notranslate nohighlight">\(\epsilon\)</span> is defined as the smallest floating point number such that it holds: <span class="math notranslate nohighlight">\(fl(1 + \epsilon) &gt; 1\)</span>. Compute <span class="math notranslate nohighlight">\(\epsilon\)</span>. <em>Tips:</em> use a <code class="docutils literal notranslate"><span class="pre">while</span></code> structure.</p></li>
-<li><p>Let’s consider the sequence <span class="math notranslate nohighlight">\(a_n = (1 + \frac{1}{n})^n\)</span>. It is well known that: <span class="math notranslate nohighlight">\(\lim_{n \to \infty} a_n = e\)</span>, where <span class="math notranslate nohighlight">\(e\)</span> is the Nepero number. Choose diﬀerent values for <span class="math notranslate nohighlight">\(n\)</span>, compute <span class="math notranslate nohighlight">\(a_n\)</span> and compare it to the real value of the Nepero number. What happens if you choose a large value of <span class="math notranslate nohighlight">\(n\)</span>?</p></li>
-<li><p>Let’s consider the matrices:</p></li>
-</ol>
+  <section id="regression-in-machine-learning">
+<h1>Regression in Machine Learning<a class="headerlink" href="#regression-in-machine-learning" title="Link to this heading">#</a></h1>
+<p>{% include figure.html path=”/assets/images/regression/ML_diagram.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>Regression in a group of supervised learning techniques, alternative to classification. In classification, given a datapoint $<span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, the task was to learn a model \)</span><span class="math notranslate nohighlight">\(y = f_\theta(x)\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( represents one of the \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( possible classes in which \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( lies. On the other side, a Machine Learning problem is a Regression when the target variable \)</span><span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( is a **continuous** variable, and the task is to approximately *interpolate* between the \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( values, with the intent of being able to predict new outcome of \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( when a new \)</span><span class="math notranslate nohighlight">\(x\)</span>$ is given as input.</p>
+<p>{% include figure.html path=”/assets/images/regression/regression_vs_classification.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>A part from that, the computation procedure to define a regression model is similar to the procedure required for a classification model. Indeed, let $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( be a parametric function of \)</span><span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, parameterized by \)</span><span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^s\)</span>$. Given a dataset</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatrix} 4 &amp; 2 \\ 2 &amp; 1 \end{bmatrix}
-\end{split}\]</div>
-<p>Compute the rank of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> and their eigenvalues. Are <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> full-rank matrices? Can you infer some relationship between the values of the eigenvalues and the full-rank condition? Please, corroborate your deduction with other examples. <em>Tips:</em> Please, have a look at <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code>.</p>
+\[
+    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{d \times N}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^N
+\]</div>
+<p>the task is to train the model such that $<span class="math notranslate nohighlight">\(f_\theta(x^i) \approx y^i\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>$. Clearly, this is done by solving the optimization problem</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta^* = \arg\min_{\theta \in \mathbb{R}^s} \ell(\theta; X, Y)
+\]</div>
+<p>where the specific form of the loss function $<span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span><span class="math notranslate nohighlight">\( will be given in the next post. When \)</span><span class="math notranslate nohighlight">\(d&gt;1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is called **multivariate regression model**, while if \)</span><span class="math notranslate nohighlight">\(d=1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is an **univariate regression model**. For simplicity, from now on we will work with univariate regression models, where \)</span><span class="math notranslate nohighlight">\(x^i \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span><span class="math notranslate nohighlight">\(, and consequently \)</span><span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N] \in \mathbb{R}^N\)</span>$.</p>
 </section>
+<section id="linear-regression">
+<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h1>
+<p>The simplest regression model we can think of is the Linear Regression Model, defined as</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \theta_1 + \theta_2 x = \theta^T \hat{x}
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2]^T\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\hat{x} = [1, x]^T\)</span><span class="math notranslate nohighlight">\(. When \)</span><span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\( is optimized, it defines a straight line approximating the data. Clearly, the resulting model will be correct if and only if the real function \)</span><span class="math notranslate nohighlight">\(y = f(x)\)</span><span class="math notranslate nohighlight">\( generating the data is linear. Unfortunately, even in situations where \)</span><span class="math notranslate nohighlight">\(f(x)\)</span><span class="math notranslate nohighlight">\( can be considered linear, the collected data \)</span><span class="math notranslate nohighlight">\(y\)</span>$ is always corrupted by noise, which consequently breaks the linearity.</p>
+<p>Consider for example a situation where $<span class="math notranslate nohighlight">\(y = f(x) = 2x\)</span><span class="math notranslate nohighlight">\( is the model generating the data. The noiseless data \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\(, together with the line generated by the prediction model \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span>$, in that situation will look like that</p>
+<p><img alt="" src="assets/images/regression/regression_example0.png" /></p>
+<p>Unfortunately, since the data is always corrupted by noise, the collected data will be more like</p>
+<p><img alt="" src="assets/images/regression/regression_example1.png" /></p>
+<p>In this scenario, if $<span class="math notranslate nohighlight">\(f_\theta(x) = \theta^T \hat{x}\)</span><span class="math notranslate nohighlight">\( as in the assumption above, then we hope to find parameters \)</span><span class="math notranslate nohighlight">\(\theta\)</span>$ such that the resulting line will be close to the original one (first figure), someway ignoring the noise present in the data. Luckily, at least when the noise is Gaussian distributed, it usually does the job. Indeed the resulting linear regression model from the image above is</p>
+<p><img alt="" src="assets/images/regression/regression_example2.png" /></p>
+<p>which is almost equal to the real line from the first image.</p>
+</section>
+<section id="polynomial-regression">
+<h1>Polynomial Regression<a class="headerlink" href="#polynomial-regression" title="Link to this heading">#</a></h1>
+<p>In most of real life scenario, the linear regression model is too rigid to correctly approximate the data. Indeed, suppose to collect a dataset like</p>
+<p><img alt="" src="assets/images/regression/regression_example3.png" /></p>
+<p>where it is clear that no straight line is able to correctly approximate it. Indeed, if we try to approximate it with a linear regression model, we obtain</p>
+<p><img alt="" src="assets/images/regression/regression_example5.png" /></p>
+<p>When this is the case, it is required to define a more flexible model.</p>
+<p>Given a number $<span class="math notranslate nohighlight">\(K &gt; 0\)</span>$, define the regression model</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \sum_{j=0}^K \phi_j(x) \theta_j
+\]</div>
+<p>where the functions $<span class="math notranslate nohighlight">\(\phi_1, \phi_2, \dots, \phi_K\)</span><span class="math notranslate nohighlight">\( are called **feature vectors**. Note that, for \)</span><span class="math notranslate nohighlight">\(K = 2\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\phi_0(x) = 1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\phi_1(x) = x\)</span><span class="math notranslate nohighlight">\(, we recover the linear regression model \)</span><span class="math notranslate nohighlight">\(f_\theta(x) = \theta_1 + \theta_2 x\)</span><span class="math notranslate nohighlight">\(. For different values of \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( and different feature vectors \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$, we get different regression model.</p>
+<p>Note that, if $<span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2, \dots, \theta_K]^T\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\phi(x) = [\phi_1(x), \phi_2(x), \dots, \phi_K(x)]^T\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \phi^T(x) \theta
+\]</div>
+<p>which implies that $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a linear function in \)</span><span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\(, for any choice of \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$.</p>
+<p>A classical choice for the feature vector, is $<span class="math notranslate nohighlight">\(\phi_j(x) = x^{j-1}\)</span><span class="math notranslate nohighlight">\(. In this way, for a given \)</span><span class="math notranslate nohighlight">\(K&gt;0\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\phi(x)\)</span><span class="math notranslate nohighlight">\( represents the vector of the first \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( monomial in \)</span><span class="math notranslate nohighlight">\(x\)</span>$, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    \phi(x) = [1, x, x^2, \dots, x^{K-1}]^T
+\]</div>
+<p>and $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a \)</span><span class="math notranslate nohighlight">\(K-1\)</span><span class="math notranslate nohighlight">\(-th degree polynomial. For this reason, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is called **polynomial regression model** for this choice of \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$. To show the improvement of a polynomial regression model against a linear model, this is the resulting model when we use a polynomial regression model of degree 3 on the data above:</p>
+<p><img alt="" src="assets/images/regression/regression_example4.png" /></p>
+<p>To understand how to train the parameters $<span class="math notranslate nohighlight">\(\theta\)</span>$ of a linear / polynomial regression model, we have to move to the next post.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -463,7 +492,7 @@ A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatri
         },
         kernelOptions: {
             name: "python3",
-            path: "./Homeworks"
+            path: "./regression_classification"
         },
         predefinedOutput: true
     }
@@ -480,24 +509,6 @@ A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatri
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../Optimization/SGD.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Stochastic Gradient Descent</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="HW2.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">HW 2: SVD and PCA for Machine Learning</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -514,9 +525,11 @@ A = \begin{bmatrix} 4 &amp; 2 \\ 1 &amp; 3 \end{bmatrix} \quad B = \begin{bmatri
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-methods-for-the-solution-of-linear-systems">Direct Methods for the solution of Linear Systems</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">Floating point arithmetic</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regression in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
 </ul>
+
   </nav></div>
 
 </div></div>
