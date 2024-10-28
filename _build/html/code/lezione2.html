@@ -189,16 +189,18 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">SVD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">PCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Optimization/Optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
 </ul>
 
     </div>
@@ -434,12 +436,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-3.00555089e+00  9.20174682e-04 -1.82199459e+00 -2.21686859e+00
-  1.75087479e+00  3.67149336e+00 -2.97163834e+00  2.03926190e+00
- -1.12988103e-01 -5.87873066e+00]
-[-3.00555089e+00  9.20174682e-04 -1.82199459e+00 -2.21686859e+00
-  1.75087479e+00  3.67149336e+00 -2.97163834e+00  2.03926190e+00
- -1.12988103e-01 -5.87873066e+00]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-2.47996717 -2.81937851  1.99326652 -5.986787    4.34199522  4.15514192
+ -2.17954027 -1.68018895  0.68282473 -2.17323859]
+[-2.47996717 -2.81937851  1.99326652 -5.986787    4.34199522  4.15514192
+ -2.17954027 -1.68018895  0.68282473 -2.17323859]
 </pre></div>
 </div>
 </div>
@@ -475,7 +475,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.         0.         0.         ... 0.28510147 0.         0.        ]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.         0.         0.87538024 ... 0.48259191 0.17155947 0.        ]
 </pre></div>
 </div>
 </div>
@@ -491,14 +491,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.17416104  0.00221882 -0.31651237  0.85543611  0.18174972]
- [-0.42295557  2.21154902 -0.15844635 -0.536383   -0.00375086]
- [-0.10435911 -0.45283994  0.62792884 -0.79871899 -1.39896479]
- [ 1.10049505  0.13773922  0.79287348 -0.59285611 -1.39390456]
- [-1.32562563 -0.08542534 -0.13067151 -0.10514011 -1.14935555]]
-[[-0.17416104  0.00221882]
- [-0.42295557  2.21154902]
- [-0.10435911 -0.45283994]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.35714327  0.30165486 -0.31449426  0.15818574  0.54641515]
+ [ 0.26757639 -0.13946356 -0.38740463 -0.20731282 -1.51261881]
+ [-0.10758577 -0.72908372 -0.05754052 -0.82389448  0.598533  ]
+ [-1.14118485 -0.01810819 -1.19045617  0.82986526 -0.70770053]
+ [-0.65598872 -1.12579715  0.3673093  -0.80314412 -0.49537937]]
+[[ 1.35714327  0.30165486]
+ [ 0.26757639 -0.13946356]
+ [-0.10758577 -0.72908372]]
 </pre></div>
 </div>
 </div>
@@ -522,46 +522,36 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[False False False  True False False False  True  True False]
- [ True False False  True False False False False False  True]
- [ True  True False False  True False False False False False]
- [ True False False False  True  True  True  True  True False]
- [ True False  True False False  True False False  True False]
- [False False False  True False  True False False False False]
- [False  True False  True False False  True False False False]
- [False  True  True False False  True False False False  True]
- [False  True  True  True  True False  True  True  True False]
- [False False  True False  True False False  True False  True]]
-[[8.64865246e-01 1.20464019e-01 9.11200608e-01 0.00000000e+00
-  5.38073280e-01 1.89841014e+00 9.07578748e-02 0.00000000e+00
-  0.00000000e+00 1.73096758e+00]
- [0.00000000e+00 1.94084452e+00 1.72004463e-02 0.00000000e+00
-  1.45868958e+00 8.59840602e-01 1.61967493e+00 1.10451722e+00
-  4.44336958e-01 0.00000000e+00]
- [0.00000000e+00 0.00000000e+00 7.42803627e-01 1.14251984e+00
-  0.00000000e+00 4.59466873e-01 5.07785148e-01 1.05448351e+00
-  3.66321227e-01 1.19329900e+00]
- [0.00000000e+00 8.29736286e-01 5.24081883e-01 1.31030050e+00
-  0.00000000e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
-  0.00000000e+00 1.49147847e+00]
- [0.00000000e+00 4.49620106e-01 0.00000000e+00 6.79344392e-01
-  1.01800166e+00 0.00000000e+00 2.99241843e-01 2.32796930e+00
-  0.00000000e+00 2.70060777e-01]
- [1.02059078e+00 4.80168944e-01 5.63286042e-01 0.00000000e+00
-  9.51925250e-01 0.00000000e+00 4.62793714e-01 1.32117342e-03
-  4.04177556e-01 1.59319713e+00]
- [4.06229121e-01 0.00000000e+00 3.20636228e-01 0.00000000e+00
-  6.66129021e-01 2.08536029e+00 0.00000000e+00 4.54834391e-02
-  9.15181050e-02 2.20395072e-01]
- [4.58361122e-02 0.00000000e+00 0.00000000e+00 1.35798424e-01
-  3.25948629e-01 0.00000000e+00 1.91231425e+00 1.39974939e-01
-  3.91083002e-01 0.00000000e+00]
- [1.33388792e+00 0.00000000e+00 0.00000000e+00 0.00000000e+00
-  0.00000000e+00 1.23307538e+00 0.00000000e+00 0.00000000e+00
-  0.00000000e+00 4.99490927e-01]
- [3.33978018e-01 2.14444913e+00 0.00000000e+00 6.13686283e-01
-  0.00000000e+00 5.63095494e-01 2.38318157e+00 0.00000000e+00
-  5.95597820e-01 0.00000000e+00]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ True False  True  True  True False  True  True False False]
+ [False  True False  True False  True  True  True False False]
+ [False  True False  True  True False False  True False False]
+ [False  True False  True  True  True False False False  True]
+ [False False  True False False  True  True  True  True False]
+ [False  True False  True False False False False  True  True]
+ [False  True  True False False False  True False False False]
+ [ True  True False  True  True  True False False  True False]
+ [ True  True False  True  True False  True False False False]
+ [ True  True  True False False False  True  True False  True]]
+[[0.         1.25013274 0.         0.         0.         1.12985579
+  0.         0.         0.45137631 1.24691912]
+ [0.95911428 0.         2.26527299 0.         1.5395163  0.
+  0.         0.         1.42038434 1.14317549]
+ [0.60522934 0.         0.02574532 0.         0.         0.07360251
+  0.63094192 0.         0.27282984 2.34016134]
+ [1.75416449 0.         0.78886543 0.         0.         0.
+  0.14404193 0.12256706 0.55399539 0.        ]
+ [0.52110052 0.41923068 0.         0.09880134 1.81003066 0.
+  0.         0.         0.         1.61325736]
+ [1.18177006 0.         0.93075867 0.         2.2535664  0.13963397
+  0.3472883  0.86720726 0.         0.        ]
+ [1.33740148 0.         0.         1.52196875 0.45996671 1.43432778
+  0.         0.75041867 0.22970324 0.43481999]
+ [0.         0.         1.95947882 0.         0.         0.
+  0.20580013 0.609458   0.         0.36450151]
+ [0.         0.         0.20024421 0.         0.         0.60803027
+  0.         0.1970416  0.27996596 1.01554059]
+ [0.         0.         0.         0.56362018 0.24773524 0.071341
+  0.         0.         0.98732329 0.        ]]
 </pre></div>
 </div>
 </div>
@@ -745,7 +735,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/5b832fdee464aef2b4de0c91f83e774345353297b821f6cc019726402b7aed3a.png" src="../_images/5b832fdee464aef2b4de0c91f83e774345353297b821f6cc019726402b7aed3a.png" />
+<img alt="../_images/0c76def060e4c8b26e3a41a8cbc7bd8dcba77b3df06cf55b2ae256d81f6ed818.png" src="../_images/0c76def060e4c8b26e3a41a8cbc7bd8dcba77b3df06cf55b2ae256d81f6ed818.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -824,17 +814,17 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True solution: [-0.86231289 -1.332255   -0.87194586  0.34076651  0.88853714 -0.55670898
-  0.06086557 -1.62366683 -0.90855148 -0.3368039   0.00652891 -4.15606064
- -0.3361926   0.0189797  -1.38333279  0.07243046  0.27245092 -1.76495861
- -0.10334427  1.15173384  0.50759304 -1.4007336   0.25584502 -0.45683472
-  0.58465675].
-Computed solution: [ -0.86231287  -1.33225602  -0.87201212   0.34384083   0.84145619
-  -0.19438666  -1.49921112   2.07168748  -4.48326397  -3.68649269
-  11.43194018 -10.71610091  -4.85457919  -1.35124763  11.64604889
-  -5.21247581  -1.26676757  -8.3090475    0.49904988  14.4563741
-  -3.21055064 -13.79376823  10.83129428  -2.98750515   0.57697193].
-The relative error is 5.207268918706872
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True solution: [-0.29506695 -0.1537264  -0.32315159  1.82550741  0.63147538 -1.32769221
+ -1.07154057  0.56313133 -1.20847753  0.15214497  0.61124039 -1.29018792
+ -2.187197    1.53213993  1.93523498  0.18065017  1.11396943  0.9250514
+ -0.27727349  1.39424164 -0.30912105  0.55509324  0.89840621 -0.05980623
+  1.06325858].
+Computed solution: [-0.29506701 -0.15371646 -0.32352801  1.83159559  0.57977392 -1.07553176
+ -1.79149685  1.68680052 -1.87886309 -0.09151426  0.17929233  0.89241893
+ -3.20868648 -1.37138035  6.82965432 -4.15870077  4.40124917 -0.63366941
+ -0.8435823   3.0080061  -0.05267349 -4.09996328  7.38945648 -3.81966614
+  1.87809642].
+The relative error is 2.3453903188264986
 </pre></div>
 </div>
 </div>
