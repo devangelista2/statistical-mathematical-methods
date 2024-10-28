@@ -404,10 +404,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-example">Python example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-digits">Visualizing the digits</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#splitting-the-dataset">Splitting the dataset</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-clusters-in-python">Visualizing clusters in Python</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-insight-on-cluster-visualization">An insight on cluster visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-clusters">Visualizing clusters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-digits">Filtering digits</a></li>
 </ul>
 </li>
 </ul>
@@ -453,7 +451,7 @@ document.write(`
     X_k = U_k \Sigma_k V^T_k
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(U_k \in \mathbb{R}^{d \times k}\)</span>, <span class="math notranslate nohighlight">\(\Sigma_k \in \mathbb{R}^{k \times k}\)</span>, and <span class="math notranslate nohighlight">\(V_k \in \mathbb{R}^{k \times N}\)</span>.</p>
-<p>The PCA use this idea and defines the projection matrix as <span class="math notranslate nohighlight">\(P = U_k\)</span>, and consequently,</p>
+<p>The PCA use this idea and defines the projection matrix as <span class="math notranslate nohighlight">\(P = U_k^T\)</span>, and consequently,</p>
 <div class="math notranslate nohighlight">
 \[
     Z = U_k^T X
@@ -598,27 +596,27 @@ document.write(`
 <p>Before implementing the algorithm performing PCA, you are required to split the dataset into a training set and a test set. Remember that to correctly split <span class="math notranslate nohighlight">\(X\)</span>, it has to be random.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Ntrain</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">N_train</span><span class="p">):</span>
     <span class="n">d</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
 
-    <span class="n">train_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[:</span><span class="n">Ntrain</span><span class="p">]</span>
-    <span class="n">test_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">Ntrain</span><span class="p">:]</span>
+    <span class="n">train_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[:</span><span class="n">N_train</span><span class="p">]</span>
+    <span class="n">test_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">N_train</span><span class="p">:]</span>
 
-    <span class="n">Xtrain</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">train_idx</span><span class="p">]</span>
-    <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">train_idx</span><span class="p">]</span>
+    <span class="n">Y_train</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span>
     
-    <span class="n">Xtest</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">test_idx</span><span class="p">]</span>
-    <span class="n">Ytest</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">Y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">),</span> <span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">)</span>
 
 <span class="c1"># Test it</span>
-<span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">),</span> <span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">30_000</span><span class="p">)</span>
+<span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">30_000</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">Xtrain</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Xtest</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -628,53 +626,91 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Now the dataset <span class="math notranslate nohighlight">\((X, Y)\)</span> is divided into the train and test components, and you can implement the PCA algorithm on <span class="math notranslate nohighlight">\(X_{train}\)</span>. Remember to not access <span class="math notranslate nohighlight">\(X_{test}\)</span> during training.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>When the full SVD decomposition is not required (as it is the case for PCA), one can compute the (reduced) SVD decomposition of a matrix <span class="math notranslate nohighlight">\(A\)</span> as <code class="docutils literal notranslate"><span class="pre">np.linalg.svd(A,</span> <span class="pre">full_matrices=False)</span></code>, to save computation time.</p>
-</div>
-</section>
-</section>
-<section id="visualizing-clusters-in-python">
-<h2>Visualizing clusters in Python<a class="headerlink" href="#visualizing-clusters-in-python" title="Link to this heading">#</a></h2>
-<p>When <span class="math notranslate nohighlight">\(k=2\)</span>, it is possible to visualize clusters in Python. In particular, we want to plot the datapoints, with the color of the corresponding class, to check how well the clustering algorithm performed in 2-dimensions. This can be done by the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> function <code class="docutils literal notranslate"><span class="pre">plt.scatter</span></code>. In particular, if <span class="math notranslate nohighlight">\(Z = [z^1 z^2 \dots z^N] \in \mathbb{R}^{2 \times N}\)</span> is the projected dataset and <span class="math notranslate nohighlight">\(Y \in \mathbb{R}^N\)</span> is the vector of the corresponding classes, then the <span class="math notranslate nohighlight">\(Z\)</span> can be visualized as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the clusters</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<section id="an-insight-on-cluster-visualization">
-<h3>An insight on cluster visualization<a class="headerlink" href="#an-insight-on-cluster-visualization" title="Link to this heading">#</a></h3>
-<p>Here I report a working example on how to visualize clusters on <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> with the function <code class="docutils literal notranslate"><span class="pre">plt.scatter()</span></code>. In the example, we generate two clusters, composed by normally distributed datapoints in 2-dimensions, from two different gaussian distributions. The first class is labelled as 0, while the second one is labelled as 1. The datapoints are colored into the scatterplot with a different color for each class.</p>
+<p>Now the dataset <span class="math notranslate nohighlight">\((X, Y)\)</span> is divided into the train and test components, and we can implement the PCA algorithm on <span class="math notranslate nohighlight">\(X_{train}\)</span>. Remember to not access <span class="math notranslate nohighlight">\(X_{test}\)</span> during training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute centroid</span>
+<span class="n">cX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Create two cloud of points in 2-dimensional space</span>
-<span class="c1"># and plot it, divided by color</span>
-<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
-<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="c1"># Make it a column vector</span>
+<span class="n">cX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cX</span><span class="p">,</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cX</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="p">))</span>
-<span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="p">))</span>
+<span class="c1"># Center the data</span>
+<span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">cX</span>
 
-<span class="c1"># Visualize them (coloring by class)</span>
+<span class="c1"># Compute SVD decomposition</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">VT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Xc</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># Join together x1 x2, y1 y2</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+<span class="c1"># Given k, compute reduced SVD</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Uk</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span>
 
-<span class="c1"># Visualize</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+<span class="c1"># Define projection matrix</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">Uk</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Project X_train -&gt; Z_train</span>
+<span class="n">Z_train</span> <span class="o">=</span> <span class="n">P</span> <span class="o">@</span> <span class="n">X_train</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(784, 1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 30000)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When the full SVD decomposition is not required (as it is the case for PCA), one can compute the (reduced) SVD decomposition of a matrix <span class="math notranslate nohighlight">\(X\)</span> as <code class="docutils literal notranslate"><span class="pre">np.linalg.svd(X,</span> <span class="pre">full_matrices=False)</span></code>, to save computation time.</p>
+</div>
+</section>
+<section id="visualizing-clusters">
+<h3>Visualizing clusters<a class="headerlink" href="#visualizing-clusters" title="Link to this heading">#</a></h3>
+<p>When <span class="math notranslate nohighlight">\(k=2\)</span>, it is possible to visualize clusters in Python. In particular, we want to plot the datapoints, with the color of the corresponding class, to check how well the clustering algorithm performed in 2-dimensions. This can be done by the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> function <code class="docutils literal notranslate"><span class="pre">plt.scatter</span></code>. In particular, if <span class="math notranslate nohighlight">\(Z_{train} = [z^1 z^2 \dots z^N] \in \mathbb{R}^{2 \times N}\)</span> is the projected dataset and <span class="math notranslate nohighlight">\(Y_{train} \in \mathbb{R}^N\)</span> is the vector of the corresponding classes, then the <span class="math notranslate nohighlight">\(Z_{train}\)</span> can be visualized as:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the clusters</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Z_train</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">Z_train</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">c</span><span class="o">=</span><span class="n">Y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">*</span><span class="n">ax</span><span class="o">.</span><span class="n">legend_elements</span><span class="p">(),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Digit&quot;</span><span class="p">)</span> <span class="c1"># Add to the legend the list of digits</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$z_1$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$z_2$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;PCA projection of MNIST digits 0-9&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/916ab5a3cbbf5470de981d674764143603d76df775901a61fe5f485e21bb44c8.png" src="../_images/916ab5a3cbbf5470de981d674764143603d76df775901a61fe5f485e21bb44c8.png" />
+<img alt="../_images/4360dd1d8b970217de73b2a9390c0f5e87e64f72724792c85e9a41e58851f1b3.png" src="../_images/4360dd1d8b970217de73b2a9390c0f5e87e64f72724792c85e9a41e58851f1b3.png" />
 </div>
 </div>
+<p>Due to the high number of represented digits, a few of them appear to be overlapped. This is due to <span class="math notranslate nohighlight">\(k=2\)</span> being too low, and PCA being too simple to be able to capture the complexity of such a large number of digits.</p>
+<p>However, a few digits, such as numbers 0 and 1, appear to be well-separated, showing that the algorithm is performing well.</p>
+</section>
+<section id="filtering-digits">
+<h3>Filtering digits<a class="headerlink" href="#filtering-digits" title="Link to this heading">#</a></h3>
+<p>To simplify the dimensionality reduction task provided by PCA, we can consider filtering out just a few digits from MNIST dataset. This can be simply done by defining a boolean <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> whose value in position <span class="math notranslate nohighlight">\(i\)</span> is <code class="docutils literal notranslate"><span class="pre">True</span></code> if and only if the digit in the corresponding index represents one of the selected digit.</p>
+<p>In the following, we show how this can be implemented for the digits <span class="math notranslate nohighlight">\(3\)</span> and <span class="math notranslate nohighlight">\(4\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the boolean array to filter out digits</span>
+<span class="n">filter_3or4</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span><span class="o">==</span><span class="mi">3</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">Y</span><span class="o">==</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Define the filtered data</span>
+<span class="n">X_3or4</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">filter_3or4</span><span class="p">]</span>
+<span class="n">Y_3or4</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">filter_3or4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong>Exercise:</strong> Repeat the PCA analysis for <span class="math notranslate nohighlight">\(k=2\)</span> on the filtered dataset. Remember the <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code>.</p>
+</div></blockquote>
 </section>
 </section>
 </section>
@@ -749,10 +785,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-example">Python example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-digits">Visualizing the digits</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#splitting-the-dataset">Splitting the dataset</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-clusters-in-python">Visualizing clusters in Python</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-insight-on-cluster-visualization">An insight on cluster visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-clusters">Visualizing clusters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-digits">Filtering digits</a></li>
 </ul>
 </li>
 </ul>

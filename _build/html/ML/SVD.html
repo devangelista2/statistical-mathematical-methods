@@ -449,7 +449,7 @@ A = U \Sigma V^T
 <p>It has been already showed that the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation of <span class="math notranslate nohighlight">\(A\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>-rank matrix that minimizes the distance (expressed in Frobenius norm) from <span class="math notranslate nohighlight">\(A\)</span>, i.e.</p>
 <div class="math notranslate nohighlight">
 \[
-    A_k = \arg\min_{M: rk(M) = k} || M - A ||_2.
+    A_k = \arg\min_{M: rk(M) = k} || M - A ||_F.
 \]</div>
 </section>
 <section id="svd-of-a-matrix-in-python">
@@ -518,7 +518,7 @@ and compare it with the output of the built-in function in <code class="docutils
 <section id="the-k-rank-approximation">
 <h2>The <span class="math notranslate nohighlight">\(k\)</span>-rank approximation<a class="headerlink" href="#the-k-rank-approximation" title="Link to this heading">#</a></h2>
 <blockquote>
-<div><p><strong>Exercise:</strong> Compute the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation <span class="math notranslate nohighlight">\(A_k\)</span> of <span class="math notranslate nohighlight">\(A\)</span>. Specifically, write a Python function that takes as input an integer <span class="math notranslate nohighlight">\(k \leq \min \{ m, n \}\)</span> and computes the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation <span class="math notranslate nohighlight">\(A_k = \sum_{i=1}^k \sigma_i u_i v_i^T\)</span>. Then, test it on a matrix of your preference and compute the approximation error in Frobenius norm, <span class="math notranslate nohighlight">\(\| A - A_k \|_2\)</span>.</p>
+<div><p><strong>Exercise:</strong> Compute the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation <span class="math notranslate nohighlight">\(A_k\)</span> of <span class="math notranslate nohighlight">\(A\)</span>. Specifically, write a Python function that takes as input an integer <span class="math notranslate nohighlight">\(k \leq \min \{ m, n \}\)</span> and computes the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation <span class="math notranslate nohighlight">\(A_k = \sum_{i=1}^k \sigma_i u_i v_i^T\)</span>. Then, test it on a matrix of your preference and compute the approximation error in Frobenius norm, <span class="math notranslate nohighlight">\(\| A - A_k \|_F\)</span>.</p>
 </div></blockquote>
 </section>
 <section id="svd-for-image-compression">
@@ -567,7 +567,7 @@ and compare it with the output of the built-in function in <code class="docutils
 <p>where each <span class="math notranslate nohighlight">\(\sigma_i\)</span> is a scalar number, <span class="math notranslate nohighlight">\(u_i\)</span> is an <span class="math notranslate nohighlight">\(m\)</span>-dimensional vector, while <span class="math notranslate nohighlight">\(v_i\)</span> is an <span class="math notranslate nohighlight">\(n\)</span>-dimensional vector. As a consequence, the number of values required to memorize <span class="math notranslate nohighlight">\(X_k\)</span> is <span class="math notranslate nohighlight">\(k(m + n + 1)\)</span>, while the number of values required to memorize the whole image <span class="math notranslate nohighlight">\(X\)</span> is <span class="math notranslate nohighlight">\(mn\)</span>. As a consequence, the compression factor (i.e. the percentage of pixels we saved in memorizing <span class="math notranslate nohighlight">\(X_k\)</span> instead of <span class="math notranslate nohighlight">\(X\)</span>) can be computed as:</p>
 <div class="math notranslate nohighlight">
 \[
-    c_k = 1 - \frac{m + n + 1}{mn}.
+    c_k = 1 - \frac{k (m + n + 1)}{mn}.
 \]</div>
 <blockquote>
 <div><p><strong>Exercise:</strong> Using the function defined in the previous exercise, compute the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation of the cameraman image <span class="math notranslate nohighlight">\(X\)</span> for different values of <span class="math notranslate nohighlight">\(k\)</span> and observe the behavior of each reconstruction. Also, compute and plot the compression factor <span class="math notranslate nohighlight">\(c_k\)</span> for each value of <span class="math notranslate nohighlight">\(k\)</span>.</p>
