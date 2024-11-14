@@ -1,11 +1,3 @@
----
-layout: page
-title: Lecture 9.
-description: Linear and Polynomial Regression
-img:
-importance: 9
-category: SMM2024
----
 ## Regression in Machine Learning
 
 {% include figure.html path="/assets/images/regression/ML_diagram.png" title="diagram" class="img-fluid rounded z-depth-1" %}
