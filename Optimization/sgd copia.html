@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Logistic regression &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>SGD &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -57,7 +57,7 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'regression_classification/logistic_regression';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/sgd copia';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -194,8 +194,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
 <ul class="nav bd-sidenav">
@@ -272,7 +272,7 @@
       
       
       
-      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2Fregression_classification/logistic_regression.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/sgd copia.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -302,7 +302,7 @@
       
       
       
-      <li><a href="../_sources/regression_classification/logistic_regression.ipynb" target="_blank"
+      <li><a href="../_sources/Optimization/sgd copia.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -384,7 +384,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Logistic regression</h1>
+    <h1>SGD</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -398,9 +398,58 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
-<h1>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h1>
-<p>Work in progress…</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="sgd">
+<h1>SGD<a class="headerlink" href="#sgd" title="Link to this heading">#</a></h1>
+<p>The implementation of the SGD algorithm.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">sgd_optimizer</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">grad_loss</span><span class="p">,</span> <span class="n">w0</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">n_epochs</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">D</span>  <span class="c1"># Unpack the data</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">w0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    
+    <span class="c1"># Initialization of history vectors</span>
+    <span class="n">w_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>  <span class="c1"># Save weights at each iteration</span>
+    <span class="n">loss_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="p">))</span>  <span class="c1"># Save loss values at each iteration</span>
+    <span class="n">grad_norm_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="p">))</span>  <span class="c1"># Save gradient norms at each iteration</span>
+    
+    <span class="c1"># Initialize weights</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w0</span>  
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+        <span class="c1"># Shuffle the data at the beginning of each epoch</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="c1"># Initialize a vector that saves the gradient of the loss at each iteration</span>
+        <span class="n">grad_loss_vec</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+            <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
+            <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
+            
+            <span class="c1"># Compute the gradient of the loss</span>
+            <span class="n">gradient</span> <span class="o">=</span> <span class="n">grad_loss</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+            <span class="n">grad_loss_vec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+            <span class="c1"># Update weights</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">*</span>  <span class="n">gradient</span>
+
+        <span class="c1"># Save the updated values</span>
+        <span class="n">w_history</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
+        <span class="n">loss_history</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">grad_norm_history</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">grad_loss_vec</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">w_history</span><span class="p">,</span> <span class="n">loss_history</span><span class="p">,</span> <span class="n">grad_norm_history</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -416,7 +465,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./regression_classification"
+            path: "./Optimization"
         },
         predefinedOutput: true
     }

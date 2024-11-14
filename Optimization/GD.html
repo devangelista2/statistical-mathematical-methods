@@ -257,7 +257,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -274,7 +274,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FOptimization/GD.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/GD.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -533,13 +533,13 @@ f(x_k) - f(\underbrace{x_k - \alpha_k \nabla f(x_k)}_{x_{k+1}}) \geq c_1 \alpha_
 <h3>Stopping Criteria<a class="headerlink" href="#stopping-criteria" title="Link to this heading">#</a></h3>
 <p>The gradient descent is an iterative algorithm, meaning that it iteratively generates new estimates of the minima, starting from <span class="math notranslate nohighlight">\(x_0\)</span>. Theoretically, after infinite iterations, we converge to the solution of the optimization problem but, since we cannot run infinite iterations, we have to find a way to tell the algorithm when its time to stop. A convergence condition for an iterative algorithm is called <strong>stopping criteria</strong>.</p>
 <p>Remember that gradient descent aim to find stationary point. Consequently, it would make sense to use the norm of the gradient as a stopping criteria. In particular, it is common to check if the norm of the gradient on the actual iterate is below a certain tollerance and, if so, we stop the iterations. In particular</p>
-<p><strong>Stopping criteria 1:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| \nabla f(x_k) || &lt; tol_f || \nabla f(x_0) ||\)</span>. If so, stop the iterations.</p>
+<p><strong>Stopping criteria 1:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| \nabla f(x_k) || \leq tol_f || \nabla f(x_0) ||\)</span>. If so, stop the iterations.</p>
 <p>Unfortunately, this condition alone is not sufficient. Indeed, if the function <span class="math notranslate nohighlight">\(f(x)\)</span> is almost flat around its minimum, then <span class="math notranslate nohighlight">\(|| \nabla f(x_k) ||\)</span> will be small even if <span class="math notranslate nohighlight">\(x_k\)</span> will be far from the true minimum.</p>
 <p><img alt="" src="../_images/plateau.png" /></p>
 <p>Consequently, its required to add another stopping criteria.</p>
-<p><strong>Stopping criteria 2:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_x</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| x_k - x_{k-1} || &lt; tol_x || x_0 ||\)</span>. If so, stop the iterations.</p>
+<p><strong>Stopping criteria 2:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_x</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| x_k - x_{k-1} || \leq tol_x\)</span>. If so, stop the iterations.</p>
 <p>Moreover, to stop the algorithm from running indefinitely, it is always recommended to add an additional variable, <code class="docutils literal notranslate"><span class="pre">maxit</span></code>, which automatically stops the algorithm if more than <code class="docutils literal notranslate"><span class="pre">maxit</span></code> iterations have been performed. When this happens, it is suggested to also tell the user that the algorithm stopped due to <code class="docutils literal notranslate"><span class="pre">maxit</span></code> condition, therefore it didn’t converge.</p>
-<p>The choice for the parameters <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> and <code class="docutils literal notranslate"><span class="pre">maxit</span></code> is free and depends on the specific application. Usually, <code class="docutils literal notranslate"><span class="pre">tol_f</span></code> and <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> are chosen in between <code class="docutils literal notranslate"><span class="pre">1e-4</span></code> and <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>, while <code class="docutils literal notranslate"><span class="pre">maxit</span></code> around <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p>
+<p>The choice for the parameters <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> and <code class="docutils literal notranslate"><span class="pre">maxit</span></code> is free and depends on the specific application. Usually, <code class="docutils literal notranslate"><span class="pre">tol_f</span></code> and <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> are chosen in the range [<code class="docutils literal notranslate"><span class="pre">1e-4</span></code>, <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>], while <code class="docutils literal notranslate"><span class="pre">maxit</span></code> <span class="math notranslate nohighlight">\(\approx\)</span> <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p>
 <p><strong>Exercise:</strong> Write a script that implement the GD algorithm, with the following structure:</p>
 <ul class="simple">
 <li><p><em>Input:</em></p>
