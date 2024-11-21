@@ -16,6 +16,10 @@ parts:
     chapters:
       - file: Optimization/GD
       - file: Optimization/SGD
+  - caption: Regression
+    chapters:
+      - file: regression_classification/regression
+      - file: regression_classification/MLE_MAP
   - caption: Homeworks
     chapters:
       - file: Homeworks/HW1
