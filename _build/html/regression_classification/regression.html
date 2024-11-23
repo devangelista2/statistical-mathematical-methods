@@ -208,6 +208,8 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -404,6 +406,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-a-model">Training a model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
 </ul>
             </nav>
@@ -419,23 +422,28 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="regression">
 <h1>Regression<a class="headerlink" href="#regression" title="Link to this heading">#</a></h1>
 <p><img alt="" src="../_images/ML_diagram.png" /></p>
-<p>Regression in a group of supervised learning techniques, alternative to classification. In classification, given a datapoint <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>, the task was to learn a model <span class="math notranslate nohighlight">\(y = f_\theta(x)\)</span> such that <span class="math notranslate nohighlight">\(y\)</span> represents one of the <span class="math notranslate nohighlight">\(K\)</span> possible classes in which <span class="math notranslate nohighlight">\(x\)</span> lies. On the other side, a Machine Learning problem is a Regression when the target variable <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span> is a <strong>continuous</strong> variable, and the task is to approximately <em>interpolate</em> between the <span class="math notranslate nohighlight">\(y\)</span> values, with the intent of being able to predict new outcome of <span class="math notranslate nohighlight">\(y\)</span> when a new <span class="math notranslate nohighlight">\(x\)</span> is given as input.</p>
+<p>Regression is a group of supervised learning techniques, alternative to classification. In classification, given a datapoint <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>, the task was to learn a model <span class="math notranslate nohighlight">\(y = f_\theta(x)\)</span> such that <span class="math notranslate nohighlight">\(y\)</span> represents one of the <span class="math notranslate nohighlight">\(K\)</span> possible classes in which <span class="math notranslate nohighlight">\(x\)</span> lies. On the other side, a Machine Learning problem is a <strong>Regression</strong> when the target variable <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span> is a <strong>continuous</strong> variable, and the task is to approximately <em>interpolate</em> between the <span class="math notranslate nohighlight">\(y\)</span> values, with the intent of being able to predict new outcome of <span class="math notranslate nohighlight">\(y\)</span> when a new <span class="math notranslate nohighlight">\(x\)</span> is given as input.</p>
 <p><img alt="" src="../_images/regression_vs_classification.png" /></p>
-<p>A part from that, the computation procedure to define a regression model is similar to the procedure required for a classification model. Indeed, let <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> be a parametric function of <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>, parameterized by <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^s\)</span>. Given a dataset</p>
+<p>A part from that, the computation procedure to define a regression model is similar to the procedure required for a classification model. Indeed, let <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> be a parametric function of <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>, parameterized by <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^d\)</span>. Given a dataset <span class="math notranslate nohighlight">\((X, Y)\)</span> with:</p>
 <div class="math notranslate nohighlight">
 \[
-    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{d \times N}
+    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{n \times N},
 \]</div>
+<p>and</p>
 <div class="math notranslate nohighlight">
 \[
-    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^N
+    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^N,
 \]</div>
-<p>the task is to train the model such that <span class="math notranslate nohighlight">\(f_\theta(x^i) \approx y^i\)</span> for any <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>. Clearly, this is done by solving the optimization problem</p>
+<p>the task is to <strong>train</strong> the model (i.e. to optimize the parameters <span class="math notranslate nohighlight">\(\theta\)</span>), such that <span class="math notranslate nohighlight">\(f_\theta(x^i) \approx y^i\)</span> for any <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>. Clearly, this is done by solving the optimization problem:</p>
 <div class="math notranslate nohighlight">
 \[
-    \theta^* = \arg\min_{\theta \in \mathbb{R}^s} \ell(\theta; X, Y).
+    \theta^* = \arg\min_{\theta \in \mathbb{R}^d} \ell(\theta; X, Y).
 \]</div>
-<p>When <span class="math notranslate nohighlight">\(d&gt;1\)</span>, <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is called <strong>multivariate regression model</strong>, while if <span class="math notranslate nohighlight">\(d=1\)</span>, <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is an <strong>univariate regression model</strong>. For simplicity, from now on we will work with univariate regression models, where <span class="math notranslate nohighlight">\(x^i \in \mathbb{R}\)</span> for any <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>, and consequently <span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N] \in \mathbb{R}^N\)</span>.</p>
+<p>Here, <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span> is a <strong>loss function</strong>, which describes how to optimize the parameters to achieve the regression task. When <span class="math notranslate nohighlight">\(n&gt;1\)</span>, <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is called <strong>multivariate regression model</strong>, while if <span class="math notranslate nohighlight">\(n=1\)</span>, <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is an <strong>univariate regression model</strong>. For simplicity, from now on we will work with univariate regression models, where <span class="math notranslate nohighlight">\(x^i \in \mathbb{R}\)</span> for any <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>, and consequently <span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N] \in \mathbb{R}^N\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that we slightly changed the notation compared to the previous chapters. Indeed, the dimensionality of each input data vector <span class="math notranslate nohighlight">\(x\)</span> is now named <span class="math notranslate nohighlight">\(n\)</span> instead of <span class="math notranslate nohighlight">\(d\)</span>, which now refers to the dimension of the parameter vector. This choice will be clearer later, and it has been done to make the code more coherent through the lecture topics, since now our focus is on the variable <span class="math notranslate nohighlight">\(\theta\)</span>, and not on <span class="math notranslate nohighlight">\(x\)</span>, which will be assumed to have dimension 1.</p>
+</div>
 <section id="linear-regression">
 <h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h2>
 <p>The simplest regression model we can think of is the Linear Regression Model, defined as</p>
@@ -443,26 +451,131 @@ document.write(`
 \[
     f_\theta(x) = \theta_1 + \theta_2 x = \theta^T \hat{x}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2]^T\)</span> and <span class="math notranslate nohighlight">\(\hat{x} = [1, x]^T\)</span>. When <span class="math notranslate nohighlight">\(\theta\)</span> is optimized, it defines a straight line approximating the data. Clearly, the resulting model will be correct if and only if the real function <span class="math notranslate nohighlight">\(y = f(x)\)</span> generating the data is linear. Unfortunately, even in situations where <span class="math notranslate nohighlight">\(f(x)\)</span> can be considered linear, the collected data <span class="math notranslate nohighlight">\(y\)</span> is always corrupted by noise, which consequently breaks the linearity.</p>
-<p>Consider for example a situation where <span class="math notranslate nohighlight">\(y = f(x) = 2x\)</span> is the model generating the data. The noiseless data <span class="math notranslate nohighlight">\(y\)</span>, together with the line generated by the prediction model <span class="math notranslate nohighlight">\(f_\theta(x)\)</span>, in that situation will look like that</p>
-<p><img alt="" src="../_images/regression_example0.png" /></p>
-<p>Unfortunately, since the data is always corrupted by noise, the collected data will be more like</p>
-<p><img alt="" src="../_images/regression_example1.png" /></p>
-<p>In this scenario, if <span class="math notranslate nohighlight">\(f_\theta(x) = \theta^T \hat{x}\)</span> as in the assumption above, then we hope to find parameters <span class="math notranslate nohighlight">\(\theta\)</span> such that the resulting line will be close to the original one (first figure), someway ignoring the noise present in the data. Luckily, at least when the noise is Gaussian distributed, it usually does the job. Indeed the resulting linear regression model from the image above is</p>
-<p><img alt="" src="../_images/regression_example2.png" /></p>
-<p>which is almost equal to the real line from the first image.</p>
+<p>where <span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2]^T\)</span> and <span class="math notranslate nohighlight">\(\hat{x} = [1, x]^T\)</span>. It defines a straight line, which approximates the data after the parameters have been optimized. Clearly, the resulting model will be correct if and only if the real function <span class="math notranslate nohighlight">\(y = f(x)\)</span> generating the data is linear. Unfortunately, even in situations where <span class="math notranslate nohighlight">\(f(x)\)</span> can be considered linear, the collected data <span class="math notranslate nohighlight">\(y\)</span> is always corrupted by noise, which consequently breaks the linearity.</p>
+<p>Let’s see for example what happens when we consider data such that <span class="math notranslate nohighlight">\(y = 2x\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Define arbitrarly x</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="c1"># Visualize the data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Data given by y = 2x.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/32c718711f7d77e70af168630908638f0c940ebc5c30a6023fff0bb6a4df2385.png" src="../_images/32c718711f7d77e70af168630908638f0c940ebc5c30a6023fff0bb6a4df2385.png" />
+</div>
+</div>
+<p>It is clearly possible to perfectly approximate these data by a linear model. Indeed, if <span class="math notranslate nohighlight">\(\theta = [0, 2]\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\theta(x) = \theta_1 + \theta_2 x = 0 + 2x = 2x,
+\]</div>
+<p>which will match exactly the function that generates the data.</p>
+<p>Unfortunately, the same won’t hold if the collected data is corrupted by noise (as it is common) in practical applications.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Consider a little bit of noise</span>
+<span class="n">y_noisy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Visualize the noisy data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_noisy</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Noisy data given by y = 2x.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/11a315c89ed751380c1c3ef0180e1ba678d8c33f7f5751d5605d383c7c21c08d.png" src="../_images/11a315c89ed751380c1c3ef0180e1ba678d8c33f7f5751d5605d383c7c21c08d.png" />
+</div>
+</div>
+<p>Here we want our model to approximately learn the data, somehow ignoring the noise. Luckily, at least when the noise is Gaussian distributed, this is usually what happens.</p>
+</section>
+<section id="training-a-model">
+<h2>Training a model<a class="headerlink" href="#training-a-model" title="Link to this heading">#</a></h2>
+<p>As we will see in greater detail in the next section, <strong>training</strong> a linear regression model means solving the optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^* = \arg\min_{\theta} \ell(\theta; X, Y).
+\]</div>
+<p>Where the loss function <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span> is usually chosen to be the <strong>Mean Squared Error (MSE)</strong> which, for a linear regression model, is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\theta; X, Y) = \frac{1}{N} \sum_{i=1}^N (f_\theta(x^i) - y^i)^2 = \frac{1}{N} \sum_{i=1}^N (\theta_1 + \theta_2 x^i - y^i)^2.
+\]</div>
+<p>Note that this is a simple least squares problem, which can be written in matrix form as:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^* = \arg\min_{\theta} \underbrace{\frac{1}{N} || X^T \theta - Y ||_2^2}_{\ell(\theta; X, Y)},
+\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X = \begin{bmatrix} 1 &amp; 1 &amp; \dots &amp; 1 \\ x^1 &amp; x^2 &amp; \dots &amp; x^N \end{bmatrix} \in \mathbb{R}^{2 \times N}, \qquad Y = \begin{bmatrix} y^1 &amp; y^2 &amp; \dots &amp; y^N \end{bmatrix} \in \mathbb{R}^N.
+\end{split}\]</div>
+<p>Therefore, it can be solved either by normal equation method, solving:</p>
+<div class="math notranslate nohighlight">
+\[
+XX^T \theta = XY,
+\]</div>
+<p>or by Gradient Descent, by observing that:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\theta \ell(\theta; X, Y) = X(X^T \theta - Y).
+\]</div>
+<blockquote>
+<div><p><strong>Exercise:</strong> Write down an algorithm that solves the linear regression task on the noisy data given above. Use Normal Equation method to train it.</p>
+</div></blockquote>
 </section>
 <section id="polynomial-regression">
 <h2>Polynomial Regression<a class="headerlink" href="#polynomial-regression" title="Link to this heading">#</a></h2>
-<p>In most of real life scenario, the linear regression model is too rigid to correctly approximate the data. Indeed, suppose to collect a dataset like</p>
-<p><img alt="" src="../_images/regression_example3.png" /></p>
-<p>where it is clear that no straight line is able to correctly approximate it. Indeed, if we try to approximate it with a linear regression model, we obtain</p>
-<p><img alt="" src="../_images/regression_example5.png" /></p>
-<p>When this is the case, it is required to define a more flexible model.</p>
-<p>Given a number <span class="math notranslate nohighlight">\(K &gt; 0\)</span>, define the regression model</p>
+<p>Linear regression model is too rigid to correctly approximate the data when the relationship between the input and output variables <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> is complex.</p>
+<p>To see this, take a look at the data contained into the <code class="docutils literal notranslate"><span class="pre">poly_regression_small.csv</span></code> file, which can be downloaded from Virtuale.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Load data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../code/data/poly_regression_small.csv&quot;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+
+<span class="c1"># Visualize the data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Complex data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/22206b56cf1b45fe98d55b83f6156eeb8c8e11dd45a7338a29dbe0b8ac00ec28.png" src="../_images/22206b56cf1b45fe98d55b83f6156eeb8c8e11dd45a7338a29dbe0b8ac00ec28.png" />
+</div>
+</div>
+<p>Clearly, no straight line will be able to correctly approximate it.</p>
+<blockquote>
+<div><p><strong>Exercise:</strong> Train a linear regression model to approximate the data above, and visualize the prediction.</p>
+</div></blockquote>
+<p>To make the model more flexible and able to capture the complexity of the distribuition of this data, we can consider a non-linear regression model. In particular, given a number <span class="math notranslate nohighlight">\(K &gt; 0\)</span>, define:</p>
 <div class="math notranslate nohighlight">
 \[
-    f_\theta(x) = \sum_{j=0}^K \phi_j(x) \theta_j
+    f_\theta(x) = \sum_{j=0}^K \phi_j(x) \theta_j,
 \]</div>
 <p>where the functions <span class="math notranslate nohighlight">\(\phi_1, \phi_2, \dots, \phi_K\)</span> are called <strong>feature vectors</strong>. Note that, for <span class="math notranslate nohighlight">\(K = 2\)</span> and <span class="math notranslate nohighlight">\(\phi_0(x) = 1\)</span>, <span class="math notranslate nohighlight">\(\phi_1(x) = x\)</span>, we recover the linear regression model <span class="math notranslate nohighlight">\(f_\theta(x) = \theta_1 + \theta_2 x\)</span>. For different values of <span class="math notranslate nohighlight">\(K\)</span> and different feature vectors <span class="math notranslate nohighlight">\(\phi_j(x)\)</span>, we get different regression model.</p>
 <p>Note that, if <span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2, \dots, \theta_K]^T\)</span> and <span class="math notranslate nohighlight">\(\phi(x) = [\phi_1(x), \phi_2(x), \dots, \phi_K(x)]^T\)</span>, then</p>
@@ -470,15 +583,32 @@ document.write(`
 \[
     f_\theta(x) = \phi^T(x) \theta
 \]</div>
-<p>which implies that <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is a linear function in <span class="math notranslate nohighlight">\(\theta\)</span>, for any choice of <span class="math notranslate nohighlight">\(\phi_j(x)\)</span>.</p>
-<p>A classical choice for the feature vector, is <span class="math notranslate nohighlight">\(\phi_j(x) = x^{j-1}\)</span>. In this way, for a given <span class="math notranslate nohighlight">\(K&gt;0\)</span>, <span class="math notranslate nohighlight">\(\phi(x)\)</span> represents the vector of the first <span class="math notranslate nohighlight">\(K\)</span> monomial in <span class="math notranslate nohighlight">\(x\)</span>, i.e.</p>
+<p>which implies that <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is a <em>linear function</em> in <span class="math notranslate nohighlight">\(\theta\)</span>, for any choice of <span class="math notranslate nohighlight">\(\phi_j(x)\)</span>. The <em>non-linearity</em> is therefore only as a function of <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>A classical choice for the feature vector is <span class="math notranslate nohighlight">\(\phi_j(x) = x^{j-1}\)</span>. In this way, for a given <span class="math notranslate nohighlight">\(K&gt;0\)</span>, <span class="math notranslate nohighlight">\(\phi(x)\)</span> represents the vector of the first <span class="math notranslate nohighlight">\(K\)</span> monomial in <span class="math notranslate nohighlight">\(x\)</span>, i.e.</p>
 <div class="math notranslate nohighlight">
 \[
     \phi(x) = [1, x, x^2, \dots, x^{K-1}]^T
 \]</div>
-<p>and <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is a <span class="math notranslate nohighlight">\(K-1\)</span>-th degree polynomial. For this reason, <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is called <strong>polynomial regression model</strong> for this choice of <span class="math notranslate nohighlight">\(\phi_j(x)\)</span>. To show the improvement of a polynomial regression model against a linear model, this is the resulting model when we use a polynomial regression model of degree 3 on the data above:</p>
-<p><img alt="" src="../_images/regression_example4.png" /></p>
-<p>To understand how to train the parameters <span class="math notranslate nohighlight">\(\theta\)</span> of a linear / polynomial regression model, we have to move to the next post.</p>
+<p>and <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is a <span class="math notranslate nohighlight">\(K-1\)</span>-th degree polynomial. For this reason, <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> is called <strong>polynomial regression model</strong> for this choice of <span class="math notranslate nohighlight">\(\phi_j(x)\)</span>.</p>
+<p>When the loss function <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span> is the Mean Squared Error, training a polynomial regression model is similar to the training of the linear regression model. In particular, if:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\Phi(X) = \begin{bmatrix} 1 &amp; 1 &amp; \dots &amp; 1 \\ x^1 &amp; x^2 &amp; \dots &amp; x^N \\ (x^1)^2 &amp; (x^2)^2 &amp; \dots &amp; (x^N)^2 \\ \vdots &amp; \vdots &amp; \dots &amp; \vdots \\ (x^1)^{K-1} &amp; (x^2)^{K-1} &amp; \dots &amp; (x^N)^{K-1} \end{bmatrix}, \qquad Y = \begin{bmatrix} y^1 &amp; y^2 &amp; \dots &amp; y^N \end{bmatrix},
+\end{split}\]</div>
+<p>then:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\theta; X, Y) = \frac{1}{N} || \Phi(X)^T \theta - Y ||_2^2,
+\]</div>
+<p>whose normal equations read:</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi(X)\Phi(X)^T \theta = \Phi(X) Y.
+\]</div>
+<blockquote>
+<div><p><strong>Exercise:</strong> Train a polynomial regression model over the data above. Try different values for the polynomial degree <span class="math notranslate nohighlight">\(K\)</span>. Compare the results with the polynomial: <span class="math notranslate nohighlight">\(f(x) = 4x^2 - 3x^4\)</span>. What do you observe for large values of <span class="math notranslate nohighlight">\(K\)</span> (e.g. <span class="math notranslate nohighlight">\(K=8\)</span>)?
+Repeat the experiment by training it on the data from <code class="docutils literal notranslate"><span class="pre">poly_regression_large.csv</span></code>. Do you observe something?</p>
+</div></blockquote>
 </section>
 </section>
 
@@ -547,6 +677,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-a-model">Training a model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
 </ul>
   </nav></div>

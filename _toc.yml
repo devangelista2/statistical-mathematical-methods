@@ -24,3 +24,5 @@ parts:
     chapters:
       - file: Homeworks/HW1
       - file: Homeworks/HW2
+      - file: Homeworks/HW3
+      - file: Homeworks/HW4

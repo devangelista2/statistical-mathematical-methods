@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/SGD';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="HW 1: Linear Algebra and Floating Point Arithmetic" href="../Homeworks/HW1.html" />
+    <link rel="next" title="Regression" href="../regression_classification/regression.html" />
     <link rel="prev" title="Gradient Descent" href="GD.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -199,10 +199,17 @@
 <li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic Gradient Descent</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -398,10 +405,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd-algorithm">Stochastic Gradient Descent (SGD) algorithm</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#drawbacks-of-sgd">Drawbacks of SGD</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd-algorithm">Stochastic Gradient Descent (SGD) algorithm</a></li>
 </ul>
             </nav>
         </div>
@@ -415,83 +419,130 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="stochastic-gradient-descent">
 <h1>Stochastic Gradient Descent<a class="headerlink" href="#stochastic-gradient-descent" title="Link to this heading">#</a></h1>
-<p>While working with Machine Learning (ML) it is common to have a dataset <span class="math notranslate nohighlight">\(\mathbb{D} = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N\)</span> and a parametric function <span class="math notranslate nohighlight">\(f_w(x)\)</span> whose specific shape depends on the task. As already cited, <em>training</em> a Machine Learning model is basically an optimization problem, where we need to find parameters <span class="math notranslate nohighlight">\(w\)</span> (known as <em>weights</em>), such that <span class="math notranslate nohighlight">\(f_w(x_i) \approx y_i\)</span> for any <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>. To do that, we usually consider a <strong>loss function</strong>, which in this case depends on the weights <span class="math notranslate nohighlight">\(w\)</span> and the dataset <span class="math notranslate nohighlight">\(\mathbb{D}\)</span>. We will indicate is as <span class="math notranslate nohighlight">\(\ell(w; \mathbb{D})\)</span>.</p>
-<p>In most of the cases, <span class="math notranslate nohighlight">\(\ell(w; \mathbb{D})\)</span> can be written as a sum of simpler components, each depending on a specific datapoint, i.e.</p>
+<p>While working with Machine Learning (ML) it is common to have a dataset <span class="math notranslate nohighlight">\((X, Y) = \{ (x^i, y^i) \}_{i=1}^N\)</span>, and a parametric function <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> whose specific shape depends on the task. As already cited, <em>training</em> a Machine Learning model is basically an optimization problem, where we need to find parameters <span class="math notranslate nohighlight">\(\theta\)</span> (known as <em>weights</em>), such that <span class="math notranslate nohighlight">\(f_\theta(x^i) \approx y^i\)</span> for any <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>. To do that, we usually consider a <strong>loss function</strong>, which in this case depends on the weights <span class="math notranslate nohighlight">\(\theta\)</span> and the dataset <span class="math notranslate nohighlight">\((X, Y)\)</span>. We will indicate is as <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span>.</p>
+<p>In most of the cases, <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span> can be written as a sum of simpler components, each depending on a specific datapoint, i.e.</p>
 <div class="math notranslate nohighlight">
 \[
-\ell(w; \mathbb{D}) = \sum_{i=1}^N \ell_i(w; x^{(i)}, y^{(i)})
+\ell(\theta; X, Y) = \sum_{i=1}^N \ell_i(\theta; x^i, y^i)
 \]</div>
 <p>and the training optimization problem becomes</p>
 <div class="math notranslate nohighlight">
 \[
-w^* = \arg\min_w \ell(w; \mathbb{D}) = \arg\min_w  \sum_{i=1}^N \ell_i(w; x^{(i)}, y^{(i)})
+\theta^* = \arg\min_\theta \ell(\theta; X, Y) = \arg\min_\theta  \sum_{i=1}^N \ell_i(\theta; x^i, y^i)
 \]</div>
 <p>Which can be solved by Gradient Descent algorithm, as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{cases}
-	w_0 \in \mathbb{R}^d \\
-	w_{k+1} = w_k - \alpha_k \nabla_w \ell(w_k; \mathbb{D}) = w_k - \alpha_k \sum_{i=1}^N \nabla_w \ell_i(w_k; x^{(i)}, y^{(i)})
+	\theta_0 \in \mathbb{R}^d \\
+	\theta_{k+1} = \theta_k - \alpha_k \nabla_\theta \ell(\theta_k; X, Y) = \theta_k - \alpha_k \sum_{i=1}^N \nabla_\theta \ell_i(\theta_k; x^i, y^i)
 \end{cases}
 \end{split}\]</div>
-<p>Where we used that <span class="math notranslate nohighlight">\(\nabla_w \ell(w_k; \mathbb{D}) = \nabla_w \sum_{i=1}^N \ell_i(w_k; x^{(i)}, y^{(i)}) = \sum_{i=1}^N \nabla_w \ell_i(w_k; x^{(i)}, y^{(i)})\)</span>.</p>
-<p>Thus, to compute each iteration of Gradient Descent we need the gradient with respect to the weights of the objective functions, that can be computed by summing up the gradients of the independent functions <span class="math notranslate nohighlight">\(\ell_i(w; x^{(i)}, y^{(i)})\)</span>.</p>
+<p>Where we used that <span class="math notranslate nohighlight">\(\nabla_\theta \ell(\theta_k; X, Y) = \nabla_\theta \sum_{i=1}^N \ell_i(\theta_k; x^i, y^i) = \sum_{i=1}^N \nabla_\theta \ell_i(\theta_k; x^i, y^i)\)</span>.</p>
+<p>Therefore, to compute each iteration of Gradient Descent we need the gradient with respect to the weights of the objective functions, which is done by summing up the gradients of each independent functions <span class="math notranslate nohighlight">\(\ell_i(\theta; x^i, y^i)\)</span>.</p>
 <p>As an example, a common loss function in Machine Learning is the Mean Squared Error (MSE), defined by</p>
 <div class="math notranslate nohighlight">
 \[
-\ell(w; \mathbb{D}) = \sum_{i=1}^N MSE(f_w(x_i), y_i)
+\ell(\theta; X, Y) := MSE(f_\theta(X), Y) = \frac{1}{N} \sum_{i=1}^N (f_\theta(x^i) - y^i)^2 = \sum_{i=1}^N  \underbrace{\frac{1}{N} (f_\theta(x^i) - y^i)^2}_{=: \ell_i(\theta; x^i, y^i)}.
+\]</div>
+<p>Computing <span class="math notranslate nohighlight">\(\nabla_\theta MSE(f_\theta(X), Y)\)</span> is not hard, since</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\theta MSE(f_\theta(X), Y) = \nabla_\theta \sum_{i=1}^N \frac{1}{N} (f_\theta(x^i) - y^i)^2 =\ \sum_{i=1}^N \nabla_\theta (f_\theta(x^i) - y^i)^2,
+\]</div>
+<p>but:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\theta (f_\theta(x^i) - y^i)^2 = 2 (f_\theta(x^i) - y^i) \nabla_\theta f_\theta(x^i)
+\]</div>
+<p>by applying the chain rule. When <span class="math notranslate nohighlight">\(\nabla_\theta f_\theta(x^i)\)</span> can be explicitly computed (it depends on the shape of <span class="math notranslate nohighlight">\(f_\theta\)</span>), then the gradient descent iteration to solve the training optimization problem can be implemented as</p>
+<div class="math notranslate nohighlight">
+\[
+\theta_{k+1} = \theta_k - \alpha_k \underbrace{\frac{2}{N} \sum_{i=1}^N (f_\theta(x^i) - y^i) \nabla_\theta f_\theta(x^i)}_{\nabla_\theta \ell(\theta; X, Y)}.
+\]</div>
+<section id="stochastic-gradient-descent-sgd-algorithm">
+<h2>Stochastic Gradient Descent (SGD) algorithm<a class="headerlink" href="#stochastic-gradient-descent-sgd-algorithm" title="Link to this heading">#</a></h2>
+<p>Unfortunately, even if it is easy to compute the gradient of <span class="math notranslate nohighlight">\(\ell_i(\theta; x^i, y^i)\)</span> for any <span class="math notranslate nohighlight">\(i\)</span>, when the number of samples <span class="math notranslate nohighlight">\(N\)</span> is large (which is common in Machine Learning), the computation of the full gradient <span class="math notranslate nohighlight">\(\nabla_\theta \ell(\theta; X, Y)\)</span> is prohibitive, mostly because of memory limitations. For this reason, in such optimization problems, instead of using a standard GD algorithm, it is better using the Stochastic Gradient Descent (SGD) method. That is a variant of the classical GD where, instead of computing <span class="math notranslate nohighlight">\(\nabla_\theta \ell(\theta; X, Y) = \sum_{i=1}^N \nabla_\theta \ell_i(\theta; x^i, y^i)\)</span>, the summation is reduced to a limited number of terms, called <em>batch</em>. The idea is the following:</p>
+<ul class="simple">
+<li><p>Given a number <span class="math notranslate nohighlight">\(N_{batch} \ll N\)</span> (usually called <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>), randomly extract a subdataset <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> with <span class="math notranslate nohighlight">\(\|\mathcal{M}\| = N_{batch}\)</span> from <span class="math notranslate nohighlight">\((X, Y)\)</span>. This set will be called a <strong>batch</strong>;</p></li>
+<li><p>Approximate the true gradient as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\theta \ell(\theta; X, Y) = \sum_{i=1}^N \nabla_\theta \ell_i(\theta; x^i, y^i),
 \]</div>
 <p>where</p>
 <div class="math notranslate nohighlight">
 \[
-MSE(y, y') = \frac{|| y - y' ||_2^2}{n} \quad y, y' \in \mathbb{R}^n
-\]</div>
-<p>Here, computing <span class="math notranslate nohighlight">\(\nabla_w \ell(w; \mathbb{D})\)</span> is not hard, since</p>
-<div class="math notranslate nohighlight">
-\[
-\nabla_w \ell(w; \mathbb{D}) = \nabla_w \sum_{i=1}^N MSE(f_w(x_i), y_i) = \ell(w; \mathbb{D}) \sum_{i=1}^N \nabla_w MSE(f_w(x_i), y_i)
-\]</div>
-<p>but</p>
-<div class="math notranslate nohighlight">
-\[
-\nabla_w MSE(f_w(x_i), y_i) = \frac{1}{n} \nabla_w || f_w(x_i) - y_i ||_2^2 = \frac{2}{n} \nabla_w f_w(x_i)^T (f_w(x_i) - y_i)
-\]</div>
-<p>by applying the chain rule. When <span class="math notranslate nohighlight">\(\nabla_w f_w(x_i)\)</span> can be explicitly computed (it depends on the shape of <span class="math notranslate nohighlight">\(f_w\)</span>), then the gradient descent iteration to solve the training optimization problem can be implemented as</p>
-<div class="math notranslate nohighlight">
-\[
-w_{k+1} = w_k - \alpha_k \underbrace{\frac{1}{N} \sum_{i=1}^N \frac{2}{n} \nabla_w f_w(x_i)^T (f_w(x_i) - y_i)}_{\nabla_w \ell(w; \mathbb{D})}
-\]</div>
-<section id="stochastic-gradient-descent-sgd-algorithm">
-<h2>Stochastic Gradient Descent (SGD) algorithm<a class="headerlink" href="#stochastic-gradient-descent-sgd-algorithm" title="Link to this heading">#</a></h2>
-<p>Unfortunately, even if it is easy to compute the gradient of <span class="math notranslate nohighlight">\(\ell_i(w; x^{(i)}, y^{(i)})\)</span> for any <span class="math notranslate nohighlight">\(i\)</span>, when the number of samples <span class="math notranslate nohighlight">\(N\)</span> is large (which is common in Machine Learning), the computation of the full gradient <span class="math notranslate nohighlight">\(\nabla_w \ell(w; \mathbb{D})\)</span> is prohibitive, mostly because of memory limitations. For this reason, in such optimization problems, instead of using a standard GD algorithm, it is better using the Stochastic Gradient Descent (SGD) method. That is a variant of the classical GD where, instead of computing <span class="math notranslate nohighlight">\(\nabla_w \ell(w; \mathbb{D}) = \sum_{i=1}^N \nabla_w \ell_i(w; x^{(i)}, y^{(i)})\)</span>, the summation is reduced to a limited number of terms, called a \emph{batch}. The idea is the following:</p>
-<ul class="simple">
-<li><p>Given a number <span class="math notranslate nohighlight">\(N_{batch} \ll N\)</span> (usually called <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>), randomly extract a subdataset <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> with <span class="math notranslate nohighlight">\(\|\mathcal{M}\| = N_{batch}\)</span> from <span class="math notranslate nohighlight">\(\mathbb{D}\)</span>. This set will be called a <strong>batch</strong>;</p></li>
-<li><p>Approximate the true gradient :</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[
-\nabla_w \ell(w; \mathbb{D}) = \sum_{i=1}^N \nabla_w \ell_i(w; x^{(i)}, y^{(i)})
-\]</div>
-<p>with</p>
-<div class="math notranslate nohighlight">
-\[
-\nabla_w \ell(w; \mathcal{M}) = \sum_{i\in \mathcal{M}} \nabla_w \ell_i(w; x^{(i)}, y^{(i)})
+\nabla_\theta \ell(\theta; \mathcal{M}) = \sum_{i\in \mathcal{M}} \nabla_\theta \ell_i(\theta; x^i, y^i);
 \]</div>
 <ul class="simple">
 <li><p>Compute one single iteration of the GD algorithm</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[ 
-w_{k+1} = w_k - \alpha_k \nabla_w \ell(w; \mathcal{M});
+\theta_{k+1} = \theta_k - \alpha_k \nabla_\theta \ell(\theta; \mathcal{M});
 \]</div>
 <ul class="simple">
 <li><p>Repeat until you have extracted the full dataset. Notice that the random sampling at each iteration is done without replacement.</p></li>
 </ul>
 <p>Each iteration of the algorithm above is usually called <em>batch iteration</em>. When the whole dataset has been processed, we say that we completed an <strong>epoch</strong> of the SGD method. This algorithm should be repeated for a fixed number <span class="math notranslate nohighlight">\(E\)</span> of epochs to reach convergence.</p>
-<section id="drawbacks-of-sgd">
-<h3>Drawbacks of SGD<a class="headerlink" href="#drawbacks-of-sgd" title="Link to this heading">#</a></h3>
-<p>Unfortunately, one of the biggest drawbacks of SGD with respect to GD, is that now we cannot check the convergence anymore (since we can’t obviously compute the gradient of <span class="math notranslate nohighlight">\(\ell(w; \mathbb{D})\)</span> to check its distance from zero, as it is required for the first Stopping Criteria) and we can’t use the backtracking algorithm, for the same reason. As a consequence, the algorithm will stop ONLY after reaching the fixed number of epochs, and we must set a good value for the step size <span class="math notranslate nohighlight">\(\alpha_k\)</span> by hand. Those problems are partially solved by recent algorithms like SGD with Momentum, Adam, AdaGrad, … whose study is beyond the scope of the course.</p>
-</section>
+<p>Below its a Python implementation of the SGD algorithm.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">SGD</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">grad_loss</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">theta0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">n_epochs</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">D</span>  <span class="c1"># Unpack the data</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># We assume both X and Y has shape (N, )</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">theta0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># While theta0 has shape (d, )</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c1"># This is required for the shuffling</span>
+    
+    <span class="c1"># Initialization of history vectors</span>
+    <span class="n">theta_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>  <span class="c1"># Save parameters at each epoch</span>
+    <span class="n">loss_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="p">))</span>  <span class="c1"># Save loss values at each epoch</span>
+    <span class="n">grad_norm_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_epochs</span><span class="p">,</span> <span class="p">))</span>  <span class="c1"># Save gradient norms at each epoch</span>
+    
+    <span class="c1"># Initialize weights</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta0</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+        <span class="c1"># Shuffle the data at the beginning of each epoch</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="c1"># Initialize a vector that saves the gradient of the loss at each iteration</span>
+        <span class="n">grad_loss_vec</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+            <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
+            <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
+            
+            <span class="c1"># Compute the gradient of the loss</span>
+            <span class="n">gradient</span> <span class="o">=</span> <span class="n">grad_loss</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+            <span class="n">grad_loss_vec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+            <span class="c1"># Update weights</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">gradient</span>
+
+        <span class="c1"># Save the updated values</span>
+        <span class="n">theta_history</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+        <span class="n">loss_history</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">grad_norm_history</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">grad_loss_vec</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">theta_history</span><span class="p">,</span> <span class="n">loss_history</span><span class="p">,</span> <span class="n">grad_norm_history</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong>Exercise:</strong> Test the SGD algorithm to train a polynomial regression model on the <code class="docutils literal notranslate"><span class="pre">poly_regression_large.csv</span></code> data. Try different values for the polynomial degree.</p>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SGD has some drawbacks compared to GD. In particular, there is no way to check whether it reached the convergence (since we can’t obviously compute the gradient of <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span> to check its distance from zero, as it is required for the first Stopping Criteria) and we can’t use the backtracking algorithm, for the same reason. As a consequence, the algorithm will stop ONLY after reaching the fixed number of epochs, and we must set a good value for the step size <span class="math notranslate nohighlight">\(\alpha_k\)</span> by hand. Those problems are partially solved by recent algorithms like SGD with Momentum, Adam, AdaGrad, … whose study is beyond the scope of the course.</p>
+</div>
 </section>
 </section>
 
@@ -535,11 +586,11 @@ w_{k+1} = w_k - \alpha_k \nabla_w \ell(w; \mathcal{M});
       </div>
     </a>
     <a class="right-next"
-       href="../Homeworks/HW1.html"
+       href="../regression_classification/regression.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">HW 1: Linear Algebra and Floating Point Arithmetic</p>
+        <p class="prev-next-title">Regression</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -559,10 +610,7 @@ w_{k+1} = w_k - \alpha_k \nabla_w \ell(w; \mathcal{M});
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd-algorithm">Stochastic Gradient Descent (SGD) algorithm</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#drawbacks-of-sgd">Drawbacks of SGD</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd-algorithm">Stochastic Gradient Descent (SGD) algorithm</a></li>
 </ul>
   </nav></div>
 
