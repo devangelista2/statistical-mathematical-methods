@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Regression in Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+    <title>HW 3: Optimization &#8212; Statistical and Mathematical Methods for Machine Learning</title>
   
   
   
@@ -59,9 +59,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'regression_classification/_regression2024';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW3';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HW 4: MLE/MAP" href="HW4.html" />
+    <link rel="prev" title="HW 2: SVD and PCA for Machine Learning" href="HW2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,8 +125,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -201,15 +201,15 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MLE_MAP.html">MLE and MAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -281,7 +281,7 @@
       
       
       
-      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2Fregression_classification/_regression2024.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FHomeworks/HW3.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -311,7 +311,7 @@
       
       
       
-      <li><a href="../_sources/regression_classification/_regression2024.md" target="_blank"
+      <li><a href="../_sources/Homeworks/HW3.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -321,7 +321,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -395,7 +395,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Regression in Machine Learning</h1>
+    <h1>HW 3: Optimization</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -405,11 +405,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regression in Machine Learning</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-via-gradient-descent">Optimization via Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-via-stochastic-gradient-descent">Optimization via Stochastic Gradient Descent</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -420,70 +418,134 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="regression-in-machine-learning">
-<h1>Regression in Machine Learning<a class="headerlink" href="#regression-in-machine-learning" title="Link to this heading">#</a></h1>
-<p>{% include figure.html path=”/assets/images/regression/ML_diagram.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
-<p>Regression in a group of supervised learning techniques, alternative to classification. In classification, given a datapoint $<span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, the task was to learn a model \)</span><span class="math notranslate nohighlight">\(y = f_\theta(x)\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( represents one of the \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( possible classes in which \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( lies. On the other side, a Machine Learning problem is a Regression when the target variable \)</span><span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( is a **continuous** variable, and the task is to approximately *interpolate* between the \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( values, with the intent of being able to predict new outcome of \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( when a new \)</span><span class="math notranslate nohighlight">\(x\)</span>$ is given as input.</p>
-<p>{% include figure.html path=”/assets/images/regression/regression_vs_classification.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
-<p>A part from that, the computation procedure to define a regression model is similar to the procedure required for a classification model. Indeed, let $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( be a parametric function of \)</span><span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, parameterized by \)</span><span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^s\)</span>$. Given a dataset</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="hw-3-optimization">
+<h1>HW 3: Optimization<a class="headerlink" href="#hw-3-optimization" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The submission of the homeworks has <strong>NO</strong> deadline. You can submit them whenever you want, on Virtuale. You are only required to upload it on Virtuale <strong>BEFORE</strong> your exam session, since the Homeworks will be a central part of the oral exam.</p>
+<p>You are asked to submit the homework as one of the two, following modalities:</p>
+<ul class="simple">
+<li><p>A PDF (or Word) document, containing screenshoots of code snippets, screeshots of the results generated by your code, and a brief comment on the obtained results.</p></li>
+<li><p>A Python Notebook (i.e. a <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file), with cells containing the code required to solve the indicated exercises, alternated with a brief comment on the obtained results in the form of a markdown cell. We remark that the code <strong>SHOULD NOT</strong> be runned during the exam, but the student is asked to enter the exam with all the programs <strong>already executed</strong>, with the results clearly visible on the screen.</p></li>
+</ul>
+<p>Joining the oral exam with a non-executed code OR without a PDF file with the obtained results visible on that, will cause the student to be rejected.</p>
+</div>
+<section id="optimization-via-gradient-descent">
+<h2>Optimization via Gradient Descent<a class="headerlink" href="#optimization-via-gradient-descent" title="Link to this heading">#</a></h2>
+<p>In this homework, we want to study methods to solve the general optimization problem where, given a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>, we want to compute:</p>
 <div class="math notranslate nohighlight">
 \[
-    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{d \times N}
+x^* = \arg\min_{x \in \mathbb{R}^n}f(x).
 \]</div>
+<p>In particular, we will consider the situation where <span class="math notranslate nohighlight">\(f(x)\)</span> is at least differentiable, which implies that we can compute its gradient <span class="math notranslate nohighlight">\(\nabla f(x)\)</span>.
+One of the most common way to do that is to use the Gradient Descent (GD) method, which is an iterative algorithm that, given an initial iterate <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span> and a positive parameter <span class="math notranslate nohighlight">\(\alpha_k &gt; \)</span> called <em>step size</em>, computes:</p>
 <div class="math notranslate nohighlight">
 \[
-    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^N
+x_{k+1} = x_k − \alpha_k \nabla f (x_k).
 \]</div>
-<p>the task is to train the model such that $<span class="math notranslate nohighlight">\(f_\theta(x^i) \approx y^i\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>$. Clearly, this is done by solving the optimization problem</p>
+<p>You are asked to implement the GD method in Python and to test it with some remarkable functions. In particular:</p>
+<ul>
+<li><p>Write a script that implement the GD algorithm with fixed step size (i.e. no backtracking), with the input-output structure discussed in the first Exercise of the Gradient Descent section (<a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html">https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html</a>).</p></li>
+<li><p>Write a script that implement the GD algorithm with backtracking, with the input-output structure discussed in the second Exercise of the Gradient Descent section (<a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html">https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html</a>).</p></li>
+<li><p>Test the algorithm above on the following functions:</p>
+<ol class="arabic">
+<li><p><span class="math notranslate nohighlight">\(f: \mathbb{R}^2 \to \mathbb{R}\)</span> such that:</p>
 <div class="math notranslate nohighlight">
 \[
-    \theta^* = \arg\min_{\theta \in \mathbb{R}^s} \ell(\theta; X, Y)
-\]</div>
-<p>where the specific form of the loss function $<span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span><span class="math notranslate nohighlight">\( will be given in the next post. When \)</span><span class="math notranslate nohighlight">\(d&gt;1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is called **multivariate regression model**, while if \)</span><span class="math notranslate nohighlight">\(d=1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is an **univariate regression model**. For simplicity, from now on we will work with univariate regression models, where \)</span><span class="math notranslate nohighlight">\(x^i \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span><span class="math notranslate nohighlight">\(, and consequently \)</span><span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N] \in \mathbb{R}^N\)</span>$.</p>
+       f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 1)^2, 
+       \]</div>
+<p>for which the true solution is <span class="math notranslate nohighlight">\(x^* = (3, 1)^T\)</span>.</p>
+</li>
+<li><p><span class="math notranslate nohighlight">\(f: \mathbb{R}^2 \to \mathbb{R}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[
+       f(x_1, x_2) = 10(x_1 − 1)^2 + (x_2 − 2)^2, 
+       \]</div>
+<p>for which the true solution is <span class="math notranslate nohighlight">\(x^* = (1, 2)^T\)</span>.</p>
+</li>
+<li><p><span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[
+       f(x) = \frac{1}{2}|| Ax - b ||_2^2, 
+       \]</div>
+<p>where <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n times n}\)</span> is the Vandermonde matrix associated with the vector <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span> that contains <span class="math notranslate nohighlight">\(n\)</span> equispaced values in the interval <span class="math notranslate nohighlight">\([0,1]\)</span>, and <span class="math notranslate nohighlight">\(b \in \mathbb{R}^n\)</span> is computed by first setting <span class="math notranslate nohighlight">\(x^* = (1, 1, \dots ,1)^T\)</span>, and then <span class="math notranslate nohighlight">\(b = A x^*\)</span>. Try for different values of <span class="math notranslate nohighlight">\(n\)</span> (e.g. <span class="math notranslate nohighlight">\(n = 5,10,15, \dots\)</span>).</p>
+</li>
+<li><p><span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[
+       f(x) = \frac{1}{2} || Ax - b ||_2^2 + \frac{\lambda}{2} ||x||_2^2, 
+       \]</div>
+<p>where <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n times n}\)</span> and <span class="math notranslate nohighlight">\(b \in \mathbb{R}^n\)</span> are the same of the exercise above, while <span class="math notranslate nohighlight">\(\lambda\)</span> is a fixed value in the interval <span class="math notranslate nohighlight">\([0, 1]\)</span>. Try different values of <span class="math notranslate nohighlight">\(\lambda\)</span> and comment the result.</p>
+</li>
+<li><p><span class="math notranslate nohighlight">\(f: \mathbb{R} \to \mathbb{R}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[
+       f(x) = x^4 + x^3 - 2x^2 - 2x.
+       \]</div>
+</li>
+</ol>
+</li>
+<li><p>For each of the functions above, test the GD method with and without the backtracking, trying different values for the step size <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> when you are not using backtracking. Comment on the different behavior of GD.</p></li>
+<li><p>To help visualization, it is convenient to plot the error vector that contains the <span class="math notranslate nohighlight">\(||\nabla f(x_k)||_2\)</span>, to check that it goes to zero. Compare the convergence speed (in terms of the number of iterations <span class="math notranslate nohighlight">\(k\)</span>) in the different cases.</p></li>
+<li><p>For each of the points above, fix:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code> = <span class="math notranslate nohighlight">\((0, 0, \dots, 0)^T\)</span> (except for function 5, which is discussed in the following point),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kmax</span></code> = 100,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tolf</span></code> = <code class="docutils literal notranslate"><span class="pre">tolx</span></code> = <code class="docutils literal notranslate"><span class="pre">1e-5</span></code>.
+It is recommended to also plot the error <span class="math notranslate nohighlight">\(||x_k−x^*||_2\)</span> as a function of <span class="math notranslate nohighlight">\(k\)</span> when the true solution <span class="math notranslate nohighlight">\(x^*\)</span> is available.</p></li>
+</ul>
+</li>
+<li><p>Plot the graph of the non-convex function 5 in the interval <span class="math notranslate nohighlight">\([−3,3]\)</span>, and test the convergence of GD with different values of <code class="docutils literal notranslate"><span class="pre">x0</span></code> (of your choice) and different step-sizes. When is the convergence point the global minimum?</p></li>
+<li><p><em>Hard (optional):</em> For functions 1 and 2, show the contour plot around the true minimum and visualize the path described by the iterations, i.e. representing on the contour plot the position of each iterate computed by the GD algorithm. See the <code class="docutils literal notranslate"><span class="pre">plt.contour</span></code> documentation.</p></li>
+</ul>
 </section>
-<section id="linear-regression">
-<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h1>
-<p>The simplest regression model we can think of is the Linear Regression Model, defined as</p>
+<section id="optimization-via-stochastic-gradient-descent">
+<h2>Optimization via Stochastic Gradient Descent<a class="headerlink" href="#optimization-via-stochastic-gradient-descent" title="Link to this heading">#</a></h2>
+<p>While working with Machine Learning (ML) you are usually given a dataset <span class="math notranslate nohighlight">\((X,Y)\)</span> such that:</p>
 <div class="math notranslate nohighlight">
 \[
-    f_\theta(x) = \theta_1 + \theta_2 x = \theta^T \hat{x}
+X = \begin{bmatrix} x^1 &amp; x^2 &amp; \dots &amp; x^N \end{bmatrix} \in \mathbb{R}^{d \times N}, \qquad Y = \begin{bmatrix} y^1 &amp; y^2 &amp; \dots &amp; y^N \end{bmatrix} \in \mathbb{R}^N,
 \]</div>
-<p>where $<span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2]^T\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\hat{x} = [1, x]^T\)</span><span class="math notranslate nohighlight">\(. When \)</span><span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\( is optimized, it defines a straight line approximating the data. Clearly, the resulting model will be correct if and only if the real function \)</span><span class="math notranslate nohighlight">\(y = f(x)\)</span><span class="math notranslate nohighlight">\( generating the data is linear. Unfortunately, even in situations where \)</span><span class="math notranslate nohighlight">\(f(x)\)</span><span class="math notranslate nohighlight">\( can be considered linear, the collected data \)</span><span class="math notranslate nohighlight">\(y\)</span>$ is always corrupted by noise, which consequently breaks the linearity.</p>
-<p>Consider for example a situation where $<span class="math notranslate nohighlight">\(y = f(x) = 2x\)</span><span class="math notranslate nohighlight">\( is the model generating the data. The noiseless data \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\(, together with the line generated by the prediction model \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span>$, in that situation will look like that</p>
-<p><img alt="" src="assets/images/regression/regression_example0.png" /></p>
-<p>Unfortunately, since the data is always corrupted by noise, the collected data will be more like</p>
-<p><img alt="" src="assets/images/regression/regression_example1.png" /></p>
-<p>In this scenario, if $<span class="math notranslate nohighlight">\(f_\theta(x) = \theta^T \hat{x}\)</span><span class="math notranslate nohighlight">\( as in the assumption above, then we hope to find parameters \)</span><span class="math notranslate nohighlight">\(\theta\)</span>$ such that the resulting line will be close to the original one (first figure), someway ignoring the noise present in the data. Luckily, at least when the noise is Gaussian distributed, it usually does the job. Indeed the resulting linear regression model from the image above is</p>
-<p><img alt="" src="assets/images/regression/regression_example2.png" /></p>
-<p>which is almost equal to the real line from the first image.</p>
+<p>together with a model <span class="math notranslate nohighlight">\(f_\theta(x)\)</span>, where the vector <span class="math notranslate nohighlight">\(\theta\)</span> is usually referred to as the <em>parameters</em> of the model. Training a ML model requires solving:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^* = \arg\min_{\theta} \ell(\theta; X, Y) = \arg\min_{\theta} \sum_{i=1}^N \ell_i(\theta; x^i, y^i). 
+\]</div>
+<p>Since the optimization problem above is written as a sum of independent terms that only depends on the single datapoints, it satisfies the hypothesis for the application of the Stochastic Gradient Descent (SGD) algorithm, which articulates as follows:</p>
+<ul>
+<li><p>Given an integer <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <em>randomly</em> extract a sub-dataset <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> such that <span class="math notranslate nohighlight">\(|\mathcal{M}| = `batch_size`\)</span> from the original dataset.</p></li>
+<li><p>Compute the gradient of the loss function on the sampled batch <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[
+  \nabla \ell(\theta; \mathcal{M}) = \frac{1}{| \mathcal{M} |} \sum_{i \in \mathcal{M}} \nabla \ell (\theta; x^i, y^i),
+  \]</div>
+</li>
+<li><p>Compute one single iteration of the GD algorithm on the direction described by <span class="math notranslate nohighlight">\(\nabla \ell(\theta; \mathcal{M})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \theta_{k+1} = \theta_k - \alpha_k \nabla \ell(\theta_k; \mathcal{M}),
+  \]</div>
+</li>
+<li><p>Repeat until you have extracted the full dataset. Notice that the random sampling at each iteration is done without replacement. Each iteration of the algorithm above is usually called batch iteration. When the whole dataset has been processed, we say that we completed an <strong>epoch</strong> of the SGD method. This algorithm should be repeated for a number of epochs equal to a parameter <code class="docutils literal notranslate"><span class="pre">n_epochs</span></code>, given as input.</p></li>
+</ul>
+<p>Consider the dataset <code class="docutils literal notranslate"><span class="pre">poly_regression_large.csv</span></code>, provided on Virtuale, and let <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> be a polynomial regression model, as discussed in <a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/regression_classification/regression.html">https://devangelista2.github.io/statistical-mathematical-methods/regression_classification/regression.html</a>.</p>
+<ul>
+<li><p>Split the dataset into training and test set as in the Homework 2, with a proportion of 80% training and 20% test.</p></li>
+<li><p>Fix a degree <span class="math notranslate nohighlight">\(K\)</span> for the polynomial.</p></li>
+<li><p>Train the polynomial regression model on the training set via the Stochastic Gradient Descent algorithm.</p></li>
+<li><p>Train the polynomial regression model on the training set via the Gradient Descent algorithm.</p></li>
+<li><p>Train the polynomial regression model on the <code class="docutils literal notranslate"><span class="pre">poly_regression_small.csv</span></code> dataset. Use the full dataset for this test, without splitting it into training and test set.</p></li>
+<li><p>Compare the performance of the three regression model computed above. In particular, if <span class="math notranslate nohighlight">\((X_{test}, Y_{test})\)</span> is the test set from the <code class="docutils literal notranslate"><span class="pre">poly_regression_large.csv</span></code> dataset, for each of the model, compute:</p>
+<div class="math notranslate nohighlight">
+\[
+  Err = \frac{1}{N_{test}} \sum_{i=1}^{N_{test}} (f_\theta(x^i) - y^i)^2,
+  \]</div>
+<p>where <span class="math notranslate nohighlight">\(N_{test}\)</span> is the number of elements in the test set, <span class="math notranslate nohighlight">\((x^i, y^i)\)</span> are the input and output elements in the test set. Comment the performance of the three models.</p>
+</li>
+<li><p>Repeat the experiment by varying the degree <span class="math notranslate nohighlight">\(K\)</span> of the polynomial. Comment the results.</p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(K=5\)</span> (so that the polynomial regression model is a polynomial of degree 4). Compare the parameters learned by the three models with the true parameter <span class="math notranslate nohighlight">\(\theta^* = [0, 0, 4, 0, -3]\)</span>.</p></li>
+</ul>
 </section>
-<section id="polynomial-regression">
-<h1>Polynomial Regression<a class="headerlink" href="#polynomial-regression" title="Link to this heading">#</a></h1>
-<p>In most of real life scenario, the linear regression model is too rigid to correctly approximate the data. Indeed, suppose to collect a dataset like</p>
-<p><img alt="" src="assets/images/regression/regression_example3.png" /></p>
-<p>where it is clear that no straight line is able to correctly approximate it. Indeed, if we try to approximate it with a linear regression model, we obtain</p>
-<p><img alt="" src="assets/images/regression/regression_example5.png" /></p>
-<p>When this is the case, it is required to define a more flexible model.</p>
-<p>Given a number $<span class="math notranslate nohighlight">\(K &gt; 0\)</span>$, define the regression model</p>
-<div class="math notranslate nohighlight">
-\[
-    f_\theta(x) = \sum_{j=0}^K \phi_j(x) \theta_j
-\]</div>
-<p>where the functions $<span class="math notranslate nohighlight">\(\phi_1, \phi_2, \dots, \phi_K\)</span><span class="math notranslate nohighlight">\( are called **feature vectors**. Note that, for \)</span><span class="math notranslate nohighlight">\(K = 2\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\phi_0(x) = 1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\phi_1(x) = x\)</span><span class="math notranslate nohighlight">\(, we recover the linear regression model \)</span><span class="math notranslate nohighlight">\(f_\theta(x) = \theta_1 + \theta_2 x\)</span><span class="math notranslate nohighlight">\(. For different values of \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( and different feature vectors \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$, we get different regression model.</p>
-<p>Note that, if $<span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2, \dots, \theta_K]^T\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\phi(x) = [\phi_1(x), \phi_2(x), \dots, \phi_K(x)]^T\)</span>$, then</p>
-<div class="math notranslate nohighlight">
-\[
-    f_\theta(x) = \phi^T(x) \theta
-\]</div>
-<p>which implies that $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a linear function in \)</span><span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\(, for any choice of \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$.</p>
-<p>A classical choice for the feature vector, is $<span class="math notranslate nohighlight">\(\phi_j(x) = x^{j-1}\)</span><span class="math notranslate nohighlight">\(. In this way, for a given \)</span><span class="math notranslate nohighlight">\(K&gt;0\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\phi(x)\)</span><span class="math notranslate nohighlight">\( represents the vector of the first \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( monomial in \)</span><span class="math notranslate nohighlight">\(x\)</span>$, i.e.</p>
-<div class="math notranslate nohighlight">
-\[
-    \phi(x) = [1, x, x^2, \dots, x^{K-1}]^T
-\]</div>
-<p>and $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a \)</span><span class="math notranslate nohighlight">\(K-1\)</span><span class="math notranslate nohighlight">\(-th degree polynomial. For this reason, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is called **polynomial regression model** for this choice of \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$. To show the improvement of a polynomial regression model against a linear model, this is the resulting model when we use a polynomial regression model of degree 3 on the data above:</p>
-<p><img alt="" src="assets/images/regression/regression_example4.png" /></p>
-<p>To understand how to train the parameters $<span class="math notranslate nohighlight">\(\theta\)</span>$ of a linear / polynomial regression model, we have to move to the next post.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -499,7 +561,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./regression_classification"
+            path: "./Homeworks"
         },
         predefinedOutput: true
     }
@@ -516,6 +578,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="HW2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">HW 2: SVD and PCA for Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="HW4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">HW 4: MLE/MAP</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -532,11 +612,9 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regression in Machine Learning</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-via-gradient-descent">Optimization via Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-via-stochastic-gradient-descent">Optimization via Stochastic Gradient Descent</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>
