@@ -197,10 +197,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -436,10 +443,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 2.63620608 -2.29291232  6.03927412 -7.17400742 -3.64394004 -2.46235043
- -5.04197609 -4.22649564 -1.00722587 14.60418339]
-[ 2.63620608 -2.29291232  6.03927412 -7.17400742 -3.64394004 -2.46235043
- -5.04197609 -4.22649564 -1.00722587 14.60418339]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-10.20693171   1.34776918   3.0745105    2.18565165   0.094492
+  -4.47320295   1.92952807  -1.9972611    2.81007098  -8.48108477]
+[-10.20693171   1.34776918   3.0745105    2.18565165   0.094492
+  -4.47320295   1.92952807  -1.9972611    2.81007098  -8.48108477]
 </pre></div>
 </div>
 </div>
@@ -475,7 +482,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.         0.         0.         ... 0.         1.22395068 0.56943269]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.         0.         0.14106524 ... 0.         1.41075523 0.        ]
 </pre></div>
 </div>
 </div>
@@ -491,14 +498,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-1.02734264  0.51196473  0.93364193 -1.30625255  0.00870561]
- [ 1.49738561 -0.68411052 -0.00249183 -1.51042719 -1.49651045]
- [-0.97975426  1.70240757 -0.11343099 -0.64961233 -0.6573956 ]
- [-1.19257614 -0.20676741 -0.79748966 -0.46242907 -0.05565543]
- [-0.08475795  1.81633778 -0.92123073  1.76319556  0.24078166]]
-[[-1.02734264  0.51196473]
- [ 1.49738561 -0.68411052]
- [-0.97975426  1.70240757]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.90022309 -0.35817239 -0.17606617  0.92890107 -1.03515463]
+ [-0.03312661 -0.95505911 -0.18691939  2.78405234 -0.65360204]
+ [-1.49232025 -0.75803098 -0.12745721  0.03890076  0.53849294]
+ [ 0.73174638 -1.20967963 -0.64185488  0.87408726  0.09148133]
+ [-1.15028451 -0.66056226  0.42353082 -0.39736489 -0.28950854]]
+[[-0.90022309 -0.35817239]
+ [-0.03312661 -0.95505911]
+ [-1.49232025 -0.75803098]]
 </pre></div>
 </div>
 </div>
@@ -522,36 +529,36 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ True False  True  True  True False  True  True False  True]
- [False  True  True  True False False False False False False]
- [ True False  True False  True  True  True  True  True False]
- [ True  True False False  True  True  True False  True False]
- [False  True False  True False  True  True  True  True False]
- [ True  True False  True False False False  True False False]
- [ True False False False False False  True  True False  True]
- [False False False False False False False False  True  True]
- [ True  True False  True False  True False False  True False]
- [ True  True  True  True  True False  True False  True False]]
-[[0.         0.77743614 0.         0.         0.         0.75398307
-  0.         0.         1.24920721 0.        ]
- [1.08766494 0.         0.         0.         0.38472592 0.68100211
-  1.06226726 2.20161106 0.60794154 0.73658104]
- [0.         0.05271134 0.         0.44012086 0.         0.
-  0.         0.         0.         1.3884169 ]
- [0.         0.         1.65723078 2.73201323 0.         0.
-  0.         0.9458706  0.         1.76120609]
- [1.07531478 0.         0.84846408 0.         1.84387171 0.
-  0.         0.         0.         0.73019777]
- [0.         0.         0.91251087 0.         1.18794606 0.06529655
-  1.01268801 0.         0.69707269 0.69959281]
- [0.         0.13636616 0.98233073 1.66718215 0.34478978 0.57611872
-  0.         0.         0.16392129 0.        ]
- [0.28508016 0.88706504 1.9809518  1.45942301 0.30190821 0.03723559
-  1.23213742 0.7024985  0.         0.        ]
- [0.         0.         0.0971577  0.         0.7474078  0.
-  0.43619674 0.7102103  0.         1.7093883 ]
- [0.         0.         0.         0.         0.         0.0990002
-  0.         0.48809159 0.         0.89464865]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[False False  True  True False False  True  True False False]
+ [ True  True  True False  True False  True  True  True  True]
+ [ True  True False  True  True  True False  True  True False]
+ [False  True  True False  True  True False  True  True  True]
+ [ True False  True  True  True  True False  True False  True]
+ [ True False False  True  True  True False  True False  True]
+ [False False False False  True False  True  True False  True]
+ [False  True  True  True False  True  True False  True  True]
+ [False False False False False  True  True False  True False]
+ [False  True False False False  True  True False  True False]]
+[[0.27700087 2.21728924 0.         0.         0.00649383 0.73125217
+  0.         0.         0.08479596 1.2796316 ]
+ [0.         0.         0.         0.37304439 0.         1.70849387
+  0.         0.         0.         0.        ]
+ [0.         0.         0.67361961 0.         0.         0.
+  1.34644899 0.         0.         1.14692255]
+ [0.13725038 0.         0.         0.91177722 0.         0.
+  0.736952   0.         0.         0.        ]
+ [0.         1.33501264 0.         0.         0.         0.
+  1.11584536 0.         0.91728648 0.        ]
+ [0.         1.34418934 0.76040877 0.         0.         0.
+  0.50694361 0.         0.11920947 0.        ]
+ [0.3147623  0.18274777 0.92002615 0.47705798 0.         0.24872958
+  0.         0.         1.40671184 0.        ]
+ [0.62721207 0.         0.         0.         0.43965473 0.
+  0.         0.7480564  0.         0.        ]
+ [0.06627945 0.70373231 1.43707821 1.03698333 0.75195147 0.
+  0.         0.57559938 0.         0.23305185]
+ [0.71551633 0.         1.0961356  0.2377306  0.76692152 0.
+  0.         1.04966749 0.         0.94680363]]
 </pre></div>
 </div>
 </div>
@@ -735,7 +742,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/09809b2aaaf432ae8e6799b8015ffde185bcb1d11aeabcd1e3181d3339a7446d.png" src="../_images/09809b2aaaf432ae8e6799b8015ffde185bcb1d11aeabcd1e3181d3339a7446d.png" />
+<img alt="../_images/cf605356336d76a93a034667d41b8e9041b9912a0273ce19bc298f0041167479.png" src="../_images/cf605356336d76a93a034667d41b8e9041b9912a0273ce19bc298f0041167479.png" />
 </div>
 </div>
 <div class="cell docutils container">
