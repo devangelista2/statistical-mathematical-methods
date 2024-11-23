@@ -432,18 +432,18 @@ document.write(`
 </div>
 <section id="optimization-via-gradient-descent">
 <h2>Optimization via Gradient Descent<a class="headerlink" href="#optimization-via-gradient-descent" title="Link to this heading">#</a></h2>
-<p>In this homework, we want to study methods to solve the general optimization problem where, given a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>, we want to compute:</p>
+<p>In this Homework, we will consider a general optimization problem:</p>
 <div class="math notranslate nohighlight">
 \[
 x^* = \arg\min_{x \in \mathbb{R}^n}f(x).
 \]</div>
-<p>In particular, we will consider the situation where <span class="math notranslate nohighlight">\(f(x)\)</span> is at least differentiable, which implies that we can compute its gradient <span class="math notranslate nohighlight">\(\nabla f(x)\)</span>.
-One of the most common way to do that is to use the Gradient Descent (GD) method, which is an iterative algorithm that, given an initial iterate <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span> and a positive parameter <span class="math notranslate nohighlight">\(\alpha_k &gt; \)</span> called <em>step size</em>, computes:</p>
+<p>where, <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is a differentiable function for which we know how to compute <span class="math notranslate nohighlight">\(\nabla f(x)\)</span>.
+This is done by the Gradient Descent (GD) method: an iterative algorithm that, given an initial iterate <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span> and a positive parameter <span class="math notranslate nohighlight">\(\alpha_k &gt; \)</span> called <em>step size</em>, computes:</p>
 <div class="math notranslate nohighlight">
 \[
 x_{k+1} = x_k − \alpha_k \nabla f (x_k).
 \]</div>
-<p>You are asked to implement the GD method in Python and to test it with some remarkable functions. In particular:</p>
+<p>You are asked to implement the GD method in Python and to test it with some exemplar functions. In particular:</p>
 <ul>
 <li><p>Write a script that implement the GD algorithm with fixed step size (i.e. no backtracking), with the input-output structure discussed in the first Exercise of the Gradient Descent section (<a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html">https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html</a>).</p></li>
 <li><p>Write a script that implement the GD algorithm with backtracking, with the input-output structure discussed in the second Exercise of the Gradient Descent section (<a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html">https://devangelista2.github.io/statistical-mathematical-methods/Optimization/GD.html</a>).</p></li>
@@ -485,14 +485,14 @@ x_{k+1} = x_k − \alpha_k \nabla f (x_k).
 </li>
 </ol>
 </li>
-<li><p>For each of the functions above, test the GD method with and without the backtracking, trying different values for the step size <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> when you are not using backtracking. Comment on the different behavior of GD.</p></li>
-<li><p>To help visualization, it is convenient to plot the error vector that contains the <span class="math notranslate nohighlight">\(||\nabla f(x_k)||_2\)</span>, to check that it goes to zero. Compare the convergence speed (in terms of the number of iterations <span class="math notranslate nohighlight">\(k\)</span>) in the different cases.</p></li>
-<li><p>For each of the points above, fix:</p>
+<li><p>For each of the functions above, test the GD method with and without backtracking, trying different values for the step size <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> when backtracking is not employed. Comment on the results.</p></li>
+<li><p>Plot the value of <span class="math notranslate nohighlight">\(||\nabla f(x_k)||_2\)</span> as a function of <span class="math notranslate nohighlight">\(k\)</span>, check that it goes to zero, and compare the convergence speed (in terms of the number of iterations <span class="math notranslate nohighlight">\(k\)</span>) for the different values of <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> and with backtracking.</p></li>
+<li><p>For each of the points above, use:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code> = <span class="math notranslate nohighlight">\((0, 0, \dots, 0)^T\)</span> (except for function 5, which is discussed in the following point),</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">kmax</span></code> = 100,</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">tolf</span></code> = <code class="docutils literal notranslate"><span class="pre">tolx</span></code> = <code class="docutils literal notranslate"><span class="pre">1e-5</span></code>.
-It is recommended to also plot the error <span class="math notranslate nohighlight">\(||x_k−x^*||_2\)</span> as a function of <span class="math notranslate nohighlight">\(k\)</span> when the true solution <span class="math notranslate nohighlight">\(x^*\)</span> is available.</p></li>
+Also, when the true solution <span class="math notranslate nohighlight">\(x^*\)</span> is given, plot the error <span class="math notranslate nohighlight">\(||x_k−x^*||_2\)</span> as a function of <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
 </ul>
 </li>
 <li><p>Plot the graph of the non-convex function 5 in the interval <span class="math notranslate nohighlight">\([−3,3]\)</span>, and test the convergence of GD with different values of <code class="docutils literal notranslate"><span class="pre">x0</span></code> (of your choice) and different step-sizes. When is the convergence point the global minimum?</p></li>
@@ -501,19 +501,19 @@ It is recommended to also plot the error <span class="math notranslate nohighlig
 </section>
 <section id="optimization-via-stochastic-gradient-descent">
 <h2>Optimization via Stochastic Gradient Descent<a class="headerlink" href="#optimization-via-stochastic-gradient-descent" title="Link to this heading">#</a></h2>
-<p>While working with Machine Learning (ML) you are usually given a dataset <span class="math notranslate nohighlight">\((X,Y)\)</span> such that:</p>
+<p>Consider a dataset <span class="math notranslate nohighlight">\((X,Y)\)</span>, where:</p>
 <div class="math notranslate nohighlight">
 \[
 X = \begin{bmatrix} x^1 &amp; x^2 &amp; \dots &amp; x^N \end{bmatrix} \in \mathbb{R}^{d \times N}, \qquad Y = \begin{bmatrix} y^1 &amp; y^2 &amp; \dots &amp; y^N \end{bmatrix} \in \mathbb{R}^N,
 \]</div>
-<p>together with a model <span class="math notranslate nohighlight">\(f_\theta(x)\)</span>, where the vector <span class="math notranslate nohighlight">\(\theta\)</span> is usually referred to as the <em>parameters</em> of the model. Training a ML model requires solving:</p>
+<p>together with a model <span class="math notranslate nohighlight">\(f_\theta(x)\)</span>, with vector of parameters <span class="math notranslate nohighlight">\(\theta\)</span>. <strong>Training</strong> a ML model requires solving:</p>
 <div class="math notranslate nohighlight">
 \[
 \theta^* = \arg\min_{\theta} \ell(\theta; X, Y) = \arg\min_{\theta} \sum_{i=1}^N \ell_i(\theta; x^i, y^i). 
 \]</div>
 <p>Since the optimization problem above is written as a sum of independent terms that only depends on the single datapoints, it satisfies the hypothesis for the application of the Stochastic Gradient Descent (SGD) algorithm, which articulates as follows:</p>
 <ul>
-<li><p>Given an integer <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <em>randomly</em> extract a sub-dataset <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> such that <span class="math notranslate nohighlight">\(|\mathcal{M}| = `batch_size`\)</span> from the original dataset.</p></li>
+<li><p>Given an integer <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <em>randomly</em> extract a sub-dataset <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> such that <span class="math notranslate nohighlight">\(|\mathcal{M}| = `batch_size`\)</span> from the original dataset. Note that the random sampling at each iteration has to be done without replacement.</p></li>
 <li><p>Compute the gradient of the loss function on the sampled batch <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> as:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -526,7 +526,7 @@ X = \begin{bmatrix} x^1 &amp; x^2 &amp; \dots &amp; x^N \end{bmatrix} \in \mathb
   \theta_{k+1} = \theta_k - \alpha_k \nabla \ell(\theta_k; \mathcal{M}),
   \]</div>
 </li>
-<li><p>Repeat until you have extracted the full dataset. Notice that the random sampling at each iteration is done without replacement. Each iteration of the algorithm above is usually called batch iteration. When the whole dataset has been processed, we say that we completed an <strong>epoch</strong> of the SGD method. This algorithm should be repeated for a number of epochs equal to a parameter <code class="docutils literal notranslate"><span class="pre">n_epochs</span></code>, given as input.</p></li>
+<li><p>Repeat until the full dataset has been extracted. When this happens, we say that we completed an <strong>epoch</strong> of the SGD method. Repeat this procedure for a number of epochs equal to a parameter <code class="docutils literal notranslate"><span class="pre">n_epochs</span></code>, given as input.</p></li>
 </ul>
 <p>Consider the dataset <code class="docutils literal notranslate"><span class="pre">poly_regression_large.csv</span></code>, provided on Virtuale, and let <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> be a polynomial regression model, as discussed in <a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/regression_classification/regression.html">https://devangelista2.github.io/statistical-mathematical-methods/regression_classification/regression.html</a>.</p>
 <ul>
