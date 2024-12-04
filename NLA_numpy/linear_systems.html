@@ -424,7 +424,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="solving-linear-systems-with-python">
 <h1>Solving Linear Systems with Python<a class="headerlink" href="#solving-linear-systems-with-python" title="Link to this heading">#</a></h1>
 <p>In the following we want to learn how to use <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy</span></code> to solve Linear Systems with Python. The majority of the functions in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy</span></code> for Numerical Linear Algebra are contained in the sub-packages <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy.linalg</span></code>.</p>
-<p>As a general rule, remember that <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code> contains all the basic functions to run NLA algorithms, while <code class="docutils literal notranslate"><span class="pre">scipy</span></code> mostly focus on efficiency, implementing algorithms such as fast linear system solvers, memory efficiet matrix memorization, …</p>
+<p>As a general rule, remember that <code class="docutils literal notranslate"><span class="pre">np.linalg</span></code> contains all the basic functions to run NLA algorithms, while <code class="docutils literal notranslate"><span class="pre">scipy</span></code> mostly focus on efficiency, implementing algorithms such as fast linear system solvers, memory efficient matrix memorization, …</p>
 <p>To fix the notation, consider a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> and a vector <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>. <strong>Solving</strong> a linear system means finding (when exists) a vector <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span> such that it satisfies</p>
 <div class="math notranslate nohighlight">
 \[
@@ -437,9 +437,9 @@ document.write(`
 \]</div>
 <p>However, we already remarked that this is unfeasible for large matrices <span class="math notranslate nohighlight">\(A\)</span>, since the computation of the inverse of a matrix requires <span class="math notranslate nohighlight">\(O(n!)\)</span> operations, which grows insanely fast.</p>
 <blockquote>
-<div><p><strong>Exercise:</strong> Implement a Python function taking as input a non-singular matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>, a datum <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, and returning the solution to the linear system <span class="math notranslate nohighlight">\(Ax = y\)</span>, by multiplying <span class="math notranslate nohighlight">\(A^{-1}\)</span> to <span class="math notranslate nohighlight">\(y\)</span>. This approach is usually referred to as <strong>direct solution</strong>. Check the time required to run this algorithm by defining the matrix <span class="math notranslate nohighlight">\(A\)</span> as a matrix of all ones with dimension <span class="math notranslate nohighlight">\(n \times n\)</span>, <span class="math notranslate nohighlight">\(y\)</span> being the vector of all ones, at increasing values of <span class="math notranslate nohighlight">\(n\)</span> from 1 to 30.</p>
+<div><p><strong>Exercise:</strong> Implement a Python function taking as input a non-singular matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span>, a datum <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, and returning the solution to the linear system <span class="math notranslate nohighlight">\(Ax = y\)</span>, by multiplying <span class="math notranslate nohighlight">\(A^{-1}\)</span> to <span class="math notranslate nohighlight">\(y\)</span>. This approach is usually referred to as <strong>direct solution</strong>. Check the time required to run this algorithm by defining the matrix <span class="math notranslate nohighlight">\(A\)</span> as a matrix of all ones with dimension <span class="math notranslate nohighlight">\(n \times n\)</span>, <span class="math notranslate nohighlight">\(y\)</span> being the vector of all ones, with increasing values of <span class="math notranslate nohighlight">\(n\)</span> from 1 to 30.</p>
 </div></blockquote>
-<p>As you can see from the exercise above, computing the solution to the linear system requires a lot of time even for relatively small matrices. The computational time required to solve the system can be lowered from <span class="math notranslate nohighlight">\(O(n!)\)</span> to <span class="math notranslate nohighlight">\(O(n^3)\)</span> by using a much efficient algorithm.</p>
+<p>As you can see from the exercise above, computing the solution of a linear system requires a lot of time even for relatively small matrices. The computational time required to solve the system can be lowered from <span class="math notranslate nohighlight">\(O(n!)\)</span> to <span class="math notranslate nohighlight">\(O(n^3)\)</span> by using a very efficient algorithm.</p>
 <p>This is easy to do in <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, since it implements a function <code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code>, taking as input a 2-dimensional array <code class="docutils literal notranslate"><span class="pre">A</span></code> and a 1-dimensional array <code class="docutils literal notranslate"><span class="pre">y</span></code>, and returning the solution <code class="docutils literal notranslate"><span class="pre">x</span></code> to the linear system. In particular:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -470,24 +470,24 @@ fl(1 + \epsilon) &gt; fl(1).
 \]</div>
 <p>As a consequence, a number such as <span class="math notranslate nohighlight">\(1 + \frac{\epsilon}{2}\)</span> cannot be represented by computers, since it is indistinguishable from 1.</p>
 <p>This problem becomes particularly intense when one wants to encode real numbers such as <span class="math notranslate nohighlight">\(\pi\)</span> or the Nepero number <span class="math notranslate nohighlight">\(e\)</span>. Therefore, when we work with any algorithm which is implemented on a computational device, we always need to assume that the representation has some error. As a notation, we denote as <span class="math notranslate nohighlight">\(\tilde{A}\)</span> the machine representation of a matrix <span class="math notranslate nohighlight">\(A\)</span>, and by <span class="math notranslate nohighlight">\(\delta A := \tilde{A} - A\)</span> the representation error. The same notation applies for vectors <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> representing the right-hand side of a linear system and its solution, respectively.</p>
-<p>An important aspect of developing NLA algorithm is to study how representation errors in the measurement matrix <span class="math notranslate nohighlight">\(A\)</span> and known-term <span class="math notranslate nohighlight">\(y\)</span> gets <strong>amplified</strong> (or <strong>shrinked</strong>) in the solution <span class="math notranslate nohighlight">\(x\)</span> (i.e. to compute <span class="math notranslate nohighlight">\(\delta x\)</span> as a function of <span class="math notranslate nohighlight">\(\delta A\)</span> and <span class="math notranslate nohighlight">\(\delta y\)</span>). In particular, we usually care about the <strong>relative</strong> error, which is simpler to compute in most of the cases, and it does not depend on the measuring unit of the quantities.</p>
+<p>An important aspect of developing NLA algorithm is to study how representation errors in the measurement matrix <span class="math notranslate nohighlight">\(A\)</span> and known-term <span class="math notranslate nohighlight">\(y\)</span> get <strong>amplified</strong> (or <strong>shrinked</strong>) in the solution <span class="math notranslate nohighlight">\(x\)</span> (i.e. to compute <span class="math notranslate nohighlight">\(\delta x\)</span> as a function of <span class="math notranslate nohighlight">\(\delta A\)</span> and <span class="math notranslate nohighlight">\(\delta y\)</span>). In particular, we usually care about the <strong>relative</strong> error, which is simpler to compute in most of the cases, and it does not depend on the measuring unit of the quantities.</p>
 <p>In particular, the relative error between the true solution <span class="math notranslate nohighlight">\(x_{true}\)</span> and the computed solution <span class="math notranslate nohighlight">\(x_{sol}\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
 \[
     E(x_{true}, x_{sol}) := \frac{|| x_{true} - x_{sol} ||_2}{|| x_{true} ||_2} = \frac{|| \delta x ||_2}{|| x_{true} ||_2}.
 \]</div>
-<p>However, to compute the relative error of a computed solution <span class="math notranslate nohighlight">\(x_{sol}\)</span>, we first need to know the <strong>true</strong> solution <span class="math notranslate nohighlight">\(x_{true}\)</span>, which is usually not the case in real scenario. How can be achieve it?</p>
+<p>However, to compute the relative error of a computed solution <span class="math notranslate nohighlight">\(x_{sol}\)</span>, we first need to know the <strong>true</strong> solution <span class="math notranslate nohighlight">\(x_{true}\)</span>, which is usually not the case in a real scenario. How can we achieve it?</p>
 <p>A common solution, which we will use for the whole course, is to verify the performance of the algorithm by building a <strong>test problem</strong>, i.e. a problem of which we know the true solution <em>by construction</em>.</p>
 </section>
 <section id="creating-a-test-problem">
 <h2>Creating a Test Problem<a class="headerlink" href="#creating-a-test-problem" title="Link to this heading">#</a></h2>
-<p>Consider a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> and assume we want to test the accuracy of an algorithm solving systems involving <span class="math notranslate nohighlight">\(A\)</span>. Fix an <span class="math notranslate nohighlight">\(n\)</span>-dimensional vector <span class="math notranslate nohighlight">\(x_{true} \in \mathbb{R}^n\)</span>, and compute <span class="math notranslate nohighlight">\(y = Ax_{true}\)</span>. Clearly, this procedure defines a linear system</p>
+<p>Consider a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> and assume we want to test the accuracy of an algorithm solving systems involving <span class="math notranslate nohighlight">\(A\)</span>. Let us fix an <span class="math notranslate nohighlight">\(n\)</span>-dimensional vector <span class="math notranslate nohighlight">\(x_{true} \in \mathbb{R}^n\)</span>, and compute <span class="math notranslate nohighlight">\(y = Ax_{true}\)</span>. Clearly, this procedure defines a linear system</p>
 <div class="math notranslate nohighlight">
 \[
     Ax = y
 \]</div>
-<p>of which we know that <span class="math notranslate nohighlight">\(x_{true}\)</span> is a <strong>solution by construction</strong>, since we built the term <span class="math notranslate nohighlight">\(y\)</span> accordingly. Now, when we apply our algorithm to that linear system, we get a solution <span class="math notranslate nohighlight">\(x_{sol}\)</span>, which is in general different from <span class="math notranslate nohighlight">\(x_{true}\)</span> due to the amplification of the errors coming from the numerical representation of <span class="math notranslate nohighlight">\(A\)</span>. Since we defined the system such that <span class="math notranslate nohighlight">\(x_{true}\)</span> is the true solution, we can compute the relative error <span class="math notranslate nohighlight">\(E(x_{true}, x_{sol})\)</span> asssociated to the solution obtained by the algorithm, and quantify how the algorithm performed in terms of error amplification.</p>
-<p>Let’s see how we can build a test problem in Python to test the accuracy of the classical linear system solver algorithm <code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code>.</p>
+<p>of which we know that <span class="math notranslate nohighlight">\(x_{true}\)</span> is a <strong>solution by construction</strong>, since we built the term <span class="math notranslate nohighlight">\(y\)</span> accordingly. Now, when we apply our algorithm to that linear system, we get a solution <span class="math notranslate nohighlight">\(x_{sol}\)</span>, which is in general different from <span class="math notranslate nohighlight">\(x_{true}\)</span>, due to the amplification of the errors coming from the numerical representation of <span class="math notranslate nohighlight">\(A\)</span>. Since we defined the system such that <span class="math notranslate nohighlight">\(x_{true}\)</span> is the true solution, we can compute the relative error <span class="math notranslate nohighlight">\(E(x_{true}, x_{sol})\)</span> associated to the solution obtained by the algorithm, and quantify how the algorithm performed in terms of error amplification.</p>
+<p>Let us see how we can build a test problem in Python, to test the accuracy of the classical linear system solver algorithm <code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -511,7 +511,7 @@ fl(1 + \epsilon) &gt; fl(1).
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 1.9534625723042384e-14
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 5.239343092551966e-15
 </pre></div>
 </div>
 </div>
@@ -521,7 +521,7 @@ fl(1 + \epsilon) &gt; fl(1).
 <li><p>The algorithm is <strong>stable</strong> (i.e. it does not amplify the errors on <span class="math notranslate nohighlight">\(A\)</span>)</p></li>
 <li><p>The matrix <span class="math notranslate nohighlight">\(A\)</span> il “well-behaved”, i.e. its inverse does not amplifies the errors on <span class="math notranslate nohighlight">\(y\)</span>. We say that <span class="math notranslate nohighlight">\(A\)</span> is <strong>well-conditioned</strong>, as opposed to <strong>ill-conditioned</strong> matrices.</p></li>
 </ol>
-<p>Let’s check what happens when we apply the same, stable algorithm, to solve a linear system where the matrix <span class="math notranslate nohighlight">\(A\)</span> is ill-conditioned, such as the <code class="docutils literal notranslate"><span class="pre">hilbert</span></code> matrix (available from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> package).</p>
+<p>Let us check what happens when we apply the same, stable algorithm, to solve a linear system where the matrix <span class="math notranslate nohighlight">\(A\)</span> is ill-conditioned, such as the <code class="docutils literal notranslate"><span class="pre">hilbert</span></code> matrix (available from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> package).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -559,12 +559,12 @@ The relative error is 1.9326759080352935
 </div>
 </div>
 <p>This example shows a fundamental concept in Numerical Linear Algebra: using a stable algorithm does <strong>NOT guarantee</strong> that that solution to the problem is accurate. Indeed, if the system matrix <span class="math notranslate nohighlight">\(A\)</span> is ill-conditioned, then there is <strong>no algorithm</strong> which is able to obtain an accurate solution.</p>
-<p>In the following section, we investigate more in detail the meaning of conditioning of a linear operator.</p>
+<p>In the following section, we investigate in more detail the meaning of conditioning for a linear operator.</p>
 </section>
 <section id="condition-number">
 <h2>Condition number<a class="headerlink" href="#condition-number" title="Link to this heading">#</a></h2>
-<p>When the matrix <span class="math notranslate nohighlight">\(A\)</span> is ill-conditioned, the solution of a linear system won’t be accurate, since the small perturbations on <span class="math notranslate nohighlight">\(y\)</span> introduced by the floating point system will be amplified and the corresponding solution will be drammatically distant to the true solution.</p>
-<p>How can we quantify the conditioning of a matrix? And how we define a matrix to be ill-conditioned?</p>
+<p>When the matrix <span class="math notranslate nohighlight">\(A\)</span> is ill-conditioned, the solution of a linear system will not be accurate, since the small perturbations on <span class="math notranslate nohighlight">\(y\)</span> introduced by the floating point system will be amplified and the corresponding solution will be drammatically distant from the true solution.</p>
+<p>How can we quantify the conditioning of a matrix? And how can we define a matrix to be ill-conditioned?</p>
 <p>To quantify conditioning of an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span>, it is common to consider the <strong>condition number</strong> which, whenever <span class="math notranslate nohighlight">\(A\)</span> is invertible, is defined as:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -572,7 +572,7 @@ The relative error is 1.9326759080352935
 \]</div>
 <p>Where <span class="math notranslate nohighlight">\(p \geq 1\)</span> idenfities the norm on which the condition number is computed. Due to the equivalence of norms, the <strong>magnitude</strong> of the condition number does not depend of <span class="math notranslate nohighlight">\(p\)</span> (i.e. the magnitude of <span class="math notranslate nohighlight">\(k_p(A)\)</span> should be approximately the same, whatever is the value of <span class="math notranslate nohighlight">\(p\)</span>). For this reason, it is typical to measure the condition number of a matrix by setting <span class="math notranslate nohighlight">\(p=2\)</span>.</p>
 <p>To compute the <span class="math notranslate nohighlight">\(p\)</span>-condition number of a matrix <span class="math notranslate nohighlight">\(A\)</span> in <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, you can use the function <code class="docutils literal notranslate"><span class="pre">np.linalg.cond(A,</span> <span class="pre">p)</span></code>.</p>
-<p>For example, let’s check the condition number of the random matrix vs the condition number of the hilbert matrix.</p>
+<p>For example, let us check the condition number of the random matrix vs the condition number of the hilbert matrix.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -592,14 +592,14 @@ The relative error is 1.9326759080352935
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 36.37470772865888
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 41.27658492038972
 Cond. Number Hilbert matrix: 2.3228053763031325e+17
 </pre></div>
 </div>
 </div>
 </div>
-<p>As you can see, the condition number of Hilbert matrix is insanely higher than the condition number of random matrix, which explains why the relative error while using the Hilbert matrix is higher than when using the random matrix.</p>
-<p>Now, where do we set the threshold on the condition number to define an operator to be <strong>ill-conditioned</strong> versus it being <strong>well-conditioned</strong>? Let’s check an interesting property of the condition number.</p>
+<p>As you can see, the condition number of Hilbert matrix is insanely higher than the condition number of random matrix, a fact which explains why the relative error while using the Hilbert matrix is higher than when using the random matrix.</p>
+<p>Now, where do we set the threshold on the condition number to define an operator to be <strong>ill-conditioned</strong> versus it being <strong>well-conditioned</strong>? Let us check an interesting property of the condition number.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We want to print out the condition number of the hilbert matrix A </span>
@@ -691,7 +691,7 @@ Condition number for n = 12: 1.6360718665566702e+16.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2fc1c84f9674f303eff9f636bce41cd09b97897053f6a6c05081443844d4f400.png" src="../_images/2fc1c84f9674f303eff9f636bce41cd09b97897053f6a6c05081443844d4f400.png" />
+<img alt="../_images/ab3ecbcdf4781389f36b42db880ddee989183e14398e1a667f752bc20481ceb2.png" src="../_images/ab3ecbcdf4781389f36b42db880ddee989183e14398e1a667f752bc20481ceb2.png" />
 </div>
 </div>
 <p>How can we relate the condition number of a matrix with the accuracy of the solution to a linear system associated with it?</p>
@@ -700,7 +700,7 @@ Condition number for n = 12: 1.6360718665566702e+16.
 \[
     \frac{|| \delta x ||}{||x||} \leq k_2(A) \Bigl( \frac{||\delta A||}{|| A ||} + \frac{|| \delta y ||}{|| y ||} \Bigr).
 \]</div>
-<p>It implies that the relative error on the computed solution is big whenever <span class="math notranslate nohighlight">\(k_2(A)\)</span> is big. Moreover, note that as a consequence of the formula above, the accuracy of a computed solution is partially a proprierty of the condition number of <span class="math notranslate nohighlight">\(A\)</span> itself, meaning that (again) <strong>no algorithm</strong> is able to compute an accurate solution to an ill-conditioned system.</p>
+<p>It implies that the relative error on the computed solution is big whenever <span class="math notranslate nohighlight">\(k_2(A)\)</span> is big. Moreover, note that as a consequence of the formula above, the accuracy of a computed solution is partially a property of the condition number of <span class="math notranslate nohighlight">\(A\)</span> itself, meaning that (again) <strong>no algorithm</strong> is able to compute an accurate solution to an ill-conditioned system.</p>
 </section>
 <section id="solving-linear-system-by-matrix-splitting">
 <h2>Solving Linear System by Matrix Splitting<a class="headerlink" href="#solving-linear-system-by-matrix-splitting" title="Link to this heading">#</a></h2>
@@ -726,7 +726,7 @@ Condition number for n = 12: 1.6360718665566702e+16.
 \[
     Ax = y \iff P^TAx = P^Ty \iff LUx = P^Ty
 \]</div>
-<p>then, by Forward-Backward substitution, this system can be solved by subsequently solve</p>
+<p>then, by Forward-Backward substitution, this system can be solved by subsequently solving</p>
 <div class="math notranslate nohighlight">
 \[
     Lz = P^Ty \quad \text{ then } \quad Ux = z

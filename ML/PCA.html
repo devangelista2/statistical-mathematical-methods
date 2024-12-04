@@ -430,35 +430,35 @@ document.write(`
 <h1>Dimensionality Reduction with PCA<a class="headerlink" href="#dimensionality-reduction-with-pca" title="Link to this heading">#</a></h1>
 <section id="dimensionality-reduction">
 <h2>Dimensionality Reduction<a class="headerlink" href="#dimensionality-reduction" title="Link to this heading">#</a></h2>
-<p>While working with data, it is common to have access to very high-dimensional unstructured informations (e.g. images, sounds, …). To work with them, it is necessary to find a way to project them into a low-dimensional space where data which is semantically similar is close. This approach is called <strong>dimensionality reduction</strong>.</p>
-<p>For example, assume our data can be stored in an <span class="math notranslate nohighlight">\(d \times N\)</span> array,</p>
+<p>While working with data, it is common to have access to very high-dimensional unstructured informations (e.g. images, sounds, …). To work with them, it is necessary to find a way to project them into a low-dimensional space where data which is semantically similar is close to each other. This approach is called <strong>dimensionality reduction</strong>.</p>
+<p>For example, let us assume that our data can be stored in an <span class="math notranslate nohighlight">\(d \times N\)</span> array,</p>
 <div class="math notranslate nohighlight">
 \[
     X = [ x^1 x^2 \dots x^N ] \in \mathbb{R}^{d \times N}
 \]</div>
-<p>where each datapoint <span class="math notranslate nohighlight">\(x^j \in \mathbb{R}^d\)</span>. The idea of dimensionality reduction techniques in ML is to find a projector operator <span class="math notranslate nohighlight">\(P: \mathbb{R}^d \to \mathbb{R}^k\)</span>, with <span class="math notranslate nohighlight">\(k \ll d\)</span>, such that in the projected space <span class="math notranslate nohighlight">\(P(x)\)</span>, images semantically similar are close together. If the points in a projected space forms isolated popoulations such that <em>inside</em> of each popoulation the points are close, while the distance <em>between</em> popoulations is large, we call them <strong>clusters</strong>. A clusering algorithm is an algorithm which is able to find clusters from high-dimensional data.</p>
+<p>where each datapoint <span class="math notranslate nohighlight">\(x^j \in \mathbb{R}^d\)</span>. The idea of dimensionality reduction techniques in ML is to find a projector operator <span class="math notranslate nohighlight">\(P: \mathbb{R}^d \to \mathbb{R}^k\)</span>, with <span class="math notranslate nohighlight">\(k \ll d\)</span>, such that in the projected space <span class="math notranslate nohighlight">\(P(x)\)</span>, images which are semantically similar are close to each other. If the points in a projected space form isolated populations such that <em>inside</em> of each popoulation the points are close, while the distance <em>between</em> populations is large, we call them <strong>clusters</strong>. A clusering algorithm is an algorithm which is able to find clusters from high-dimensional data.</p>
 </section>
 <section id="principal-component-analysis-pca">
 <h2>Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Link to this heading">#</a></h2>
-<p>Principal Componenti Analyisis (PCA) is probabily the simplest yet effective technique to perform dimensionality reduction and clustering. It is an unsupervised algorithm, thus it does not require any label.</p>
-<p>The idea is the following: consider a dataset <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span> of high-dimensional data and assume we want to project it into a low-dimensional space <span class="math notranslate nohighlight">\(\mathbb{R}^k\)</span>. Define:</p>
+<p>Principal Component Analysis (PCA) is probabily the simplest yet effective technique to perform dimensionality reduction and clustering. It is an unsupervised algorithm, thus it does not require any label.</p>
+<p>The core idea is the following: consider a dataset <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span> of high-dimensional data and let us assume we want to project it into a low-dimensional space <span class="math notranslate nohighlight">\(\mathbb{R}^k\)</span>. Define:</p>
 <div class="math notranslate nohighlight">
 \[
     Z = [z^1 z^2 \dots z^N] \in \mathbb{R}^{k \times N}
 \]</div>
-<p>the projected version of <span class="math notranslate nohighlight">\(X\)</span>. We want to find a matrix <span class="math notranslate nohighlight">\(P \in \mathbb{R}^{k \times d}\)</span> such that <span class="math notranslate nohighlight">\(Z = PX\)</span>, with the constraint that in the projected space we want to keep as much information as possible from the original data <span class="math notranslate nohighlight">\(X\)</span>.</p>
-<p>You already studied that, when you want to project a matrix by keeping informations, a good idea is to use the Singular Value Decomposition (SVD) of it and, in particular, the Truncated SVD (TSVD). Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span>, then</p>
+<p>as the projected version of <span class="math notranslate nohighlight">\(X\)</span>. We want to find a matrix <span class="math notranslate nohighlight">\(P \in \mathbb{R}^{k \times d}\)</span> such that <span class="math notranslate nohighlight">\(Z = PX\)</span>, with the constraint that in the projected space we want to keep as much information as possible from the original data <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>You already studied that, when you want to project a matrix by keeping informations, a good idea is to use the Singular Value Decomposition (SVD) for it and, in particular, the Truncated SVD (TSVD). Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span>, then</p>
 <div class="math notranslate nohighlight">
 \[
     X = U \Sigma V^T
 \]</div>
-<p>is the SVD of <span class="math notranslate nohighlight">\(X\)</span>, where <span class="math notranslate nohighlight">\(U \in \mathbb{R}^{d \times d}\)</span>, <span class="math notranslate nohighlight">\(V \in \mathbb{R}^{N \times N}\)</span> are orthogonal matrices (<span class="math notranslate nohighlight">\(U^T U = U U^T = I\)</span> and <span class="math notranslate nohighlight">\(V V^T = V^T V = I\)</span>), while <span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{d \times N}\)</span> is a diagonal matrix whose diagonal elements <span class="math notranslate nohighlight">\(\sigma_i\)</span> are the singular values of <span class="math notranslate nohighlight">\(X\)</span>, in decreasing order (<span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_d\)</span>). Since the singular values represents the <em>quantity of informations</em> contained in the corresponding singular vectors, keeping the first <span class="math notranslate nohighlight">\(k\)</span> singular values and vectors can be the solution to our projection problem. Indeed, given <span class="math notranslate nohighlight">\(k &lt; d\)</span>, we define the Truncated SVD of <span class="math notranslate nohighlight">\(X\)</span> as</p>
+<p>is the SVD of <span class="math notranslate nohighlight">\(X\)</span>, where <span class="math notranslate nohighlight">\(U \in \mathbb{R}^{d \times d}\)</span>, <span class="math notranslate nohighlight">\(V \in \mathbb{R}^{N \times N}\)</span> are orthogonal matrices (<span class="math notranslate nohighlight">\(U^T U = U U^T = I\)</span> and <span class="math notranslate nohighlight">\(V V^T = V^T V = I\)</span>), while <span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{d \times N}\)</span> is a diagonal matrix whose diagonal elements <span class="math notranslate nohighlight">\(\sigma_i\)</span> are the singular values of <span class="math notranslate nohighlight">\(X\)</span>, in decreasing order (<span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_d\)</span>). Since the singular values represent the <em>amount of information</em> contained in the corresponding singular vectors, keeping the first <span class="math notranslate nohighlight">\(k\)</span> singular values and vectors can be the solution to our projection problem. Indeed, given <span class="math notranslate nohighlight">\(k &lt; d\)</span>, we define the Truncated SVD of <span class="math notranslate nohighlight">\(X\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
     X_k = U_k \Sigma_k V^T_k
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(U_k \in \mathbb{R}^{d \times k}\)</span>, <span class="math notranslate nohighlight">\(\Sigma_k \in \mathbb{R}^{k \times k}\)</span>, and <span class="math notranslate nohighlight">\(V_k \in \mathbb{R}^{k \times N}\)</span>.</p>
-<p>The PCA use this idea and defines the projection matrix as <span class="math notranslate nohighlight">\(P = U_k^T\)</span>, and consequently,</p>
+<p>The PCA uses this idea and defines the projection matrix as <span class="math notranslate nohighlight">\(P = U_k^T\)</span>, and consequently,</p>
 <div class="math notranslate nohighlight">
 \[
     Z = U_k^T X
@@ -473,7 +473,7 @@ document.write(`
 <p>Thus, the implementation of PCA is as follows:</p>
 <ul class="simple">
 <li><p>Consider the dataset <span class="math notranslate nohighlight">\(X\)</span>;</p></li>
-<li><p>Compute the centered version of <span class="math notranslate nohighlight">\(X\)</span> as <span class="math notranslate nohighlight">\(X_c = X - c(X)\)</span>, where the subtraction between matrix and vector is executed <em>column-by-column</em>;</p></li>
+<li><p>Compute the centered version of <span class="math notranslate nohighlight">\(X\)</span> as <span class="math notranslate nohighlight">\(X_c = X - c(X)\)</span>, where the subtraction between matrix and vector is done <em>column-by-column</em>;</p></li>
 <li><p>Compute the SVD of <span class="math notranslate nohighlight">\(X_c\)</span>, <span class="math notranslate nohighlight">\(X_c = U\Sigma V^T\)</span>;</p></li>
 <li><p>Given <span class="math notranslate nohighlight">\(k &lt; n\)</span>, compute the Truncated SVD of <span class="math notranslate nohighlight">\(X_c\)</span>: <span class="math notranslate nohighlight">\(X_{c, k} = U_k \Sigma_k V_k^T\)</span>;</p></li>
 <li><p>Compute the projected dataset <span class="math notranslate nohighlight">\(Z_k = U_k^T X_c\)</span>;</p></li>
@@ -481,7 +481,7 @@ document.write(`
 </section>
 <section id="python-example">
 <h3>Python example<a class="headerlink" href="#python-example" title="Link to this heading">#</a></h3>
-<p>In the following, we consider as an example the MNIST dataset, which can be download from Kaggle (<a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">kaggle.com/datasets/animatronbot/mnist-digit-recognizer</a>). For simplicity, I renamed it as <code class="docutils literal notranslate"><span class="pre">data.csv</span></code> and I placed it a folder named <code class="docutils literal notranslate"><span class="pre">data</span></code> into the current project folder.</p>
+<p>In the following, we consider as an example the MNIST dataset, which can be downloaded from Kaggle (<a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">kaggle.com/datasets/animatronbot/mnist-digit-recognizer</a>). For simplicity, I renamed it as <code class="docutils literal notranslate"><span class="pre">data.csv</span></code> and I placed it a folder named <code class="docutils literal notranslate"><span class="pre">data</span></code> in the current project folder.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -493,7 +493,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>After that, it is important to inspect the data, i.e. to look at its structure and understand how it is distributed. This can be done either by reading at the documentation of the website where the data has been downloaded or by using the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> method <code class="docutils literal notranslate"><span class="pre">.head()</span></code>.</p>
+<p>After that, it is important to inspect the data, i.e. look at its structure and understand how it is distributed. This can be done either by reading the documentation on the website where the data has been downloaded or by using the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> method <code class="docutils literal notranslate"><span class="pre">.head()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect the data</span>
@@ -564,7 +564,7 @@ document.write(`
 </section>
 <section id="visualizing-the-digits">
 <h3>Visualizing the digits<a class="headerlink" href="#visualizing-the-digits" title="Link to this heading">#</a></h3>
-<p>We already said that <span class="math notranslate nohighlight">\(X\)</span> is a dataset of images representing handwritten digits. We can clearly visualize some of them. In the documentation, we can read that each datapoint is a <span class="math notranslate nohighlight">\(28 \times 28\)</span> grey-scale image, which has been flattened. Flattening is the operation of taking a 2-dimensional array (a matrix) and converting it to a 1-dimensional array, by concatenating the rows of it. This can be implemented in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> with the function <code class="docutils literal notranslate"><span class="pre">a.flatten()</span></code>, where <code class="docutils literal notranslate"><span class="pre">a</span></code> is a 2-dimensional numpy array.</p>
+<p>We already said that <span class="math notranslate nohighlight">\(X\)</span> is a dataset of images representing handwritten digits. We can clearly visualize some of them. In the documentation, we can read that each datapoint is a <span class="math notranslate nohighlight">\(28 \times 28\)</span> grey-scale image, which has been flattened. Flattening is the operation consisting in taking a 2-dimensional array (a matrix) and converting it into a 1-dimensional array, by concatenating its rows. This can be implemented in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> with the function <code class="docutils literal notranslate"><span class="pre">a.flatten()</span></code>, where <code class="docutils literal notranslate"><span class="pre">a</span></code> is a 2-dimensional numpy array.</p>
 <p>Since we know that the dimension of each image was <span class="math notranslate nohighlight">\(28 \times 28\)</span> before flattening, we can invert this procedure by <strong>reshaping</strong> them. After that, we can simply visualize it with the function <code class="docutils literal notranslate"><span class="pre">plt.imshow()</span></code> from <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, by setting the <code class="docutils literal notranslate"><span class="pre">cmap</span></code> to <code class="docutils literal notranslate"><span class="pre">'gray'</span></code> since the images are grey-scale.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -600,7 +600,7 @@ document.write(`
 </section>
 <section id="splitting-the-dataset">
 <h3>Splitting the dataset<a class="headerlink" href="#splitting-the-dataset" title="Link to this heading">#</a></h3>
-<p>Before implementing the algorithm performing PCA, you are required to split the dataset into a training set and a test set. Remember that to correctly split <span class="math notranslate nohighlight">\(X\)</span>, it has to be random.</p>
+<p>Before implementing the algorithm performing PCA, you are required to split the dataset into a training set and a test set. Remember that in order to correctly split <span class="math notranslate nohighlight">\(X\)</span>, it has to be random.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">N_train</span><span class="p">):</span>
@@ -633,7 +633,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Now the dataset <span class="math notranslate nohighlight">\((X, Y)\)</span> is divided into the train and test components, and we can implement the PCA algorithm on <span class="math notranslate nohighlight">\(X_{train}\)</span>. Remember to not access <span class="math notranslate nohighlight">\(X_{test}\)</span> during training.</p>
+<p>Now the dataset <span class="math notranslate nohighlight">\((X, Y)\)</span> is divided into the train and test components, and we can implement the PCA algorithm on <span class="math notranslate nohighlight">\(X_{train}\)</span>. Remember you should not access <span class="math notranslate nohighlight">\(X_{test}\)</span> during training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute centroid</span>
@@ -693,7 +693,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d826623a70f1e9d2959fb9c87c9e9b5fd8cf7b16621681d258cf9d7158199f85.png" src="../_images/d826623a70f1e9d2959fb9c87c9e9b5fd8cf7b16621681d258cf9d7158199f85.png" />
+<img alt="../_images/a5a329fa159bbaf46fa9b23541585f9edbaada2ac0c8ce2b8508d523ba89eb71.png" src="../_images/a5a329fa159bbaf46fa9b23541585f9edbaada2ac0c8ce2b8508d523ba89eb71.png" />
 </div>
 </div>
 <p>Due to the high number of represented digits, a few of them appear to be overlapped. This is due to <span class="math notranslate nohighlight">\(k=2\)</span> being too low, and PCA being too simple to be able to capture the complexity of such a large number of digits.</p>

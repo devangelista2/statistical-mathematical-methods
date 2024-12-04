@@ -423,7 +423,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="visualization-with-matplotlib">
 <h1>Visualization with Matplotlib<a class="headerlink" href="#visualization-with-matplotlib" title="Link to this heading">#</a></h1>
 <p>Visualization in Python can be performed by a famous library named <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, in particular its sub-package <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code>. Documentation can be found at <a class="reference external" href="https://matplotlib.org/">matplotlib.org</a>.</p>
-<p>Plotting in matplotlib is very easy. Given two <span class="math notranslate nohighlight">\(N\)</span>-dimensional vectors <span class="math notranslate nohighlight">\(x = (x_1, \dots, x_N)\)</span> and <span class="math notranslate nohighlight">\(y = (y_1, \dots, y_N)\)</span>, containing the <span class="math notranslate nohighlight">\(N\)</span> datapoints we want to represent, the function <code class="docutils literal notranslate"><span class="pre">plot(x,</span> <span class="pre">y)</span></code> will plot on the plane each couple <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> for <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>, and will connect (by default) them with a line. Such a plot can be visualized by calling the function <code class="docutils literal notranslate"><span class="pre">show()</span></code>.</p>
+<p>Plotting in matplotlib is very easy. Given two <span class="math notranslate nohighlight">\(N\)</span>-dimensional vectors <span class="math notranslate nohighlight">\(x = (x_1, \dots, x_N)\)</span> and <span class="math notranslate nohighlight">\(y = (y_1, \dots, y_N)\)</span>, containing the <span class="math notranslate nohighlight">\(N\)</span> datapoints we want to represent, the function <code class="docutils literal notranslate"><span class="pre">plot(x,</span> <span class="pre">y)</span></code> will plot on the plane each couple <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> for <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span> and will connect (by default) them with a line. Such a plot can be visualized by calling the function <code class="docutils literal notranslate"><span class="pre">show()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -447,19 +447,19 @@ document.write(`
 <img alt="../_images/236673aa32bb2813c17110c209fe60555f9a0564fdf7f65f9dd5d67ffb8a4c6e.png" src="../_images/236673aa32bb2813c17110c209fe60555f9a0564fdf7f65f9dd5d67ffb8a4c6e.png" />
 </div>
 </div>
-<p>As you can see, the code above will plot the sine function. We now want to see how we can change the aesthetic of this plot, by adding title, axis grid, axis label, …</p>
+<p>As you can see, the code above plots the sine function. We now want to see how we can change the aesthetics of this plot, by adding title, axis grid, axis label, etc.</p>
 <section id="customize-the-plot">
 <h2>Customize the plot<a class="headerlink" href="#customize-the-plot" title="Link to this heading">#</a></h2>
-<p>In matplotlib, most of the customization we want to add to the plot must be inserted in between the line <code class="docutils literal notranslate"><span class="pre">plt.plot(x,</span> <span class="pre">y)</span></code> and the line <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>. The most common customization functions are:</p>
+<p>In matplotlib, most of the customization we want to add to the plot must be inserted between the line <code class="docutils literal notranslate"><span class="pre">plt.plot(x,</span> <span class="pre">y)</span></code> and the line <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>. The most common customization functions are:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">plt.title(str)</span></code>: Add a title to the plot;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plt.xlabel(str)</span></code>: Add a label to the x-axis;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plt.ylabel(str)</span></code>: Add a label to the y-axis;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plt.grid()</span></code>: Add an axis grid on the background of the plot;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plt.xlim([a,</span> <span class="pre">b])</span></code>: Force the horizontal limit of the axis to be <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plt.ylim([a,</span> <span class="pre">b])</span></code>: Force the vertical limit of the axis to be <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.title(str)</span></code>: Adds a title to the plot;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.xlabel(str)</span></code>: Adds a label to the x-axis;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.ylabel(str)</span></code>: Adds a label to the y-axis;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.grid()</span></code>: Adds an axis grid on the background of the plot;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.xlim([a,</span> <span class="pre">b])</span></code>: Forces the horizontal limits of the axis to be <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.ylim([a,</span> <span class="pre">b])</span></code>: Forces the vertical limits of the axis to be <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>;</p></li>
 </ul>
-<p>For example, we can customize the plot above to obtain something like that</p>
+<p>For example, we can customize the plot above to obtain something like the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -490,7 +490,7 @@ document.write(`
 </section>
 <section id="multiplot-and-line-customization">
 <h2>Multiplot and Line customization<a class="headerlink" href="#multiplot-and-line-customization" title="Link to this heading">#</a></h2>
-<p>Clearly, it is also possible to plot more than one line at the same time. Simply define others <span class="math notranslate nohighlight">\(x', y' \in \mathbb{R}^N\)</span> containg the new data we want to plot and add another <code class="docutils literal notranslate"><span class="pre">plt.plot(x',</span> <span class="pre">y')</span></code> in between <code class="docutils literal notranslate"><span class="pre">plt.plot(x,</span> <span class="pre">y)</span></code> and <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>.</p>
+<p>Clearly, it is also possible to plot more than one line at the same time. Simply define others <span class="math notranslate nohighlight">\(x', y' \in \mathbb{R}^N\)</span> containg the new data we want to plot and add another <code class="docutils literal notranslate"><span class="pre">plt.plot(x',</span> <span class="pre">y')</span></code> between <code class="docutils literal notranslate"><span class="pre">plt.plot(x,</span> <span class="pre">y)</span></code> and <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -522,16 +522,16 @@ document.write(`
 <img alt="../_images/4eda68c00973b8e3a018ad68b79942c26df0f1fa06e077b4b27a6623ac88efdf.png" src="../_images/4eda68c00973b8e3a018ad68b79942c26df0f1fa06e077b4b27a6623ac88efdf.png" />
 </div>
 </div>
-<p>As you can see, in the bottom-left of the plot, we also printed out a <code class="docutils literal notranslate"><span class="pre">legend</span></code>. Following the code above, it is easy to understand that a legend can be simply introduced by listing the name of the lines, ordered with respect to the ordering of the <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> functions. Matplotlib will visualize the correct color of the line accordingly.</p>
-<p>Clearly, we can also modify the line specifications such as the color, the thickness and the style. To to that, we have to insert the following specifications inside of the corresponding <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> line.</p>
+<p>As you can see, in the bottom-left of the plot, we also printed out a <code class="docutils literal notranslate"><span class="pre">legend</span></code>. Following the code above, it is easy to understand that a legend can be simply introduced by listing the name of the lines, ordered with respect to the ordering of the <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> functions. Matplotlib will visualize the correct color of each line accordingly.</p>
+<p>Clearly, we can also modify the line specifications such as the color, the thickness and the style. To do that, we have to insert the following specifications inside of the corresponding <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> line.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">color='str'</span></code>: Change the color of the line. A list of all the available colors can be found <a class="reference external" href="https://matplotlib.org/stable/gallery/color/named_colors.html">here</a>;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">linewidth=int</span></code>: Change the thickness of the line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color='str'</span></code>: Changes the color of the line. A list of all the available colors can be found <a class="reference external" href="https://matplotlib.org/stable/gallery/color/named_colors.html">here</a>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">linewidth=int</span></code>: Changes the thickness of the line.</p></li>
 </ul>
 <p>Moreover, the style of the line can be modified by adding some specifications just after the <code class="docutils literal notranslate"><span class="pre">y</span></code> input. For example,</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;o&quot;</span></code>: Changes the linestyle to rounded markers;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;--&quot;</span></code>: Changes the linestyle to be dotted lines;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;--&quot;</span></code>: Changes the linestyle to dotted lines;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;o-&quot;</span></code>: Changes the linestyle to be a continuous line with markers on the points defined by <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>.</p></li>
 </ul>
 <p>A complete list of all the possible linestyles can be found <a class="reference external" href="https://matplotlib.org/2.1.2/api/_as_gen/matplotlib.pyplot.plot.html">here</a>.</p>
@@ -569,8 +569,8 @@ document.write(`
 </section>
 <section id="subplots">
 <h2>Subplots<a class="headerlink" href="#subplots" title="Link to this heading">#</a></h2>
-<p>Subplots are required to create a matrix of plots inside of the same figure, which can be very useful for various visualizations.</p>
-<p>A subplot is created by first defining a <code class="docutils literal notranslate"><span class="pre">figure</span></code>. This can be done by the line <code class="docutils literal notranslate"><span class="pre">plt.figure(figsize=(w,</span> <span class="pre">h))</span></code> where the <code class="docutils literal notranslate"><span class="pre">figsize</span></code> argument is required to change the proportion of the resulting plot. After that, it is possible to open a subplot with the command <code class="docutils literal notranslate"><span class="pre">plt.subplot(nrow,</span> <span class="pre">ncol,</span> <span class="pre">idx)</span></code>, where <code class="docutils literal notranslate"><span class="pre">nrow</span></code> and <code class="docutils literal notranslate"><span class="pre">ncol</span></code> represents the number of images per rows and the number of images per columns in our matrix of plots, while <code class="docutils literal notranslate"><span class="pre">idx</span></code> is an incremental value, starting from 1, that indicate where the plot we are going to do should be placed inside of the matrix. <code class="docutils literal notranslate"><span class="pre">idx=1</span></code> represents the upper-left corner and, while increasing, it moves the image from left to right and from up to down into the matrix.</p>
+<p>Subplots are required to create a matrix of plots inside the same figure, which can be very useful for various visualizations.</p>
+<p>A subplot is created by first defining a <code class="docutils literal notranslate"><span class="pre">figure</span></code>. This can be done by the line <code class="docutils literal notranslate"><span class="pre">plt.figure(figsize=(w,</span> <span class="pre">h))</span></code> where the <code class="docutils literal notranslate"><span class="pre">figsize</span></code> argument is required to change the proportion of the resulting plot. Then, it is possible to open a subplot with the command <code class="docutils literal notranslate"><span class="pre">plt.subplot(nrow,</span> <span class="pre">ncol,</span> <span class="pre">idx)</span></code>, where <code class="docutils literal notranslate"><span class="pre">nrow</span></code> and <code class="docutils literal notranslate"><span class="pre">ncol</span></code> represent the number of images per rows and the number of images per columns in our matrix of plots, while <code class="docutils literal notranslate"><span class="pre">idx</span></code> is an incremental value, starting from 1, that indicates where the plot we are going to draw should be placed inside of the matrix. <code class="docutils literal notranslate"><span class="pre">idx=1</span></code> represents the upper-left corner and, while increasing, it moves the image from left to right and from up to down inside the matrix.</p>
 <p>Each time we want to open a different plot in our subplot, we have to specify the command <code class="docutils literal notranslate"><span class="pre">plt.subplot(nrow,</span> <span class="pre">ncol,</span> <span class="pre">idx)</span></code> again, with the same <code class="docutils literal notranslate"><span class="pre">nrow</span></code> and <code class="docutils literal notranslate"><span class="pre">ncol</span></code> argument, but different <code class="docutils literal notranslate"><span class="pre">idx</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -612,20 +612,20 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/fa89103374a67de050b768a6300106b1a0c322b8c89f6d187655cc13dc09cabc.png" src="../_images/fa89103374a67de050b768a6300106b1a0c322b8c89f6d187655cc13dc09cabc.png" />
+<img alt="../_images/d36731243785f33a3a59ebeaec9e6625dd76169120136e5d4db03fd5c3a81c7a.png" src="../_images/d36731243785f33a3a59ebeaec9e6625dd76169120136e5d4db03fd5c3a81c7a.png" />
 </div>
 </div>
 </section>
 <section id="exercise-plotting-data">
 <h2>Exercise: Plotting data<a class="headerlink" href="#exercise-plotting-data" title="Link to this heading">#</a></h2>
-<p>Going back to the example in the introductory post on Numpy where we introduced the library pandas, useful to read data into Python, we can now use matplotlib to visualize it.</p>
-<p>First of all, download (if required) the <a class="reference external" href="https://virtuale.unibo.it/mod/resource/view.php?id=1002928">data</a> from Virtuale or equivalently by Kaggle at the following link: <a class="reference external" href="https://www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014">www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014</a>, and place the <em>.csv</em> file into the same folder of your <code class="docutils literal notranslate"><span class="pre">.py</span></code> file. Then, with the help of what you studied in the introductory post,</p>
+<p>Going back to the example in the introductory post on Numpy where we introduced the library pandas, useful to read data into Python, we can now use matplotlib for visualizing it.</p>
+<p>First of all, download (if required) the <a class="reference external" href="https://virtuale.unibo.it/mod/resource/view.php?id=1002928">data</a> from Virtuale, or equivalently by Kaggle at the following link: <a class="reference external" href="https://www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014">www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014</a>, and place the <em>.csv</em> file into the same folder of your <code class="docutils literal notranslate"><span class="pre">.py</span></code> file. Then, with the help of what you studied in the introductory post:</p>
 <ul class="simple">
 <li><p>Import the data into Python;</p></li>
 <li><p>Explore the data by visualizing the first rows and the columns of it (the function <code class="docutils literal notranslate"><span class="pre">data.head()</span></code> from pandas can be useful), or alternatively, use the data documentation on <a class="reference external" href="https://www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014">www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014</a>;</p></li>
-<li><p>Create a new column, <code class="docutils literal notranslate"><span class="pre">total_date</span></code>, representing each date into an increasing number, the days since the beginning of the data collection;</p></li>
-<li><p>Plot the number of birth with respect to <code class="docutils literal notranslate"><span class="pre">total_date</span></code> to visualize the incremental number of birth during the years;</p></li>
-<li><p><em>Optional:</em> Plot an barplot (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.bar.html">matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.bar.html</a>) of the number of birth with respect to the day of the week and investigate if there are asymetries in the birth number in some days of the week.</p></li>
+<li><p>Create a new column, <code class="docutils literal notranslate"><span class="pre">total_date</span></code>, representing each date as an increasing number, namely the days since the beginning of the data collection;</p></li>
+<li><p>Plot the number of births with respect to <code class="docutils literal notranslate"><span class="pre">total_date</span></code> to visualize the incremental number of births during the years;</p></li>
+<li><p><em>Optional:</em> Plot a barplot (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.bar.html">matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.bar.html</a>) of the number of births with respect to the day of the week and investigate whether there are any asymmetries in the birth number in some days of the week.</p></li>
 </ul>
 </section>
 </section>

@@ -442,12 +442,12 @@ A = U \Sigma V^T
 <li><p>are ordered in descending order, i.e. <span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \geq 0\)</span>;</p></li>
 <li><p>can be used to determine the rank of <span class="math notranslate nohighlight">\(A\)</span>, since it is equal to the number of singular values strictly greater than zero, i.e. if <span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \sigma_r &gt; 0\)</span> and <span class="math notranslate nohighlight">\(\sigma_{r+1} = 0\)</span> for some index <span class="math notranslate nohighlight">\(r\)</span>, then <span class="math notranslate nohighlight">\(r = rk(A)\)</span>.</p></li>
 </ul>
-<p>A useful properties of the SVD of <span class="math notranslate nohighlight">\(A\)</span> is that it can be used to compress the informations contained in <span class="math notranslate nohighlight">\(A\)</span> itself. Indeed, note that the SVD decomposition allows to rewrite <span class="math notranslate nohighlight">\(A\)</span> as the sum of simple matrices, i.e.</p>
+<p>A useful property of the SVD of <span class="math notranslate nohighlight">\(A\)</span> is that it can be used to compress the informations contained in <span class="math notranslate nohighlight">\(A\)</span> itself. Indeed, note that the SVD decomposition allows to rewrite <span class="math notranslate nohighlight">\(A\)</span> as the sum of simple matrices, i.e.</p>
 <div class="math notranslate nohighlight">
 \[
     A = U \Sigma V^T = \sum_{i=1}^r \sigma_i u_i v_i^T
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(u_i\)</span> and <span class="math notranslate nohighlight">\(v_i\)</span> are the columns of <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, respectively. Each term <span class="math notranslate nohighlight">\(u_i v_i^T\)</span> is a rank-1 matrix named <strong>dyad</strong>, and the <span class="math notranslate nohighlight">\(i\)</span>-th singular value <span class="math notranslate nohighlight">\(\sigma_i\)</span> represent the importance of the <span class="math notranslate nohighlight">\(i\)</span>-th dyad in the construction of <span class="math notranslate nohighlight">\(A\)</span>. In particular, the SVD decomposition allows to deconstruct <span class="math notranslate nohighlight">\(A\)</span> into the sum of matrices with decreasing information content.</p>
+<p>where <span class="math notranslate nohighlight">\(u_i\)</span> and <span class="math notranslate nohighlight">\(v_i\)</span> are the columns of <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, respectively. Each term <span class="math notranslate nohighlight">\(u_i v_i^T\)</span> is a rank-1 matrix named <strong>dyad</strong>, and the <span class="math notranslate nohighlight">\(i\)</span>-th singular value <span class="math notranslate nohighlight">\(\sigma_i\)</span> represents the importance of the <span class="math notranslate nohighlight">\(i\)</span>-th dyad in the construction of <span class="math notranslate nohighlight">\(A\)</span>. In particular, the SVD decomposition allows to decompose <span class="math notranslate nohighlight">\(A\)</span> into the sum of matrices with decreasing information content.</p>
 <p>The SVD decomposition can be used to compress the matrix <span class="math notranslate nohighlight">\(A\)</span> by considering its <span class="math notranslate nohighlight">\(k\)</span>-rank approximation <span class="math notranslate nohighlight">\(A_k\)</span>, defined as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -461,7 +461,7 @@ A = U \Sigma V^T
 </section>
 <section id="svd-of-a-matrix-in-python">
 <h2>SVD of a Matrix in Python<a class="headerlink" href="#svd-of-a-matrix-in-python" title="Link to this heading">#</a></h2>
-<p>The functions required to compute SVD decomposition of a matrix in Python are contained into the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package. In the following, we will consider the example matrix reported into the code snippet below.</p>
+<p>The functions required to compute SVD decomposition of a matrix in Python are contained in the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package. In the following, we will consider the example matrix reported in the code snippet below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing numpy</span>
@@ -505,10 +505,10 @@ A = U \Sigma V^T
 </div>
 </div>
 <p>Here we computed the SVD of <code class="docutils literal notranslate"><span class="pre">A</span></code> through the function <code class="docutils literal notranslate"><span class="pre">np.linalg.svd()</span></code>, that takes as input a matrix and returns a triplet <code class="docutils literal notranslate"><span class="pre">U,</span> <span class="pre">s,</span> <span class="pre">VT</span></code>, representing the matrices <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\(V^T\)</span> and a <strong>vectorized</strong> version of <span class="math notranslate nohighlight">\(\Sigma\)</span> that only contains the diagonal (to save memory!).</p>
-<p>Note that, in some situations, it can be useful to compute the full matrix <span class="math notranslate nohighlight">\(\Sigma\)</span>, as we did at the bottom of the above code snippet.</p>
+<p>Note that, in some situations, it can be useful to compute the full matrix <span class="math notranslate nohighlight">\(\Sigma\)</span>, as we did at the bottom of the code snippet above.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If the full matrix <span class="math notranslate nohighlight">\(\Sigma\)</span> can be avoided, do not construct it explicitely.</p>
+<p>If the full matrix <span class="math notranslate nohighlight">\(\Sigma\)</span> can be avoided, do not construct it explicitly.</p>
 </div>
 <blockquote>
 <div><p><strong>Exercise:</strong> Verify that the above algorithm works as expected, by proving that <span class="math notranslate nohighlight">\( A \approx U \Sigma V^T \iff || A - U \Sigma V^T ||_2 \approx 0.\)</span></p>

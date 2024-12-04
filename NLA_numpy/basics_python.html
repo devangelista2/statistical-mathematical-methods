@@ -430,8 +430,8 @@ document.write(`
 <h1>Python Basics<a class="headerlink" href="#python-basics" title="Link to this heading">#</a></h1>
 <p>Python has become one of the most popular and essential programming languages in the world, especially in the fields of Machine Learning and Data Science, but also for Numerical Linear Algebra applications.</p>
 <p>In terms of statistics, Python is ranked as the number one programming language in 2023, and over 70% of machine learning professionals and data scientists rely on it for their work. Its simplicity, extensive libraries, and vibrant community make Python an ideal tool for solving complex problems in fields like Linear Algebra and Machine Learning, giving it a leading role in modern scientific computing.</p>
-<p>In this course, we will assume you already have a basic understanding on how Python works and on its syntax. However, since it is not possible to understand the topics without understanding Python, in the following we will brielfy recall some basic aspects of the language.</p>
-<p>Note that this is far from being enough to be able to use Python at professional level, neither it is enough for the exam. If you are not familiar enough with the basic syntax of Python, I recommend to check for a complete tutorial online (YouTube is full of them)!</p>
+<p>In this course, we will assume you already have a basic understanding on how Python works and on its syntax. However, since it is not possible to understand the other topics without understanding Python, in the following we will briefly recall some basic aspects of this language.</p>
+<p>Note that this is far from being enough to be able to use Python at the professional level, nor it is sufficient for the exam. If you are not familiar enough with the basic syntax of Python, I recommend to look for a complete tutorial online (YouTube is full of them)!</p>
 <section id="typing">
 <h2>Typing<a class="headerlink" href="#typing" title="Link to this heading">#</a></h2>
 <p>Python is an untyped language, meaning that the variable can change their type dynamically, without explicitly specifying it.</p>
@@ -481,8 +481,8 @@ World!
 </section>
 <section id="f-string">
 <h2><code class="docutils literal notranslate"><span class="pre">f-string</span></code><a class="headerlink" href="#f-string" title="Link to this heading">#</a></h2>
-<p>In the following, when we need to print out sentences that comprehend the value of a variable, we will make use of a Python functionality which is called an <code class="docutils literal notranslate"><span class="pre">f-string</span></code>. To declare an <code class="docutils literal notranslate"><span class="pre">f-string</span></code>, just type the symbol <em>f</em> just before a string symbol.</p>
-<p>This way, we can include variable values inside of the string by embedding the variable name into curly brackets <code class="docutils literal notranslate"><span class="pre">{}</span></code>.</p>
+<p>In the following, when we need to print out sentences that include the value of a variable, we will use a Python functionality called as <code class="docutils literal notranslate"><span class="pre">f-string</span></code>. To declare an <code class="docutils literal notranslate"><span class="pre">f-string</span></code>, just type the symbol <em>f</em> just before a string symbol.</p>
+<p>In this way, we can include variable values inside the string by embedding the variable name into curly brackets <code class="docutils literal notranslate"><span class="pre">{}</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159265358979323846</span>
@@ -496,13 +496,13 @@ World!
 </div>
 </div>
 </div>
-<p>Note that into the brackets, I also included a formatting operator, which is the value following the column <code class="docutils literal notranslate"><span class="pre">:</span></code>. This is a setting specification we can use to customize the formatting of the value. In particular, <code class="docutils literal notranslate"><span class="pre">0.4f</span></code> means that we want to visualize all the integer part of the number, and the first four decimal digits.</p>
+<p>Note that inside the brackets, I also included a formatting operator, which is the value following the column <code class="docutils literal notranslate"><span class="pre">:</span></code>. This is a setting specification we can use to customize the formatting of the value. In particular, <code class="docutils literal notranslate"><span class="pre">0.4f</span></code> means that we want to visualize the whole integer part of the number and the first four decimal digits.</p>
 <p>A complete list of Python formatting for <code class="docutils literal notranslate"><span class="pre">f-string</span></code> is available at: <a class="reference external" href="https://www.w3schools.com/python/python_string_formatting.asp">https://www.w3schools.com/python/python_string_formatting.asp</a>.</p>
 </section>
 <section id="array-tuple-and-list">
 <h2>Array: <code class="docutils literal notranslate"><span class="pre">tuple</span></code> and <code class="docutils literal notranslate"><span class="pre">list</span></code><a class="headerlink" href="#array-tuple-and-list" title="Link to this heading">#</a></h2>
 <p>In basic Python, there are two main types of arrays: <code class="docutils literal notranslate"><span class="pre">tuple</span></code> and <code class="docutils literal notranslate"><span class="pre">list</span></code>. They are very similar in terms of functionality, with the main difference that the <code class="docutils literal notranslate"><span class="pre">list</span></code> are mutable (i.e. you can modify its elements after creating it), while the <code class="docutils literal notranslate"><span class="pre">tuple</span></code> is static.</p>
-<p>To initialize a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, simply include its values between brackets <code class="docutils literal notranslate"><span class="pre">()</span></code>, separated by a comma; to initialize a <code class="docutils literal notranslate"><span class="pre">list</span></code>, instead include its values between square brackets <code class="docutils literal notranslate"><span class="pre">[]</span></code>, again separated by a comma.</p>
+<p>To initialize a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, just include its values between brackets <code class="docutils literal notranslate"><span class="pre">()</span></code>, separated by a comma; to initialize a <code class="docutils literal notranslate"><span class="pre">list</span></code>, include instead its values between square brackets <code class="docutils literal notranslate"><span class="pre">[]</span></code>, again separated by a comma.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tuple</span>
@@ -564,7 +564,7 @@ Hello
 <p>You can also access sub-array of an existing array by using <code class="docutils literal notranslate"><span class="pre">slicing</span></code>. This is done by including the sequence <code class="docutils literal notranslate"><span class="pre">begin_idx:end_idx:step</span></code> into the square brackets used for indices.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>As it is typical in Python, indices referred with slicing includes the <code class="docutils literal notranslate"><span class="pre">begin_idx</span></code>, while do not include the <code class="docutils literal notranslate"><span class="pre">end_idx</span></code> (i.e. it ends at <code class="docutils literal notranslate"><span class="pre">end_idx</span> <span class="pre">-</span> <span class="pre">1</span></code>).</p>
+<p>As it is common use in Python, indices referred by slicing include the <code class="docutils literal notranslate"><span class="pre">begin_idx</span></code>, while do not include the <code class="docutils literal notranslate"><span class="pre">end_idx</span></code> (i.e. ending at <code class="docutils literal notranslate"><span class="pre">end_idx</span> <span class="pre">-</span> <span class="pre">1</span></code>).</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -613,7 +613,7 @@ Hello
 </div>
 </div>
 </div>
-<p>To concatenate multiple conditions, use the connectives <code class="docutils literal notranslate"><span class="pre">and</span></code> (&amp;), <code class="docutils literal notranslate"><span class="pre">or</span></code> (|), and <code class="docutils literal notranslate"><span class="pre">not</span></code> (! or ~). For example:</p>
+<p>To concatenate multiple conditions, one must use the connectives <code class="docutils literal notranslate"><span class="pre">and</span></code> (&amp;), <code class="docutils literal notranslate"><span class="pre">or</span></code> (|), and <code class="docutils literal notranslate"><span class="pre">not</span></code> (! or ~). For example:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define three numbers</span>
@@ -637,15 +637,15 @@ Hello
 </section>
 <section id="cycles-for-and-while">
 <h2>Cycles: <code class="docutils literal notranslate"><span class="pre">for</span></code> and <code class="docutils literal notranslate"><span class="pre">while</span></code><a class="headerlink" href="#cycles-for-and-while" title="Link to this heading">#</a></h2>
-<p>As basically every other programming language, in Python there are two main ways to define cycles: the <code class="docutils literal notranslate"><span class="pre">for</span></code> (i.e. the <strong>predetermined length</strong> cycle) and the <code class="docutils literal notranslate"><span class="pre">while</span></code> (i.e. the <strong>undetermined length</strong> cycle).</p>
+<p>As basically in every other programming language, also in Python there are two main ways to define cycles: the <code class="docutils literal notranslate"><span class="pre">for</span></code> (i.e. the <strong>predetermined length</strong> cycle) and the <code class="docutils literal notranslate"><span class="pre">while</span></code> (i.e. the <strong>undetermined length</strong> cycle).</p>
 <p>The syntax for the <code class="docutils literal notranslate"><span class="pre">for</span></code> cycle is as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">&lt;</span><span class="n">VARIABLE</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">ITERABLE</span><span class="o">&gt;</span><span class="p">:</span>
     <span class="o">&lt;</span><span class="n">FOR_BODY</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>Where an iterable is any object such that it can be divided into sub-parts (e.g. <code class="docutils literal notranslate"><span class="pre">string</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="docutils literal notranslate"><span class="pre">generator</span></code>, …).
-The most common iterable used in <code class="docutils literal notranslate"><span class="pre">for</span></code> cycles is the <code class="docutils literal notranslate"><span class="pre">range</span></code>, whose syntax is <code class="docutils literal notranslate"><span class="pre">range(start,</span> <span class="pre">stop,</span> <span class="pre">step)</span></code>, which defines a generator, generating all integer numbers from <code class="docutils literal notranslate"><span class="pre">start</span></code> to <code class="docutils literal notranslate"><span class="pre">stop-1</span></code>, with the given <code class="docutils literal notranslate"><span class="pre">step</span></code>.</p>
-<p>The cycle will be repeated a number of times equal to the <code class="docutils literal notranslate"><span class="pre">len(&lt;ITERABLE&gt;)</span></code>, which is the number of sub-part of the <code class="docutils literal notranslate"><span class="pre">&lt;ITERABLE&gt;</span></code> (e.g. elements of the array), and the <code class="docutils literal notranslate"><span class="pre">for</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;VARIABLE&gt;</span></code> will change its value every time, taking each successive element of the iterable. What follows is an example of usage of the <code class="docutils literal notranslate"><span class="pre">for</span></code> cycle.</p>
+<p>where an iterable is any object such that it can be divided into sub-parts (e.g. <code class="docutils literal notranslate"><span class="pre">string</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="docutils literal notranslate"><span class="pre">generator</span></code>, …).
+The most common iterable used in <code class="docutils literal notranslate"><span class="pre">for</span></code> cycles is the <code class="docutils literal notranslate"><span class="pre">range</span></code>, whose syntax is <code class="docutils literal notranslate"><span class="pre">range(start,</span> <span class="pre">stop,</span> <span class="pre">step)</span></code>, which defines a generator of all integer numbers from <code class="docutils literal notranslate"><span class="pre">start</span></code> to <code class="docutils literal notranslate"><span class="pre">stop-1</span></code>, with a given <code class="docutils literal notranslate"><span class="pre">step</span></code>.</p>
+<p>The cycle will be repeated a certain number of times equal to the <code class="docutils literal notranslate"><span class="pre">len(&lt;ITERABLE&gt;)</span></code>, which is the number of sub-parts of the <code class="docutils literal notranslate"><span class="pre">&lt;ITERABLE&gt;</span></code> (e.g. elements of the array) and the <code class="docutils literal notranslate"><span class="pre">for</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;VARIABLE&gt;</span></code> will change its value every time, taking each successive element of the iterable. What follows is an example of usage of the <code class="docutils literal notranslate"><span class="pre">for</span></code> cycle.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Printing numbers from 0 to 4 (i.e. 5 - 1)</span>
@@ -669,9 +669,9 @@ The most common iterable used in <code class="docutils literal notranslate"><spa
     <span class="o">&lt;</span><span class="n">WHILE_BODY</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>And the body is repeated until the condition becomes <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-<p>When using <code class="docutils literal notranslate"><span class="pre">while</span></code> cycle, it is typical to keep track of the iteration number by using a counter variable, which is updated every iteration of the cycle.
-To avoid infite cycles, iterations are usually stopped after reaching a pre-determined number of iterations, with the <code class="docutils literal notranslate"><span class="pre">break</span></code> command.</p>
+<p>In this case, the body is repeated until the condition becomes <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<p>When using <code class="docutils literal notranslate"><span class="pre">while</span></code> cycle, one typically keeps track of the iteration number by using a counter variable, which is updated at every iteration of the cycle.
+Then to avoid infite cycles, iterations are usually stopped after reaching a pre-determined number of iterations, with the <code class="docutils literal notranslate"><span class="pre">break</span></code> command.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize the condition and max. iteration number</span>
@@ -736,7 +736,7 @@ To avoid infite cycles, iterations are usually stopped after reaching a pre-dete
 </div>
 </div>
 </div>
-<p>When multiple outputs are returned, Python automatically collects them into a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, which is returned instead. We can then access the elements of that tuple to get the real outputs.</p>
+<p>When multiple outputs are returned, Python automatically collects them into a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>. We can then access the elements of that tuple and get the actual outputs.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">square_cube</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -752,7 +752,7 @@ To avoid infite cycles, iterations are usually stopped after reaching a pre-dete
 </div>
 </div>
 </div>
-<p>On the other side, when <strong>no</strong> outputs are returned, Python automatically returns a <code class="docutils literal notranslate"><span class="pre">None</span></code> variable instead.</p>
+<p>Instead, when <strong>no</strong> outputs are returned, Python automatically returns a <code class="docutils literal notranslate"><span class="pre">None</span></code> variable.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
@@ -770,7 +770,7 @@ None
 </div>
 </div>
 </div>
-<p>A key aspect of functions which will be important for the course, is that functions can be assigned to variables and given as input to other function. For example, consider the case where we have a function describing a mathematical function <span class="math notranslate nohighlight">\(f(x)\)</span>, another function describing the derivative of that function <span class="math notranslate nohighlight">\(f'(x)\)</span>, and a third function taking <span class="math notranslate nohighlight">\(f(x)\)</span>, <span class="math notranslate nohighlight">\(f'(x)\)</span>, and a value of <span class="math notranslate nohighlight">\(x\)</span> as input and returning the quantity:</p>
+<p>A key aspect of functions which will be important for this course is that functions can be assigned to variables and given as input to another function. For example, let us consider the case where we have: a function describing a mathematical function <span class="math notranslate nohighlight">\(f(x)\)</span>; another function describing the derivative of that function <span class="math notranslate nohighlight">\(f'(x)\)</span>; and a third function taking <span class="math notranslate nohighlight">\(f(x)\)</span>, <span class="math notranslate nohighlight">\(f'(x)\)</span> and a value of <span class="math notranslate nohighlight">\(x\)</span> as input and returning the quantity:</p>
 <div class="math notranslate nohighlight">
 \[
 x - \frac{f(x)}{f'(x)}.
@@ -817,12 +817,12 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.299247705082974
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.5894114152372203
 </pre></div>
 </div>
 </div>
 </div>
-<p>Remember that to call a function defined in a specified package, after importing it, it is required to specify the name of the package <strong>before</strong> every function, followed by a dot <code class="docutils literal notranslate"><span class="pre">.</span></code>.</p>
+<p>Remember that in order to call a function defined in a specified package, after importing it, it is necessary to specify the name of the package <strong>before</strong> every function, followed by a dot <code class="docutils literal notranslate"><span class="pre">.</span></code>.</p>
 <p>If the name of the package is long, it is possible to rename it during the import, as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -834,12 +834,12 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.057108155388407855
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2788428151203306
 </pre></div>
 </div>
 </div>
 </div>
-<p>Most of the packages we will care about during the course, however, are <strong>not</strong> built-in. Therefore, they have to be installed manually by opening the terminal, activating your virtual environment, and type the command:</p>
+<p>However, most of the packages we will consider during this course are <strong>not</strong> built-in. Therefore, they have to be installed manually by opening the terminal, activating one’s own virtual environment and typing the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">&lt;</span><span class="n">package_name</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -863,8 +863,8 @@ x - \frac{f(x)}{f'(x)}.
 </section>
 <section id="path">
 <h2>Path<a class="headerlink" href="#path" title="Link to this heading">#</a></h2>
-<p>A key concept which is also particularly relevant for this course is the concept of <code class="docutils literal notranslate"><span class="pre">path</span></code>. The <code class="docutils literal notranslate"><span class="pre">path</span></code> is the address that describes a position of a specific file on your computer, and being able to describe the path for a specific file in Python will be important, for example, to load a dataset which is saved into a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
-<p>There are two kind of paths: the <strong>absolute path</strong>, which is the full address pointing to a file (e.g. <code class="docutils literal notranslate"><span class="pre">C:\Users\devangelista2\Desktop\CN24\file.csv</span></code>), and the <strong>relative path</strong>, which describes the position of the object, relatively to the position of the project where we are working on. For example, if we are working on the project folder <code class="docutils literal notranslate"><span class="pre">CN24</span></code>, the relative path for <code class="docutils literal notranslate"><span class="pre">file.csv</span></code> is <code class="docutils literal notranslate"><span class="pre">./file.csv</span></code>.</p>
+<p>A key concept which is particularly relevant for this course is that of <code class="docutils literal notranslate"><span class="pre">path</span></code>. The <code class="docutils literal notranslate"><span class="pre">path</span></code> is the address which describes a position of a specific file on your computer. Being able to describe the path for a specific file in Python will be important, for example, in order to load a dataset which is saved as a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
+<p>There are two kind of paths: the <strong>absolute path</strong>, which is the full address pointing to a file (e.g. <code class="docutils literal notranslate"><span class="pre">C:\Users\devangelista2\Desktop\CN24\file.csv</span></code>); and the <strong>relative path</strong>, which describes the position of the object, relatively to the position of the project where we are working on. For example, if we are working on the project folder <code class="docutils literal notranslate"><span class="pre">CN24</span></code>, the relative path for <code class="docutils literal notranslate"><span class="pre">file.csv</span></code> is <code class="docutils literal notranslate"><span class="pre">./file.csv</span></code>.</p>
 <p>The folder project from which we describe the position of files on a relative path is called <code class="docutils literal notranslate"><span class="pre">working</span> <span class="pre">directory</span></code>.</p>
 <p>The Python functions to work with paths are contained in the built-in package <code class="docutils literal notranslate"><span class="pre">os</span></code>. For example, we can check the absolute path of the working directory as follows:</p>
 <div class="cell docutils container">
@@ -881,7 +881,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 </div>
-<p>To list all the file names in a given path (which can be defined by using strings):</p>
+<p>Similarly to list all the file names in a given path (which can be defined by using strings):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a path (possibly relative to the current Working Directory)</span>
@@ -900,15 +900,15 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Pay attention, while working with data (as we will do, for example, in the final part of the course), to provide the code with either the correct relative path or the correct absolute path for the file containing the data, to avoid errors.</p>
+<p>Pay attention that, in order to avoid errors while working with data (as we will do, for example, in the final part of the course), you must write in the code either the correct relative path or the correct absolute path, for the file containing the data.</p>
 </div>
 </section>
 <section id="measuring-time">
 <h2>Measuring time<a class="headerlink" href="#measuring-time" title="Link to this heading">#</a></h2>
-<p>Probably the most important aspect to take care of while developing Numerical Linear Algebra algorithms is <strong>efficiency</strong>. Indeed, they often needs to be applied on huge matrices, with millions of elements.</p>
-<p>Reliably quantifying efficiency is arguably one of the biggest issue in Computer Science. However, a simple yet effective method to do that is to measure the time required to execute it. Clearly, execution time strongly depends on the device on which it is executed. However, it gives a reasonable comparison between different algorithms.</p>
-<p>To compute the time required to run a portion of code in Python, you can use a package named <code class="docutils literal notranslate"><span class="pre">time</span></code>, which allows for time calculation. In particular, the function <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> measure the actual time and saves it to a variable. If then you run the algorithm you want to measure, and you take the time again after the execution, then the difference between the starting time and the final time will give the time required for the execution (measured in seconds).</p>
-<p>Recall that since the time required to run the algorithm just once usually require negligible time, it is common to measure time by re-running the algorithm thousands of time (with a <code class="docutils literal notranslate"><span class="pre">for</span></code> cycle), so that the randomicity of the process will be filtered out.</p>
+<p>While developing Numerical Linear Algebra algorithms, probably the most important aspect to take care of is <strong>efficiency</strong>. Indeed, such algorithms often need to be applied on huge matrices, with millions of elements.</p>
+<p>Reliably quantifying efficiency is arguably one of the biggest issues in Computer Science. However, a simple yet effective method to do this is to measure the time required to execute your program. Clearly, execution time strongly depends on the device on which it is executed. Still, it gives a reasonable comparison between different algorithms.</p>
+<p>To compute the time required to run a portion of code in Python, you can use a package named <code class="docutils literal notranslate"><span class="pre">time</span></code>, which allows for time calculation. In particular, the function <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> measures the actual time and saves it into a variable. If you then run the algorithm that you want to measure and again take the time after the execution, then the difference between the starting time and the final time will give the time required for the execution (measured in seconds).</p>
+<p>Recall that since the time required to run the algorithm just once usually requirer negligible time, it is common to measure time by re-running the algorithm thousands of times (with a <code class="docutils literal notranslate"><span class="pre">for</span></code> cycle), so that the randomness intrinsic to the process is filtered out.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
@@ -934,7 +934,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0048639774322509766
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.004495859146118164
 </pre></div>
 </div>
 </div>
@@ -942,7 +942,7 @@ x - \frac{f(x)}{f'(x)}.
 </section>
 <section id="error-handling">
 <h2>Error handling<a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
-<p>Error handling is a crucial part of programming. Errors can occur for many reasons, such as invalid input, division by zero, or trying to access a non-existent file. Python provides tools to handle these errors gracefully, ensuring the program doesn’t crash unexpectedly, while also aiding in debugging.</p>
+<p>Error handling is a crucial part of programming. Errors can occur for many reasons, such as invalid input, division by zero, or trying to access a non-existent file. Python provides tools to handle these errors gracefully, ensuring that the program does not crash unexpectedly, while also aiding in debugging.</p>
 <p>When an error occurs in Python, the program generates an error message known as a traceback. This message includes detailed information about the type of error and where it occurred in the code. Learning how to read tracebacks is essential for identifying the cause of errors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -971,16 +971,16 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 </div>
-<p>Here’s how to interpret this traceback:</p>
+<p>Here is how to interpret this traceback:</p>
 <ul class="simple">
 <li><p><strong>Traceback (most recent call last)</strong>: Indicates that the error occurred in the most recent operation.</p></li>
 <li><p><strong>Cell In[..], line 5</strong>: Shows the line of code where the error was raised.</p></li>
 <li><p><strong>Cell In[..], line 2, in divide</strong>: Points out that the error occurred in the function divide, specifically at line 2.</p></li>
 <li><p><strong>ZeroDivisionError: division by zero</strong>: Specifies the type of error (ZeroDivisionError) and the reason for it (“division by zero”).</p></li>
 </ul>
-<p>In the following, a list of the most common errors in Python with their explanation:</p>
+<p>It follows a list of the most common errors in Python, together with their explanation:</p>
 <ol class="arabic simple">
-<li><p><strong>SyntaxError</strong>: Occurs when there are syntax issues in the code, such as missing parentheses or colons.</p></li>
+<li><p><strong>SyntaxError</strong>: it occurs when there are syntax issues in the code, such as missing parentheses or colons.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -999,7 +999,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p><strong>TypeError</strong>: Happens when an operation is applied to incompatible data types.</p></li>
+<li><p><strong>TypeError</strong>: it happens when an operation is applied to incompatible data types.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1019,7 +1019,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p><strong>NameError</strong>: Occurs when you try to use a variable or function that hasn’t been defined.</p></li>
+<li><p><strong>NameError</strong>: it occurs when you try to use a variable or function that has not been previously defined.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1039,7 +1039,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <ol class="arabic simple" start="4">
-<li><p><strong>IndexError</strong>: Raised when you try to access a list element using an index that is out of range.</p></li>
+<li><p><strong>IndexError</strong>: it is raised when you try to access a list’s element, using an index that is out of range.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1061,7 +1061,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <ol class="arabic simple" start="5">
-<li><p><strong>ValueError</strong>: Raised when a function receives an argument with the right type, but an inappropriate value.</p></li>
+<li><p><strong>ValueError</strong>: it is raised when a function receives an argument with the right type, but with an inappropriate value.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
