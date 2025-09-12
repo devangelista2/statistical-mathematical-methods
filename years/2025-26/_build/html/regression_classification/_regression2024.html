@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Regression in Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression_classification/_regression2024';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2Fregression_classification/_regression2024.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/regression_classification/_regression2024.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Regression in Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regression in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="regression-in-machine-learning">
+<h1>Regression in Machine Learning<a class="headerlink" href="#regression-in-machine-learning" title="Link to this heading">#</a></h1>
+<p>{% include figure.html path=”/assets/images/regression/ML_diagram.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>Regression in a group of supervised learning techniques, alternative to classification. In classification, given a datapoint $<span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, the task was to learn a model \)</span><span class="math notranslate nohighlight">\(y = f_\theta(x)\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( represents one of the \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( possible classes in which \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( lies. On the other side, a Machine Learning problem is a Regression when the target variable \)</span><span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( is a **continuous** variable, and the task is to approximately *interpolate* between the \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( values, with the intent of being able to predict new outcome of \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( when a new \)</span><span class="math notranslate nohighlight">\(x\)</span>$ is given as input.</p>
+<p>{% include figure.html path=”/assets/images/regression/regression_vs_classification.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>A part from that, the computation procedure to define a regression model is similar to the procedure required for a classification model. Indeed, let $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( be a parametric function of \)</span><span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, parameterized by \)</span><span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^s\)</span>$. Given a dataset</p>
+<div class="math notranslate nohighlight">
+\[
+    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{d \times N}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^N
+\]</div>
+<p>the task is to train the model such that $<span class="math notranslate nohighlight">\(f_\theta(x^i) \approx y^i\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>$. Clearly, this is done by solving the optimization problem</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta^* = \arg\min_{\theta \in \mathbb{R}^s} \ell(\theta; X, Y)
+\]</div>
+<p>where the specific form of the loss function $<span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span><span class="math notranslate nohighlight">\( will be given in the next post. When \)</span><span class="math notranslate nohighlight">\(d&gt;1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is called **multivariate regression model**, while if \)</span><span class="math notranslate nohighlight">\(d=1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is an **univariate regression model**. For simplicity, from now on we will work with univariate regression models, where \)</span><span class="math notranslate nohighlight">\(x^i \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span><span class="math notranslate nohighlight">\(, and consequently \)</span><span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N] \in \mathbb{R}^N\)</span>$.</p>
+</section>
+<section id="linear-regression">
+<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h1>
+<p>The simplest regression model we can think of is the Linear Regression Model, defined as</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \theta_1 + \theta_2 x = \theta^T \hat{x}
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2]^T\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\hat{x} = [1, x]^T\)</span><span class="math notranslate nohighlight">\(. When \)</span><span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\( is optimized, it defines a straight line approximating the data. Clearly, the resulting model will be correct if and only if the real function \)</span><span class="math notranslate nohighlight">\(y = f(x)\)</span><span class="math notranslate nohighlight">\( generating the data is linear. Unfortunately, even in situations where \)</span><span class="math notranslate nohighlight">\(f(x)\)</span><span class="math notranslate nohighlight">\( can be considered linear, the collected data \)</span><span class="math notranslate nohighlight">\(y\)</span>$ is always corrupted by noise, which consequently breaks the linearity.</p>
+<p>Consider for example a situation where $<span class="math notranslate nohighlight">\(y = f(x) = 2x\)</span><span class="math notranslate nohighlight">\( is the model generating the data. The noiseless data \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\(, together with the line generated by the prediction model \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span>$, in that situation will look like that</p>
+<p><img alt="" src="assets/images/regression/regression_example0.png" /></p>
+<p>Unfortunately, since the data is always corrupted by noise, the collected data will be more like</p>
+<p><img alt="" src="assets/images/regression/regression_example1.png" /></p>
+<p>In this scenario, if $<span class="math notranslate nohighlight">\(f_\theta(x) = \theta^T \hat{x}\)</span><span class="math notranslate nohighlight">\( as in the assumption above, then we hope to find parameters \)</span><span class="math notranslate nohighlight">\(\theta\)</span>$ such that the resulting line will be close to the original one (first figure), someway ignoring the noise present in the data. Luckily, at least when the noise is Gaussian distributed, it usually does the job. Indeed the resulting linear regression model from the image above is</p>
+<p><img alt="" src="assets/images/regression/regression_example2.png" /></p>
+<p>which is almost equal to the real line from the first image.</p>
+</section>
+<section id="polynomial-regression">
+<h1>Polynomial Regression<a class="headerlink" href="#polynomial-regression" title="Link to this heading">#</a></h1>
+<p>In most of real life scenario, the linear regression model is too rigid to correctly approximate the data. Indeed, suppose to collect a dataset like</p>
+<p><img alt="" src="assets/images/regression/regression_example3.png" /></p>
+<p>where it is clear that no straight line is able to correctly approximate it. Indeed, if we try to approximate it with a linear regression model, we obtain</p>
+<p><img alt="" src="assets/images/regression/regression_example5.png" /></p>
+<p>When this is the case, it is required to define a more flexible model.</p>
+<p>Given a number $<span class="math notranslate nohighlight">\(K &gt; 0\)</span>$, define the regression model</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \sum_{j=0}^K \phi_j(x) \theta_j
+\]</div>
+<p>where the functions $<span class="math notranslate nohighlight">\(\phi_1, \phi_2, \dots, \phi_K\)</span><span class="math notranslate nohighlight">\( are called **feature vectors**. Note that, for \)</span><span class="math notranslate nohighlight">\(K = 2\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\phi_0(x) = 1\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\phi_1(x) = x\)</span><span class="math notranslate nohighlight">\(, we recover the linear regression model \)</span><span class="math notranslate nohighlight">\(f_\theta(x) = \theta_1 + \theta_2 x\)</span><span class="math notranslate nohighlight">\(. For different values of \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( and different feature vectors \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$, we get different regression model.</p>
+<p>Note that, if $<span class="math notranslate nohighlight">\(\theta = [\theta_1, \theta_2, \dots, \theta_K]^T\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(\phi(x) = [\phi_1(x), \phi_2(x), \dots, \phi_K(x)]^T\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \phi^T(x) \theta
+\]</div>
+<p>which implies that $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a linear function in \)</span><span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\(, for any choice of \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$.</p>
+<p>A classical choice for the feature vector, is $<span class="math notranslate nohighlight">\(\phi_j(x) = x^{j-1}\)</span><span class="math notranslate nohighlight">\(. In this way, for a given \)</span><span class="math notranslate nohighlight">\(K&gt;0\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\phi(x)\)</span><span class="math notranslate nohighlight">\( represents the vector of the first \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( monomial in \)</span><span class="math notranslate nohighlight">\(x\)</span>$, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    \phi(x) = [1, x, x^2, \dots, x^{K-1}]^T
+\]</div>
+<p>and $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a \)</span><span class="math notranslate nohighlight">\(K-1\)</span><span class="math notranslate nohighlight">\(-th degree polynomial. For this reason, \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is called **polynomial regression model** for this choice of \)</span><span class="math notranslate nohighlight">\(\phi_j(x)\)</span>$. To show the improvement of a polynomial regression model against a linear model, this is the resulting model when we use a polynomial regression model of degree 3 on the data above:</p>
+<p><img alt="" src="assets/images/regression/regression_example4.png" /></p>
+<p>To understand how to train the parameters $<span class="math notranslate nohighlight">\(\theta\)</span>$ of a linear / polynomial regression model, we have to move to the next post.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./regression_classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Regression in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression">Polynomial Regression</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

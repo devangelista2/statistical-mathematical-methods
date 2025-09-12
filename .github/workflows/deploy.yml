@@ -1,0 +1,40 @@
+name: build-and-deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'years/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        year: [ "2024-25", "2025-26" ]   # add new years here
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install jupyter-book
+        run: |
+          pip install -U jupyter-book
+
+      - name: Build ${{ matrix.year }}
+        run: |
+          jupyter-book build years/${{ matrix.year }}
+
+      - name: Deploy ${{ matrix.year }} to gh-pages subfolder
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: years/${{ matrix.year }}/_build/html
+          destination_dir: ${{ matrix.year }}
+          keep_files: true
