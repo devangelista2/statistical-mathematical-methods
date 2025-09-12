@@ -1,0 +1,717 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gradient Descent &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/GD';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stochastic Gradient Descent" href="SGD.html" />
+    <link rel="prev" title="Dimensionality Reduction with PCA" href="../ML/PCA.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/GD.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Optimization/GD.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gradient Descent</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-conditions">First-order conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-gd">Gradient descent (GD)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-the-initial-iterate">Choice the initial iterate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size">Step Size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backtracking">Backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping Criteria</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gradient-descent">
+<h1>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h1>
+<p>Consider a general <em>continuous</em> function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>. Given a set of <em>admissible solutions</em> <span class="math notranslate nohighlight">\(\Omega \subseteq \mathbb{R}^n\)</span>, an optimization problem is a problem of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{x \in \Omega} f(x)
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, we say that the optimization is <strong>unconstrained</strong>. If <span class="math notranslate nohighlight">\(\Omega \subset \mathbb{R}^n\)</span>, the problem is <strong>constrained</strong>. In the following, we will always assume <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, i.e. the unconstrained setup.</p>
+<section id="convexity">
+<h2>Convexity<a class="headerlink" href="#convexity" title="Link to this heading">#</a></h2>
+<p>A common assumption in optimization is the <em>convexity</em>. By definition, a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is convex if</p>
+<div class="math notranslate nohighlight">
+\[
+f(tx_1 + (1-t)x_2) \leq tf(x_1) + (1-t)f(x_2), \quad \forall x_1, x_2 \in \mathbb{R}^n, \quad \forall t \in [0, 1]
+\]</div>
+<p><img alt="" src="../_images/convexity.png" /></p>
+<p>The importance of convex functions in optimization is that if <span class="math notranslate nohighlight">\(f(x)\)</span> is convex, than every minimum point <span class="math notranslate nohighlight">\(x^*\)</span> of <span class="math notranslate nohighlight">\(f(x)\)</span> is a <em>global minimum</em> and the set of global minima is connected (the <span class="math notranslate nohighlight">\(n\)</span>-dimensional extension of the concept of <em>interval</em>).</p>
+<p>On the other side, if a function is non-convex (<em>NOTE:</em> the opposite of convex is <strong>not</strong> concave), then there can be multiple distinct minimum points, some of which are <em>local minimum</em> while others are <em>global minimum</em>.</p>
+<p><img alt="" src="../_images/non_convexity.png" /></p>
+<p>Since optimizing convex functions is easier compared to non-convex functions, due to the absence of local minima, we will consider convex objective function for most of the coming discussion.</p>
+</section>
+<section id="first-order-conditions">
+<h2>First-order conditions<a class="headerlink" href="#first-order-conditions" title="Link to this heading">#</a></h2>
+<p>Most of the algorithms to find the minimum points of a given function <span class="math notranslate nohighlight">\(f(x)\)</span> are based on the following property:</p>
+<p><strong>First-order sufficient condition:</strong> If <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is a continuously differentiable function and <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> is a minimum point of <span class="math notranslate nohighlight">\(f(x)\)</span>, then <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>.</p>
+<p>Moreover, it holds:</p>
+<p><strong>First-order necessary condition:</strong> If <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is a continuously differentiable function and <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span> for <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span>, then <span class="math notranslate nohighlight">\(x^*\)</span> is either a (local) minimum, a (local) maximum or a saddle point of <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
+<p>Consequently, we want to find a point <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> such that <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>. Those points are called <strong>stationary points</strong> of <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
+<p><img alt="" src="../_images/minmaxsaddle.png" /></p>
+</section>
+<section id="gradient-descent-gd">
+<h2>Gradient descent (GD)<a class="headerlink" href="#gradient-descent-gd" title="Link to this heading">#</a></h2>
+<p>The most common algorithm to solve optimization problems is the so-called Gradient Descent (GD). It is an iterative algorithm, i.e. an algorithm that iteratively updates the estimate of the solution, defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1} = x_k - \alpha_k \nabla f(x_k), \quad k = 0, 1, \dots, \texttt{maxit}
+\]</div>
+<p>where the initial iterate, <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>, is given as input and the <strong>step-size</strong> (equivalently, <strong>learning rate</strong>) <span class="math notranslate nohighlight">\(\alpha_k &gt; 0\)</span> controls the decay rapidity of <span class="math notranslate nohighlight">\(f(x)\)</span> for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The gradient descent algorithm is an example of descent methods:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1} = x_k + \alpha_k p_k, \quad k = 0, 1, \dots, \texttt{maxit},
+\]</div>
+<p>where the descent direction <span class="math notranslate nohighlight">\(p_k\)</span> has to be chosen such that for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x_k)^T p_k \leq 0,
+\]</div>
+<p>to assure convergence to a stationary point. Since for GD, <span class="math notranslate nohighlight">\(p_k = - \nabla f(x_k)\)</span>, then the condition above is always satisfied:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x_k)^T p_k = - \nabla f(x_k)^T \nabla f(x_k) = - || \nabla f(x_k) ||_2^2 \leq 0.
+\]</div>
+<p>Therefore, GD algorithm <strong>always</strong> converge to a stationary point in the limit of infinite iterations.</p>
+</div>
+<section id="choice-the-initial-iterate">
+<h3>Choice the initial iterate<a class="headerlink" href="#choice-the-initial-iterate" title="Link to this heading">#</a></h3>
+<p>The Gradient Descent (GD) algorithm, require the user to input an initial iterate <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>. Theoretically, since GD has a <em>global convergence</em> proprerty, for any <span class="math notranslate nohighlight">\(x_0\)</span> it will always converge to a <strong>stationary point</strong> of <span class="math notranslate nohighlight">\(f(x)\)</span>, i.e. to a point such that <span class="math notranslate nohighlight">\(\nabla f(x) = 0\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(f(x)\)</span> is convex, then every stationary point is a (global) minimum of <span class="math notranslate nohighlight">\(f(x)\)</span>, implying that the choice of <span class="math notranslate nohighlight">\(x_0\)</span> is not really important, and we can always set <span class="math notranslate nohighlight">\(x_0 = 0\)</span>. On the other side, when <span class="math notranslate nohighlight">\(f(x)\)</span> is not convex, we have to choose <span class="math notranslate nohighlight">\(x_0\)</span> such that it is as close as possible to the <em>right</em> stationary point, to increase the chances of getting to that. If an estimate of the correct minimum point is not available, we will just consider <span class="math notranslate nohighlight">\(x_0 = 0\)</span> to get to a general local minima.</p>
+</section>
+<section id="step-size">
+<h3>Step Size<a class="headerlink" href="#step-size" title="Link to this heading">#</a></h3>
+<p>Selecting the step size is arguably the hardest component of gradient descent algorithm. Indeed, there are three possible scenario that happens in selecting the step size:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is too small <span class="math notranslate nohighlight">\(\implies\)</span> we never get to the minimum, getting closer and closer without reaching it. Moreover, we can easily get stuck on local minima when the <em>objective function</em> is non convex.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is too large <span class="math notranslate nohighlight">\(\implies\)</span> we get stuck, bouncing back and forth around the minima.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is correct <span class="math notranslate nohighlight">\(\implies\)</span> we reach the stationary point.</p></li>
+</ul>
+<p><img alt="" src="../_images/right_alpha.png" /></p>
+</section>
+<section id="backtracking">
+<h3>Backtracking<a class="headerlink" href="#backtracking" title="Link to this heading">#</a></h3>
+<p>Fortunately, there is a way to guarantee that the chosen step-size <span class="math notranslate nohighlight">\(\alpha_k\)</span> is correct. Indeed, it is possible to prove that, if <span class="math notranslate nohighlight">\(\alpha_k\)</span> satisfies the following conditions (known as <strong>Wolfe Conditions</strong>):</p>
+<ul class="simple">
+<li><p><em>Sufficient decrease:</em> <span class="math notranslate nohighlight">\( f(x_k - \alpha_k \nabla f(x_k)) \leq f(x_k) - c_1 \alpha_k || \nabla f(x_k) ||_2^2 \)</span>;</p></li>
+<li><p><em>Curvature condition:</em> <span class="math notranslate nohighlight">\(\nabla f(x_k)^T \nabla f(x_k - \alpha_k \nabla f(x_k)) \leq c_2 ||  \nabla f(x_k)  ||_2^2\)</span>;</p></li>
+</ul>
+<p>with <span class="math notranslate nohighlight">\(0 &lt; c_1 &lt; c_2 &lt; 1\)</span>, for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>, then the associated GD algorithm will <strong>always</strong> converge to a stationary point. In particular, the Sufficient decrease condition, also known as <em>Armijo Condition</em> is of particular importance. It requires that <span class="math notranslate nohighlight">\(x_{k+1}\)</span> causes a reduction in the value of <span class="math notranslate nohighlight">\(f\)</span> compared to <span class="math notranslate nohighlight">\(x_k\)</span> which is large enough. Indeed, note that the Armijo condition rewrites:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_k) - f(\underbrace{x_k - \alpha_k \nabla f(x_k)}_{x_{k+1}}) \geq c_1 \alpha_k || \nabla f(x_k) ||_2^2,
+\]</div>
+<p>meaning that the reduction in the function <span class="math notranslate nohighlight">\(f\)</span> due to <span class="math notranslate nohighlight">\(x_{k+1}\)</span> has to be at least as big as a multiple of <span class="math notranslate nohighlight">\(|| \nabla f(x_k) ||_2^2\)</span>.</p>
+<p>These conditions are automatically satisfied if <span class="math notranslate nohighlight">\(\alpha_k\)</span> is chosen by the <strong>backtracking algorithm</strong>. The idea of this algorithm is to begin with an initial guess for <span class="math notranslate nohighlight">\(\alpha_k\)</span>, which is then reduced as <span class="math notranslate nohighlight">\(\alpha_k \leftarrow \tau \alpha_k\)</span> with <span class="math notranslate nohighlight">\(\tau &lt; 1\)</span> until the Armijo condition is satisfied. It can be proved that when <span class="math notranslate nohighlight">\(\alpha_k\)</span> is computed this way, the second Wolfe condition is automatically satistfied. A Python implementation for the backtracking algorithm can be found in the following.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is a simple implementation of the backtracking algorithm for</span>
+<span class="sd">    the GD (Gradient Descent) method.</span>
+<span class="sd">    </span>
+<span class="sd">    f: function. The function that we want to optimize.</span>
+<span class="sd">    grad_f: function. The gradient of f(x).</span>
+<span class="sd">    x: ndarray. The actual iterate x_k.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.25</span>
+    
+    <span class="k">while</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">alpha</span>
+    <span class="k">return</span> <span class="n">alpha</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="stopping-criteria">
+<h3>Stopping Criteria<a class="headerlink" href="#stopping-criteria" title="Link to this heading">#</a></h3>
+<p>The gradient descent is an iterative algorithm, meaning that it iteratively generates new estimates of the minima, starting from <span class="math notranslate nohighlight">\(x_0\)</span>. Theoretically, after infinite iterations, we converge to the solution of the optimization problem but, since we cannot run infinite iterations, we have to find a way to tell the algorithm when its time to stop. A convergence condition for an iterative algorithm is called <strong>stopping criteria</strong>.</p>
+<p>Remember that gradient descent aim to find stationary point. Consequently, it would make sense to use the norm of the gradient as a stopping criteria. In particular, it is common to check if the norm of the gradient on the actual iterate is below a certain tollerance and, if so, we stop the iterations. In particular</p>
+<p><strong>Stopping criteria 1:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| \nabla f(x_k) || \leq tol_f || \nabla f(x_0) ||\)</span>. If so, stop the iterations.</p>
+<p>Unfortunately, this condition alone is not sufficient. Indeed, if the function <span class="math notranslate nohighlight">\(f(x)\)</span> is almost flat around its minimum, then <span class="math notranslate nohighlight">\(|| \nabla f(x_k) ||\)</span> will be small even if <span class="math notranslate nohighlight">\(x_k\)</span> will be far from the true minimum.</p>
+<p><img alt="" src="../_images/plateau.png" /></p>
+<p>Consequently, its required to add another stopping criteria.</p>
+<p><strong>Stopping criteria 2:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_x</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| x_k - x_{k-1} || \leq tol_x\)</span>. If so, stop the iterations.</p>
+<p>Moreover, to stop the algorithm from running indefinitely, it is always recommended to add an additional variable, <code class="docutils literal notranslate"><span class="pre">maxit</span></code>, which automatically stops the algorithm if more than <code class="docutils literal notranslate"><span class="pre">maxit</span></code> iterations have been performed. When this happens, it is suggested to also tell the user that the algorithm stopped due to <code class="docutils literal notranslate"><span class="pre">maxit</span></code> condition, therefore it didn’t converge.</p>
+<p>The choice for the parameters <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> and <code class="docutils literal notranslate"><span class="pre">maxit</span></code> is free and depends on the specific application. Usually, <code class="docutils literal notranslate"><span class="pre">tol_f</span></code> and <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> are chosen in the range [<code class="docutils literal notranslate"><span class="pre">1e-4</span></code>, <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>], while <code class="docutils literal notranslate"><span class="pre">maxit</span></code> <span class="math notranslate nohighlight">\(\approx\)</span> <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p>
+<p><strong>Exercise:</strong> Write a script that implement the GD algorithm, with the following structure:</p>
+<ul class="simple">
+<li><p><em>Input:</em></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code>: the function <span class="math notranslate nohighlight">\(f(x)\)</span> we want to optimize. It is supposed to be a Python function, not an array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grad_f</span></code>: the gradient of <span class="math notranslate nohighlight">\(f(x)\)</span>. It is supposed to be a Python function, not an array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code>: an <span class="math notranslate nohighlight">\(n\)</span>-dimensional array which represents the initial iterate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: a float. The fixed step size as input.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxit</span></code>: an integer. The maximum possible number of iterations (to avoid infinite loops).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tolf</span></code>: small float. The relative tollerance of the algorithm. Convergence happens if ||grad_f(x_k)||_2 &lt; tolf ||grad_f(x_0)||_2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tolx</span></code>: small float. The tollerance in the input domain. Convergence happens if ||x_{k} - x_{k-1}||_2 &lt; tolx. Pay attention to to the first iterate.</p></li>
+</ul>
+</li>
+<li><p><em>Output</em>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: an array that contains the value of x_k FOR EACH iterate x_k (not only the latter).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code>: an integer. The number of iteration needed to converge. k &lt; kmax.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f_val</span></code>: an array that contains the value of f(x_k) FOR EACH iterate x_k.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grad_norm</span></code>: an array the contains the value of ||grad_f(x_k)||_2 FOR EACH iterate x_k.</p></li>
+</ul>
+</li>
+</ul>
+<p>Then test the function above to optimize the objective function:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = 10(x_1 - 1)^2 - (x_2 + 1)^2,
+\]</div>
+<p>With different value of <span class="math notranslate nohighlight">\(\alpha\)</span>. Plot the value of the objective functions and the norm of the gradient to compare the behavior with different values of <span class="math notranslate nohighlight">\(\alpha\)</span>.<br />
+Moreover, compute the minimum of <span class="math notranslate nohighlight">\(f(x)\)</span> by hand. Compute the relative error between the obtained solution with GD algorithm and the one computed by hand for each different choice of <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<p><strong>Exercise:</strong> Write a script that implement the GD algorithm with backtracking, with the same structure as the GD algorithm defined above, with the exception of the input <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, which is not required. Compared the results obtained by this algorithm with the ones obtained in the previous exercise.</p>
+<p><strong>Exercise:</strong> Test the GD algorithm with and without backtracking on the Rosenbrock function, defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = 100(x_2 - x_1^2)^2 + (1-x_1)^2,
+\]</div>
+<p>for different values of <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../ML/PCA.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dimensionality Reduction with PCA</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="SGD.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Stochastic Gradient Descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-conditions">First-order conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-gd">Gradient descent (GD)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-the-initial-iterate">Choice the initial iterate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size">Step Size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backtracking">Backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping Criteria</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

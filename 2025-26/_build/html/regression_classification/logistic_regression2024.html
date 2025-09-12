@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Binary Classification &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression_classification/logistic_regression2024';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2Fregression_classification/logistic_regression2024.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/regression_classification/logistic_regression2024.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Binary Classification</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Binary Classification</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-logistic-regression">What is logistic regression?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">Python Implementation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#extension-to-k-2-case">Extension to $<span class="math notranslate nohighlight">\(K &gt; 2\)</span>$ case</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="binary-classification">
+<h1>Binary Classification<a class="headerlink" href="#binary-classification" title="Link to this heading">#</a></h1>
+<p>Assume we are working in a <strong>binary</strong> classification setup, i.e. where the number of classes $<span class="math notranslate nohighlight">\(K = 2\)</span><span class="math notranslate nohighlight">\(. In this case, we can always represent the two classes as \)</span><span class="math notranslate nohighlight">\(y=0\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(y=1\)</span>$.</p>
+<p>Consequently, we can develop a classification algorithm by defining a model $<span class="math notranslate nohighlight">\(f_w(x)\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(f_w : \mathbb{R}^d \to [0, 1]\)</span><span class="math notranslate nohighlight">\( and interpret the outcome of \)</span><span class="math notranslate nohighlight">\(f_w(x)\)</span><span class="math notranslate nohighlight">\( as the **probability that \)</span><span class="math notranslate nohighlight">\(y=1\)</span><span class="math notranslate nohighlight">\(**. Thus, if \)</span><span class="math notranslate nohighlight">\(f_w(x) = 0\)</span><span class="math notranslate nohighlight">\(, then our model predict that there are zero chances of \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( being classified as \)</span><span class="math notranslate nohighlight">\(1\)</span><span class="math notranslate nohighlight">\(, meaning that \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( should be a 0. If \)</span><span class="math notranslate nohighlight">\(f_w(x) = 1\)</span><span class="math notranslate nohighlight">\(, then \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( will be classified as 1, while if \)</span><span class="math notranslate nohighlight">\(f_w(x) = 0.5\)</span><span class="math notranslate nohighlight">\( then the model is not able to correctly identify the class of \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\(, since the chances of being \)</span><span class="math notranslate nohighlight">\(1\)</span>$ are 50%.</p>
+<p>An interesting feature of $<span class="math notranslate nohighlight">\(f_w(x)\)</span><span class="math notranslate nohighlight">\( is that it turns a *discontinuous* task (i.e. mapping a real vector \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( to a discrete value \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\() into a continuous problem. The discreteness of the outcome is then recovered by mapping \)</span><span class="math notranslate nohighlight">\(f_w(x)\)</span><span class="math notranslate nohighlight">\( to 1 if \)</span><span class="math notranslate nohighlight">\(f_w(x) &gt; 0.5\)</span><span class="math notranslate nohighlight">\(, to 0 is \)</span><span class="math notranslate nohighlight">\(f_w(x) &lt; 0\)</span><span class="math notranslate nohighlight">\(. In formula, a datapoint \)</span><span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>$ will be classified as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{cases}
+        1 \quad \text{if } f_w(x) &gt; 0.5 \\
+        0 \quad \text{if } f_w(x) &lt; 0.5
+    \end{cases}
+\end{split}\]</div>
+</section>
+<section id="what-is-logistic-regression">
+<h1>What is logistic regression?<a class="headerlink" href="#what-is-logistic-regression" title="Link to this heading">#</a></h1>
+<p>Logistic Regression is a widely known, beginner-level, binary classification algorithm based on the probabilistic approach framework. The idea is simple: consider a dataset</p>
+<div class="math notranslate nohighlight">
+\[
+    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{d \times N}
+\]</div>
+<p>and consider a linear function with unknown parameters $<span class="math notranslate nohighlight">\(w = (w_0, w_1, \dots, w_d) \in \mathbb{R}^{d+1}\)</span><span class="math notranslate nohighlight">\( over each of the datapoints \)</span><span class="math notranslate nohighlight">\(w_0 + w_1 x_1^i + \dots w_d x_d^i\)</span><span class="math notranslate nohighlight">\(. This operation can be rewritten as \)</span><span class="math notranslate nohighlight">\([1; x^i]^T w\)</span><span class="math notranslate nohighlight">\(. Consequently, define the extended dataset \)</span><span class="math notranslate nohighlight">\(\hat{X}\)</span>$, computed adding a 1 to each datapoint, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    \hat{X} = [\hat{x}^1 \hat{x}^2 \dots \hat{x}^N] \in \mathbb{R}^{(d+1) \times N}
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+    \hat{x} = [1, x_1, x_2, \dots, x_d]^T.
+\]</div>
+<p>Then, for any $<span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>$, consider the model</p>
+<p>\begin{equation}\label{eq:model_definition}
+f_w(x) = \sigma (\hat{x}^Tw)
+\end{equation}</p>
+<p>where $<span class="math notranslate nohighlight">\(w \in \mathbb{R}^{d+1}\)</span><span class="math notranslate nohighlight">\( is the weight vector, and \)</span><span class="math notranslate nohighlight">\(\sigma(z)\)</span>$ is the <strong>sigmoid</strong> function, defined as</p>
+<p>\begin{equation}\label{eq:definition_sigmoid}
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\end{equation}</p>
+<p>whose scope is to squeeze the real axis to the domain $<span class="math notranslate nohighlight">\([0, 1]\)</span>$ (to get the probabilistic interpretation).</p>
+<p>{% include figure.html path=”/assets/images/logistic_regression/sigmoid.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>Since the output of $<span class="math notranslate nohighlight">\(f_w(x)\)</span>$ is continuous, it is natural to select, as loss function, the Mean Squared Error, as defined in the <a href="{{ site.baseurl }}{% link _teaching/stochastic_gradient_descent.md %}">previous post</a>. Indeed, the loss function becomes</p>
+<p>\begin{equation}\label{eq:loss_function}
+\ell(w; \mathbb{D}) = \frac{1}{N} \sum_{i=1}^N MSE(f_w(x_i), y_i)
+\end{equation}</p>
+<p>and the training procedure is</p>
+<p>\begin{equation}\label{eq:training_procedure}
+w^* = \arg\min_{w \in \mathbb{R}^n} \ell(w; \mathbb{D})
+\end{equation}</p>
+<p>which can be done by Gradient Descent (or, alternatively, Stochastic Gradient Descent), whose iteration is</p>
+<p>\begin{equation}\label{eq:GD_iterations}
+w_{k+1} = w_k - \alpha_k \nabla_w \ell(w_k; \mathbb{D})
+\end{equation}</p>
+<p>for which we are required to compute</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_w \ell(w; \mathbb{D}) = \frac{1}{N} \sum_{i=1}^N \nabla_w MSE(f_w(x_i), y_i).
+\]</div>
+<p>Since</p>
+<div class="math notranslate nohighlight">
+\[
+    MSE(f_w(x_i), y_i) = \frac{1}{2} (f_w(x_i) - y_i )^2
+\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_w MSE(f_w(x_i), y_i) = \nabla_w \Bigl( \frac{1}{2} (f_w(x_i) - y_i )^2 \Bigr) = \nabla_w f_w(x_i)^T (f_w(x_i) - y_i)
+\]</div>
+<p>since $<span class="math notranslate nohighlight">\(f_w(x_i) = \sigma (\hat{x}_i^T w)\)</span>$ by \eqref{eq:model_definition}, then the chain rule implies that</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_w f_w(x_i) = \sigma' (\hat{x}_i^T w) \hat{x}_i^T.
+\]</div>
+<p>An interesting feature of $<span class="math notranslate nohighlight">\(\sigma(z)\)</span><span class="math notranslate nohighlight">\( is that \)</span><span class="math notranslate nohighlight">\(\sigma'(z) = \sigma(z)(1 - \sigma(z))\)</span>$, impliying that</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_w f_w(x_i) = \sigma(\hat{x}_i^T w)(1 - \sigma(\hat{x}_i^T w)) \hat{x}_i^T
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_w MSE(f_w(x_i), y_i) = \sigma(\hat{x}_i^T w)(1 - \sigma(\hat{x}_i^T w)) \hat{x}_i^T (f_w(x_i) - y_i)
+\]</div>
+<p>which finally leads to</p>
+<p>\begin{equation}\label{eq:final_GD_iteration}
+w_{k+1} = w_k - \frac{\alpha_k}{N} \sum_{i=1}^N \sigma(\hat{x}_i^T w)(1 - \sigma(\hat{x}_i^T w)) \hat{x}_i^T (f_w(x_i) - y_i)
+\end{equation}</p>
+<p>which converges to the solution of \eqref{eq:training_procedure} for <span class="math notranslate nohighlight">\(k \to \infty\)</span>.</p>
+</section>
+<section id="python-implementation">
+<h1>Python Implementation<a class="headerlink" href="#python-implementation" title="Link to this heading">#</a></h1>
+<p>Before we can start with the implementation notes, observe that we can do some operations to simplify the coding and the efficiency of it. Indeed, given the dataset $<span class="math notranslate nohighlight">\(\hat{X} = [\hat{x}^1 \hat{x}^2 \dots \hat{x}^N] \in \mathbb{R}^{d \times N}\)</span>$, define</p>
+<div class="math notranslate nohighlight">
+\[
+    f_w(\hat{X}) = [f_w(\hat{x}^1) f_w(\hat{x}^2) \dots f_w(\hat{x}^N)] \in \mathbb{R}^N
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+    Y = [y^1 y^2 \dots y^N]^T \in \mathbb{R}^N
+\]</div>
+<p>Consequently, we can re-write \eqref{eq:loss_function} as</p>
+<p>\begin{equation}\label{eq:loss_function_compact}
+\ell(w; \mathbb{D}) = \frac{1}{N} \sum_{i=1}^N \frac{1}{2} ( f_w(x^i) - y^i )^2 = \frac{1}{2N} || f_w(\hat{X}) - Y ||_2^2
+\end{equation}</p>
+<p>and, by following the same procedure we did before, we get to the compact form of \eqref{eq:final_GD_iteration}:</p>
+<p>\begin{equation}\label{eq:final_GD_iteration_compact}
+w_{k+1} = w_k - \frac{\alpha_k}{N} \hat{X}^T \Bigl(\sigma(\hat{X}^T w) \odot (1 - \sigma(\hat{X}^T w)) \odot (f_w(\hat{X}) - Y) \Bigr)
+\end{equation}</p>
+<p>where $<span class="math notranslate nohighlight">\(\odot\)</span>$ is the element-wise multiplication. To check that the shapes in Equation \eqref{eq:final_GD_iteration_compact} are correct, let’s do a sanity check:</p>
+<ul>
+<li><div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\hat{X}$$ has shape $$k \times N$$, where $$k = d+1$$ in this case;
+* $$w$$ has shape $$k \times 1$$ by definition, then $$\hat{X}^T w$$ has shape $$N \times 1$$;
+* $$\sigma(\cdot)$$ does not affect the shape of the input, then $$\sigma(\hat{X}^T w) \odot (1 - \sigma(\hat{X}^T w))$$ has shape $$N \times 1$$;
+* Both $$f_w(\hat{X})$$ and $$Y$$ have shape $$N \times 1$$, then $$f_w(\hat{X}) - Y$$ has shape $$N \times 1$$.
+* Consequently, $$\sigma(\hat{X}^T w) \odot (1 - \sigma(\hat{X}^T w)) \odot (f_w(\hat{X}) - Y)$$ has shape $$N \times 1$$ because of the element-wise multiplication;
+* Finally, $$\hat{X}^T \Bigl(\sigma(\hat{X}^T w) \odot (1 - \sigma(\hat{X}^T w)) \odot (f_w(\hat{X}) - Y) \Bigr)$$ has shape $$k \times 1$$, which is the same shape of $$w_k$$, then the computation is correct.\\Equation \eqref{eq:final_GD_iteration_compact} is what we are going to implement.\\### Data Loading and Pre-processing
+We are going to test logistic regression on a simulated dataset from the library `sklearn`. Loading it into memory is very easy:\\```
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification\\# Load data
+X, Y = make_classification(n_samples=500, n_features=2, n_redundant=0, n_informative=1, 
+                            n_clusters_per_class=1)
+X = X.T # To make it d x N\\# Check the shape
+print(f&quot;Shape of X: {X.shape}&quot;)
+print(f&quot;Shape of Y: {Y.shape}&quot;)\\# Memorize the shape
+d, N = X.shape\\# Add dimension on Y
+Y = Y.reshape((N, 1))
+```\\![](/assets/images/logistic_regression/data_plot.png)\\To conclude the data loading step, we need to build the $$\hat{X}$$ dataset from above. This can be simply done by\\```
+# Create Xhat
+Xhat = np.concatenate((np.ones((N,1)), X), axis=0)
+```\\### Build the model
+Remember that \end{aligned}\end{align} \]</div>
+<p>f_w(\hat{x}) = \sigma (\hat{x}^T w)
+$$</p>
+</li>
+</ul>
+<p>thus, we need to define the sigmoid function $<span class="math notranslate nohighlight">\(\sigma(z)\)</span>$.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define sigmoid</span>
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The results of the application of $<span class="math notranslate nohighlight">\(\hat{x}\)</span><span class="math notranslate nohighlight">\( on \)</span><span class="math notranslate nohighlight">\(f_w(\hat{x})\)</span>$ is not hard to compute.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the value of f</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">xhat</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Link to this heading">#</a></h2>
+<p>To perform the training, it is sufficient to implement the loss function and its gradient, which can be simply done by following the formulas above</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Value of the loss</span>
+<span class="k">def</span> <span class="nf">ell</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="c1"># Value of the gradient</span>
+<span class="k">def</span> <span class="nf">grad_ell</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>After training, the prediction over new data can be simply done by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">treshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<p>The result is a $<span class="math notranslate nohighlight">\((d+1)\)</span><span class="math notranslate nohighlight">\(-ple of weights \)</span><span class="math notranslate nohighlight">\(w = (w_0, w_1, \dots, w_d)\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(f_w(x) = \sigma(\sum_{i=0}^d w_i x_i)\)</span><span class="math notranslate nohighlight">\(. When \)</span><span class="math notranslate nohighlight">\(d=2\)</span><span class="math notranslate nohighlight">\(, the term inside of the sigmoid is the equation of a straight line \)</span><span class="math notranslate nohighlight">\(w_0 + w_1 x_1 + w_2 x_2 = 0\)</span>$, which can be re-written in explicit form as</p>
+<div class="math notranslate nohighlight">
+\[
+    x_2 = - \frac{w_1}{w_2} x_1 - \frac{w_0}{w_2}
+\]</div>
+<p>which is the decision boundary for the classification problem. Here it is a plot of the resulting classifier.</p>
+<p><img alt="" src="assets/images/logistic_regression/classification_plot.png" /></p>
+</section>
+</section>
+<section id="extension-to-k-2-case">
+<h1>Extension to $<span class="math notranslate nohighlight">\(K &gt; 2\)</span>$ case<a class="headerlink" href="#extension-to-k-2-case" title="Link to this heading">#</a></h1>
+<p>If the number of classes $<span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( is bigger than 2, logistic regression can still be applied, with slight modifications. In particular, let \)</span><span class="math notranslate nohighlight">\(K&gt;2\)</span><span class="math notranslate nohighlight">\( be the number of classes \)</span><span class="math notranslate nohighlight">\(\mathcal{C} = \{ C_1, \dots, C_K \}\)</span><span class="math notranslate nohighlight">\(. Then, we define \)</span><span class="math notranslate nohighlight">\(Y\)</span><span class="math notranslate nohighlight">\( to be a \)</span><span class="math notranslate nohighlight">\(K \times N\)</span>$ matrix,</p>
+<div class="math notranslate nohighlight">
+\[
+    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^{K \times N}
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(y^i = [y^i_1, y^i_2, \dots, y^i_K] \in \mathbb{R}^K\)</span><span class="math notranslate nohighlight">\( is a vector of probabilities (i.e. \)</span><span class="math notranslate nohighlight">\(y^i_k \in [0, 1]\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(k \in 1, \dots, K\)</span>$) summing to one, i.e.</p>
+<p>\begin{equation}\label{eq:summing_to_one}
+\sum_{k=1}^K y^i_k = 1 \quad \forall i = 1, \dots, N
+\end{equation}</p>
+<p>Intuitively, $<span class="math notranslate nohighlight">\(y^i_k\)</span><span class="math notranslate nohighlight">\( represents the probability the \)</span><span class="math notranslate nohighlight">\(x^i\)</span><span class="math notranslate nohighlight">\( is a member of the class \)</span><span class="math notranslate nohighlight">\(C_k\)</span>$. To enforce the condition \eqref{eq:summing_to_one}, it is mandatory to set</p>
+<p>\begin{equation}
+f_w(x) = softmax(\hat{x}^T w)
+\end{equation}</p>
+<p>where $<span class="math notranslate nohighlight">\(softmax(z)\)</span>$ is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+    softmax(z)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
+\]</div>
+<p>such that</p>
+<div class="math notranslate nohighlight">
+\[
+    \sum_{i=1}^K softmax(z)_i = 1
+\]</div>
+<p>Note that, in the multi-class scenario, the weights are $<span class="math notranslate nohighlight">\(d \times K\)</span><span class="math notranslate nohighlight">\( matrices, so that \)</span><span class="math notranslate nohighlight">\(X^T W\)</span><span class="math notranslate nohighlight">\( is an \)</span><span class="math notranslate nohighlight">\(N \times K\)</span>$ matrix.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./regression_classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Binary Classification</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-logistic-regression">What is logistic regression?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">Python Implementation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#extension-to-k-2-case">Extension to $<span class="math notranslate nohighlight">\(K &gt; 2\)</span>$ case</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

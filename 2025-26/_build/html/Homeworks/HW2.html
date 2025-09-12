@@ -1,0 +1,650 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>HW 2: SVD and PCA for Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW2';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HW 3: Optimization" href="HW3.html" />
+    <link rel="prev" title="HW 1: Linear Algebra and Floating Point Arithmetic" href="HW1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HW4.html">HW 4: MLE/MAP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FHomeworks/HW2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Homeworks/HW2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>HW 2: SVD and PCA for Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-dyad">Visualizing dyad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-mnist-digits-with-svd-decomposition">Classification of MNIST Digits with SVD Decomposition.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-with-pca">Clustering with PCA</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hw-2-svd-and-pca-for-machine-learning">
+<h1>HW 2: SVD and PCA for Machine Learning<a class="headerlink" href="#hw-2-svd-and-pca-for-machine-learning" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The submission of the homeworks has <strong>NO</strong> deadline. You can submit them whenever you want, on Virtuale. You are only required to upload it on Virtuale <strong>BEFORE</strong> your exam session, since the Homeworks will be a central part of the oral exam.</p>
+<p>You are asked to submit the homework as one of the two, following modalities:</p>
+<ul class="simple">
+<li><p>A PDF (or Word) document, containing screenshoots of code snippets, screeshots of the results generated by your code, and a brief comment on the obtained results.</p></li>
+<li><p>A Python Notebook (i.e. a <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file), with cells containing the code required to solve the indicated exercises, alternated with a brief comment on the obtained results in the form of a markdown cell. We remark that the code <strong>SHOULD NOT</strong> be runned during the exam, but the student is asked to enter the exam with all the programs <strong>already executed</strong>, with the results clearly visible on the screen.</p></li>
+</ul>
+<p>Joining the oral exam with a non-executed code OR without a PDF file with the obtained results visible on that, will cause the student to be rejected.</p>
+</div>
+<section id="visualizing-dyad">
+<h2>Visualizing dyad<a class="headerlink" href="#visualizing-dyad" title="Link to this heading">#</a></h2>
+<p>Consider an image from <code class="docutils literal notranslate"><span class="pre">skimage.data</span></code>. For simplicity, say that <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{m \times n}\)</span> is the matrix representing that image. You are asked to visualize the dyad of the SVD Decomposition of <span class="math notranslate nohighlight">\(X\)</span> and the result of compressing the image via SVD. In particular:</p>
+<ul class="simple">
+<li><p>Load the image into memory and compute its SVD;</p></li>
+<li><p>Visualize some of the dyad <span class="math notranslate nohighlight">\(\sigma_i u_i v_i^T\)</span> of this decomposition. What do you notice?</p></li>
+<li><p>Plot the singular values of <span class="math notranslate nohighlight">\(X\)</span>. Do you note something?</p></li>
+<li><p>Visualize the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation of <span class="math notranslate nohighlight">\(X\)</span> for different values of <span class="math notranslate nohighlight">\(k\)</span>. What do you observe?</p></li>
+<li><p>Compute and plot the approximation error <span class="math notranslate nohighlight">\(|| X − X_k ||_F\)</span> for increasing values of <span class="math notranslate nohighlight">\(k\)</span>, where <span class="math notranslate nohighlight">\(X_k\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation of <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+<li><p>Plot the compression factor: <span class="math notranslate nohighlight">\(c_k = 1 − \frac{k(m+n+1)}{mn}\)</span> for increasing values of <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+<li><p>Compute the value <span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(c_k = 0\)</span> (i.e. when the compressed image requires the same amount of informations of those of the uncompressed image). What is the approximation error for this value of <span class="math notranslate nohighlight">\(k\)</span>? Comment.</p></li>
+</ul>
+<p>It is strongly recommended (but not mandatory) to consider a grey-scale image for this exercise. You can also use an image downloaded from the web. Clearly, if your image will be an RGB image, then its shape will be <code class="docutils literal notranslate"><span class="pre">(m,</span> <span class="pre">n,</span> <span class="pre">3)</span></code>, where the last dimension corresponds to the three channels (Red, Green, and Blue). Every point discussed in the Homework has to be done on each channel separately, and then aggregated back to an RGB image.</p>
+</section>
+<section id="classification-of-mnist-digits-with-svd-decomposition">
+<h2>Classification of MNIST Digits with SVD Decomposition.<a class="headerlink" href="#classification-of-mnist-digits-with-svd-decomposition" title="Link to this heading">#</a></h2>
+<p>For this exercise we aim to develop a classification algorithm on MNIST digits using SVD decomposition.
+We recall that, given a matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span> and its SVD decomposition <span class="math notranslate nohighlight">\(X = USV^T\)</span>, it is easy to show that an orthogonal basis for the space of the columns is given by the first <span class="math notranslate nohighlight">\(p\)</span> columns of the matrix <span class="math notranslate nohighlight">\(U\)</span>, where <span class="math notranslate nohighlight">\(p = rank(X)\)</span> is equal to the number of non-zero singular values of <span class="math notranslate nohighlight">\(X\)</span>. We will make use of the space of the columns defined by the <span class="math notranslate nohighlight">\(U\)</span> matrix and the following Theorem:</p>
+<p><strong>Theorem 1.</strong> Let <span class="math notranslate nohighlight">\(W\)</span> be a subspace of <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span> with <span class="math notranslate nohighlight">\(dim W = s\)</span>, and let <span class="math notranslate nohighlight">\({w_1, \dots, w_s}\)</span> be an orthogonal basis of <span class="math notranslate nohighlight">\(W\)</span>. Then, for any <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>, the projection <span class="math notranslate nohighlight">\(x^\perp\)</span> of <span class="math notranslate nohighlight">\(x\)</span> onto <span class="math notranslate nohighlight">\(W\)</span> has the following form:</p>
+<div class="math notranslate nohighlight">
+\[
+x^\perp = \frac{x \cdot w_1}{w_1 \cdot w_1} w_1 + \dots + \frac{x \cdot w_s}{w_s \cdot w_s} w_s.
+\]</div>
+<p><strong>Corollary 1.1.</strong> Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times N}\)</span> be a matrix with SVD decomposition <span class="math notranslate nohighlight">\(X = USV^T\)</span>, since <span class="math notranslate nohighlight">\(p = rank(X)\)</span> is the dimension of the space defined by the columns of <span class="math notranslate nohighlight">\(X\)</span> and the columns of <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\({u_1, \dots, u_p}\)</span> are an orthonormal basis for that space, the projection of an <span class="math notranslate nohighlight">\(d\)</span>-dimensional vector <span class="math notranslate nohighlight">\(x\)</span> on this space can be easily
+computed as:</p>
+<div class="math notranslate nohighlight">
+\[
+x^\perp = U(U^T x).
+\]</div>
+<p>Consider as an example a binary classification problem, where we want to distinguish between hand-written digit representing numbers 3 and 4. We will refer to the class of the images representing number 3 as <span class="math notranslate nohighlight">\(C_1\)</span>, and to the set of images representing the number 4 as <span class="math notranslate nohighlight">\(C_2\)</span>. Let <span class="math notranslate nohighlight">\(N_1\)</span> be the number of elements in <span class="math notranslate nohighlight">\(C_1\)</span>, and <span class="math notranslate nohighlight">\(N_2\)</span> be the number of elements in <span class="math notranslate nohighlight">\(C_2\)</span>. Let <span class="math notranslate nohighlight">\(X_1 \in \mathbb{R}^{d \times N_1}\)</span> be the matrix such that its columns are a flatten version of each digit in <span class="math notranslate nohighlight">\(C_1\)</span>, <span class="math notranslate nohighlight">\(X_2 \in \mathbb{R}^{d \times N_2}\)</span> be the matrix such that its columns are a flatten version of each digit in <span class="math notranslate nohighlight">\(C_2\)</span>, and consider:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X_1 = U_1S_1V_1^T, \\
+X_2 = U_2S_2V_2^T,
+\end{split}\]</div>
+<p>the SVD decomposition of the two matrices.</p>
+<p>If <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{d}\)</span> is a new, unknown digit, we can predict its class through our classification algorithm by projecting it onto the spaces induced by the SVD of <span class="math notranslate nohighlight">\(X_1\)</span> and <span class="math notranslate nohighlight">\(X_2\)</span> via:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x_1^\perp = U_1(U_1^T x), \\
+x_2^\perp = U_2(U_2^T x),
+\end{split}\]</div>
+<p>and classify <span class="math notranslate nohighlight">\(x\)</span> as an element of either <span class="math notranslate nohighlight">\(C_1\)</span> or <span class="math notranslate nohighlight">\(C_2\)</span> based on <span class="math notranslate nohighlight">\(||x − x_1^\perp ||_2\)</span> being greater of lower than <span class="math notranslate nohighlight">\(||x−x_2^\perp ||_2\)</span>, respectively. In this exercise, you are required to implement this idea in Python.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The description provided up to this point is only meant to understand the basic idea of the algorithm we aim to implement. From now on, I will list the point you are effectively required to implement in Python, therefore I will start re-defining some quantities, possibly overlapping with some discussion already made.</p>
+</div>
+<ol class="arabic simple">
+<li><p>Implement the binary classification algorithm discussed above for the digits 3 and 4 of MNIST dataset. Follow these steps:</p>
+<ul class="simple">
+<li><p>Download the MNIST dataset from <a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">kaggle.com/datasets/animatronbot/mnist-digit-recognizer</a> and load it into memory by following the steps we did in the <a class="reference external" href="https://devangelista2.github.io/statistical-mathematical-methods/ML/PCA.html">PCA class</a>. When loaded into memory, this dataset appear as an array with shape <span class="math notranslate nohighlight">\(42000 \times 785\)</span> , containining the flattened version of <span class="math notranslate nohighlight">\(42000\)</span> <span class="math notranslate nohighlight">\(28 \times 28\)</span> grayscale handwritten digits, plus a column representing the true class of the corresponding digit. By pre-processing the data as we did in class, you should obtain a matrix <code class="docutils literal notranslate"><span class="pre">X</span></code> containing the flattenened digits, with shape <code class="docutils literal notranslate"><span class="pre">(784,</span> <span class="pre">42000)</span></code>, and a vector <code class="docutils literal notranslate"><span class="pre">Y</span></code> of the associated digit value, with a shape of <code class="docutils literal notranslate"><span class="pre">(42000,)</span></code>.</p></li>
+<li><p>Write a function taking as input an index value <code class="docutils literal notranslate"><span class="pre">idx</span></code> and visualizes the image of <code class="docutils literal notranslate"><span class="pre">X</span></code> in the corresponding index (i.e. <code class="docutils literal notranslate"><span class="pre">X[idx,</span> <span class="pre">:]</span></code>). Use the function <code class="docutils literal notranslate"><span class="pre">plt.imshow</span></code>.</p></li>
+<li><p>Filter from <code class="docutils literal notranslate"><span class="pre">X</span></code> only those elements that corresponds to digits 3 or 4. This can be done, for example, by using the boolean slicing of <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, as already discussed in class.</p></li>
+<li><p>Split the obtained dataset in training and testing in a proportion of <span class="math notranslate nohighlight">\(80 : 20\)</span>. From now on, we will only consider the training set. The test set will be only used at the end of the exercise to test the algorithm.</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">X1</span></code> and <code class="docutils literal notranslate"><span class="pre">X2</span></code> the submatrices of the training set, filtered by the two selected digits, corresponding to those element associated with number 3 (class <code class="docutils literal notranslate"><span class="pre">C1</span></code>), and with number 4 (class <code class="docutils literal notranslate"><span class="pre">C2</span></code>).</p></li>
+<li><p>Compute the SVD decomposition of <code class="docutils literal notranslate"><span class="pre">X1</span></code> and <code class="docutils literal notranslate"><span class="pre">X2</span></code> with <code class="docutils literal notranslate"><span class="pre">np.linalg.svd(matrix,</span> <span class="pre">full_matrices=False)</span></code> and denote the <span class="math notranslate nohighlight">\(U\)</span>-part of the two decompositions as <code class="docutils literal notranslate"><span class="pre">U1</span></code> and <code class="docutils literal notranslate"><span class="pre">U2</span></code>.</p></li>
+<li><p>Take an unknown digit <span class="math notranslate nohighlight">\(x\)</span> from the test set, and compute <span class="math notranslate nohighlight">\(x_1^\perp = U_1(U_1^T x)\)</span> and <span class="math notranslate nohighlight">\(x_2^\perp = U_2(U_2^T x)\)</span>.</p></li>
+<li><p>Compute the distances <span class="math notranslate nohighlight">\(d_1 = || x − x_1^\perp ||_2\)</span> and <span class="math notranslate nohighlight">\(d_2 = || x − x_2^\perp||_2\)</span>, and classify <span class="math notranslate nohighlight">\(x\)</span> as <span class="math notranslate nohighlight">\(C_1\)</span> if <span class="math notranslate nohighlight">\(d_1 &lt; d_2\)</span>, as <span class="math notranslate nohighlight">\(C_2\)</span> if <span class="math notranslate nohighlight">\(d_2 &lt; d_1\)</span>.</p></li>
+<li><p>Repeat the experiment for different values of <span class="math notranslate nohighlight">\(x\)</span> in the test set. Compute the misclassification rate for this algorithm.</p></li>
+<li><p>Repeat the experiment for different digits other than 3 or 4. There is a relationship between the visual similarity of the digits and the classification error?</p></li>
+<li><p>Comment the obtained results.</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Given a classification algorithm <span class="math notranslate nohighlight">\(f(x)\)</span>, which maps an input image <span class="math notranslate nohighlight">\(x\)</span> into its predicted class, the misclassification rate on the test set is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+MR = \frac{1}{N_{test}} \sum_{i=1}^{N_test} \iota(f(x_i) == y_i),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(N_{test}\)</span> is the number of elements in the test set, <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> represents the <span class="math notranslate nohighlight">\(i\)</span>-th element of the test set, while <span class="math notranslate nohighlight">\(\iota(f(x_i) == y_i)\)</span> is a function which is equal to 0 if <span class="math notranslate nohighlight">\(f(x_i)\)</span> is equal to the true class <span class="math notranslate nohighlight">\(y_i\)</span>, while it is equal to 1 if <span class="math notranslate nohighlight">\(f(x_i)\)</span> guesses the wrong digit (i.e. it is different from <span class="math notranslate nohighlight">\(y_i\)</span>). More simply, the Misclassification Rate represent the average number of error of the model over the test set.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>The extension of this idea to the multiple classification task is trivial. Indeed, if we have more than 2 classes (say, <span class="math notranslate nohighlight">\(k\)</span> different classes) <span class="math notranslate nohighlight">\(C_1, \dots, C_k\)</span>, we just need to repeat the same procedure as before for each matrix <span class="math notranslate nohighlight">\(X_1, \dots, X_k\)</span> to obtain the distances <span class="math notranslate nohighlight">\(d_1, \dots, d_k\)</span>. Then, the new digit <span class="math notranslate nohighlight">\(x\)</span> from the test set will be classified as <span class="math notranslate nohighlight">\(C_i\)</span> if <span class="math notranslate nohighlight">\(d_i\)</span> is lower that <span class="math notranslate nohighlight">\(d_j\)</span> for each <span class="math notranslate nohighlight">\(j = 1,...,k\)</span>. Repeat the exercise above with a 3-digit example. Comment the differences.</p></li>
+</ol>
+</section>
+<section id="clustering-with-pca">
+<h2>Clustering with PCA<a class="headerlink" href="#clustering-with-pca" title="Link to this heading">#</a></h2>
+<p>In this exercise we want to analyse the ability of PCA in clustering data by projecting very high-dimensional datapoints to 2 or 3 dimensions. In particular, consider the same MNIST dataset used in the previous exercise. You are asked to:</p>
+<ul class="simple">
+<li><p>Load and pre-process the dataset as did in the previous exercise, to get the matrix <code class="docutils literal notranslate"><span class="pre">X</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(784,</span> <span class="pre">42000)</span></code>, and the associated vector <code class="docutils literal notranslate"><span class="pre">Y</span></code>.</p></li>
+<li><p>Choose a number of digits (for example, 0, 6 and 9) and extract from <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code> the sub-dataset containing only the considered digits, as did in the previous exercise.</p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(N_{train} &lt; N\)</span> and randomly sample a training set with <span class="math notranslate nohighlight">\(N_{train}\)</span> datapoints from  <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code>. Call them <code class="docutils literal notranslate"><span class="pre">X_train</span></code> and <code class="docutils literal notranslate"><span class="pre">Y_train</span></code>. Everything else is the test set. Call them <code class="docutils literal notranslate"><span class="pre">X_test</span></code> and <code class="docutils literal notranslate"><span class="pre">Y_test</span></code>, correspondingly. This has to be done <strong>after</strong> filtering out the selected digits from <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code>.</p></li>
+<li><p>Implement the algorithms computing the PCA of <code class="docutils literal notranslate"><span class="pre">X_train</span></code> with a fixed value of <span class="math notranslate nohighlight">\(k\)</span>. Visualize the results (for <span class="math notranslate nohighlight">\(k = 2\)</span>) and the position of the centroid of each cluster. The clusters are identified by projecting <code class="docutils literal notranslate"><span class="pre">X_train</span></code> via PCA to its low-dimension version <code class="docutils literal notranslate"><span class="pre">Z_train</span></code>, and then splitting it into sets (say, <code class="docutils literal notranslate"><span class="pre">Z1</span></code>, <code class="docutils literal notranslate"><span class="pre">Z2</span></code>, <code class="docutils literal notranslate"><span class="pre">Z3</span></code>) based on the digit that was represented in that position before the PCA projection. Each set <code class="docutils literal notranslate"><span class="pre">Z1</span></code>, <code class="docutils literal notranslate"><span class="pre">Z2</span></code>, <code class="docutils literal notranslate"><span class="pre">Z3</span></code> represents a cluster, of which we can easily compute the centroid.</p></li>
+<li><p>Compute, for each cluster, the average distance from its centroid. Which property of PCA projection does this quantity measure?</p></li>
+<li><p>By keeping the <strong>same</strong> projection matrix <code class="docutils literal notranslate"><span class="pre">P</span></code> from the train set, project the test set <code class="docutils literal notranslate"><span class="pre">X_test</span></code> on the low-dimensional space.</p></li>
+<li><p>Consider the clusters in <code class="docutils literal notranslate"><span class="pre">X_test</span></code> by considering the informations on <code class="docutils literal notranslate"><span class="pre">Y_test</span></code>, similarly to what we did on the previous point. Consider the centroids computed from the training set. For each cluster in the test set, compute the average distance to the corresponding centroid (from the train set). Comment the results;</p></li>
+<li><p>Define a classification algorithm in this way: given a new observation <code class="docutils literal notranslate"><span class="pre">x</span></code>, compute the distance between <code class="docutils literal notranslate"><span class="pre">x</span></code> and each cluster centroid computed on the training set. Assign <code class="docutils literal notranslate"><span class="pre">x</span></code> to the class corresponding the the closer centroid. Compute the misclassification rate of this algorithm on the test set;</p></li>
+<li><p>Repeat this experiment for different values of <span class="math notranslate nohighlight">\(k\)</span> and different digits. What do you observe?</p></li>
+<li><p>Compare this classification algorithm with the one defined in the previous exercise. Which performs better?</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Homeworks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="HW1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">HW 1: Linear Algebra and Floating Point Arithmetic</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="HW3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">HW 3: Optimization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-dyad">Visualizing dyad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-of-mnist-digits-with-svd-decomposition">Classification of MNIST Digits with SVD Decomposition.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-with-pca">Clustering with PCA</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

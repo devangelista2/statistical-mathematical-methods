@@ -1,0 +1,28 @@
+format: jb-book
+root: intro
+parts: 
+  - caption: NLA with Python
+    chapters:
+      - file: NLA_numpy/basics_python
+      - file: NLA_numpy/introduction_to_numpy
+      - file: NLA_numpy/matplotlib
+      - file: NLA_numpy/linear_systems
+  - caption: Basics of Machine Learning
+    chapters:
+      - file: ML/intro_ML
+      - file: ML/SVD
+      - file: ML/PCA
+  - caption: Optimization
+    chapters:
+      - file: Optimization/GD
+      - file: Optimization/SGD
+  - caption: Regression
+    chapters:
+      - file: regression_classification/regression
+      - file: regression_classification/MLE_MAP
+  - caption: Homeworks
+    chapters:
+      - file: Homeworks/HW1
+      - file: Homeworks/HW2
+      - file: Homeworks/HW3
+      - file: Homeworks/HW4

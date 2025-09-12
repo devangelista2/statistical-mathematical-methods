@@ -1,0 +1,900 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction to Python for NLA &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLA_numpy/introduction_to_numpy';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualization with Matplotlib" href="matplotlib.html" />
+    <link rel="prev" title="Python Basics" href="basics_python.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="basics_python.html">Python Basics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FNLA_numpy/introduction_to_numpy.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/NLA_numpy/introduction_to_numpy.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction to Python for NLA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-ndarray">Numpy <code class="docutils literal notranslate"><span class="pre">ndarray</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-functions-to-create-arrays">Other functions to create arrays</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-between-ndarray">Operations between <code class="docutils literal notranslate"><span class="pre">ndarray</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logic-operations-between-vectors">Logic operations between vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing-matrices">Slicing matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-and-vector-manipulation">Matrix and Vector Manipulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-data-with-pandas">Read data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="introduction-to-python-for-nla">
+<h1>Introduction to Python for NLA<a class="headerlink" href="#introduction-to-python-for-nla" title="Link to this heading">#</a></h1>
+<p>Numerical Linear Algebra (NLA) is a branch of Computational Mathematics which studies how matrix and vector operations can be used to create computer algorithms which efficiently and accurately provide approximate answers to questions in continuous mathematics.</p>
+<p>Consequently, it is mandatory to be able to efficiently implement matrix operations, i.e. operations regarding matrices (that we will represent with uppercase letters <span class="math notranslate nohighlight">\(A, B, \dots\)</span>) and vectors (that we will represent with lowercase letters <span class="math notranslate nohighlight">\(v, w, \dots\)</span>). The main library in Python implementing all the main NLA operations is <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<p>In this course, we will make massive use of <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, together with its add-ons libraries, such as <code class="docutils literal notranslate"><span class="pre">scipy</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">numpy</span></code> can be imported into Python by typing</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p>at the beginning of your code. If <code class="docutils literal notranslate"><span class="pre">numpy</span></code> is not installed on your Python environment, please follow <a class="reference external" href="https://numpy.org">numpy.org</a> for informations on how to install it.</p>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<p>At <a class="reference external" href="https://numpy.org">numpy.org</a> it is possible to find a complete documentation of all the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> functions with application examples.</p>
+</section>
+<section id="numpy-ndarray">
+<h2>Numpy <code class="docutils literal notranslate"><span class="pre">ndarray</span></code><a class="headerlink" href="#numpy-ndarray" title="Link to this heading">#</a></h2>
+<p>The basic object of <code class="docutils literal notranslate"><span class="pre">numpy</span></code> is the so-called <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>, which defines the concept of vectors, matrices, tensors, …
+The simplest way to create a numpy array is to cast it from a Python <code class="docutils literal notranslate"><span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple</span></code>. This can be simply done as:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define a Python list</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="c1"># Convert it to numpy array</span>
+<span class="n">a_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="c1"># Check the type of a_vec</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a_vec</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;numpy.ndarray&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>A basic propriety of a numpy array is the <code class="docutils literal notranslate"><span class="pre">shape</span></code>, representing its dimension. For example, a 5-dimensional vector <span class="math notranslate nohighlight">\(a = (1, 2, 3, 4, 5)^T\)</span> will have shape <span class="math notranslate nohighlight">\((5, )\)</span>, while a <span class="math notranslate nohighlight">\(3 \times 3\)</span> matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix}
+    1 &amp; 1 &amp; -1 \\
+    2 &amp; 0 &amp; 0 \\
+    0 &amp; 1 &amp; 2
+\end{bmatrix}
+\end{split}\]</div>
+<p>have <code class="docutils literal notranslate"><span class="pre">shape</span></code> <span class="math notranslate nohighlight">\((3, 3)\)</span>. A working example creating the matrix <span class="math notranslate nohighlight">\(A\)</span> defined above and checking its dimension is</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># Use .shape to print the shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 3)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="other-functions-to-create-arrays">
+<h2>Other functions to create arrays<a class="headerlink" href="#other-functions-to-create-arrays" title="Link to this heading">#</a></h2>
+<p>In real applications, we will usually make use of huge matrices and vectos, with dimension that can easily reach a couple of millions. Clearly, it is not possible to define those kind of array by manually typing them and then converting them to numpy arrays with the <code class="docutils literal notranslate"><span class="pre">np.array</span></code> function. Luckily, this can be avoided when the array we need to create has a specific pattern. We will now list some functions we can use to simply create specific high-dimensional arrays.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linspace(a,</span> <span class="pre">b,</span> <span class="pre">n)</span></code>: Creates a vector of length <code class="docutils literal notranslate"><span class="pre">n</span></code>, containing <code class="docutils literal notranslate"><span class="pre">n</span></code> elements uniformely distributed in the interval <span class="math notranslate nohighlight">\([a, b]\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.arange(start,</span> <span class="pre">end,</span> <span class="pre">step)</span></code>: Creates a vector containing all the integer numbers from <code class="docutils literal notranslate"><span class="pre">start</span></code> to <code class="docutils literal notranslate"><span class="pre">end-1</span></code>, skipping <code class="docutils literal notranslate"><span class="pre">step</span></code> numbers every time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.zeros((m,</span> <span class="pre">n))</span></code>: Creates an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix full of zeros. Clearly, to create a vector instead of a matrix, simply use <code class="docutils literal notranslate"><span class="pre">np.zeros((m,</span> <span class="pre">))</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.ones((m,</span> <span class="pre">n))</span></code>: Creates an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix full of ones.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.zeros_like(a)</span></code>: Creates an array full of zeros of the same shape of <code class="docutils literal notranslate"><span class="pre">a</span></code>. This is equivalent to <code class="docutils literal notranslate"><span class="pre">np.zeros(a.shape)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.diag(v)</span></code>: Given a vector <code class="docutils literal notranslate"><span class="pre">v</span></code> of shape <span class="math notranslate nohighlight">\((n, )\)</span>, returns an <span class="math notranslate nohighlight">\(n \times n\)</span> diagonal matrix with <code class="docutils literal notranslate"><span class="pre">v</span></code> as diagonal.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.random.randn(m,</span> <span class="pre">n)</span></code>: Creates an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix of normally distributed elements (i.e. sampled from <span class="math notranslate nohighlight">\(\mathcal{N}(0, I)\)</span>).</p></li>
+</ul>
+<p>For example, if we want to create a vector of length <span class="math notranslate nohighlight">\(10\)</span> containing all the even numbers between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(18\)</span>, we can use</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the vector</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Visualize the vector</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0  2  4  6  8 10 12 14 16 18]
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><em>Exercise:</em></strong> Create an visualize the matrix <span class="math notranslate nohighlight">\( A =  \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 1 &amp; 2 &amp; 1 \\ 1 &amp; 1 &amp; 2\end{bmatrix}\)</span> and print its shape.</p>
+</div></blockquote>
+</section>
+<section id="operations-between-ndarray">
+<h2>Operations between <code class="docutils literal notranslate"><span class="pre">ndarray</span></code><a class="headerlink" href="#operations-between-ndarray" title="Link to this heading">#</a></h2>
+<p>Now that we are able to create arrays, we need to understand how to use them. To simplify the implementation of NLA algorithms, the operations between numpy arrays basically follows the same syntax you can find in every math textbook. In particular, almost every operations is applied <em>element-wise</em>.</p>
+<blockquote>
+<div><p>A scalar operation between <span class="math notranslate nohighlight">\(n\)</span>-dimensional arrays <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> is said to be element-wise if it is applied to <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> element by element.</p>
+</div></blockquote>
+<p>For example, if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+a = \begin{bmatrix} 1 \\ 0 \\ -1 \end{bmatrix} \qquad b = \begin{bmatrix} 0 \\ 2 \\ 2 \end{bmatrix}
+\end{split}\]</div>
+<p>then, since</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+a + b = \begin{bmatrix} 1 + 0 \\ 0 + 2 \\ -1 + 2 \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix}
+\end{split}\]</div>
+<p>then we say that the <code class="docutils literal notranslate"><span class="pre">+</span></code> operation is element-wise.</p>
+<p>We’ll list now the most important element-wise operations between arrays in numpy. When one of the two elements of the operators is a scalar number, it is threated as an array of the correct shape, where each element is equal to the number itself. In the following, we will use <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> to indicate generic arrays (vectors, matrices, …), <code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">w</span></code> to indicate vectors and <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code> to indicate matrices.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code>: Returns the element-wise sum of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>. Requires the two arrays to have the same <code class="docutils literal notranslate"><span class="pre">shape</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-</span> <span class="pre">b</span></code>: Returns the element-wise difference of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>. Requires the two arrays to have the same <code class="docutils literal notranslate"><span class="pre">shape</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span></code>: Returns the element-wise multiplication of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>. Requires the two arrays to have the same <code class="docutils literal notranslate"><span class="pre">shape</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">/</span> <span class="pre">b</span></code>: Returns the element-wise division between <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>. Requires the two arrays to have the same <code class="docutils literal notranslate"><span class="pre">shape</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">**</span> <span class="pre">b</span></code>: Returns the element-wise exponentiation of <code class="docutils literal notranslate"><span class="pre">a</span></code> to the power of <code class="docutils literal notranslate"><span class="pre">b</span></code>. Requires the two arrays to have the same <code class="docutils literal notranslate"><span class="pre">shape</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.exp(a)</span></code>: Returns the element-wise result of <span class="math notranslate nohighlight">\(e^a\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.sin(a),</span> <span class="pre">np.cos(a),</span> <span class="pre">np.tan(a),</span> <span class="pre">np.log(a)</span></code>: Returns the corresponding element-wise operation applied to <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p></li>
+</ul>
+<p>Other than element-wise operations, important operators widely used in NLA are the matrix-by-vector product, the matrix-by-matrix product and the inner product between vectors. Since those operations are mathematically similar, numpy implements them in the same way:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;</span> <span class="pre">b</span></code>: Returns the matrix-by-matrix product between <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>. It requires the shapes of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> to be compatible, e.g. shape of <code class="docutils literal notranslate"><span class="pre">a</span></code> <span class="math notranslate nohighlight">\((m, n)\)</span>, shape of <code class="docutils literal notranslate"><span class="pre">b</span></code> <span class="math notranslate nohighlight">\((n, k)\)</span>. The shape of the result is <span class="math notranslate nohighlight">\((m, k)\)</span>.</p></li>
+</ul>
+<p>Clearly, when either <code class="docutils literal notranslate"><span class="pre">a</span></code> or <code class="docutils literal notranslate"><span class="pre">b</span></code> are vectors of the correct shape, then <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> returns the matrix-by-vector multiplication, while if both of them are vectors, then <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;</span> <span class="pre">b</span></code> returns the inner product between the two vectors. The inner product can be equivalently written as <code class="docutils literal notranslate"><span class="pre">np.dot(a,</span> <span class="pre">b)</span></code>.</p>
+<p>Let’s see an example code on how to use those operations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Dimension of the problem</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Create the vectors</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># Create the matrix</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># Compute y1 and y2</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x1</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x2</span>
+
+<span class="c1"># Compute y = A(x1 + x2)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span>
+
+<span class="c1"># Check the equality</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.40596819  3.26315984  1.00349327  6.76337034  0.940148   -3.17282048
+  0.99636747 -5.22539839  4.88051203 -4.10244532]
+[-0.40596819  3.26315984  1.00349327  6.76337034  0.940148   -3.17282048
+  0.99636747 -5.22539839  4.88051203 -4.10244532]
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><em>Exercise:</em></strong> Create two vectors <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> of dimension <span class="math notranslate nohighlight">\(n\)</span> and check that
+<span class="math notranslate nohighlight">\(e^{x_1} e^{x_2} = e^{x_1 + x_2}\)</span></p>
+</div></blockquote>
+</section>
+<section id="logic-operations-between-vectors">
+<h2>Logic operations between vectors<a class="headerlink" href="#logic-operations-between-vectors" title="Link to this heading">#</a></h2>
+<p>Clearly, it is also possible to define element-wise logical operations between arrays. The results will always be a boolean array of the same dimension of the input arrays, where the logic is applied element by element. Here we report a table of the main logic operations:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>==</p></td>
+<td><p>EQUAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>!=</p></td>
+<td><p>NOT EQUAL</p></td>
+</tr>
+<tr class="row-even"><td><p>&gt;, &gt;=</p></td>
+<td><p>GREATER THAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>&lt;, &lt;=</p></td>
+<td><p>LOWER THAN</p></td>
+</tr>
+<tr class="row-even"><td><p>&amp;</p></td>
+<td><p>AND</p></td>
+</tr>
+<tr class="row-odd"><td><p>|</p></td>
+<td><p>OR</p></td>
+</tr>
+<tr class="row-even"><td><p>!</p></td>
+<td><p>NOT</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="slicing">
+<h2>Slicing<a class="headerlink" href="#slicing" title="Link to this heading">#</a></h2>
+<p>An important operation we will often use in practice, is the so-called <em>slicing</em>. Slicing is extracting a portion of an array, indexed by a given index array. For example, consider</p>
+<div class="math notranslate nohighlight">
+\[
+v = [0, 1, -1, 2, 1, -1]^T
+\]</div>
+<p>and assume we want to extract the first three elements of <span class="math notranslate nohighlight">\(v\)</span> and assign them to a new vector <span class="math notranslate nohighlight">\(w\)</span>. This can be easily done by</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the array</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+<span class="c1"># Slicing</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0  1 -1  2  1 -1]
+[ 0  1 -1]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The notation <code class="docutils literal notranslate"><span class="pre">v[start:end]</span></code> returns the elements of <code class="docutils literal notranslate"><span class="pre">v</span></code> from <code class="docutils literal notranslate"><span class="pre">start</span></code> to <code class="docutils literal notranslate"><span class="pre">end-1</span></code>. When <code class="docutils literal notranslate"><span class="pre">start</span></code>=0 as in the example above, it can be emitted (e.g. <code class="docutils literal notranslate"><span class="pre">v[0:3]</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">v[:3]</span></code>).</p>
+<p>Slicing can also be performing by passing a numpy array of indices inside of the square brackets. For example, assume we want to extract the elements in even position of <code class="docutils literal notranslate"><span class="pre">v</span></code>. Then</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the array</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Slicing</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>does the job.</p>
+<p>Finally, we can also slice by using boolean arrays. When this is the case, the elements in the position of the <code class="docutils literal notranslate"><span class="pre">True</span></code> values are returned. For example, this is how we extract the elements that <code class="docutils literal notranslate"><span class="pre">v</span></code> and <code class="docutils literal notranslate"><span class="pre">w</span></code> have in common.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create arrays</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Slicing</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">v</span> <span class="o">==</span> <span class="n">w</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0  1 -1  2  1 -1]
+[ 0  0 -1  1  2 -1]
+[ 0 -1 -1]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="slicing-matrices">
+<h2>Slicing matrices<a class="headerlink" href="#slicing-matrices" title="Link to this heading">#</a></h2>
+<p>Slicing matrices works the same way as slicing vectors. The sole difference is that we need to use a 2-dimensional indexing array. For example, if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    A = \begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \\ 7 &amp; 8 &amp; 9 \end{bmatrix}
+\end{split}\]</div>
+<p>and we want to extract the <span class="math notranslate nohighlight">\(2 \times 2\)</span> principal submatrix of <span class="math notranslate nohighlight">\(A\)</span> (that is, the left upper-most <span class="math notranslate nohighlight">\(2 \times 2\)</span> submatrix of <span class="math notranslate nohighlight">\(A\)</span>), then we can do</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the matrix</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+
+<span class="c1"># Slicing</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><em>Exercise:</em></strong> Create an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> of normally distributed values. Then, create a second matrix <span class="math notranslate nohighlight">\(B\)</span> with the same shape of <span class="math notranslate nohighlight">\(A\)</span> such that it is equal to <span class="math notranslate nohighlight">\(A\)</span> when <span class="math notranslate nohighlight">\(a_{i, j}\)</span> is positive, while it is equal to <span class="math notranslate nohighlight">\(0\)</span> when <span class="math notranslate nohighlight">\(a_{i, j} &lt; 0\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="matrix-and-vector-manipulation">
+<h2>Matrix and Vector Manipulation<a class="headerlink" href="#matrix-and-vector-manipulation" title="Link to this heading">#</a></h2>
+<p>Numpy also implements the basic operations on matrix and vectors. In particular, the following functions can be useful in this course:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.norm(a,</span> <span class="pre">p)</span></code>: Computes the <span class="math notranslate nohighlight">\(p\)</span>-norm of a vector or a matrix <span class="math notranslate nohighlight">\(a\)</span>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.cond(A,</span> <span class="pre">p)</span></code>: Computes the condition number in <span class="math notranslate nohighlight">\(p\)</span>-norm of a matrix <span class="math notranslate nohighlight">\(A\)</span>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.matrix_rank(A)</span></code>: Computes the rank of the matrix <span class="math notranslate nohighlight">\(A\)</span>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.linalg.inv(A)</span></code>: When invertible, compute the inverse matrix of <span class="math notranslate nohighlight">\(A\)</span>. <em>Warning:</em> Very slow;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.transpose(A)</span></code>: Compute the transpose matrix of <span class="math notranslate nohighlight">\(A\)</span>. It is equivalent to <code class="docutils literal notranslate"><span class="pre">A.T</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.reshape(a,</span> <span class="pre">new_shape)</span></code>: Reshape an array <code class="docutils literal notranslate"><span class="pre">a</span></code> to a given shape.</p></li>
+</ul>
+</section>
+<section id="read-data-with-pandas">
+<h2>Read data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#read-data-with-pandas" title="Link to this heading">#</a></h2>
+<p>Since we will frequently work with data, it will be important to be able to manipulate them. In this class, we will learn how to load a dataset into Python by using a library called <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, whose documentation can be found <a class="reference external" href="https://pandas.pydata.org/docs/user_guide/index.html#user-guide">here</a>.</p>
+<p>As an example, download the data from Kaggle at the following link: <a class="reference external" href="https://www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014">www.kaggle.com/mysarahmadbhat/us-births-2000-to-2014</a>.</p>
+<p>Then, place it in the same folder as the Python file on which you are working and use the following code to load it in memory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read data from a csv file</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/US_births_2000-2014_SSA.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pandas uses similar function name as numpy to keep everything coherent. For example, we can check the shape of <code class="docutils literal notranslate"><span class="pre">data</span></code> by using the function <code class="docutils literal notranslate"><span class="pre">print(data.shape)</span></code>. Moreover, a pandas dataframe can be casted into a numpy array by simply</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Cast into numpy array</span>
+<span class="n">np_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Check that the dimension didn&#39;t change</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> should be equal to </span><span class="si">{</span><span class="n">np_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5479, 5) should be equal to (5479, 5)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLA_numpy"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="basics_python.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Python Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="matplotlib.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Visualization with Matplotlib</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-ndarray">Numpy <code class="docutils literal notranslate"><span class="pre">ndarray</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-functions-to-create-arrays">Other functions to create arrays</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-between-ndarray">Operations between <code class="docutils literal notranslate"><span class="pre">ndarray</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logic-operations-between-vectors">Logic operations between vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing-matrices">Slicing matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-and-vector-manipulation">Matrix and Vector Manipulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-data-with-pandas">Read data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
