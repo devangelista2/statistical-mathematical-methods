@@ -1,5 +1,5 @@
 # Statistical and Mathematical Methods for Machine Learning (SMM)
-What follows are the teaching materials for the Statistical and Mathematical Methods for Machine Learning (SMM, in the following), Module 2, for the Academic Year 2024-2025, helded by professor Davide Evangelista.
+What follows are the teaching materials for the Statistical and Mathematical Methods for Machine Learning (SMM, in the following), Module 2, for the Academic Year 2025-2026, helded by professor Davide Evangelista.
 
 ## Topics
 Module 2 of the SMM course is divided into 3 parts. In the first part (which will be covered in the first 2 to 3 lessons), we will briefly recall the basics of Python programming language, which will be our tool to test the algorithms. Moreover, we will introduce `numpy` (arguably the most used Python library for vetor and matrix manipulation), `matplotlib` (for visualization) and other add-on libraries for `numpy` such as `pandas` and `scipy`.
