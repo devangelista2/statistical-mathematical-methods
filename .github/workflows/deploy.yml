@@ -8,11 +8,10 @@ on:
       - '.github/workflows/deploy.yml'
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        year: [ "2024-25", "2025-26" ]   # add new years here
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,19 +21,42 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install jupyter-book
+      - name: Install jupyter-book toolchain
         run: |
-          pip install -U jupyter-book
+          pip install -U \
+            "jupyter-book>=1.0,<1.1" \
+            "sphinx==7.3.7" \
+            "docutils==0.20.1" \
+            "myst-nb>=1.1.0" \
+            "sphinx-external-toc>=1.0.0" \
+            "sphinx-copybutton>=0.5.2" \
+            "sphinx-design>=0.6.0" \
+            "sphinxcontrib-bibtex>=2.6.0"
 
-      - name: Build ${{ matrix.year }}
+      # --- 2024-25 ---
+      - name: Build 2024-25
         run: |
-          jupyter-book build years/${{ matrix.year }}
+          jupyter-book build years/2024-25
 
-      - name: Deploy ${{ matrix.year }} to gh-pages subfolder
+      - name: Deploy 2024-25 to gh-pages/2024-25
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: years/${{ matrix.year }}/_build/html
-          destination_dir: ${{ matrix.year }}
+          publish_dir: years/2024-25/_build/html
+          destination_dir: 2024-25
+          keep_files: true
+
+      # --- 2025-26 ---
+      - name: Build 2025-26
+        run: |
+          jupyter-book build years/2025-26
+
+      - name: Deploy 2025-26 to gh-pages/2025-26
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: years/2025-26/_build/html
+          destination_dir: 2025-26
           keep_files: true
