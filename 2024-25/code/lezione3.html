@@ -466,14 +466,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Setting up the dimension</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 4.930030954879194
+[ 0.99999993  1.00001176  0.99951799  1.0086855   0.91434401  1.51701217
+ -1.03279492  6.38165371 -8.69895041 12.75467302 -8.12449683  4.92521131
+  0.60789978  0.63121094  1.11602208]
 </pre></div>
 </div>
 </div>
@@ -507,20 +503,21 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># We want to print out the condition number of the hilbert matrix A </span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># for increasing dimension</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">n_max</span> <span class="o">=</span> <span class="mi">12</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">condition_numbers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_max</span><span class="p">,</span> <span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_max</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="c1"># Define the hilbert matrix</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">A</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">hilbert</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;np&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Condition number for n = 1: 1.0.
+Condition number for n = 2: 19.28147006790397.
+Condition number for n = 3: 524.0567775860644.
+Condition number for n = 4: 15513.73873892924.
+Condition number for n = 5: 476607.2502425855.
+Condition number for n = 6: 14951058.642254734.
+Condition number for n = 7: 475367356.7446793.
+Condition number for n = 8: 15257575538.060041.
+Condition number for n = 9: 493153755941.02344.
+Condition number for n = 10: 16024416987428.36.
+Condition number for n = 11: 522270131654983.3.
+Condition number for n = 12: 1.7515952300879806e+16.
 </pre></div>
 </div>
+<img alt="../_images/ef464795997e57deeb745d33636d2946ab2a9c5842666c6fec17d95e4e60c55b.png" src="../_images/ef464795997e57deeb745d33636d2946ab2a9c5842666c6fec17d95e4e60c55b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -557,20 +554,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># We want to print out the condition number of the hilbert matrix vs random matrix</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># for increasing dimension</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">n_max</span> <span class="o">=</span> <span class="mi">12</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">condition_numbers_rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_max</span><span class="p">,</span> <span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">condition_numbers_hilb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_max</span><span class="p">,</span> <span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_max</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="c1"># Define the hilbert matrix</span>
-
-<span class="ne">NameError</span>: name &#39;np&#39; is not defined
-</pre></div>
-</div>
+<img alt="../_images/8b3802b097f1d8fe660973f91a64c71d2688b6634793165cbb2ecda68e364e18.png" src="../_images/8b3802b097f1d8fe660973f91a64c71d2688b6634793165cbb2ecda68e364e18.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -592,14 +576,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 26.827825588536957
+Cond. Number Hilbert matrix: 3.67568286586649e+17
 </pre></div>
 </div>
 </div>
@@ -640,14 +618,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rel. Err1: 1.4692808028832003e-13
+Rel. Err2: 5.549462269560568e-13
 </pre></div>
 </div>
 </div>
@@ -682,14 +654,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rel. Err: 0.08707202741470627
 </pre></div>
 </div>
 </div>

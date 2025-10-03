@@ -460,19 +460,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Assume x is a numpy array of shape (2, ) so basically</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># x = [x1, x2]</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -540,18 +527,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">33</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span>     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">f_val</span><span class="p">,</span> <span class="n">grad_norm</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="c1"># Define the parameters</span>
-<span class="ne">---&gt; </span><span class="mi">33</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="c1"># Set the true minima</span>
-
-<span class="ne">NameError</span>: name &#39;np&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True solution: [ 1 -1]
+Compute solution: [ 1.         -0.99995178].
+Number of iterations: 491.
 </pre></div>
 </div>
+<img alt="../../_images/cd1e358f9f1c2365ac7dffa173c0d2aa1df3260d1cb8884a3984581edd774cf4.png" src="../../_images/cd1e358f9f1c2365ac7dffa173c0d2aa1df3260d1cb8884a3984581edd774cf4.png" />
+<img alt="../../_images/b2e37ee4f6afd0b62cb829a3fd91769416a9963d273ce8c5ba5098553840319a.png" src="../../_images/b2e37ee4f6afd0b62cb829a3fd91769416a9963d273ce8c5ba5098553840319a.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -645,20 +627,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="sd">     This function is a simple implementation of the backtracking algorithm for</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span><span class="sd">     the GD (Gradient Descent) method.</span>
-<span class="sd">   (...)     10     x: ndarray. The actual iterate x_k.</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span><span class="sd">     &quot;&quot;&quot;</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True solution: [ 1 -1]
+Compute solution: [ 1.         -0.99999155].
+Number of iterations: 66.
+Compute solution: [ 1.         -0.99999116].
+Number of iterations: 93.
 </pre></div>
 </div>
+<img alt="../../_images/64a73f9df1b6e9986e6bbbb048bc1ad0c7a2ab6434ab534a47fdb2573bd64101.png" src="../../_images/64a73f9df1b6e9986e6bbbb048bc1ad0c7a2ab6434ab534a47fdb2573bd64101.png" />
+<img alt="../../_images/ebbe948cfff40bfe183da412ef77b47b704bd940f600f4c67df50f1ec6096fec.png" src="../../_images/ebbe948cfff40bfe183da412ef77b47b704bd940f600f4c67df50f1ec6096fec.png" />
 </div>
 </div>
 
