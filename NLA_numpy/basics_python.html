@@ -212,10 +212,30 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Python Basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction_to_numpy.html">Introduction to Python for NLA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -823,7 +843,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0475731104253427
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.006630852145357
 </pre></div>
 </div>
 </div>
@@ -840,7 +860,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8610616818305621
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.07275158170127038
 </pre></div>
 </div>
 </div>
@@ -882,7 +902,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/davideevangelista/statistical-mathematical-methods/years/2025-26/NLA_numpy
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/davideevangelista/statistical-mathematical-methods/years/2024-25/NLA_numpy
 </pre></div>
 </div>
 </div>
@@ -899,7 +919,14 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;US_births_2000-2014_SSA.csv&#39;]
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Print the files in the given path</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;./data&#39;
 </pre></div>
 </div>
 </div>
@@ -940,7 +967,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.005301952362060547
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0049059391021728516
 </pre></div>
 </div>
 </div>

@@ -210,10 +210,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/basics_python.html">Python Basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -449,10 +469,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 6.87781189  1.5966788   0.77939134  0.07969097  1.36571948  4.91507156
-  4.04520794  3.39185283  2.50131255 -2.46820435]
-[ 6.87781189  1.5966788   0.77939134  0.07969097  1.36571948  4.91507156
-  4.04520794  3.39185283  2.50131255 -2.46820435]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 6.04887676  3.52977042 -3.37626027  3.82231443  0.42650009  2.20826752
+  0.81021446 -1.47731609  2.35072766 -0.28960492]
+[ 6.04887676  3.52977042 -3.37626027  3.82231443  0.42650009  2.20826752
+  0.81021446 -1.47731609  2.35072766 -0.28960492]
 </pre></div>
 </div>
 </div>
@@ -488,7 +508,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.47886718 0.         0.         ... 0.91615936 1.12926324 0.88385718]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.         0.         0.89623487 ... 0.         1.44172589 2.71853293]
 </pre></div>
 </div>
 </div>
@@ -504,14 +524,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.62117734 -1.06774705  0.60963244  0.0121467   1.14757611]
- [ 0.42343661 -1.39698221 -0.46329522  0.26031181 -1.55880147]
- [-0.55492966  0.0610221  -1.19608176 -0.901803    1.65341006]
- [ 1.12887484 -1.87576905 -1.82220683  1.36020259 -0.95198009]
- [-1.16846506 -0.99282275 -1.27081143 -1.60179656  0.371317  ]]
-[[-0.62117734 -1.06774705]
- [ 0.42343661 -1.39698221]
- [-0.55492966  0.0610221 ]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-1.90407176 -0.91065044  0.59966732 -1.47763716 -1.3979263 ]
+ [-0.16696091 -0.3090686  -2.28562651 -0.43316813 -0.94332198]
+ [-0.50737045  0.34700489 -0.75726496 -0.23559664  2.27046221]
+ [-1.28377193  0.57093201 -0.47850827 -0.02604194 -0.89847099]
+ [-0.03245638 -0.20726827 -0.67854563 -1.28515105  2.8530659 ]]
+[[-1.90407176 -0.91065044]
+ [-0.16696091 -0.3090686 ]
+ [-0.50737045  0.34700489]]
 </pre></div>
 </div>
 </div>
@@ -535,36 +555,36 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[False  True False  True  True False  True False  True False]
- [False  True  True  True False False False False False  True]
- [ True False  True False  True False  True  True False False]
- [ True  True False False  True  True  True False False  True]
- [ True  True  True  True False  True  True False False False]
- [False  True False False  True  True  True  True  True  True]
- [ True  True False False  True  True False  True False False]
- [False False False False False  True  True  True False False]
- [False False  True False  True  True False False False False]
- [ True False False  True False  True  True  True False  True]]
-[[1.31193142 0.         1.78999377 0.         0.         1.48591133
-  0.         0.20443525 0.         0.06455221]
- [1.44708727 0.         0.         0.         1.06137509 0.38386785
-  1.44398056 0.6356411  0.20726897 0.        ]
- [0.         0.05457965 0.         0.35923151 0.         0.01452359
-  0.         0.         0.22977837 0.44076165]
- [0.         0.         0.94177978 2.67924585 0.         0.
-  0.         0.29546828 1.09025843 0.        ]
- [0.         0.         0.         0.         0.99002951 0.
-  0.         0.61899137 0.63457622 0.66583408]
- [0.74636905 0.         0.50614774 0.7366424  0.         0.
-  0.         0.         0.         0.        ]
- [0.         0.         0.38879878 0.3091775  0.         0.
-  0.46996911 0.         1.67213202 0.8692403 ]
- [1.39668524 1.66912641 1.38794232 0.24048027 0.30815745 0.
-  0.         0.         0.39477728 0.52601482]
- [0.72456591 0.71480636 0.         0.54587522 0.         0.
-  0.23013455 0.97860215 1.03438785 2.30659236]
- [0.         0.63792769 0.17762106 0.         0.23842182 0.
-  0.         0.         1.18898549 0.        ]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ True  True  True False False  True False  True False False]
+ [False  True False  True False False  True  True False False]
+ [False False False  True False  True  True False False  True]
+ [ True  True False False False  True  True False False False]
+ [False False  True  True  True  True  True  True  True False]
+ [False False False False  True False False  True False  True]
+ [False  True  True  True False  True  True  True False False]
+ [ True False  True False  True  True  True False  True  True]
+ [False  True  True False  True False False False  True False]
+ [False  True False False False False False  True  True  True]]
+[[0.         0.         0.         0.41111042 0.58983794 0.
+  0.22629281 0.         2.24187578 1.22645658]
+ [2.0735464  0.         2.06844566 0.         2.78864531 0.19345223
+  0.         0.         0.84940607 0.01894005]
+ [1.88514835 0.09380702 0.81808815 0.         0.70479869 0.
+  0.         0.67238889 0.35999709 0.        ]
+ [0.         0.         0.31582667 0.61308987 1.33571254 0.
+  0.         0.28746873 1.12144462 1.09754875]
+ [1.5705126  1.12646813 0.         0.         0.         0.
+  0.         0.         0.         0.97892756]
+ [0.01730115 1.33479964 0.56594432 0.34312126 0.         0.22148822
+  0.28484493 0.         0.94848706 0.        ]
+ [0.70811211 0.         0.         0.         0.60345368 0.
+  0.         0.         1.34885296 0.16232049]
+ [0.         0.17170125 0.         0.32636816 0.         0.
+  0.         0.24206753 0.         0.        ]
+ [0.50417237 0.         0.         0.43160705 0.         0.35046751
+  1.22070316 1.66283791 0.         0.13464336]
+ [0.87289871 0.         0.70634024 1.12973944 1.20036899 0.22326998
+  0.3755093  0.         0.         0.        ]]
 </pre></div>
 </div>
 </div>
@@ -748,7 +768,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ab45a9e141e509f67c7d9a90e37c5ce309d8a0d6fe5d48c9f0287e0e4a215e0b.png" src="../../_images/ab45a9e141e509f67c7d9a90e37c5ce309d8a0d6fe5d48c9f0287e0e4a215e0b.png" />
+<img alt="../../_images/b71d9d67570a6b74a34df82e5ff38a14bedf3c80e4c599daa8268adb9c990c3a.png" src="../../_images/b71d9d67570a6b74a34df82e5ff38a14bedf3c80e4c599daa8268adb9c990c3a.png" />
 </div>
 </div>
 <div class="cell docutils container">

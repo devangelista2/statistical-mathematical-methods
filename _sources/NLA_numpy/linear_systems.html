@@ -212,10 +212,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/basics_python.html">Python Basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../regression_classification/regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../regression_classification/MLE_MAP.html">MLE and MAP</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW3.html">HW 3: Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Homeworks/HW4.html">HW 4: MLE/MAP</a></li>
 </ul>
 
     </div>
@@ -517,7 +537,7 @@ fl(1 + \epsilon) &gt; fl(1).
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 7.015813107926458e-16
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 9.576276950461627e-16
 </pre></div>
 </div>
 </div>
@@ -598,7 +618,7 @@ The relative error is 1.9326759080352935
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 97.10304374823833
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 73.24460128915048
 Cond. Number Hilbert matrix: 2.3228053763031325e+17
 </pre></div>
 </div>
@@ -697,7 +717,7 @@ Condition number for n = 12: 1.6360718665566702e+16.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/24507188675b7b1873252542cd3ecf613f7cfc6714bac7effe32ac5a1372bcca.png" src="../../_images/24507188675b7b1873252542cd3ecf613f7cfc6714bac7effe32ac5a1372bcca.png" />
+<img alt="../../_images/4d2e309215f301d1e4f082f6f9f0fe0f581bb43bd586a70ac23ec85005e38b92.png" src="../../_images/4d2e309215f301d1e4f082f6f9f0fe0f581bb43bd586a70ac23ec85005e38b92.png" />
 </div>
 </div>
 <p>How can we relate the condition number of a matrix with the accuracy of the solution to a linear system associated with it?</p>
