@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Probabilities in Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression_classification/MLE_MAP2024';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/linear_systems.html">Solving Linear Systems with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/intro_ML.html">A (very short) introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/SVD.html">Data Compression with Singular Value Decomposition (SVD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/PCA.html">Dimensionality Reduction with PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">HW 1: Linear Algebra and Floating Point Arithmetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">HW 2: SVD and PCA for Machine Learning</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2Fregression_classification/MLE_MAP2024.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/regression_classification/MLE_MAP2024.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Probabilities in Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Probabilities in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-likelihood-estimation-mle">Maximum Likelihood Estimation (MLE)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-assumption">Gaussian Assumption</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression-mle">Polynomial Regression MLE</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-solution-by-normal-equations">Direct solution by Normal Equations</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mle-flexibility-overfit">MLE + Flexibility = Overfit</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-overfitting-using-the-error-plot">Solving overfitting using the error plot</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-solution-maximum-a-posteriori-map">A better solution: Maximum A Posteriori (MAP)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-theorem">Bayes Theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-assumption-on-map">Gaussian assumption on MAP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-regression-and-lasso">Ridge Regression and LASSO</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="probabilities-in-machine-learning">
+<h1>Probabilities in Machine Learning<a class="headerlink" href="#probabilities-in-machine-learning" title="Link to this heading">#</a></h1>
+<p>In <a href="{{ site.baseurl }}{% link _teaching/short_introduction_to_ML.md %}">the introduction to Machine Learning post,</a> we said that a major assumption in Machine Learning is that there exists a (possibly stochastic) <em>target</em> function $<span class="math notranslate nohighlight">\(f(x)\)</span><span class="math notranslate nohighlight">\( such that \)</span><span class="math notranslate nohighlight">\(y = f(x)\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>$, and such that the datasets</p>
+<div class="math notranslate nohighlight">
+\[
+    X = [x^1 x^2 \dots x^N] \in \mathbb{R}^{d \times N}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    Y = [y^1 y^2 \dots y^N] \in \mathbb{R}^N
+\]</div>
+<p>are generated by considering $<span class="math notranslate nohighlight">\(N\)</span><span class="math notranslate nohighlight">\( independent identically distributed (i.i.d.) samples \)</span><span class="math notranslate nohighlight">\(x^i \sim p(x)\)</span><span class="math notranslate nohighlight">\(, where \)</span><span class="math notranslate nohighlight">\(p(x)\)</span><span class="math notranslate nohighlight">\( is the unknown distribution of the inputs, and considering \)</span><span class="math notranslate nohighlight">\(y^i = f(x^i)\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span><span class="math notranslate nohighlight">\(. When \)</span><span class="math notranslate nohighlight">\(f(x)\)</span><span class="math notranslate nohighlight">\( is a stochastic function, we can consider the sampling process of \)</span><span class="math notranslate nohighlight">\(y^i\)</span><span class="math notranslate nohighlight">\( as \)</span><span class="math notranslate nohighlight">\(y^i \sim p(y\|x^i)\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span>$. In this setup, we can consider the decomposition</p>
+<div class="math notranslate nohighlight">
+\[
+    p(x, y) = p(y|x) p(x)
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(p(x, y)\)</span><span class="math notranslate nohighlight">\( is the **joint distribution**, \)</span><span class="math notranslate nohighlight">\(p(x)\)</span><span class="math notranslate nohighlight">\( is called **prior distribution** over \)</span><span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span><span class="math notranslate nohighlight">\(, while \)</span><span class="math notranslate nohighlight">\(p(y\|x)\)</span><span class="math notranslate nohighlight">\( is the **likelihood** or **posterior distribution** of \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( given \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\(. With this framework, *learning* a Machine Learning model \)</span><span class="math notranslate nohighlight">\(f_\theta(x) \approx f(x)\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(x \sim p(x)\)</span><span class="math notranslate nohighlight">\( with parameters \)</span><span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^s\)</span><span class="math notranslate nohighlight">\(, can be reformulating as learning a parameterized distribution \)</span><span class="math notranslate nohighlight">\(p_\theta(y\|x)\)</span><span class="math notranslate nohighlight">\( which maximizes the probability of observing \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\(, given \)</span><span class="math notranslate nohighlight">\(x\)</span>$.</p>
+</section>
+<section id="maximum-likelihood-estimation-mle">
+<h1>Maximum Likelihood Estimation (MLE)<a class="headerlink" href="#maximum-likelihood-estimation-mle" title="Link to this heading">#</a></h1>
+<p>Intuitively, we would like to find parameters $<span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^s\)</span><span class="math notranslate nohighlight">\( such that the probability of observing \)</span><span class="math notranslate nohighlight">\(Y = [y^1 y^2 \dots y^N]\)</span><span class="math notranslate nohighlight">\( given \)</span><span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N]\)</span>$ is as high as possible. Consequently, we have to solve the optimization problem</p>
+<p>\begin{align}\label{eq:mle_formulation1}
+\theta_{MLE} = \arg\max_{\theta \in \mathbb{R}^s} p_\theta(Y|X)
+\end{align}</p>
+<p>Which is usually called <strong>Maximum Likelihood Estimation (MLE)</strong>, because the parameters $<span class="math notranslate nohighlight">\(\theta_{MLE}\)</span><span class="math notranslate nohighlight">\( are chosen such that they maximize the likelihood \)</span><span class="math notranslate nohighlight">\(p_\theta(Y\|X)\)</span>$.</p>
+<p>Since $<span class="math notranslate nohighlight">\(y^1, y^2, \dots, y^N\)</span><span class="math notranslate nohighlight">\( are independent under \)</span><span class="math notranslate nohighlight">\(p(y \|x)\)</span>$,</p>
+<div class="math notranslate nohighlight">
+\[
+    p_\theta(Y|X) = p_\theta((y^1, y^2, \dots, y^N)|X) = \prod_{i=1}^N p_\theta(y^i|X)
+\]</div>
+<p>and since $<span class="math notranslate nohighlight">\(y^i\)</span><span class="math notranslate nohighlight">\( is independent with \)</span><span class="math notranslate nohighlight">\(x^j\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(j \neq i\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    \prod_{i=1}^N p_\theta(y^i|X) = \prod_{i=1}^N p_\theta(y^i|x^i)
+\]</div>
+<p>Consequently, \eqref{eq:mle_formulation1} becomes:</p>
+<p>\begin{align}\label{eq:mle_formulation2}
+\theta_{MLE} = \arg\max_{\theta \in \mathbb{R}^s} \prod_{i=1}^N p_\theta(y^i|x^i)
+\end{align}</p>
+<p>Since the logarithm function is monotonic, applying it to the optimization problem \eqref{eq:mle_formulation2} does not alterate its solution. Moreover, since for any function $<span class="math notranslate nohighlight">\(f(x)\)</span><span class="math notranslate nohighlight">\(, \)</span><span class="math notranslate nohighlight">\(\arg\max_x f(x) = \arg\min_x -f(x)\)</span>$, \eqref{eq:mle_formulation2} can be restated as</p>
+<p>\begin{align}\label{eq:mle_formulation3}
+\theta_{MLE} = \arg\max_{\theta \in \mathbb{R}^s} \prod_{i=1}^N p_\theta(y^i|x^i) = \arg\min_{\theta \in \mathbb{R}^s} -\log \prod_{i=1}^N p_\theta(y^i|x^i) = \arg\min_{\theta \in \mathbb{R}^s} \sum_{i=1}^N -\log p_\theta(y^i|x^i)
+\end{align}</p>
+<p>which is the classical formulation of an MLE problem. Note that in \eqref{eq:mle_formulation3}, the objective function has been decomposed into a sum over the datapoints $<span class="math notranslate nohighlight">\((x^i, y^i)\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i\)</span><span class="math notranslate nohighlight">\(, as a consequence of the \)</span><span class="math notranslate nohighlight">\(x^i\)</span>$ being i.i.d.. This formulation is similar to what we required in <a href="{{ site.baseurl }}{% link _teaching/stochastic_gradient_descent.md %}">the previous post</a>, implying that we can use SGD to (approximately) solve \eqref{eq:mle_formulation3}.</p>
+<section id="gaussian-assumption">
+<h2>Gaussian Assumption<a class="headerlink" href="#gaussian-assumption" title="Link to this heading">#</a></h2>
+<p>To effectively solve \eqref{eq:mle_formulation3}, we must explicitely define $<span class="math notranslate nohighlight">\(p_\theta(y|x)\)</span>$. A common assumption, which is true for most of the scenarios, is to consider</p>
+<div class="math notranslate nohighlight">
+\[
+    p_\theta(y|x) = \mathcal{N}(f_\theta(x), \sigma^2 I)
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(\mathcal{N}(f_\theta(x), \sigma^2 I)\)</span><span class="math notranslate nohighlight">\( is a Gaussian distribution with mean \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( and variance \)</span><span class="math notranslate nohighlight">\(\sigma^2 I\)</span><span class="math notranslate nohighlight">\(, with \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( a parametric deterministic function of \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( while \)</span><span class="math notranslate nohighlight">\(\sigma^2\)</span><span class="math notranslate nohighlight">\( is the variance of \)</span><span class="math notranslate nohighlight">\(p_\theta(y\|x)\)</span><span class="math notranslate nohighlight">\(, which depends on the informations we have on the relationship between \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(x\)</span>$ (it will be clearer in the following example).</p>
+<p>An interesting proprierty of the Gaussian distribution is that if $<span class="math notranslate nohighlight">\(p_\theta(y\|x) = \mathcal{N}(f_\theta(x), \sigma^2 I)\)</span><span class="math notranslate nohighlight">\(, then \)</span><span class="math notranslate nohighlight">\(y = f_\theta(x) + \sigma^2 e\)</span><span class="math notranslate nohighlight">\(, where \)</span><span class="math notranslate nohighlight">\(e \sim \mathcal{N}(0, I)\)</span>$ is a Standard Gaussian distribution.</p>
+<p>To simplify the derivation below, assume that $<span class="math notranslate nohighlight">\(d = 1\)</span><span class="math notranslate nohighlight">\(, so that \)</span><span class="math notranslate nohighlight">\(X = [x^1 x^2 \dots x^N] \in \mathbb{R}^N\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(x^i \in \mathbb{R}\)</span><span class="math notranslate nohighlight">\( for any \)</span><span class="math notranslate nohighlight">\(i\)</span><span class="math notranslate nohighlight">\(. It is known that if \)</span><span class="math notranslate nohighlight">\(p_\theta(y\|x) = \mathcal{N}(f_\theta(x), \sigma^2)\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    p_\theta(y|x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{\frac{(y - f_\theta(x))^2}{2\sigma^2}}
+\]</div>
+<p>thus</p>
+<div class="math notranslate nohighlight">
+\[
+    - \log p_\theta(y|x) = \frac{1}{2} \log 2 \pi + \frac{1}{2} \log \sigma^2 + \frac{1}{2\sigma^2} (y - f_\theta(x))^2 = \frac{1}{2} (y - f_\theta(x))^2 + const.
+\]</div>
+<p>Consequently, MLE with Gaussian likelihood becomes</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta_{MLE} = \arg\min_{\theta \in \mathbb{R}^s} \sum_{i=1}^N \frac{1}{2} (y^i - f_\theta(x^i))^2
+\]</div>
+<p>which can be reformulated as a Least Squares problem</p>
+<p>\begin{align}\label{eq:MLE_gaussian}
+\theta_{MLE} = \arg\min_{\theta \in \mathbb{R}^s} \frac{1}{2} || f_\theta(X) - Y ||_2^2
+\end{align}</p>
+<p>where $<span class="math notranslate nohighlight">\(Y = [y^1 y^2 \dots y^N]\)</span><span class="math notranslate nohighlight">\(, while \)</span><span class="math notranslate nohighlight">\(f_\theta(X) = [f_\theta(x^1) f_\theta(x^2) \dots f_\theta(x^N)]\)</span>$.</p>
+</section>
+</section>
+<section id="polynomial-regression-mle">
+<h1>Polynomial Regression MLE<a class="headerlink" href="#polynomial-regression-mle" title="Link to this heading">#</a></h1>
+<p>Now, consider a Regression model</p>
+<div class="math notranslate nohighlight">
+\[
+    f_\theta(x) = \sum_{j=1}^K \phi_j(x) \theta_j = \phi^T(x) \theta
+\]</div>
+<p>and assume that</p>
+<div class="math notranslate nohighlight">
+\[
+    p_\theta(y|x) = \mathcal{N}(\phi^T(x) \theta, \sigma^2)
+\]</div>
+<p>Then, by \eqref{eq:MLE_gaussian},</p>
+<p>\begin{align}\label{eq:MLE_regression}
+\theta_{MLE} = \arg\min_{\theta \in \mathbb{R}^K} \frac{1}{2} || \Phi(X) \theta - Y ||_2^2
+\end{align}</p>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi(X) = [\phi_1(X) \phi_2(X) \dots \phi_K(X)] \in \mathbb{R}^{N \times K}
+\]</div>
+<p>is the <strong>Vandermonde matrix</strong> associated with the vector $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( and with feature vectors \)</span><span class="math notranslate nohighlight">\(\phi_1, \dots, \phi_K\)</span><span class="math notranslate nohighlight">\(. Clearly, when \)</span><span class="math notranslate nohighlight">\(\phi_j(x) = x^{j-1}\)</span><span class="math notranslate nohighlight">\(, the regression model \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a Polynomial Regression model and the associated Vandermonde matrix \)</span><span class="math notranslate nohighlight">\(\Phi(X)\)</span>$ is the classical Vandermonde Matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \Phi(X) = \begin{bmatrix}
+    1 &amp; (x^1) &amp; (x^1)^2 &amp; \dots &amp; (x^1)^{K-1} \\
+    1 &amp; (x^2) &amp; (x^2)^2 &amp; \dots &amp; (x^2)^{K-1} \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \dots &amp; \vdots \\
+    1 &amp; (x^N) &amp; (x^N)^2 &amp; \dots &amp; (x^N)^{K-1} \\
+    \end{bmatrix} \in \mathbb{R}^{N \times K}
+\end{split}\]</div>
+<p>Note that \eqref{eq:MLE_regression} defines a training procedure for a regression model. Indeed, it can be optimized by Gradient Descent (or its Stochastic variant), by solving</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{cases}
+        \theta_0 \in \mathbb{R}^K \\
+        \theta_{k+1} = \theta_k - \nabla_{\theta} (- \log p_{\theta_k}(y|x))
+    \end{cases}
+\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+    \nabla_\theta (- \log p_\theta(y|x)) = \nabla_\theta \frac{1}{2} || \Phi(X) \theta - Y ||_2^2 = \Phi(X)^T (\Phi(X) \theta - Y)
+\]</div>
+<section id="direct-solution-by-normal-equations">
+<h2>Direct solution by Normal Equations<a class="headerlink" href="#direct-solution-by-normal-equations" title="Link to this heading">#</a></h2>
+<p>Note that, since the learning problem is a Least Square problem of the form</p>
+<div class="math notranslate nohighlight">
+\[
+    \min_{\theta \in \mathbb{R}^K} \frac{1}{2} || \Phi(X) \theta - Y ||_2^2
+\]</div>
+<p>then it can be solved directly by the Normal Equation method, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta^* = (\Phi(X)^T \Phi(X))^{-1} \Phi(X)^T Y
+\]</div>
+<p>this solution can be compared with the convergence point of Gradient Descent, to check the differences.</p>
+</section>
+</section>
+<section id="mle-flexibility-overfit">
+<h1>MLE + Flexibility = Overfit<a class="headerlink" href="#mle-flexibility-overfit" title="Link to this heading">#</a></h1>
+<p>In polynomial regression, the most important parameter the user has to set is the degree of polynomial, $<span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\(. Indeed, when \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( is low, the resulting model \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( will be pretty rigid (not flexible), with the implication that it can potentially be unable to capture the complexity of the data. On the opposite side, if \)</span><span class="math notranslate nohighlight">\(K\)</span>$ is too large, the resulting model is too flexible, and we end up <em>learning the noise</em>. The former situation, which is called <strong>underfitting</strong>, can be easily diagnoised by looking at a plot of the resulting model with respect to the data (or, equivalently, by checking the accuracy of the model). Conversely, when the model is too flexible, we are in an harder scenario known as <strong>overfitting</strong>. In overfitting, the model is not <em>understanding the knowledge</em> of the data, but it is <em>memorizing</em> the training set, usually resulting in optimal training error and bad test prediction.</p>
+<p>{% include figure.html path=”/assets/images/regression/overfit.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>Ideally, when the data is generated by a <em>noisy polynomial experiment</em>, we would like to set <span class="math notranslate nohighlight">\(K\)</span> as the <em>real</em> degree of such polynomial. Unfortunately, this is not always possible and indeed, spotting overfitting is the hardest issue to solve while working with Machine Learning.</p>
+<section id="solving-overfitting-using-the-error-plot">
+<h2>Solving overfitting using the error plot<a class="headerlink" href="#solving-overfitting-using-the-error-plot" title="Link to this heading">#</a></h2>
+<p>A common way to solve overfit, is to plot the error of the learnt model with respect to its complexity (i.e. the degree $<span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( of the polynomial). In particular, for \)</span><span class="math notranslate nohighlight">\(K = 1, 2, \dots\)</span><span class="math notranslate nohighlight">\(, one can train a polynomial regressor \)</span><span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( of degree \)</span><span class="math notranslate nohighlight">\(K\)</span><span class="math notranslate nohighlight">\( over the training set \)</span><span class="math notranslate nohighlight">\((X, Y)\)</span>$ and compute the training error as the average absolute error of the prediction on the training set, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathcal{TR}_K = \frac{1}{N} ||\Phi(X)\theta^* - Y||_2^2
+\]</div>
+<p>and, for the same set of parameters, the test error</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathcal{TE}_K = \frac{1}{N_{test}} ||\Phi(X^{test})\theta^* - Y^{test}||_2^2
+\]</div>
+<p>If we plot the training and test error with respect to the different values of $<span class="math notranslate nohighlight">\(K\)</span>$, we will observe the following situation:</p>
+<p>{% include figure.html path=”/assets/images/regression/overfit_underfit.png” title=”diagram” class=”img-fluid rounded z-depth-1” %}</p>
+<p>which will help us to find the correct parameter $<span class="math notranslate nohighlight">\(K\)</span>$, not suffering underfitting nor overfitting.</p>
+</section>
+</section>
+<section id="a-better-solution-maximum-a-posteriori-map">
+<h1>A better solution: Maximum A Posteriori (MAP)<a class="headerlink" href="#a-better-solution-maximum-a-posteriori-map" title="Link to this heading">#</a></h1>
+<p>A completely different approach to overfitting is to change the perspective and stop using MLE. The idea is to reverse the problem and, instead of searching parameters $<span class="math notranslate nohighlight">\(\theta\)</span><span class="math notranslate nohighlight">\( such that the probability of observing the outcomes \)</span><span class="math notranslate nohighlight">\(Y\)</span><span class="math notranslate nohighlight">\( given the data \)</span><span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( is maximized, i.e. maximizing \)</span><span class="math notranslate nohighlight">\(p_\theta(y\|x)\)</span><span class="math notranslate nohighlight">\(, as in MLE, try to maximize the probability that the observed data is \)</span><span class="math notranslate nohighlight">\((X, Y)\)</span><span class="math notranslate nohighlight">\(, given the parameters \)</span><span class="math notranslate nohighlight">\(\theta\)</span>$. Mathematically, we are asked to solve the optimization problem</p>
+<p>\begin{align}\label{eq:MAP_formulation1}
+\theta_{MAP} = \arg\max_{\theta \in \mathbb{R}^s} p(\theta|X,Y)
+\end{align}</p>
+<p>Since $<span class="math notranslate nohighlight">\(p(\theta\|X,Y)\)</span>$ is called <strong>posterior distribution</strong>, this method is usually referred to as **Maximum A Posteriori (MAP).</p>
+<section id="bayes-theorem">
+<h2>Bayes Theorem<a class="headerlink" href="#bayes-theorem" title="Link to this heading">#</a></h2>
+<p>A problem of MAP, is that it is non-trivial to find a formulation for $<span class="math notranslate nohighlight">\(p(\theta \|X,Y)\)</span><span class="math notranslate nohighlight">\(. Indeed, if with MLE the Gaussian assumption made sense, as a consequence of the hypothesis that the observations \)</span><span class="math notranslate nohighlight">\(y\)</span><span class="math notranslate nohighlight">\( are obtained by corrupting a deterministic function of \)</span><span class="math notranslate nohighlight">\(x\)</span><span class="math notranslate nohighlight">\( by Gaussian noise, this does not hold true for MAP, since in general the generation of \)</span><span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( given \)</span><span class="math notranslate nohighlight">\(Y\)</span>$ is not Gaussian.</p>
+<p>Luckily, we can express the posterior distribution $<span class="math notranslate nohighlight">\(p(\theta\|X,Y)\)</span><span class="math notranslate nohighlight">\( in terms of the likelihood \)</span><span class="math notranslate nohighlight">\(p(Y\|X, \theta)\)</span><span class="math notranslate nohighlight">\( (which we know to be Gaussian) and the prior \)</span><span class="math notranslate nohighlight">\(p(\theta)\)</span>$, as a consequence of Bayes Theorem. Indeed, it holds</p>
+<div class="math notranslate nohighlight">
+\[
+    p(\theta| X,Y) = \frac{p(Y|X, \theta) p(\theta)}{p(Y|X)}
+\]</div>
+</section>
+<section id="gaussian-assumption-on-map">
+<h2>Gaussian assumption on MAP<a class="headerlink" href="#gaussian-assumption-on-map" title="Link to this heading">#</a></h2>
+<p>For what we observed above, the posterior distribution $<span class="math notranslate nohighlight">\(p(\theta \|X,Y)\)</span><span class="math notranslate nohighlight">\( can be rewritten as a function of the likelihood \)</span><span class="math notranslate nohighlight">\(p(Y\|X, \theta)\)</span><span class="math notranslate nohighlight">\( and the prior \)</span><span class="math notranslate nohighlight">\(p(\theta)\)</span>$. Thus, \eqref{eq:MAP_formulation1} can be rewritten as</p>
+<p>\begin{align}\label{eq:MAP_formulation2}
+\theta_{MAP} = \arg\max_{\theta \in \mathbb{R}^s} p(\theta|X,Y) = \arg\max_{\theta \in \mathbb{R}^s} \frac{p(Y|X, \theta) p(\theta)}{p(Y|X)}
+\end{align}</p>
+<p>With the same trick we used in MLE, we can change it to a minimum point estimation by changing the sign of the function and by taking the logarithm. We obtain,</p>
+<p>\begin{align}\label{eq:MAP_formulation3}
+\theta_{MAP} = \arg\max_{\theta \in \mathbb{R}^s} \frac{p(Y|X,\theta) p(\theta)}{p(Y|X)} = \arg\min_{\theta \in \mathbb{R}^s} - \log p(Y|X,\theta) - \log p(\theta)
+\end{align}</p>
+<p>where we removed $<span class="math notranslate nohighlight">\(p(Y|X)\)</span><span class="math notranslate nohighlight">\( since it is constant in \)</span><span class="math notranslate nohighlight">\(\theta\)</span>$.</p>
+<p>Since $<span class="math notranslate nohighlight">\(x^1, \dots, x^N\)</span>$ are i.i.d. by hypothesis and by following the same procedure of MLE, we can split \eqref{eq:MAP_formulation3} into a sum over datapoints, as</p>
+<p>\begin{align}\label{eq:MAP_formulation4}
+\theta_{MAP} = \arg\min_{\theta \in \mathbb{R}^s} - \log \prod_{i=1}^N p(y^i|x^i, \theta) - \log p(\theta) = \arg\min_{\theta \in \mathbb{R}^s} \sum_{i=1}^N - \log p(y^i|x^i,\theta) - \log p(\theta)
+\end{align}</p>
+<p>Now, if we assume that $<span class="math notranslate nohighlight">\(p(y^i\|x^i,\theta) = \mathcal{N}(f_\theta(x^i), \sigma^2I)\)</span>$, the same computation we did in MLE implies</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta_{MAP} = \arg\min_{\theta \in \mathbb{R}^s} \sum_{i=1}^N \frac{1}{2\sigma^2} ( f_\theta(x^i) - y^i )^2 - \log p(\theta)
+\]</div>
+<p>To complete the derivation, we have to rewrite $<span class="math notranslate nohighlight">\(p(\theta)\)</span><span class="math notranslate nohighlight">\( in a meaningful way, to be able to perform the optimization. To do that, it is common to assume that \)</span><span class="math notranslate nohighlight">\(p(\theta) = \mathcal{N}(0, \sigma_\theta^2I)\)</span><span class="math notranslate nohighlight">\(, a Gaussian distribution with zero mean and variance \)</span><span class="math notranslate nohighlight">\(\sigma^2_\theta\)</span>$. Under this assumption,</p>
+<div class="math notranslate nohighlight">
+\[
+    - \log p(\theta) = \frac{1}{2\sigma^2_\theta} || \theta ||_2^2
+\]</div>
+<p>and consequently</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta_{MAP} = \arg\min_{\theta \in \mathbb{R}^s} \sum_{i=1}^N \frac{1}{2\sigma^2} (f_\theta(x^i) - y^i )^2 + \frac{1}{2\sigma^2_\theta} ||\theta||_2^2 = \arg\min_{\theta \in \mathbb{R}^s} \frac{1}{2} || f_\theta(X) - Y ||_2^2 + \frac{\lambda}{2} || \theta ||_2^2
+\]</div>
+<p>where $<span class="math notranslate nohighlight">\(\lambda = \frac{\sigma^2}{\sigma_\theta^2}\)</span><span class="math notranslate nohighlight">\( is a positive parameter, usually called **regularization parameter**. This equation is the final MAP loss function under Gaussian assumption for both \)</span><span class="math notranslate nohighlight">\(p(Y\|X, \theta)\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(p(\theta)\)</span>$. Clearly, it is another Least Squares problem which can be solved by Gradient Descent or Stochastic Gradient Descent.</p>
+<p>When $<span class="math notranslate nohighlight">\(f_\theta(x)\)</span><span class="math notranslate nohighlight">\( is a polynomial regression model, \)</span><span class="math notranslate nohighlight">\(f_\theta(X) = \Phi(X)\theta\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta_{MAP} = \arg\min_{\theta \in \mathbb{R}^s} \frac{1}{2} || \Phi(X)\theta - Y ||_2^2 + \frac{\lambda}{2} || \theta ||_2^2
+\]</div>
+<p>can be also solved by Normal Equations, as</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta_{MAP} = (\Phi(X)^T \Phi(X) + \lambda I)^{-1} \Phi(X)^T Y
+\]</div>
+</section>
+<section id="ridge-regression-and-lasso">
+<h2>Ridge Regression and LASSO<a class="headerlink" href="#ridge-regression-and-lasso" title="Link to this heading">#</a></h2>
+<p>When the Gaussian assumption is used for both the likelihood $<span class="math notranslate nohighlight">\(p(Y\|X, \theta)\)</span><span class="math notranslate nohighlight">\( and the prior \)</span><span class="math notranslate nohighlight">\(p(\theta)\)</span><span class="math notranslate nohighlight">\(, the resulting MAP is usually called **Ridge Regression** in the literature. On the contrary, if \)</span><span class="math notranslate nohighlight">\(p(Y\|X, \theta)\)</span><span class="math notranslate nohighlight">\( is Gaussian and \)</span><span class="math notranslate nohighlight">\(p(\theta) = Lap(0, \sigma_\theta^2)\)</span><span class="math notranslate nohighlight">\( is a Laplacian distribution with mean 0 and variance \)</span><span class="math notranslate nohighlight">\(\sigma^2_\theta\)</span>$, then</p>
+<div class="math notranslate nohighlight">
+\[
+    p(\theta) = \frac{1}{2\sigma^2_\theta} e^{- \frac{|\theta|}{\sigma^2_\theta}}
+\]</div>
+<p>and consequently (prove it by exercise)</p>
+<div class="math notranslate nohighlight">
+\[
+    \theta_{MAP} = \arg\min_{\theta \in \mathbb{R}^s} \frac{1}{2} || \Phi(X)\theta - Y ||_2^2 + \lambda || \theta ||_1
+\]</div>
+<p>the resulting model is called <strong>LASSO</strong>, and it is the basis for most of the classical, state-of-the-art regression models.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./regression_classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Probabilities in Machine Learning</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-likelihood-estimation-mle">Maximum Likelihood Estimation (MLE)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-assumption">Gaussian Assumption</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-regression-mle">Polynomial Regression MLE</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-solution-by-normal-equations">Direct solution by Normal Equations</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mle-flexibility-overfit">MLE + Flexibility = Overfit</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-overfitting-using-the-error-plot">Solving overfitting using the error plot</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-solution-maximum-a-posteriori-map">A better solution: Maximum A Posteriori (MAP)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-theorem">Bayes Theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-assumption-on-map">Gaussian assumption on MAP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-regression-and-lasso">Ridge Regression and LASSO</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
