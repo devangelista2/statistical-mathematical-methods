@@ -6,10 +6,6 @@ parts:
       - file: NLA_numpy/basics_python
       - file: NLA_numpy/introduction_to_numpy
       - file: NLA_numpy/matplotlib
-      - file: NLA_numpy/linear_systems
   - caption: Optimization
     chapters:
       - file: Optimization/GD
-  - caption: Homeworks
-    chapters:
-      - file: Homeworks/HW1
