@@ -88,7 +88,7 @@
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Visualization with Matplotlib" href="../NLA_numpy/matplotlib.html" />
+    <link rel="prev" title="A (Very Short) Introduction to Machine Learning" href="intro_ML.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -214,6 +214,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Gradient Descent</a></li>
 </ul>
 
@@ -410,13 +411,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-conditions">First-order conditions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-gd">Gradient descent (GD)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-and-second-order-optimality-conditions">First-Order (and Second-Order) Optimality Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient-descent-algorithm">The Gradient Descent Algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition">Intuition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-parameters">Selection of parameters</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-the-initial-iterate">Choice the initial iterate</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size">Step Size</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backtracking">Backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size-selection-learning-rate">Step-Size Selection (Learning Rate)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping Criteria</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ill-conditioning-and-geometry">Ill-Conditioning and Geometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-pure-gradient-descent">Limitations of Pure Gradient Descent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-stochastic-gradient-descent">Motivation for Stochastic Gradient Descent</a></li>
 </ul>
 </li>
 </ul>
@@ -432,110 +440,139 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="gradient-descent">
 <h1>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h1>
-<p>Consider a general <em>continuous</em> function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>. Given a set of <em>admissible solutions</em> <span class="math notranslate nohighlight">\(\Omega \subseteq \mathbb{R}^n\)</span>, an optimization problem is a problem of the form</p>
+<p>We have seen that the <strong>training phase</strong> of a Machine Learning model can be expressed as an <strong>optimization problem</strong>: given a loss function</p>
 <div class="math notranslate nohighlight">
 \[
-\min_{x \in \Omega} f(x)
+\mathcal{L}(\Theta) = \frac{1}{N}\sum_{i=1}^N \ell(f_\Theta(x^{(i)}), y^{(i)}),
 \]</div>
-<p>If <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, we say that the optimization is <strong>unconstrained</strong>. If <span class="math notranslate nohighlight">\(\Omega \subset \mathbb{R}^n\)</span>, the problem is <strong>constrained</strong>. In the following, we will always assume <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, i.e. the unconstrained setup.</p>
-<section id="convexity">
-<h2>Convexity<a class="headerlink" href="#convexity" title="Link to this heading">#</a></h2>
-<p>A common assumption in optimization is the <em>convexity</em>. By definition, a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is convex if</p>
+<p>our goal is to find</p>
 <div class="math notranslate nohighlight">
 \[
-f(tx_1 + (1-t)x_2) \leq tf(x_1) + (1-t)f(x_2), \quad \forall x_1, x_2 \in \mathbb{R}^n, \quad \forall t \in [0, 1]
+\Theta^* = \arg\min_\Theta \, \mathcal{L}(\Theta).
 \]</div>
-<p><img alt="" src="../_images/convexity.png" /></p>
-<p>The importance of convex functions in optimization is that if <span class="math notranslate nohighlight">\(f(x)\)</span> is convex, than every minimum point <span class="math notranslate nohighlight">\(x^*\)</span> of <span class="math notranslate nohighlight">\(f(x)\)</span> is a <em>global minimum</em> and the set of global minima is connected (the <span class="math notranslate nohighlight">\(n\)</span>-dimensional extension of the concept of <em>interval</em>).</p>
-<p>On the other side, if a function is non-convex (<em>NOTE:</em> the opposite of convex is <strong>not</strong> concave), then there can be multiple distinct minimum points, some of which are <em>local minimum</em> while others are <em>global minimum</em>.</p>
-<p><img alt="" src="../_images/non_convexity.png" /></p>
-<p>Since optimizing convex functions is easier compared to non-convex functions, due to the absence of local minima, we will consider convex objective function for most of the coming discussion.</p>
-</section>
-<section id="first-order-conditions">
-<h2>First-order conditions<a class="headerlink" href="#first-order-conditions" title="Link to this heading">#</a></h2>
-<p>Most of the algorithms to find the minimum points of a given function <span class="math notranslate nohighlight">\(f(x)\)</span> are based on the following property:</p>
-<p><strong>First-order sufficient condition:</strong> If <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is a continuously differentiable function and <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> is a minimum point of <span class="math notranslate nohighlight">\(f(x)\)</span>, then <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>.</p>
-<p>Moreover, it holds:</p>
-<p><strong>First-order necessary condition:</strong> If <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is a continuously differentiable function and <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span> for <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span>, then <span class="math notranslate nohighlight">\(x^*\)</span> is either a (local) minimum, a (local) maximum or a saddle point of <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
-<p>Consequently, we want to find a point <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> such that <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>. Those points are called <strong>stationary points</strong> of <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
+<p>For simple cases (like linear regression with one parameter), this minimization problem may admit a closed-form solution. In general, however, the loss function is <strong>non-linear, high-dimensional, and often non-convex</strong>, making analytic solutions impossible.<br />
+We therefore rely on <strong>iterative optimization algorithms</strong>, the most fundamental of which is <strong>Gradient Descent</strong>.</p>
+<section id="first-order-and-second-order-optimality-conditions">
+<h2>First-Order (and Second-Order) Optimality Conditions<a class="headerlink" href="#first-order-and-second-order-optimality-conditions" title="Link to this heading">#</a></h2>
+<p>For unconstrained, differentiable problems <span class="math notranslate nohighlight">\( \min_\Theta \mathcal{L}(\Theta) \)</span>:</p>
+<ul>
+<li><p><strong>First-Order Necessary Condition</strong>: any local minimizer <span class="math notranslate nohighlight">\(\Theta^*\)</span> satisfies</p>
+<div class="math notranslate nohighlight">
+\[
+  \nabla_\Theta \mathcal{L}(\Theta^*) = 0.
+  \]</div>
+<p>Points with zero gradient are called <strong>stationary points</strong> (they can be minima, maxima, or saddle points).</p>
+</li>
+<li><p><strong>Second-Order Test</strong> (when <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is twice differentiable):<br />
+Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \mathcal{L}(\Theta)\)</span> be the Hessian.</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(H(\Theta^*)\)</span> is <strong>positive definite</strong>, <span class="math notranslate nohighlight">\(\Theta^*\)</span> is a <strong>strict local minimum</strong>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(H(\Theta^*)\)</span> is <strong>indefinite</strong>, <span class="math notranslate nohighlight">\(\Theta^*\)</span> is a <strong>saddle point</strong>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is <strong>convex</strong>, then <strong>any</strong> stationary point is a <strong>global minimum</strong>. If it is <strong>strictly convex</strong>, the global minimizer is <strong>unique</strong>.</p></li>
+</ul>
+</li>
+</ul>
 <p><img alt="" src="../_images/minmaxsaddle.png" /></p>
 </section>
-<section id="gradient-descent-gd">
-<h2>Gradient descent (GD)<a class="headerlink" href="#gradient-descent-gd" title="Link to this heading">#</a></h2>
-<p>The most common algorithm to solve optimization problems is the so-called Gradient Descent (GD). It is an iterative algorithm, i.e. an algorithm that iteratively updates the estimate of the solution, defined as:</p>
+<section id="the-gradient-descent-algorithm">
+<h2>The Gradient Descent Algorithm<a class="headerlink" href="#the-gradient-descent-algorithm" title="Link to this heading">#</a></h2>
+<section id="intuition">
+<h3>Intuition<a class="headerlink" href="#intuition" title="Link to this heading">#</a></h3>
+<p>The gradient of a differentiable function <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta)\)</span> points in the direction of the <strong>steepest ascent</strong>. If we want to minimize the function, we must move in the <strong>opposite direction</strong>. This leads to the update rule:</p>
 <div class="math notranslate nohighlight">
 \[
-x_{k+1} = x_k - \alpha_k \nabla f(x_k), \quad k = 0, 1, \dots, \texttt{maxit}
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}),
 \]</div>
-<p>where the initial iterate, <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>, is given as input and the <strong>step-size</strong> (equivalently, <strong>learning rate</strong>) <span class="math notranslate nohighlight">\(\alpha_k &gt; 0\)</span> controls the decay rapidity of <span class="math notranslate nohighlight">\(f(x)\)</span> for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>.</p>
+<p>where <span class="math notranslate nohighlight">\(\eta_k &gt; 0\)</span>, <span class="math notranslate nohighlight">\(k = 1, \dots, \texttt{maxit}\)</span>, is the <strong>learning rate</strong> (step size).</p>
+<p>Therefore, the resulting algorithm reads:</p>
+<p><strong>Input</strong>: initial parameters <span class="math notranslate nohighlight">\(\Theta^{(0)}\)</span>, learning rate schedule <span class="math notranslate nohighlight">\(\{ \eta_k \}_k\)</span>, stopping criterion.<br />
+<strong>Repeat</strong> until the stopping criterion is satisfied:</p>
+<ol class="arabic">
+<li><p>Compute the gradient <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta^{(k)})\)</span>.</p></li>
+<li><p>Update parameters:</p>
+<div class="math notranslate nohighlight">
+\[
+   \Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}).
+   \]</div>
+</li>
+</ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The gradient descent algorithm is an example of descent methods:</p>
 <div class="math notranslate nohighlight">
 \[
-x_{k+1} = x_k + \alpha_k p_k, \quad k = 0, 1, \dots, \texttt{maxit},
+\Theta^{(k+1)} = \Theta^{(k)} + \eta_k p_k, \quad k = 0, 1, \dots, \texttt{maxit},
 \]</div>
 <p>where the descent direction <span class="math notranslate nohighlight">\(p_k\)</span> has to be chosen such that for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\nabla f(x_k)^T p_k \leq 0,
+\nabla_\Theta \mathcal{L}(\Theta^{(k)})^T p_k \leq 0,
 \]</div>
-<p>to assure convergence to a stationary point. Since for GD, <span class="math notranslate nohighlight">\(p_k = - \nabla f(x_k)\)</span>, then the condition above is always satisfied:</p>
+<p>to assure convergence to a stationary point. Since for GD, <span class="math notranslate nohighlight">\(p_k = - \nabla_\Theta \mathcal{L}(\Theta^{(k)})\)</span>, then the condition above is always satisfied:</p>
 <div class="math notranslate nohighlight">
 \[
-\nabla f(x_k)^T p_k = - \nabla f(x_k)^T \nabla f(x_k) = - || \nabla f(x_k) ||_2^2 \leq 0.
+\nabla_\Theta \mathcal{L}(\Theta^{(k)})^T p_k = - \nabla_\Theta \mathcal{L}(\Theta^{(k)})^T \nabla_\Theta \mathcal{L}(\Theta^{(k)}) = - || \nabla_\Theta \mathcal{L}(\Theta^{(k)}) ||_2^2 \leq 0.
 \]</div>
 <p>Therefore, GD algorithm <strong>always</strong> converge to a stationary point in the limit of infinite iterations.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do <strong>not</strong> confuse this full-batch Gradient Descent with <strong>Stochastic Gradient Descent</strong> (SGD), which will be introduced in the next chapter.</p>
+</div>
+</section>
+</section>
+<section id="selection-of-parameters">
+<h2>Selection of parameters<a class="headerlink" href="#selection-of-parameters" title="Link to this heading">#</a></h2>
 <section id="choice-the-initial-iterate">
 <h3>Choice the initial iterate<a class="headerlink" href="#choice-the-initial-iterate" title="Link to this heading">#</a></h3>
-<p>The Gradient Descent (GD) algorithm, require the user to input an initial iterate <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>. Theoretically, since GD has a <em>global convergence</em> proprerty, for any <span class="math notranslate nohighlight">\(x_0\)</span> it will always converge to a <strong>stationary point</strong> of <span class="math notranslate nohighlight">\(f(x)\)</span>, i.e. to a point such that <span class="math notranslate nohighlight">\(\nabla f(x) = 0\)</span>.</p>
-<p>If <span class="math notranslate nohighlight">\(f(x)\)</span> is convex, then every stationary point is a (global) minimum of <span class="math notranslate nohighlight">\(f(x)\)</span>, implying that the choice of <span class="math notranslate nohighlight">\(x_0\)</span> is not really important, and we can always set <span class="math notranslate nohighlight">\(x_0 = 0\)</span>. On the other side, when <span class="math notranslate nohighlight">\(f(x)\)</span> is not convex, we have to choose <span class="math notranslate nohighlight">\(x_0\)</span> such that it is as close as possible to the <em>right</em> stationary point, to increase the chances of getting to that. If an estimate of the correct minimum point is not available, we will just consider <span class="math notranslate nohighlight">\(x_0 = 0\)</span> to get to a general local minima.</p>
+<p>The Gradient Descent (GD) algorithm, require the user to input an initial iterate <span class="math notranslate nohighlight">\(\Theta^{(0)} \in \mathbb{R}^n\)</span>. Theoretically, since GD has a <em>global convergence</em> proprerty, for any <span class="math notranslate nohighlight">\(\Theta^{(0)}\)</span> it will always converge to a <strong>stationary point</strong> of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span>, i.e. to a point such that <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta) = 0\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> is convex, then every stationary point is a (global) minimum of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span>, implying that the choice of <span class="math notranslate nohighlight">\(\Theta^{(0)}\)</span> is not really important, and we can always set <span class="math notranslate nohighlight">\(\Theta^{(0)} = 0\)</span>. On the other side, when <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> is not convex, we have to choose <span class="math notranslate nohighlight">\(\Theta^{(0)}\)</span> such that it is as close as possible to the <em>right</em> stationary point, to increase the chances of getting to that. If an estimate of the correct minimum point is not available, we will just consider <span class="math notranslate nohighlight">\(\Theta^{(0)} = 0\)</span> to get to a general local minima.</p>
 </section>
-<section id="step-size">
-<h3>Step Size<a class="headerlink" href="#step-size" title="Link to this heading">#</a></h3>
-<p>Selecting the step size is arguably the hardest component of gradient descent algorithm. Indeed, there are three possible scenario that happens in selecting the step size:</p>
+<section id="step-size-selection-learning-rate">
+<h3>Step-Size Selection (Learning Rate)<a class="headerlink" href="#step-size-selection-learning-rate" title="Link to this heading">#</a></h3>
+<p>The choice of <span class="math notranslate nohighlight">\(\{ \eta_k \}_k\)</span> critically affects convergence.</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is too small <span class="math notranslate nohighlight">\(\implies\)</span> we never get to the minimum, getting closer and closer without reaching it. Moreover, we can easily get stuck on local minima when the <em>objective function</em> is non convex.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is too large <span class="math notranslate nohighlight">\(\implies\)</span> we get stuck, bouncing back and forth around the minima.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is correct <span class="math notranslate nohighlight">\(\implies\)</span> we reach the stationary point.</p></li>
+<li><p><strong>Constant step size</strong>: given a value <span class="math notranslate nohighlight">\(\eta\)</span>, set <span class="math notranslate nohighlight">\(\eta_k = \eta\)</span> <span class="math notranslate nohighlight">\(\forall k = 1, \dots, \texttt{maxit}\)</span>. Simple, but problem-scale dependent. In particular:</p>
+<ul>
+<li><p>If <span class="math notranslate nohighlight">\(\eta\)</span> is <strong>too small</strong>: GD does not converge as the iterates stucks before reaching convergence;</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\eta\)</span> is <strong>too large</strong>: The iterates bounce back and forth around the minima, unable to reach it;</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\eta\)</span> is <strong>just right</strong>: The GD method converge to a stationary point, with a speed proportional to how large <span class="math notranslate nohighlight">\(\eta\)</span> is.</p></li>
+</ul>
+</li>
 </ul>
 <p><img alt="" src="../_images/right_alpha.png" /></p>
-</section>
-<section id="backtracking">
-<h3>Backtracking<a class="headerlink" href="#backtracking" title="Link to this heading">#</a></h3>
-<p>Fortunately, there is a way to guarantee that the chosen step-size <span class="math notranslate nohighlight">\(\alpha_k\)</span> is correct. Indeed, it is possible to prove that, if <span class="math notranslate nohighlight">\(\alpha_k\)</span> satisfies the following conditions (known as <strong>Wolfe Conditions</strong>):</p>
-<ul class="simple">
-<li><p><em>Sufficient decrease:</em> <span class="math notranslate nohighlight">\( f(x_k - \alpha_k \nabla f(x_k)) \leq f(x_k) - c_1 \alpha_k || \nabla f(x_k) ||_2^2 \)</span>;</p></li>
-<li><p><em>Curvature condition:</em> <span class="math notranslate nohighlight">\(\nabla f(x_k)^T \nabla f(x_k - \alpha_k \nabla f(x_k)) \leq c_2 ||  \nabla f(x_k)  ||_2^2\)</span>;</p></li>
-</ul>
-<p>with <span class="math notranslate nohighlight">\(0 &lt; c_1 &lt; c_2 &lt; 1\)</span>, for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>, then the associated GD algorithm will <strong>always</strong> converge to a stationary point. In particular, the Sufficient decrease condition, also known as <em>Armijo Condition</em> is of particular importance. It requires that <span class="math notranslate nohighlight">\(x_{k+1}\)</span> causes a reduction in the value of <span class="math notranslate nohighlight">\(f\)</span> compared to <span class="math notranslate nohighlight">\(x_k\)</span> which is large enough. Indeed, note that the Armijo condition rewrites:</p>
+<ul>
+<li><p><strong>Backtracking line search</strong>: for any <span class="math notranslate nohighlight">\(k \in 1, \dots, \texttt{maxit}\)</span>, set <span class="math notranslate nohighlight">\(\eta_k = \bar{\eta}\)</span> and shrink by <span class="math notranslate nohighlight">\(\beta \in (0,1)\)</span> until the <strong>Armijo</strong> condition holds:</p>
 <div class="math notranslate nohighlight">
 \[
-f(x_k) - f(\underbrace{x_k - \alpha_k \nabla f(x_k)}_{x_{k+1}}) \geq c_1 \alpha_k || \nabla f(x_k) ||_2^2,
-\]</div>
-<p>meaning that the reduction in the function <span class="math notranslate nohighlight">\(f\)</span> due to <span class="math notranslate nohighlight">\(x_{k+1}\)</span> has to be at least as big as a multiple of <span class="math notranslate nohighlight">\(|| \nabla f(x_k) ||_2^2\)</span>.</p>
-<p>These conditions are automatically satisfied if <span class="math notranslate nohighlight">\(\alpha_k\)</span> is chosen by the <strong>backtracking algorithm</strong>. The idea of this algorithm is to begin with an initial guess for <span class="math notranslate nohighlight">\(\alpha_k\)</span>, which is then reduced as <span class="math notranslate nohighlight">\(\alpha_k \leftarrow \tau \alpha_k\)</span> with <span class="math notranslate nohighlight">\(\tau &lt; 1\)</span> until the Armijo condition is satisfied. It can be proved that when <span class="math notranslate nohighlight">\(\alpha_k\)</span> is computed this way, the second Wolfe condition is automatically satistfied. A Python implementation for the backtracking algorithm can be found in the following.</p>
+  \mathcal{L}(\Theta^{(k)} - \eta g^{(k)}) \;\le\; \mathcal{L}(\Theta^{(k)}) - c\,\eta_k\,\|g^{(k)}\|^2,
+  \qquad g^{(k)}=\nabla_\Theta \mathcal{L}(\Theta^{(k)}),\; c\in(0,1).
+  \]</div>
+</li>
+</ul>
+<p><strong>Backtracking:</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">grad_L</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function is a simple implementation of the backtracking algorithm for</span>
-<span class="sd">    the GD (Gradient Descent) method.</span>
-<span class="sd">    </span>
-<span class="sd">    f: function. The function that we want to optimize.</span>
-<span class="sd">    grad_f: function. The gradient of f(x).</span>
-<span class="sd">    x: ndarray. The actual iterate x_k.</span>
+<span class="sd">    Return a step size eta that satisfies the Armijo condition:</span>
+<span class="sd">        L(theta - eta*g) &lt;= L(theta) - c * eta * ||g||^2</span>
+<span class="sd">    Inputs:</span>
+<span class="sd">      - L:      R^n -&gt; R</span>
+<span class="sd">      - grad_L: R^n -&gt; R^d</span>
+<span class="sd">      - theta:  current point (np.ndarray)</span>
+<span class="sd">      - eta0:   initial step size</span>
+<span class="sd">      - beta:   shrinking factor in (0,1)</span>
+<span class="sd">      - c:      Armijo constant in (0,1)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.8</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.25</span>
-    
-    <span class="k">while</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">alpha</span>
-    <span class="k">return</span> <span class="n">alpha</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">eta0</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">grad_L</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">g_norm2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">L</span><span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">L</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">g_norm2</span><span class="p">:</span>
+        <span class="n">eta</span> <span class="o">*=</span> <span class="n">beta</span>
+    <span class="k">return</span> <span class="n">eta</span>
 </pre></div>
 </div>
 </div>
@@ -543,51 +580,111 @@ f(x_k) - f(\underbrace{x_k - \alpha_k \nabla f(x_k)}_{x_{k+1}}) \geq c_1 \alpha_
 </section>
 <section id="stopping-criteria">
 <h3>Stopping Criteria<a class="headerlink" href="#stopping-criteria" title="Link to this heading">#</a></h3>
-<p>The gradient descent is an iterative algorithm, meaning that it iteratively generates new estimates of the minima, starting from <span class="math notranslate nohighlight">\(x_0\)</span>. Theoretically, after infinite iterations, we converge to the solution of the optimization problem but, since we cannot run infinite iterations, we have to find a way to tell the algorithm when its time to stop. A convergence condition for an iterative algorithm is called <strong>stopping criteria</strong>.</p>
-<p>Remember that gradient descent aim to find stationary point. Consequently, it would make sense to use the norm of the gradient as a stopping criteria. In particular, it is common to check if the norm of the gradient on the actual iterate is below a certain tollerance and, if so, we stop the iterations. In particular</p>
-<p><strong>Stopping criteria 1:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| \nabla f(x_k) || \leq tol_f || \nabla f(x_0) ||\)</span>. If so, stop the iterations.</p>
-<p>Unfortunately, this condition alone is not sufficient. Indeed, if the function <span class="math notranslate nohighlight">\(f(x)\)</span> is almost flat around its minimum, then <span class="math notranslate nohighlight">\(|| \nabla f(x_k) ||\)</span> will be small even if <span class="math notranslate nohighlight">\(x_k\)</span> will be far from the true minimum.</p>
-<p><img alt="" src="../_images/plateau.png" /></p>
-<p>Consequently, its required to add another stopping criteria.</p>
-<p><strong>Stopping criteria 2:</strong> Given a tollerance <code class="docutils literal notranslate"><span class="pre">tol_x</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(|| x_k - x_{k-1} || \leq tol_x\)</span>. If so, stop the iterations.</p>
-<p>Moreover, to stop the algorithm from running indefinitely, it is always recommended to add an additional variable, <code class="docutils literal notranslate"><span class="pre">maxit</span></code>, which automatically stops the algorithm if more than <code class="docutils literal notranslate"><span class="pre">maxit</span></code> iterations have been performed. When this happens, it is suggested to also tell the user that the algorithm stopped due to <code class="docutils literal notranslate"><span class="pre">maxit</span></code> condition, therefore it didn’t converge.</p>
-<p>The choice for the parameters <code class="docutils literal notranslate"><span class="pre">tol_f</span></code>, <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> and <code class="docutils literal notranslate"><span class="pre">maxit</span></code> is free and depends on the specific application. Usually, <code class="docutils literal notranslate"><span class="pre">tol_f</span></code> and <code class="docutils literal notranslate"><span class="pre">tol_x</span></code> are chosen in the range [<code class="docutils literal notranslate"><span class="pre">1e-4</span></code>, <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>], while <code class="docutils literal notranslate"><span class="pre">maxit</span></code> <span class="math notranslate nohighlight">\(\approx\)</span> <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p>
-<p><strong>Exercise:</strong> Write a script that implement the GD algorithm, with the following structure:</p>
+<p>In practice, we cannot iterate forever. Common <strong>stopping criteria</strong> include:</p>
+<ul>
+<li><p>The <strong>norm of the gradient</strong> is small:</p>
+<div class="math notranslate nohighlight">
+\[
+  \|\nabla_\Theta \mathcal{L}(\Theta^{(k)})\| &lt; \texttt{tol}_\mathcal{L},
+  \]</div>
+<p>meaning we are close to a stationary point.</p>
+</li>
+<li><p>The <strong>change in loss</strong> is negligible:</p>
+<div class="math notranslate nohighlight">
+\[
+  |\mathcal{L}(\Theta^{(k+1)}) - \mathcal{L}(\Theta^{(k)})| &lt; \texttt{tol}_{ES}.
+  \]</div>
+<p>named <strong>early stopping</strong> In ML practice (usually estimated on the validation set).</p>
+</li>
+<li><p>The <strong>parameter update</strong> is small:</p>
+<div class="math notranslate nohighlight">
+\[
+  \|\Theta^{(k+1)} - \Theta^{(k)}\| &lt; \texttt{tol}_\Theta.
+  \]</div>
+</li>
+<li><p>A <strong>maximum number of iterations</strong> <span class="math notranslate nohighlight">\(\texttt{maxit}\)</span> is reached.</p></li>
+</ul>
+</section>
+</section>
+<section id="ill-conditioning-and-geometry">
+<h2>Ill-Conditioning and Geometry<a class="headerlink" href="#ill-conditioning-and-geometry" title="Link to this heading">#</a></h2>
+<p>Ill-conditioning manifests as elongated level sets and <strong>zig-zagging</strong> GD trajectories, which makes hard for GD to reach convergence.</p>
+<ul>
+<li><p>Given <span class="math notranslate nohighlight">\(0&lt;\lambda_1\ll\lambda_2\)</span>, consider the loss function:</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathcal{L}(\Theta) = \frac{1}{2} \lambda_1 \Theta_1^2 + \lambda_2 \Theta_2^2,
+  \]</div>
+</li>
+</ul>
+<p>The level sets are ellipses whose axes scale with <span class="math notranslate nohighlight">\(\lambda_1^{-1/2}\)</span> and <span class="math notranslate nohighlight">\(\lambda_2^{-1/2}\)</span>. When the ratio <span class="math notranslate nohighlight">\(\lambda_2/\lambda_1\)</span> is large, Gradient Descent with a fixed <span class="math notranslate nohighlight">\(\eta\)</span> progresses slowly and “zig-zags” across narrow valleys.</p>
+<blockquote>
+<div><p><strong>Exercise (condition number intuition; left-multiplication):</strong></p>
+<ol class="arabic simple">
+<li><p>Sketch the level sets of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)=\tfrac{1}{2}\,\Theta^\top A\,\Theta\)</span> for <span class="math notranslate nohighlight">\(A=\mathrm{diag}(\lambda_1,\lambda_2)\)</span>.</p></li>
+<li><p>Show that the gradient is <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L} (\Theta)=A\,\Theta\)</span>.</p></li>
+<li><p>Explain geometrically why taking a step along <span class="math notranslate nohighlight">\(-g(\Theta)\)</span> with a fixed <span class="math notranslate nohighlight">\(\eta\)</span> leads to slow progress when <span class="math notranslate nohighlight">\(\lambda_2\gg \lambda_1\)</span>.</p></li>
+<li><p>Relate this to the stability requirement <span class="math notranslate nohighlight">\(\eta \le 1/\lambda_{\max}(A)\)</span>.</p></li>
+</ol>
+</div></blockquote>
+<p><strong>Level-set plot helper:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">quad_levelsets</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">ngrid</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">ncontours</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ngrid</span><span class="p">)</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ngrid</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="o">*</span><span class="n">Y</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># theta^T A theta, left-multiplied convention</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">ncontours</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;box&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\theta_1$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\theta_2$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Example: ill-conditioned ellipse</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">])</span>  <span class="c1"># lambda1 &lt;&lt; lambda2</span>
+<span class="n">quad_levelsets</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Level sets of 0.5 * theta^T A theta&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/87f22d4a4f457bf6b12029b0d3a3c3e111e15a1ff41cc7b93bf5b44ae2ed25b3.png" src="../_images/87f22d4a4f457bf6b12029b0d3a3c3e111e15a1ff41cc7b93bf5b44ae2ed25b3.png" />
+</div>
+</div>
+</section>
+<section id="limitations-of-pure-gradient-descent">
+<h2>Limitations of Pure Gradient Descent<a class="headerlink" href="#limitations-of-pure-gradient-descent" title="Link to this heading">#</a></h2>
+<p>Despite its usefulness, Gradient Descent has several drawbacks:</p>
+<ol class="arabic simple">
+<li><p><strong>Computationally expensive</strong>: computing the gradient requires scanning the entire dataset at every step.</p></li>
+<li><p><strong>Learning rate sensitivity</strong>: too small = slow convergence, too large = divergence/oscillations.</p></li>
+<li><p><strong>Local minima, saddle points, and plateaus</strong> in non-convex landscapes.</p></li>
+<li><p><strong>Ill-conditioning</strong> causes slow progress and zig-zagging.</p></li>
+</ol>
+<section id="motivation-for-stochastic-gradient-descent">
+<h3>Motivation for Stochastic Gradient Descent<a class="headerlink" href="#motivation-for-stochastic-gradient-descent" title="Link to this heading">#</a></h3>
+<p>These limitations motivate more practical algorithms. In particular, instead of computing the gradient using the <em>entire dataset</em> at every iteration, one can approximate it using a <strong>subset of the data (mini-batches)</strong>. This gives rise to <strong>Stochastic Gradient Descent (SGD)</strong>, the subject of the next chapter.</p>
+<p>SGD addresses the scalability issue and often improves generalization, at the cost of introducing stochasticity in the updates.</p>
+<blockquote>
+<div><p><strong>Exercise (learning rate sensitivity):</strong><br />
+For <span class="math notranslate nohighlight">\(f(\theta) = (\theta - 3)^2\)</span>, analyze <em>by hand</em> the first 5 GD iterates for <span class="math notranslate nohighlight">\(\eta \in \{0.01,\;0.1,\;1.0\}\)</span> starting from <span class="math notranslate nohighlight">\(\theta^{(0)}=-5\)</span>.<br />
+Explain which choices lead to convergence, divergence, or slow progress, and connect your reasoning to curvature (second derivative) and to the sufficient-decrease (Armijo) condition.</p>
+</div></blockquote>
+<p>In summary, <strong>Gradient Descent</strong> provides the foundational principles of optimization in Machine Learning:</p>
 <ul class="simple">
-<li><p><em>Input:</em></p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">f</span></code>: the function <span class="math notranslate nohighlight">\(f(x)\)</span> we want to optimize. It is supposed to be a Python function, not an array.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">grad_f</span></code>: the gradient of <span class="math notranslate nohighlight">\(f(x)\)</span>. It is supposed to be a Python function, not an array.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code>: an <span class="math notranslate nohighlight">\(n\)</span>-dimensional array which represents the initial iterate.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: a float. The fixed step size as input.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">maxit</span></code>: an integer. The maximum possible number of iterations (to avoid infinite loops).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tolf</span></code>: small float. The relative tollerance of the algorithm. Convergence happens if ||grad_f(x_k)||_2 &lt; tolf ||grad_f(x_0)||_2</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tolx</span></code>: small float. The tollerance in the input domain. Convergence happens if ||x_{k} - x_{k-1}||_2 &lt; tolx. Pay attention to to the first iterate.</p></li>
+<li><p>It is an iterative method for minimizing loss based on <strong>negative gradients</strong>.</p></li>
+<li><p>Its behavior hinges on <strong>convexity/strict convexity</strong>, <strong>smoothness</strong>, <strong>step-size selection</strong> (constant, exact line search, or <strong>backtracking/Armijo</strong>), and <strong>stopping criteria</strong>.</p></li>
+<li><p>Its practical limitations naturally lead to <strong>Stochastic Gradient Descent</strong>, which we study next.</p></li>
 </ul>
-</li>
-<li><p><em>Output</em>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: an array that contains the value of x_k FOR EACH iterate x_k (not only the latter).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code>: an integer. The number of iteration needed to converge. k &lt; kmax.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">f_val</span></code>: an array that contains the value of f(x_k) FOR EACH iterate x_k.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">grad_norm</span></code>: an array the contains the value of ||grad_f(x_k)||_2 FOR EACH iterate x_k.</p></li>
-</ul>
-</li>
-</ul>
-<p>Then test the function above to optimize the objective function:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x) = 10(x_1 - 1)^2 - (x_2 + 1)^2,
-\]</div>
-<p>With different value of <span class="math notranslate nohighlight">\(\alpha\)</span>. Plot the value of the objective functions and the norm of the gradient to compare the behavior with different values of <span class="math notranslate nohighlight">\(\alpha\)</span>.<br />
-Moreover, compute the minimum of <span class="math notranslate nohighlight">\(f(x)\)</span> by hand. Compute the relative error between the obtained solution with GD algorithm and the one computed by hand for each different choice of <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
-<p><strong>Exercise:</strong> Write a script that implement the GD algorithm with backtracking, with the same structure as the GD algorithm defined above, with the exception of the input <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, which is not required. Compared the results obtained by this algorithm with the ones obtained in the previous exercise.</p>
-<p><strong>Exercise:</strong> Test the GD algorithm with and without backtracking on the Rosenbrock function, defined as:</p>
-<div class="math notranslate nohighlight">
-\[
-f(x) = 100(x_2 - x_1^2)^2 + (1-x_1)^2,
-\]</div>
-<p>for different values of <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
 </section>
 </section>
 </section>
@@ -623,12 +720,12 @@ f(x) = 100(x_2 - x_1^2)^2 + (1-x_1)^2,
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../NLA_numpy/matplotlib.html"
+       href="intro_ML.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Visualization with Matplotlib</p>
+        <p class="prev-next-title">A (Very Short) Introduction to Machine Learning</p>
       </div>
     </a>
 </div>
@@ -647,13 +744,20 @@ f(x) = 100(x_2 - x_1^2)^2 + (1-x_1)^2,
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-conditions">First-order conditions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-gd">Gradient descent (GD)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-and-second-order-optimality-conditions">First-Order (and Second-Order) Optimality Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient-descent-algorithm">The Gradient Descent Algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition">Intuition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-parameters">Selection of parameters</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-the-initial-iterate">Choice the initial iterate</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size">Step Size</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backtracking">Backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size-selection-learning-rate">Step-Size Selection (Learning Rate)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping Criteria</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ill-conditioning-and-geometry">Ill-Conditioning and Geometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-pure-gradient-descent">Limitations of Pure Gradient Descent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-stochastic-gradient-descent">Motivation for Stochastic Gradient Descent</a></li>
 </ul>
 </li>
 </ul>

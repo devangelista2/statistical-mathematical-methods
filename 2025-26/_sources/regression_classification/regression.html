@@ -215,6 +215,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
 </ul>
 
@@ -427,9 +428,9 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="regression">
 <h1>Regression<a class="headerlink" href="#regression" title="Link to this heading">#</a></h1>
-<p><img alt="" src="../../_images/ML_diagram.png" /></p>
+<p><img alt="" src="regression_classification/fig/ML_diagram.png" /></p>
 <p>Regression is a group of supervised learning techniques, alternative to classification. In classification, given a datapoint <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>, the task was to learn a model <span class="math notranslate nohighlight">\(y = f_\theta(x)\)</span> such that <span class="math notranslate nohighlight">\(y\)</span> represents one of the <span class="math notranslate nohighlight">\(K\)</span> possible classes in which <span class="math notranslate nohighlight">\(x\)</span> lies. On the other side, a Machine Learning problem is a <strong>Regression</strong> when the target variable <span class="math notranslate nohighlight">\(y \in \mathbb{R}\)</span> is a <strong>continuous</strong> variable, and the task is to approximately <em>interpolate</em> between the <span class="math notranslate nohighlight">\(y\)</span> values, with the intent of being able to predict new outcome of <span class="math notranslate nohighlight">\(y\)</span> when a new <span class="math notranslate nohighlight">\(x\)</span> is given as input.</p>
-<p><img alt="" src="../../_images/regression_vs_classification.png" /></p>
+<p><img alt="" src="regression_classification/fig/regression_vs_classification.png" /></p>
 <p>A part from that, the computation procedure to define a regression model is similar to the procedure required for a classification model. Indeed, let <span class="math notranslate nohighlight">\(f_\theta(x)\)</span> be a parametric function of <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>, parameterized by <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^d\)</span>. Given a dataset <span class="math notranslate nohighlight">\((X, Y)\)</span> with:</p>
 <div class="math notranslate nohighlight">
 \[

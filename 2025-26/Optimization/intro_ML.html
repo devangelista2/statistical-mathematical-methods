@@ -1,0 +1,1140 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>A (Very Short) Introduction to Machine Learning &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/intro_ML';</script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/searchtools.js?v=63a53a7d"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Gradient Descent" href="GD.html" />
+    <link rel="prev" title="Visualization with Matplotlib" href="../NLA_numpy/matplotlib.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">A (Very Short) Introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/intro_ML.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Optimization/intro_ML.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>A (Very Short) Introduction to Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-learning-problem">The learning problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation-of-machine-learning-models">Mathematical Formulation of Machine Learning Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">Linearity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-machine-learning-pipeline">The Machine Learning Pipeline</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-task">Understanding the task</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#is-it-learnable">Is it learnable?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#it-is-possible-to-collect-them">It is possible to collect them?</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collecting-data">Collecting data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kaggle">Kaggle</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datasets-and-numpy-arrays">Datasets and NumPy Arrays</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modern-embedding-strategies">Modern Embedding Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised-learning">Supervised Learning</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised-learning">Unsupervised Learning</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised-learning">Self-Supervised Learning</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-role-of-the-loss-function">The Role of the Loss Function</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-as-an-optimization-problem">Training as an Optimization Problem</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gradient-descent">Why Gradient Descent?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stochastic-setting">The Stochastic Setting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-as-the-motivation-for-optimization">Training as the Motivation for Optimization</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tuning">Tuning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-vs-testing-data">Training vs Testing Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#underfitting-vs-overfitting">Underfitting vs Overfitting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="a-very-short-introduction-to-machine-learning">
+<h1>A (Very Short) Introduction to Machine Learning<a class="headerlink" href="#a-very-short-introduction-to-machine-learning" title="Link to this heading">#</a></h1>
+<p>In the next few sections, we will study <strong>Gradient Descent</strong> (arguably the most widely known and employed optimization method) and <strong>Stochastic Gradient Descent</strong> (a common variant of it). To motivate the introduction of these methods within the context of Machine Learning, we begin by presenting some fundamental concepts of Machine Learning from a mathematical perspective. In particular, we will discuss how the learning problem can be mathematically formulated, and we will outline the typical pipeline used to understand, design, and solve a Machine Learning problem.</p>
+<p>Let’s start with a widely accepted definition of <strong>Machine Learning</strong>:</p>
+<blockquote>
+<div><p><strong>Machine Learning (ML)</strong> is the collection of techniques and algorithms that extract knowledge from data and use that knowledge to make accurate predictions.</p>
+</div></blockquote>
+<section id="the-learning-problem">
+<h2>The learning problem<a class="headerlink" href="#the-learning-problem" title="Link to this heading">#</a></h2>
+<p>A learning problem involves extracting knowledge from a dataset of <span class="math notranslate nohighlight">\(N\)</span> points:</p>
+<div class="math notranslate nohighlight">
+\[
+\{ (x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \dots, (x^{(N)}, y^{(N)}) \}
+\]</div>
+<p>where each pair <span class="math notranslate nohighlight">\((x^{(i)}, y^{(i)})\)</span> consists of an input and its corresponding output. Think of the input data <span class="math notranslate nohighlight">\(x^{(i)} \in \mathbb{R}^d\)</span> as the available information and the output data <span class="math notranslate nohighlight">\(y^{(i)} \in \mathbb{R}^s\)</span> as the quantity we want to predict. The input dimension, <span class="math notranslate nohighlight">\(d\)</span>, represents the number of input features, while the output dimension, <span class="math notranslate nohighlight">\(s\)</span>, corresponds to the number of variables we aim to predict. To simplify things, we usually represent these as vectors of size <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(s\)</span>, respectively.</p>
+<p>For example, Machine Learning is widely used to predict house prices based on property characteristics. Suppose we have a dataset where each house is described by features such as:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_1\)</span>: Square footage</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_2\)</span>: Number of bedrooms</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_3\)</span>: Number of bathrooms</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_4\)</span>: Distance to the city center</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_5\)</span>: Age of the house</p></li>
+</ul>
+<p>The goal is to predict the selling price <span class="math notranslate nohighlight">\(y\)</span> of a house given its features. Here, the input <span class="math notranslate nohighlight">\(x^{(i)} \in \mathbb{R}^5\)</span> represents a vector of property attributes, and the output <span class="math notranslate nohighlight">\(y^{(i)} \in \mathbb{R}\)</span> is the house price.</p>
+<p>A Machine Learning model, such as <strong>linear regression</strong>, learns a function <span class="math notranslate nohighlight">\(f_\Theta\)</span> that maps inputs to outputs:</p>
+<div class="math notranslate nohighlight">
+\[
+y = f_\Theta(x_1, x_2, x_3, x_4, x_5).
+\]</div>
+<p>Initially, the model <strong>does not know</strong> how these features influence the price. By <strong>training</strong> on past sales data, it finds patterns and estimates parameters (or weights) that best fit the data. Once trained, the model can predict the price of new houses that were not in the dataset.</p>
+<p>This simple example illustrates the core idea of learning: using past data to make future predictions. More generally, a Machine Learning model can be seen as a mathematical function that maps input features to an output of interest.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This setup assumes that all data is represented as real numbers (since both <span class="math notranslate nohighlight">\(x^{(i)}\)</span> and <span class="math notranslate nohighlight">\(y^{(i)}\)</span> are real-valued vectors). Handling non-numeric data requires a pre-processing step named <em>embedding</em>, which will be discussed in the following.</p>
+</div>
+<section id="mathematical-formulation-of-machine-learning-models">
+<h3>Mathematical Formulation of Machine Learning Models<a class="headerlink" href="#mathematical-formulation-of-machine-learning-models" title="Link to this heading">#</a></h3>
+<p>At its core, a Machine Learning (ML) model is a function</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta: \mathbb{R}^d \to \mathbb{R}^s
+\]</div>
+<p>that maps an input vector of length <span class="math notranslate nohighlight">\(d\)</span> to an output vector of length <span class="math notranslate nohighlight">\(s\)</span>. The choice of <span class="math notranslate nohighlight">\(s\)</span> depends on the application:</p>
+<ul class="simple">
+<li><p>If the model is used for <strong>classification</strong>, where an input belongs to one of <span class="math notranslate nohighlight">\(k\)</span> categories, then <span class="math notranslate nohighlight">\(s = k\)</span>.</p></li>
+<li><p>If the model is used for <strong>regression</strong>, <span class="math notranslate nohighlight">\(s\)</span> corresponds to the number of predicted values.</p></li>
+<li><p>If the model is used for <strong>image reconstruction</strong>, <span class="math notranslate nohighlight">\(s\)</span> typically represents the number of pixels in the reconstructed image.</p></li>
+</ul>
+<p>The model’s knowledge is encoded in the vector <span class="math notranslate nohighlight">\(\Theta\)</span>, which represents its <strong>parameters</strong>. To better understand the role of parameters in an ML model, let’s start with a simple example: Linear Regression.</p>
+<p>Consider a basic model <span class="math notranslate nohighlight">\(f_\Theta\)</span> with just two parameters, <span class="math notranslate nohighlight">\(\Theta_1\)</span> and <span class="math notranslate nohighlight">\(\Theta_2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) = \Theta_1 + \Theta_2 x.
+\]</div>
+<p>This equation describes a straight line where <span class="math notranslate nohighlight">\(\Theta_1\)</span> is the intercept and <span class="math notranslate nohighlight">\(\Theta_2\)</span> is the slope.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Define parameterized function f</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="c1"># Choose two different values for the parameters</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">theta2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Visualize the model prediction in the range [-5, 5]</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">xx</span><span class="p">)</span>
+<span class="n">yy2</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">theta2</span><span class="p">,</span> <span class="n">xx</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy2</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;A plot of f_theta(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/32f0bd22a3644204107907848be9e6e5ce5e5bd251f68284c46455e7a6b27e31.png" src="../_images/32f0bd22a3644204107907848be9e6e5ce5e5bd251f68284c46455e7a6b27e31.png" />
+</div>
+</div>
+<p>Think of <span class="math notranslate nohighlight">\(x\)</span> as the input data that we use to predict an output <span class="math notranslate nohighlight">\(y\)</span>. Notice how different choices of <span class="math notranslate nohighlight">\(\Theta\)</span> can lead to vastly different predictions.</p>
+<p>Now, let’s overlay the available data on the same plot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define synthetic datapoints</span>
+<span class="n">x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">x_data</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy2</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;A plot of f_theta(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2bb5cecf28189b064ec57a2ab4db2a123134a3d62364559d75f7f69b1909c723.png" src="../_images/2bb5cecf28189b064ec57a2ab4db2a123134a3d62364559d75f7f69b1909c723.png" />
+</div>
+</div>
+<p><em>Which of the two straight lines better fits the given data?</em>
+Clearly, the blue line, parameterized by <span class="math notranslate nohighlight">\(\Theta=(1,0.2)\)</span>. In fact, if we check the code used to generate the data, we’ll see that <span class="math notranslate nohighlight">\((1,0.2)\)</span> are the exact parameters that define <span class="math notranslate nohighlight">\(y^{(i)}\)</span>.</p>
+<p>This highlights two fundamental characteristics common to almost all ML models:</p>
+<ul class="simple">
+<li><p>Different choices of <span class="math notranslate nohighlight">\(\Theta\)</span> lead to <em>very different</em> predictions.</p></li>
+<li><p>Given a training set, some parameter choices are better than others, and usually, there is one that is <em>optimal</em>. A good model should at least approximate this optimal choice.</p></li>
+</ul>
+<p>The process of finding the optimal parameters for an ML model based on a training set is called <em>training</em>. We’ll revisit this topic later when discussing how models are typically trained.</p>
+</section>
+<section id="linearity">
+<h3>Linearity<a class="headerlink" href="#linearity" title="Link to this heading">#</a></h3>
+<p>In the example above, we assumed both the input and output dimensions were <span class="math notranslate nohighlight">\(d = 1\)</span> and <span class="math notranslate nohighlight">\(s = 1\)</span>. However, we can easily generalize a linear regression model to higher dimensions (<span class="math notranslate nohighlight">\(d &gt; 1\)</span>, <span class="math notranslate nohighlight">\(s &gt; 1\)</span>) using the general linear model:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) = W x + b
+\]</div>
+<p>where the parameters <span class="math notranslate nohighlight">\(\Theta = \{ W, b \}\)</span> have dimensions <span class="math notranslate nohighlight">\(W \in \mathbb{R}^{s \times d}\)</span> and <span class="math notranslate nohighlight">\(b \in \mathbb{R}^s\)</span>. This means the total number of parameters to be learned is <span class="math notranslate nohighlight">\(s(d+1)\)</span>, which grows linearly with the input and output dimensions.</p>
+<p>When <span class="math notranslate nohighlight">\(d &gt; 1\)</span> and <span class="math notranslate nohighlight">\(s &gt; 1\)</span>, we can no longer visualize the model’s output in a simple plot, as it would require at least four dimensions.</p>
+<p>While linear models have several useful properties, their <strong>expressivity</strong> (i.e., their ability to approximate complex outputs) is quite limited. A linear model can only represent <em>linear functions</em> (such as straight lines and planes), making it incapable of even approximating simple functions like <span class="math notranslate nohighlight">\(\sin(x)\)</span>. This limitation makes linear models impractical for handling complex data, such as images or natural language.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define synthetic datapoints</span>
+<span class="n">x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
+
+<span class="c1"># Create a linear model approximation</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">xx</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;A plot of f_theta(x) approximating sin(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/da0255a59b9f1109cd29dc36f6f5096c6889aa76444c09bb4370be4007bd9b28.png" src="../_images/da0255a59b9f1109cd29dc36f6f5096c6889aa76444c09bb4370be4007bd9b28.png" />
+</div>
+</div>
+<p>To this aim, multiple ML algorithms have been proposed in the literature, with the most successful being Polynomial Regression, Support Vector Machines (SVM), Random Forest (RF), and XGBoost.</p>
+</section>
+</section>
+<section id="the-machine-learning-pipeline">
+<h2>The Machine Learning Pipeline<a class="headerlink" href="#the-machine-learning-pipeline" title="Link to this heading">#</a></h2>
+<p>The example above shows that designing an effective Machine Learning algorithm requires several careful choices, such as the structure of the model, the amount and quality of data, and the values of the parameters. In particular, we can identify the following steps, which are common to most ML algorithms:</p>
+<ul class="simple">
+<li><p><strong>Understanding</strong> the task (e.g., what do we need? what information can we collect to answer the question we are asking?),</p></li>
+<li><p><strong>Collecting</strong> a sufficiently large dataset, containing enough relevant information to address the task,</p></li>
+<li><p><strong>Designing</strong> the Machine Learning algorithm, leveraging prior knowledge about the problem under study,</p></li>
+<li><p><strong>Training</strong> the algorithm on the collected data, by minimizing the prediction error on the training set,</p></li>
+<li><p><strong>Tuning</strong> the parameters of the model (in ML, an algorithm is often referred to as a <em>model</em>) to improve its predictions,</p></li>
+<li><p><strong>Testing</strong> the algorithm on new data, in order to verify its predictive ability.</p></li>
+</ul>
+<p>We will examine each of these steps in more detail in the following sections.</p>
+<section id="understanding-the-task">
+<h3>Understanding the task<a class="headerlink" href="#understanding-the-task" title="Link to this heading">#</a></h3>
+<p>Assume we want to solve a given problem. Mathematically, the problem we aim to solve can be modelled as an (unknown) function <span class="math notranslate nohighlight">\(f(x)\)</span>, taking as input the vector <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>, and mapping it (possibly <strong>stocastically</strong>) to the task <span class="math notranslate nohighlight">\(y = f(x)\)</span>.</p>
+<p>A Machine Learning model <span class="math notranslate nohighlight">\(f_\Theta (x)\)</span>, parameterized by <span class="math notranslate nohighlight">\(\Theta\)</span>, is said to <strong>solve</strong> the problem is there exists a choice of parameters <span class="math notranslate nohighlight">\(\Theta\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+f_\theta(x) \approx f(x) \qquad \forall x \in \mathbb{R}^d 
+\]</div>
+<section id="is-it-learnable">
+<h4>Is it learnable?<a class="headerlink" href="#is-it-learnable" title="Link to this heading">#</a></h4>
+<p>A problem <span class="math notranslate nohighlight">\(y = f(x)\)</span> can be solved by a ML algorithm if and only if there <strong>exists</strong> a relationship between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>. For example, we cannot expect to predict the future weather in a particular position by using informations about the stock price of a particular company. In that situation, the input and the output are clearly <strong>indepdendent</strong>, and there is no change to learning anything from one using the other.</p>
+<p>Consequently, the first point in designing a ML algorithm is to understand <em>if</em> there exists a correlation between the input and the output of the given problem. When this is the case, we say that the problem is <strong>learnable</strong>.</p>
+<blockquote>
+<div><p><strong>Machine Learning</strong> is about understanding correlations (patterns).</p>
+</div></blockquote>
+</section>
+<section id="it-is-possible-to-collect-them">
+<h4>It is possible to collect them?<a class="headerlink" href="#it-is-possible-to-collect-them" title="Link to this heading">#</a></h4>
+<p>Assume that the problem <span class="math notranslate nohighlight">\(y = f(x)\)</span> is learnable. We need to understand if we can physically collect enough data <span class="math notranslate nohighlight">\(x\)</span> to be able to understand the relationship between him and its corresponding <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>For example, if we want to use ML to make cancer diagnosis on patients, clearly the best way to do that is to use as input the clinical results of any possible medical exam on the patient. Of course, even if this will work well in practice, it is not possible (and expecially not ethic) to test the patient with thousands of exams for a single diagnosis.</p>
+<p>Moreover, to train a good ML model, we will need thousands (sometimes milions) of datapoints, and it is not always possible to scale our problem to be able to collect enough data to solve it.</p>
+<blockquote>
+<div><p>Collecting data requires <strong>efficiency</strong> and <strong>scalability</strong> of the problem.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="collecting-data">
+<h3>Collecting data<a class="headerlink" href="#collecting-data" title="Link to this heading">#</a></h3>
+<p>Collecting data is usually the step that takes the most effort in the design of a Machine Learning algorithm. In fact, given that our problem <span class="math notranslate nohighlight">\(y = f(x)\)</span> is solvable and that it is <strong>theoretically possible</strong> to collect enough data about it, it is not always that <strong>easy</strong> in practice.</p>
+<p>In particular, some data requires <em>time</em> to be collected (this is an example when working in biological or medical applications), and collect good quality data is hard. Indeed, we indeally want to use a clean dataset, where all the informations are presents, there are no missing values (usually referred to as <code class="docutils literal notranslate"><span class="pre">NaN</span></code>) and the informations does not contain noise. Most of the time, this is hopeless, and we will need to develop algorithms to standardize and clean up the data. The set of all those techniques is called <strong>data cleaning</strong>.</p>
+<section id="kaggle">
+<h4>Kaggle<a class="headerlink" href="#kaggle" title="Link to this heading">#</a></h4>
+<p>Luckily, for most of the tasks you can think of, you can find datasets on internet. For example, websites like <a class="reference external" href="https://www.kaggle.com/">Kaggle</a> and <a class="reference external" href="https://datasetsearch.research.google.com/">Google Datasets</a> can be helpful for that.</p>
+</section>
+<section id="datasets-and-numpy-arrays">
+<h4>Datasets and NumPy Arrays<a class="headerlink" href="#datasets-and-numpy-arrays" title="Link to this heading">#</a></h4>
+<p>Datasets in <code class="docutils literal notranslate"><span class="pre">.csv</span></code> format are widely used, as they are easy to read and often come with clearly labeled rows and columns. However, from a mathematical and computational perspective, this format is not ideal for Machine Learning. In particular:</p>
+<ul class="simple">
+<li><p>Working with strings directly is inefficient.</p></li>
+<li><p>Row and column names are not useful for learning algorithms.</p></li>
+<li><p>Most ML algorithms expect data in the form of numeric vectors and matrices.</p></li>
+</ul>
+<p>For this reason, we almost always <strong>convert datasets into matrices</strong>, typically represented as NumPy arrays. This conversion is performed in two main steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Encoding categorical (string) values into numbers</strong>.</p></li>
+<li><p><strong>Converting the dataset into a NumPy array</strong>.</p></li>
+</ol>
+<p>Suppose we have a categorical feature, such as <em>weather</em>, with possible values <span class="math notranslate nohighlight">\(\{ \text{sunny}, \text{rainy}, \text{cloudy}, \text{snowy} \}\)</span>. Since the number of possible values is limited, we can assign each category to a class.</p>
+<p>Two classical encoding strategies are:</p>
+<ul>
+<li><p><strong>Integer Encoding</strong>: Each class <span class="math notranslate nohighlight">\(C_k\)</span> is mapped to an integer index <span class="math notranslate nohighlight">\(k\)</span>. A crucial drawback of this method is that it introduces an artificial ordering between categories. It is implemented in Python via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">encoded</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>One-Hot Encoding</strong>: Each class <span class="math notranslate nohighlight">\(C_k\)</span> is mapped to the <span class="math notranslate nohighlight">\(k\)</span>-th canonical vector <span class="math notranslate nohighlight">\(e_k \in \mathbb{R}^K\)</span>, which is all zeros except for a single 1 at position <span class="math notranslate nohighlight">\(k\)</span>. It is implemented in Python via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">encoded</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">categories</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>After encoding, the dataset can be converted to a NumPy array with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">encoded_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is a matrix:</p>
+<div class="math notranslate nohighlight">
+\[
+X = [x_1, x_2, \ldots, x_N] \in \mathbb{R}^{d \times N},
+\]</div>
+<p>where each column <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^d\)</span> is a datapoint with <span class="math notranslate nohighlight">\(d\)</span> features, and <span class="math notranslate nohighlight">\(N\)</span> is the number of samples. The corresponding labels are collected in a vector:</p>
+<div class="math notranslate nohighlight">
+\[
+Y = [y_1, y_2, \ldots, y_N]^T \in \mathbb{R}^N.
+\]</div>
+</section>
+<section id="modern-embedding-strategies">
+<h4>Modern Embedding Strategies<a class="headerlink" href="#modern-embedding-strategies" title="Link to this heading">#</a></h4>
+<p>While integer and one-hot encodings are simple and effective, they do not capture <strong>semantic relationships</strong> between categories. For example, in one-hot encoding, the vectors for <em>sunny</em> and <em>cloudy</em> are completely orthogonal, even though they are more similar to each other than to <em>snowy</em>.</p>
+<p>To address this limitation, <strong>learned embeddings</strong> are now widely used:</p>
+<ul class="simple">
+<li><p>In <strong>Natural Language Processing (NLP)</strong>, words or tokens are mapped to dense vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>, called <strong>word embeddings</strong>. These vectors are learned from large corpora so that semantically related words (e.g., <em>king</em> and <em>queen</em>) are close in the embedding space.</p></li>
+<li><p>In modern <strong>Large Language Models (LLMs)</strong>, embeddings are used at multiple levels: for words, subwords, or tokens. These embeddings are <strong>learned jointly with the model parameters</strong>, allowing the network to discover relationships automatically during training.</p></li>
+<li><p>Similar strategies are used in <strong>recommender systems</strong> (e.g., embedding users and items) and <strong>graph learning</strong> (node embeddings).</p></li>
+</ul>
+<p>In practice, this means that instead of manually encoding categories, we let the model <strong>learn a representation</strong> that is optimal for the task. In PyTorch, for example, this can be done with the <code class="docutils literal notranslate"><span class="pre">nn.Embedding</span></code> layer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+<span class="c1"># Suppose we have 100 possible categories, mapped into 16-dimensional embeddings</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_embeddings</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Example: category index 5 -&gt; embedding vector in R^16</span>
+<span class="n">category_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">embedding</span><span class="p">(</span><span class="n">category_index</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="design">
+<h3>Design<a class="headerlink" href="#design" title="Link to this heading">#</a></h3>
+<p>Designing a Machine Learning model is one of the most challenging steps, since it requires choosing the right paradigm depending on the type of problem we want to solve. Broadly speaking, learning algorithms can be grouped into three main categories:</p>
+<ul class="simple">
+<li><p><strong>Supervised Learning</strong></p></li>
+<li><p><strong>Unsupervised Learning</strong></p></li>
+<li><p><strong>Self-Supervised Learning</strong> (advanced, not covered in this course)</p></li>
+</ul>
+<p><img alt="" src="../_images/diagram.png" /></p>
+<section id="supervised-learning">
+<h4>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Link to this heading">#</a></h4>
+<p>In <strong>Supervised Learning (SL)</strong>, we are given a dataset composed of <em>input–output</em> pairs:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(x^{(i)} \in \mathbb{R}^d\)</span> is the input (a feature vector) and <span class="math notranslate nohighlight">\(y^{(i)}\)</span> is the corresponding label or target.</p>
+<p>The idea of supervised learning is to learn a function:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta : \mathbb{R}^d \to \mathcal{Y},
+\]</div>
+<p>parameterized by <span class="math notranslate nohighlight">\(\Theta\)</span>, such that <span class="math notranslate nohighlight">\(f_\Theta(x^{(i)}) \approx y^{(i)}\)</span>.</p>
+<p>Supervised learning can be further divided into two major tasks:</p>
+<ul class="simple">
+<li><p><strong>Regression</strong>: The output <span class="math notranslate nohighlight">\(y^{(i)}\)</span> is a real-valued quantity, i.e., <span class="math notranslate nohighlight">\(y^{(i)} \in \mathbb{R}^s\)</span>.<br />
+Example: predicting house prices based on property features.</p></li>
+<li><p><strong>Classification</strong>: The output <span class="math notranslate nohighlight">\(y^{(i)}\)</span> belongs to a finite set of classes, i.e., <span class="math notranslate nohighlight">\(y^{(i)} \in \{1, \ldots, K\}\)</span>.<br />
+Example: classifying an email as <em>spam</em> or <em>not spam</em>.</p></li>
+</ul>
+<p>The quality of a supervised model is typically measured using <strong>loss functions</strong>, which quantify the discrepancy between the predicted value <span class="math notranslate nohighlight">\(f_\Theta(x)\)</span> and the true label <span class="math notranslate nohighlight">\(y\)</span>. During training, we optimize <span class="math notranslate nohighlight">\(\Theta\)</span> to minimize this loss over the dataset.</p>
+</section>
+<section id="unsupervised-learning">
+<h4>Unsupervised Learning<a class="headerlink" href="#unsupervised-learning" title="Link to this heading">#</a></h4>
+<p>In <strong>Unsupervised Learning (UL)</strong>, we are only given input data without labels:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D} = \{ x^{(i)} \}_{i=1}^N, \quad x^{(i)} \in \mathbb{R}^d.
+\]</div>
+<p>Here, the task is not to predict a known output, but rather to uncover <strong>hidden structures or patterns</strong> in the data. The model attempts to organize, compress, or explain the data in some meaningful way.</p>
+<p>Common tasks include:</p>
+<ul class="simple">
+<li><p><strong>Clustering</strong>: Grouping data points into clusters such that points in the same group are more similar to each other than to points in other groups.<br />
+Example: market segmentation of customers based on their purchasing behavior.</p></li>
+<li><p><strong>Dimensionality Reduction</strong>: Mapping high-dimensional data into a lower-dimensional space while preserving as much information as possible.<br />
+Example: Principal Component Analysis (PCA) for data visualization.</p></li>
+</ul>
+<p>Unsupervised learning is often used when labeled data is expensive or impossible to obtain, making it a powerful tool in exploratory data analysis.</p>
+</section>
+<section id="self-supervised-learning">
+<h4>Self-Supervised Learning<a class="headerlink" href="#self-supervised-learning" title="Link to this heading">#</a></h4>
+<p><strong>Self-Supervised Learning (SSL)</strong> is an emerging paradigm that sits between supervised and unsupervised learning. Unlike supervised learning, no human-annotated labels are required. Instead, the model creates its own labels by solving <em>pretext tasks</em> defined directly on the input data.</p>
+<p>Examples of pretext tasks include:</p>
+<ul class="simple">
+<li><p>Predicting missing words in a sentence (used in large language models such as BERT).</p></li>
+<li><p>Predicting missing parts of an image or the next video frame.</p></li>
+<li><p>Contrastive learning, where the model learns by comparing different views of the same data.</p></li>
+</ul>
+<p>The key idea is that by solving these automatically generated tasks, the model learns <strong>useful representations</strong> of data, which can then be fine-tuned on smaller labeled datasets for supervised tasks.</p>
+<p>Although self-supervised learning has become extremely popular in natural language processing and computer vision, in this course we will not cover it, as our focus will remain on classical <strong>supervised</strong> and <strong>unsupervised</strong> approaches.</p>
+<p>In summary:</p>
+<ul class="simple">
+<li><p><strong>Supervised Learning</strong>: learn from labeled data (<span class="math notranslate nohighlight">\(x, y\)</span>).</p></li>
+<li><p><strong>Unsupervised Learning</strong>: learn from unlabeled data (<span class="math notranslate nohighlight">\(x\)</span>).</p></li>
+<li><p><strong>Self-Supervised Learning</strong>: generate labels from data itself to pre-train representations.</p></li>
+</ul>
+<p>In the following lectures, we will study supervised learning methods (both regression and classification) and unsupervised learning methods (such as clustering and dimensionality reduction). Self-supervised learning, while powerful, will be left for more advanced courses.</p>
+</section>
+</section>
+<section id="training">
+<h3>Training<a class="headerlink" href="#training" title="Link to this heading">#</a></h3>
+<p>The <strong>training phase</strong> is at the heart of every Machine Learning algorithm. Once we have defined a model and collected data, training is the process by which the model <em>learns</em> the best parameters <span class="math notranslate nohighlight">\(\Theta\)</span> to approximate the underlying function we are trying to capture.</p>
+<p>Formally, recall that a Machine Learning model can be written as a parameterized function:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta : \mathbb{R}^d \to \mathcal{Y},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta\)</span> represents the parameters (weights, biases, coefficients, etc.) that determine how the model processes inputs.</p>
+<section id="the-role-of-the-loss-function">
+<h4>The Role of the Loss Function<a class="headerlink" href="#the-role-of-the-loss-function" title="Link to this heading">#</a></h4>
+<p>Training requires a way to measure <strong>how good</strong> a model’s predictions are. This is done through a <strong>loss function</strong> (also called a cost function or objective function), denoted as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta) = \frac{1}{N} \sum_{i=1}^N \ell(f_\Theta(x^{(i)}), y^{(i)}),
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\((x^{(i)}, y^{(i)})\)</span> are the datapoints from the training set,</p></li>
+<li><p><span class="math notranslate nohighlight">\(f_\Theta(x^{(i)})\)</span> is the model prediction,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\ell(\cdot, \cdot)\)</span> is a local error measure (e.g., squared error, cross-entropy).</p></li>
+</ul>
+<p>The loss function quantifies the discrepancy between predictions and true outputs.<br />
+The <strong>training problem</strong> is then the optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^* = \arg\min_\Theta \mathcal{L}(\Theta).
+\]</div>
+</section>
+<section id="training-as-an-optimization-problem">
+<h4>Training as an Optimization Problem<a class="headerlink" href="#training-as-an-optimization-problem" title="Link to this heading">#</a></h4>
+<p>From a mathematical perspective, training a Machine Learning model is equivalent to solving an <strong>optimization problem</strong>. This is where optimization techniques such as <strong>Gradient Descent</strong> come into play.</p>
+<ul>
+<li><p>In regression, a common choice of loss is the <strong>Mean Squared Error (MSE)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \ell(f_\Theta(x), y) = \| f_\Theta(x) - y \|^2.
+  \]</div>
+</li>
+<li><p>In classification, a common choice is the <strong>Cross-Entropy Loss</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  \ell(f_\Theta(x), y) = - \sum_{k=1}^K \mathbf{1}_{\{y=k\}} \log p_\Theta(y=k|x),
+  \]</div>
+<p>where <span class="math notranslate nohighlight">\(p_\Theta(y=k|x)\)</span> is the model’s predicted probability of class <span class="math notranslate nohighlight">\(k\)</span>.</p>
+</li>
+</ul>
+<p>Regardless of the choice of loss, training means finding parameter values <span class="math notranslate nohighlight">\(\Theta\)</span> that minimize <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span>.</p>
+</section>
+<section id="why-gradient-descent">
+<h4>Why Gradient Descent?<a class="headerlink" href="#why-gradient-descent" title="Link to this heading">#</a></h4>
+<p>In most practical Machine Learning settings, the loss function <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> is <strong>not analytically solvable</strong>:</p>
+<ul class="simple">
+<li><p>It is usually non-linear in the parameters.</p></li>
+<li><p>It may involve millions (or even billions) of parameters.</p></li>
+<li><p>The dataset size <span class="math notranslate nohighlight">\(N\)</span> can be extremely large.</p></li>
+</ul>
+<p>For this reason, closed-form solutions (like in simple linear regression) are not possible in general. Instead, we rely on <strong>iterative optimization algorithms</strong>. The most fundamental one is <strong>Gradient Descent (GD)</strong>.</p>
+<p>The key idea of Gradient Descent is simple:</p>
+<ul>
+<li><p>Compute the gradient of the loss function with respect to the parameters, <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta)\)</span>.</p></li>
+<li><p>Update the parameters in the direction that decreases the loss:</p>
+<div class="math notranslate nohighlight">
+\[
+  \Theta \leftarrow \Theta - \eta \, \nabla_\Theta \mathcal{L}(\Theta),
+  \]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta &gt; 0\)</span> is the <strong>learning rate</strong>.</p>
+</li>
+</ul>
+<p>This iterative update rule gradually moves the parameters towards values that minimize the loss.</p>
+</section>
+<section id="the-stochastic-setting">
+<h4>The Stochastic Setting<a class="headerlink" href="#the-stochastic-setting" title="Link to this heading">#</a></h4>
+<p>When datasets are very large, computing the exact gradient <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta)\)</span> over all <span class="math notranslate nohighlight">\(N\)</span> samples can be prohibitively expensive. To address this, we use <strong>Stochastic Gradient Descent (SGD)</strong>, where the gradient is estimated using only a subset (a mini-batch) of the data:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta) \approx \frac{1}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \nabla_\Theta \, \ell(f_\Theta(x^{(i)}), y^{(i)}),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathcal{B} \subset \{1, \dots, N\}\)</span>.</p>
+<p>This drastically reduces computation per step and introduces noise in the updates, which, paradoxically, often helps escape poor local minima.</p>
+</section>
+<section id="training-as-the-motivation-for-optimization">
+<h4>Training as the Motivation for Optimization<a class="headerlink" href="#training-as-the-motivation-for-optimization" title="Link to this heading">#</a></h4>
+<p>The importance of training in Machine Learning is twofold:</p>
+<ol class="arabic simple">
+<li><p><strong>Conceptual</strong>: Training is where a model goes from a random, uninformed state to one that encodes useful knowledge about the data.</p></li>
+<li><p><strong>Mathematical</strong>: Training transforms the learning problem into an optimization problem.</p></li>
+</ol>
+<p>This motivates why optimization, and in particular <strong>Gradient Descent and its variants</strong>, is central to Machine Learning. In the next two classes, we will study Gradient Descent and Stochastic Gradient Descent in detail, analyzing both their mathematical foundations and their practical implementations.</p>
+</section>
+</section>
+<section id="tuning">
+<h3>Tuning<a class="headerlink" href="#tuning" title="Link to this heading">#</a></h3>
+<p>Most Machine Learning models have a number of <strong>hyperparameters</strong> that are not directly learned during training but must be set by the practitioner. Examples include the learning rate in Gradient Descent, the number of layers in a neural network, or the number of clusters in a clustering algorithm.</p>
+<p>Tuning consists of systematically adjusting these hyperparameters to improve the model’s performance. This is usually done through a <strong>trial-and-error process</strong>, guided by prior knowledge of the model and by evaluating performance on a separate validation set.</p>
+<p>The balance is delicate: poor tuning may lead to <strong>underfitting</strong> (the model is too simple to capture the data structure) or <strong>overfitting</strong> (the model memorizes the training set without generalizing).</p>
+</section>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h3>
+<p>Once a model has been trained (parameters optimized) and tuned (hyperparameters chosen), we need to evaluate its <strong>ability to generalize</strong>. This means assessing how well the model performs on data it has never seen before.</p>
+<p>Testing is therefore a fundamental step: it allows us to verify whether the model has truly learned useful patterns or whether it has merely memorized the training data.</p>
+<section id="training-vs-testing-data">
+<h4>Training vs Testing Data<a class="headerlink" href="#training-vs-testing-data" title="Link to this heading">#</a></h4>
+<p>Using the same dataset for both training and testing is misleading. On training data, the model has already observed the true outcomes, so it might simply <strong>memorize</strong> the data. This phenomenon is known as <strong>overfitting</strong>.</p>
+<p>To avoid this, the dataset is typically split into:</p>
+<ul class="simple">
+<li><p><strong>Training set</strong>: used to adjust model parameters,</p></li>
+<li><p><strong>Validation set</strong>: sometimes used to tune hyperparameters,</p></li>
+<li><p><strong>Test set</strong>: used only once at the end, to provide an unbiased estimate of performance.</p></li>
+</ul>
+<p>Formally, if we start with <span class="math notranslate nohighlight">\(N\)</span> datapoints, we select:</p>
+<div class="math notranslate nohighlight">
+\[
+N_{\text{train}} &lt; N, \quad N_{\text{test}} = N - N_{\text{train}},
+\]</div>
+<p>with the test set kept aside during the entire training and tuning process.</p>
+<p><img alt="" src="../_images/train_test_split.png" /></p>
+</section>
+<section id="evaluation-metrics">
+<h4>Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Link to this heading">#</a></h4>
+<p>The choice of metric depends on the task:</p>
+<ul>
+<li><p><strong>Regression</strong>:</p>
+<ul>
+<li><p>Mean Squared Error (MSE):</p>
+<div class="math notranslate nohighlight">
+\[
+    \text{MSE} = \frac{1}{N_{\text{test}}} \sum_{i=1}^{N_{\text{test}}} \big(f_\Theta(x^{(i)}) - y^{(i)}\big)^2
+    \]</div>
+</li>
+<li><p>Mean Absolute Error (MAE), <span class="math notranslate nohighlight">\(R^2\)</span> score, etc.</p></li>
+</ul>
+</li>
+<li><p><strong>Classification</strong>:</p>
+<ul class="simple">
+<li><p>Accuracy: the proportion of correctly classified samples,</p></li>
+<li><p>Precision, Recall, F1-score (especially in imbalanced datasets),</p></li>
+<li><p>AUROC (Area Under the ROC Curve) for probabilistic classifiers.</p></li>
+</ul>
+</li>
+</ul>
+<p>The key idea is to evaluate not only how close predictions are to labels, but also whether the model is making the <strong>right kind of mistakes</strong> for the problem at hand.</p>
+</section>
+<section id="underfitting-vs-overfitting">
+<h4>Underfitting vs Overfitting<a class="headerlink" href="#underfitting-vs-overfitting" title="Link to this heading">#</a></h4>
+<p>A crucial aspect of testing is understanding the <strong>generalization behavior</strong> of a model. Two extreme situations can occur:</p>
+<ul class="simple">
+<li><p><strong>Underfitting</strong>:<br />
+The model is <em>too simple</em>. It fails to capture the underlying structure of the data, leading to <strong>high error</strong> both on the training set and on the test set.<br />
+Example: trying to fit a straight line to highly nonlinear data.</p></li>
+<li><p><strong>Overfitting</strong>:<br />
+The model is <em>too complex</em>. It adapts too closely to the training data, capturing even noise and irrelevant patterns. This leads to <strong>low error</strong> on the training set but <strong>high error</strong> on the test set.<br />
+Example: a deep decision tree that perfectly classifies the training set but fails on new data.</p></li>
+</ul>
+<p>The ideal model lies <strong>between underfitting and overfitting</strong>, achieving low training error and comparable test error. The difference between these two errors is called the <strong>generalization gap</strong>. A small gap indicates that the model generalizes well.</p>
+</section>
+<section id="summary">
+<h4>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Tuning</strong> adjusts hyperparameters to control model complexity.</p></li>
+<li><p><strong>Testing</strong> evaluates generalization on unseen data.</p></li>
+<li><p><strong>Underfitting</strong>: the model is too simple, fails everywhere.</p></li>
+<li><p><strong>Overfitting</strong>: the model is too complex, memorizes training data but fails on new samples.</p></li>
+<li><p>The ultimate goal is to minimize the <strong>generalization gap</strong> and ensure the model learns patterns that transfer beyond the training set.</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../NLA_numpy/matplotlib.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Visualization with Matplotlib</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="GD.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Gradient Descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-learning-problem">The learning problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation-of-machine-learning-models">Mathematical Formulation of Machine Learning Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">Linearity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-machine-learning-pipeline">The Machine Learning Pipeline</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-task">Understanding the task</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#is-it-learnable">Is it learnable?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#it-is-possible-to-collect-them">It is possible to collect them?</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collecting-data">Collecting data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kaggle">Kaggle</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datasets-and-numpy-arrays">Datasets and NumPy Arrays</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modern-embedding-strategies">Modern Embedding Strategies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design">Design</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised-learning">Supervised Learning</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised-learning">Unsupervised Learning</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#self-supervised-learning">Self-Supervised Learning</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-role-of-the-loss-function">The Role of the Loss Function</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-as-an-optimization-problem">Training as an Optimization Problem</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gradient-descent">Why Gradient Descent?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stochastic-setting">The Stochastic Setting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-as-the-motivation-for-optimization">Training as the Motivation for Optimization</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tuning">Tuning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-vs-testing-data">Training vs Testing Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#underfitting-vs-overfitting">Underfitting vs Overfitting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
