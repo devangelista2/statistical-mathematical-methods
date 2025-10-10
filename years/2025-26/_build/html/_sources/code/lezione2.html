@@ -213,6 +213,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
 </ul>
 
@@ -449,10 +450,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 6.87781189  1.5966788   0.77939134  0.07969097  1.36571948  4.91507156
-  4.04520794  3.39185283  2.50131255 -2.46820435]
-[ 6.87781189  1.5966788   0.77939134  0.07969097  1.36571948  4.91507156
-  4.04520794  3.39185283  2.50131255 -2.46820435]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.98705024  1.30900062  0.06877349 -0.68548533  2.68998057  1.46803779
+ -2.03482404  3.52645948 -0.74537194  0.59991886]
+[-0.98705024  1.30900062  0.06877349 -0.68548533  2.68998057  1.46803779
+ -2.03482404  3.52645948 -0.74537194  0.59991886]
 </pre></div>
 </div>
 </div>
@@ -488,7 +489,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.47886718 0.         0.         ... 0.91615936 1.12926324 0.88385718]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.         0.30381394 2.32540583 ... 0.         0.17184404 0.        ]
 </pre></div>
 </div>
 </div>
@@ -504,14 +505,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.62117734 -1.06774705  0.60963244  0.0121467   1.14757611]
- [ 0.42343661 -1.39698221 -0.46329522  0.26031181 -1.55880147]
- [-0.55492966  0.0610221  -1.19608176 -0.901803    1.65341006]
- [ 1.12887484 -1.87576905 -1.82220683  1.36020259 -0.95198009]
- [-1.16846506 -0.99282275 -1.27081143 -1.60179656  0.371317  ]]
-[[-0.62117734 -1.06774705]
- [ 0.42343661 -1.39698221]
- [-0.55492966  0.0610221 ]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.34947028 -1.86381377 -0.05396904 -0.3289777  -0.81965172]
+ [-0.13880844  0.31473971 -0.35875164 -0.62068591 -0.50187297]
+ [ 1.68006524 -0.03163132 -0.03545795 -0.6147058  -0.42304776]
+ [-0.94865405 -1.4978898   0.34807558 -0.54004023 -1.6248312 ]
+ [ 0.65772463  0.6166117  -1.08912836  0.53722132 -0.42856854]]
+[[-0.34947028 -1.86381377]
+ [-0.13880844  0.31473971]
+ [ 1.68006524 -0.03163132]]
 </pre></div>
 </div>
 </div>
@@ -535,36 +536,36 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[False  True False  True  True False  True False  True False]
- [False  True  True  True False False False False False  True]
- [ True False  True False  True False  True  True False False]
- [ True  True False False  True  True  True False False  True]
- [ True  True  True  True False  True  True False False False]
- [False  True False False  True  True  True  True  True  True]
- [ True  True False False  True  True False  True False False]
- [False False False False False  True  True  True False False]
- [False False  True False  True  True False False False False]
- [ True False False  True False  True  True  True False  True]]
-[[1.31193142 0.         1.78999377 0.         0.         1.48591133
-  0.         0.20443525 0.         0.06455221]
- [1.44708727 0.         0.         0.         1.06137509 0.38386785
-  1.44398056 0.6356411  0.20726897 0.        ]
- [0.         0.05457965 0.         0.35923151 0.         0.01452359
-  0.         0.         0.22977837 0.44076165]
- [0.         0.         0.94177978 2.67924585 0.         0.
-  0.         0.29546828 1.09025843 0.        ]
- [0.         0.         0.         0.         0.99002951 0.
-  0.         0.61899137 0.63457622 0.66583408]
- [0.74636905 0.         0.50614774 0.7366424  0.         0.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ True False False  True False False False False  True False]
+ [ True False  True  True False False False  True False  True]
+ [False  True False False False  True False False  True False]
+ [ True False False False  True False False  True False False]
+ [ True  True  True  True  True  True  True  True False  True]
+ [False  True  True False False False  True  True  True False]
+ [ True  True False False False  True False  True  True False]
+ [ True False  True  True  True False  True  True  True  True]
+ [ True  True False False False False  True False  True False]
+ [False  True  True False False False False False False  True]]
+[[0.         0.65659717 0.50966261 0.         1.10572363 1.21524413
+  0.05975437 0.45236867 0.         0.61066129]
+ [0.         1.03648194 0.         0.         1.08634915 0.87399742
+  1.47765756 0.         2.26320838 0.        ]
+ [1.13422348 0.         0.2279194  0.34676366 0.28787195 0.
+  0.32373111 1.60466855 0.         1.27874731]
+ [0.         2.38481607 0.56864513 0.49367797 0.         0.17142325
+  0.67390505 0.         0.95012171 0.42828675]
+ [0.         0.         0.         0.         0.         0.
+  0.         0.         1.08175888 0.        ]
+ [0.28729487 0.         0.         0.83973731 0.24440371 0.21981151
+  0.         0.         0.         1.74692348]
+ [0.         0.         0.88647442 0.07856995 0.63993435 0.
+  1.55211843 0.         0.         0.40706527]
+ [0.         0.87859402 0.         0.         0.         0.74797272
   0.         0.         0.         0.        ]
- [0.         0.         0.38879878 0.3091775  0.         0.
-  0.46996911 0.         1.67213202 0.8692403 ]
- [1.39668524 1.66912641 1.38794232 0.24048027 0.30815745 0.
-  0.         0.         0.39477728 0.52601482]
- [0.72456591 0.71480636 0.         0.54587522 0.         0.
-  0.23013455 0.97860215 1.03438785 2.30659236]
- [0.         0.63792769 0.17762106 0.         0.23842182 0.
-  0.         0.         1.18898549 0.        ]]
+ [0.         0.         1.48349433 0.3588237  0.47937965 1.0160435
+  0.         0.77195307 0.         0.19244115]
+ [0.93127083 0.         0.         0.6392824  0.69293454 0.70797513
+  0.7517083  0.46717429 0.91201797 0.        ]]
 </pre></div>
 </div>
 </div>
@@ -748,7 +749,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ab45a9e141e509f67c7d9a90e37c5ce309d8a0d6fe5d48c9f0287e0e4a215e0b.png" src="../../_images/ab45a9e141e509f67c7d9a90e37c5ce309d8a0d6fe5d48c9f0287e0e4a215e0b.png" />
+<img alt="../../_images/9ea40d7f29bc6707eddcbc1457f3fa362e174bf3f42ba66981f36c2cc541279c.png" src="../../_images/9ea40d7f29bc6707eddcbc1457f3fa362e174bf3f42ba66981f36c2cc541279c.png" />
 </div>
 </div>
 <div class="cell docutils container">

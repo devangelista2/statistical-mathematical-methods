@@ -8,4 +8,5 @@ parts:
       - file: NLA_numpy/matplotlib
   - caption: Optimization
     chapters:
+      - file: Optimization/intro_ML
       - file: Optimization/GD
