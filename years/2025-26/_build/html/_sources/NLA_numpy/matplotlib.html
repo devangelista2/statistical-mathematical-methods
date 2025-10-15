@@ -32,19 +32,19 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=d2032c04" />
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/bootstrap.css?v=b4a3e8ba" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -71,20 +71,20 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_sources/NLA_numpy/matplotlib';</script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script src="../../_static/language_data.js?v=d4673a71"></script>
     <script src="../../_static/copybutton_funcs.js?v=776a791e"></script>
-    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/language_data.js?v=d4673a71"></script>
+    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
+    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/scripts/bootstrap.js?v=7583a70d"></script>
     <script src="../../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -217,6 +217,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 </ul>
 
     </div>
@@ -433,8 +434,8 @@ document.write(`
 <p>Plotting in matplotlib is very easy. Given two <span class="math notranslate nohighlight">\(N\)</span>-dimensional vectors <span class="math notranslate nohighlight">\(x = (x_1, \dots, x_N)\)</span> and <span class="math notranslate nohighlight">\(y = (y_1, \dots, y_N)\)</span>, containing the <span class="math notranslate nohighlight">\(N\)</span> datapoints we want to represent, the function <code class="docutils literal notranslate"><span class="pre">plot(x,</span> <span class="pre">y)</span></code> will plot on the plane each couple <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> for <span class="math notranslate nohighlight">\(i = 1, \dots, N\)</span> and will connect (by default) them with a line. Such a plot can be visualized by calling the function <code class="docutils literal notranslate"><span class="pre">show()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Creating two vectors</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -449,9 +450,6 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/236673aa32bb2813c17110c209fe60555f9a0564fdf7f65f9dd5d67ffb8a4c6e.png" src="../../_images/236673aa32bb2813c17110c209fe60555f9a0564fdf7f65f9dd5d67ffb8a4c6e.png" />
 </div>
 </div>
 <p>As you can see, the code above plots the sine function. We now want to see how we can change the aesthetics of this plot, by adding title, axis grid, axis label, etc.</p>
@@ -469,8 +467,8 @@ document.write(`
 <p>For example, we can customize the plot above to obtain something like the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Creating two vectors</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -490,9 +488,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../_images/e2e6f06ad470508662dac08d1157be30825a77bf77ad2eb2e2f1039f7e3a9ee2.png" src="../../_images/e2e6f06ad470508662dac08d1157be30825a77bf77ad2eb2e2f1039f7e3a9ee2.png" />
-</div>
 </div>
 </section>
 <section id="multiplot-and-line-customization">
@@ -500,8 +495,8 @@ document.write(`
 <p>Clearly, it is also possible to plot more than one line at the same time. Simply define others <span class="math notranslate nohighlight">\(x', y' \in \mathbb{R}^N\)</span> containg the new data we want to plot and add another <code class="docutils literal notranslate"><span class="pre">plt.plot(x',</span> <span class="pre">y')</span></code> between <code class="docutils literal notranslate"><span class="pre">plt.plot(x,</span> <span class="pre">y)</span></code> and <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Creating two vectors</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -525,9 +520,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../_images/4eda68c00973b8e3a018ad68b79942c26df0f1fa06e077b4b27a6623ac88efdf.png" src="../../_images/4eda68c00973b8e3a018ad68b79942c26df0f1fa06e077b4b27a6623ac88efdf.png" />
-</div>
 </div>
 <p>As you can see, in the bottom-left of the plot, we also printed out a <code class="docutils literal notranslate"><span class="pre">legend</span></code>. Following the code above, it is easy to understand that a legend can be simply introduced by listing the name of the lines, ordered with respect to the ordering of the <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> functions. Matplotlib will visualize the correct color of each line accordingly.</p>
 <p>Clearly, we can also modify the line specifications such as the color, the thickness and the style. To do that, we have to insert the following specifications inside of the corresponding <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> line.</p>
@@ -544,8 +536,8 @@ document.write(`
 <p>A complete list of all the possible linestyles can be found <a class="reference external" href="https://matplotlib.org/2.1.2/api/_as_gen/matplotlib.pyplot.plot.html">here</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Creating two vectors</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
@@ -569,9 +561,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../_images/947afb63d974521fd1494641090da7334c87efebf16eef5cf708ac213df99f18.png" src="../../_images/947afb63d974521fd1494641090da7334c87efebf16eef5cf708ac213df99f18.png" />
-</div>
 </div>
 </section>
 <section id="subplots">
@@ -581,8 +570,8 @@ document.write(`
 <p>Each time we want to open a different plot in our subplot, we have to specify the command <code class="docutils literal notranslate"><span class="pre">plt.subplot(nrow,</span> <span class="pre">ncol,</span> <span class="pre">idx)</span></code> again, with the same <code class="docutils literal notranslate"><span class="pre">nrow</span></code> and <code class="docutils literal notranslate"><span class="pre">ncol</span></code> argument, but different <code class="docutils literal notranslate"><span class="pre">idx</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Creating data</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">200</span>
@@ -618,9 +607,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../_images/771f64d97fd98921afc499173e1a291b9b1659bf20b50517138b5909f3646240.png" src="../../_images/771f64d97fd98921afc499173e1a291b9b1659bf20b50517138b5909f3646240.png" />
-</div>
 </div>
 </section>
 <section id="exercise-plotting-data">
@@ -650,7 +636,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./_sources/NLA_numpy"
+            path: "./_sources\NLA_numpy"
         },
         predefinedOutput: true
     }

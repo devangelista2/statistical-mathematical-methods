@@ -32,19 +32,19 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=d2032c04" />
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/bootstrap.css?v=b4a3e8ba" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -71,20 +71,20 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_sources/ML/SVD2024';</script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script src="../../_static/language_data.js?v=d4673a71"></script>
     <script src="../../_static/copybutton_funcs.js?v=776a791e"></script>
-    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/language_data.js?v=d4673a71"></script>
+    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
+    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/scripts/bootstrap.js?v=7583a70d"></script>
     <script src="../../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -217,6 +217,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 </ul>
 
     </div>
@@ -474,7 +475,7 @@ A_k = \arg\min_{M: rk(M) = k} || M - A ||_2.
 <h1>Implementation: computing the SVD of a Matrix<a class="headerlink" href="#implementation-computing-the-svd-of-a-matrix" title="Link to this heading">#</a></h1>
 <p>The functions required to compute SVD decomposition of a matrix in Python are contained into the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package. In the following, we will consider the example matrix reported into the code snippet below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing numpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Consider an example matrix</span>
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -570,7 +571,7 @@ print(f‚ÄùShape of A_k: {A_k.shape}. Rank of A_k: {np.linalg.matrix_rank(A_k)}.‚
 <div><p>From a computational point of view, a grey-scale image is a <strong>matrix</strong> with shape $<span class="math notranslate nohighlight">\((height, width)\)</span><span class="math notranslate nohighlight">\(, such that the element in position \)</span><span class="math notranslate nohighlight">\(i, j\)</span><span class="math notranslate nohighlight">\( contains the intensity of the pixel in the corresponding position. An RGB image is a triplet of matrices such that in position \)</span><span class="math notranslate nohighlight">\(i, j\)</span>$, each of the three matrices represents the amount of Red, Green and Blue in the corresponding pixel.</p>
 </div></blockquote>
 <p>For example, consider an image from the <code class="docutils literal notranslate"><span class="pre">skimage.data</span></code> submodule:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">skimage</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span>
 
 <span class="c1"># Loading the &quot;cameraman&quot; image</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
@@ -581,7 +582,7 @@ print(f‚ÄùShape of A_k: {A_k.shape}. Rank of A_k: {np.linalg.matrix_rank(A_k)}.‚
 </div>
 <p>To visualize a matrix as an image, it can be used the <code class="docutils literal notranslate"><span class="pre">plt.imshow()</span></code> function from the <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code> module. If the image is a grey-scale image, it is required to set the <code class="docutils literal notranslate"><span class="pre">cmap='gray'</span></code> option to visualize it as a grey-scale image.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the image</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -613,7 +614,7 @@ c_k = 1 - \frac{m + n + 1}{mn}
         },
         kernelOptions: {
             name: "python3",
-            path: "./_sources/ML"
+            path: "./_sources\ML"
         },
         predefinedOutput: true
     }

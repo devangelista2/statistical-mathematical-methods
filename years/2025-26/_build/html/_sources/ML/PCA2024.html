@@ -32,19 +32,19 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=d2032c04" />
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/bootstrap.css?v=b4a3e8ba" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -71,20 +71,20 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_sources/ML/PCA2024';</script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script src="../../_static/language_data.js?v=d4673a71"></script>
     <script src="../../_static/copybutton_funcs.js?v=776a791e"></script>
-    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/language_data.js?v=d4673a71"></script>
+    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
+    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/scripts/bootstrap.js?v=7583a70d"></script>
     <script src="../../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -217,6 +217,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 </ul>
 
     </div>
@@ -496,8 +497,8 @@ its _centroid_ is defined to be
 <h1>Python example<a class="headerlink" href="#python-example" title="Link to this heading">#</a></h1>
 <p>For the following example, I’m assuming you downloaded the MNIST dataset, either from Virtuale or from Kaggle (<a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">click here</a> do download it), renamed it <code class="docutils literal notranslate"><span class="pre">data.csv</span></code> and placed it in the same folder of the Python file on which you are working.</p>
 <p>The first step is to load the dataset into memory, this can be done with Pandas as we saw into the <a href="{{ site.baseurl }}{% link _teaching/introduction_to_python_numpy2024.md %}">introductory post</a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="c1"># Load data into memory</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">)</span>
@@ -535,9 +536,9 @@ its _centroid_ is defined to be
 <p>We already said that $<span class="math notranslate nohighlight">\(X\)</span><span class="math notranslate nohighlight">\( is a dataset of images representing handwritten digits. We can clearly visualize some of them. In the documentation, we can read that each datapoint is a \)</span><span class="math notranslate nohighlight">\(28 \times 28\)</span>$ grey-scale image, which has been flattened. Flattening is the operation of taking a 2-dimensional array (a matrix) and converting it to a 1-dimensional array, by concatenating the rows of it. This can be implemented in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> with the function <code class="docutils literal notranslate"><span class="pre">a.flatten()</span></code>, where <code class="docutils literal notranslate"><span class="pre">a</span></code> is a 2-dimensional numpy array.</p>
 <p><img alt="" src="https://www.w3resource.com/w3r_images/numpy-manipulation-ndarray-flatten-function-image-1.png" /></p>
 <p>Since we know that the dimension of each image was $<span class="math notranslate nohighlight">\(28 \times 28\)</span>$ before flattening, we can invert this procedure by <strong>reshaping</strong> them. After that, we can simply visualize it with the function <code class="docutils literal notranslate"><span class="pre">plt.imshow()</span></code> from <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, by setting the <code class="docutils literal notranslate"><span class="pre">cmap</span></code> to <code class="docutils literal notranslate"><span class="pre">'gray'</span></code> since the images are grey-scale.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
     <span class="c1"># Visualize the image of index &#39;idx&#39; from the dataset &#39;X&#39;</span>
 
     <span class="c1"># Load an image in memory</span>
@@ -560,7 +561,7 @@ its _centroid_ is defined to be
 <section id="splitting-the-dataset">
 <h2>Splitting the dataset<a class="headerlink" href="#splitting-the-dataset" title="Link to this heading">#</a></h2>
 <p>Before implementing the algorithm performing PCA, you are required to split the dataset into a training set and a test set, following the <a href="{{ site.baseurl }}{% link _teaching/short_introduction_to_ML2024.md %}">introductory post on Machine Learning</a>. Remember that to correctly split $<span class="math notranslate nohighlight">\(X\)</span>$, it has to be random.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Ntrain</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Ntrain</span><span class="p">):</span>
     <span class="n">d</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
@@ -607,8 +608,8 @@ its _centroid_ is defined to be
 <section id="working-example">
 <h2>Working example<a class="headerlink" href="#working-example" title="Link to this heading">#</a></h2>
 <p>Here I report a working example on how to visualize clusters on <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> with the function <code class="docutils literal notranslate"><span class="pre">plt.scatter()</span></code>. In the example, we generate two clusters, composed by normally distributed datapoints in 2-dimensions, from two different gaussian distributions. The first class is labelled as 0, while the second one is labelled as 1. The datapoints are colored into the scatterplot with a different color for each class.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Create two cloud of points in 2-dimensional space</span>
 <span class="c1"># and plot it, divided by color</span>
@@ -651,7 +652,7 @@ its _centroid_ is defined to be
         },
         kernelOptions: {
             name: "python3",
-            path: "./_sources/ML"
+            path: "./_sources\ML"
         },
         predefinedOutput: true
     }

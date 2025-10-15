@@ -10,3 +10,4 @@ parts:
     chapters:
       - file: Optimization/intro_ML
       - file: Optimization/GD
+      - file: Optimization/SGD
