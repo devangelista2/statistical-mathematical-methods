@@ -35,17 +35,17 @@
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=f0c89327" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/bootstrap.css?v=b4a3e8ba" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/theme.css?v=a243ae73" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -69,17 +69,17 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_sources/code/lezione1';</script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script src="../../_static/copybutton_funcs.js?v=776a791e"></script>
-    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../_static/language_data.js?v=d4673a71"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/language_data.js?v=d4673a71"></script>
+    <script src="../../_static/searchtools.js?v=63a53a7d"></script>
+    <script src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../../_static/scripts/bootstrap.js?v=7583a70d"></script>
     <script src="../../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -215,6 +215,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 </ul>
 
     </div>
@@ -498,7 +499,7 @@ Hello
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
 <span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># Modify the element</span>
 <span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.1</span>
 <span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.1</span>
@@ -555,7 +556,7 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.258749498909863
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.7138608706176104
 </pre></div>
 </div>
 </div>
@@ -569,11 +570,6 @@ True 2
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4971731899973122
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -583,7 +579,7 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.3478157382230166
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8501533218660124
 </pre></div>
 </div>
 </div>
@@ -597,7 +593,7 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/statistical-mathematical-methods/statistical-mathematical-methods/years/2025-26/_sources/code
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/davideevangelista/Desktop
 </pre></div>
 </div>
 </div>
@@ -617,12 +613,7 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">absolute_path_file</span><span class="p">))</span>
-
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/Users/davideevangelista/Desktop/data&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;random.csv&#39;]
 </pre></div>
 </div>
 </div>
@@ -652,7 +643,7 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7955727577209473
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4924790859222412
 </pre></div>
 </div>
 </div>
@@ -787,10 +778,8 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.05516219139099121
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.1803290843963623
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.056793928146362305
+0.636854887008667
 </pre></div>
 </div>
 </div>
@@ -828,7 +817,7 @@ True 2
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.05381655693054199
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.03860878944396973
 </pre></div>
 </div>
 </div>
@@ -847,7 +836,7 @@ True 2
         },
         kernelOptions: {
             name: "python3",
-            path: "./_sources/code"
+            path: "./_sources\code"
         },
         predefinedOutput: true
     }
