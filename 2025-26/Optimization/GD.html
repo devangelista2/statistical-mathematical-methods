@@ -595,13 +595,8 @@ Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \ma
 </ul>
 <p>The level sets are ellipses whose axes scale with <span class="math notranslate nohighlight">\(\lambda_1^{-1/2}\)</span> and <span class="math notranslate nohighlight">\(\lambda_2^{-1/2}\)</span>. When the ratio <span class="math notranslate nohighlight">\(\lambda_2/\lambda_1\)</span> is large, Gradient Descent with a fixed <span class="math notranslate nohighlight">\(\eta\)</span> progresses slowly and “zig-zags” across narrow valleys.</p>
 <blockquote>
-<div><p><strong>Exercise (condition number intuition; left-multiplication):</strong></p>
-<ol class="arabic simple">
-<li><p>Sketch the level sets of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)=\tfrac{1}{2}\,\Theta^\top A\,\Theta\)</span> for <span class="math notranslate nohighlight">\(A=\mathrm{diag}(\lambda_1,\lambda_2)\)</span>.</p></li>
-<li><p>Show that the gradient is <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L} (\Theta)=A\,\Theta\)</span>.</p></li>
-<li><p>Explain geometrically why taking a step along <span class="math notranslate nohighlight">\(-g(\Theta)\)</span> with a fixed <span class="math notranslate nohighlight">\(\eta\)</span> leads to slow progress when <span class="math notranslate nohighlight">\(\lambda_2\gg \lambda_1\)</span>.</p></li>
-<li><p>Relate this to the stability requirement <span class="math notranslate nohighlight">\(\eta \le 1/\lambda_{\max}(A)\)</span>.</p></li>
-</ol>
+<div><p><strong>Exercise (condition number intuition; left-multiplication):</strong><br />
+Sketch the level sets of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)=\tfrac{1}{2}\,\Theta^\top A\,\Theta\)</span> for <span class="math notranslate nohighlight">\(A=\mathrm{diag}(\lambda_1,\lambda_2)\)</span>.</p>
 </div></blockquote>
 <p><strong>Level-set plot helper:</strong></p>
 <div class="cell docutils container">
@@ -650,11 +645,6 @@ Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \ma
 <h3>Motivation for Stochastic Gradient Descent<a class="headerlink" href="#motivation-for-stochastic-gradient-descent" title="Link to this heading">#</a></h3>
 <p>These limitations motivate more practical algorithms. In particular, instead of computing the gradient using the <em>entire dataset</em> at every iteration, one can approximate it using a <strong>subset of the data (mini-batches)</strong>. This gives rise to <strong>Stochastic Gradient Descent (SGD)</strong>, the subject of the next chapter.</p>
 <p>SGD addresses the scalability issue and often improves generalization, at the cost of introducing stochasticity in the updates.</p>
-<blockquote>
-<div><p><strong>Exercise (learning rate sensitivity):</strong><br />
-For <span class="math notranslate nohighlight">\(f(\theta) = (\theta - 3)^2\)</span>, analyze <em>by hand</em> the first 5 GD iterates for <span class="math notranslate nohighlight">\(\eta \in \{0.01,\;0.1,\;1.0\}\)</span> starting from <span class="math notranslate nohighlight">\(\theta^{(0)}=-5\)</span>.<br />
-Explain which choices lead to convergence, divergence, or slow progress, and connect your reasoning to curvature (second derivative) and to the sufficient-decrease (Armijo) condition.</p>
-</div></blockquote>
 <p>In summary, <strong>Gradient Descent</strong> provides the foundational principles of optimization in Machine Learning:</p>
 <ul class="simple">
 <li><p>It is an iterative method for minimizing loss based on <strong>negative gradients</strong>.</p></li>
