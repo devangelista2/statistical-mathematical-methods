@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/SGD';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Supervised Learning for Classification" href="supervised.html" />
     <link rel="prev" title="Gradient Descent" href="GD.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -191,6 +192,18 @@
 <li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic Gradient Descent (SGD)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="supervised.html">Supervised Learning for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unsupervised.html">Unsupervised Learning via Linear Algebra</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">Homework 1: Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">Homework 2: Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">Homework 3: Supervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">Homework 4: Unsupervised Learning</a></li>
 </ul>
 
     </div>
@@ -563,15 +576,24 @@ The algorithm is typically run for a fixed number <span class="math notranslate 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">SGD</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">theta0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">SGD</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simplified Stochastic Gradient Descent (SGD) implementation.</span>
-<span class="sd">    f: loss function, grad_f: gradient wrt theta</span>
+<span class="sd">    f: loss function, grad_f: gradient wrt Theta</span>
 <span class="sd">    X, Y: dataset</span>
-<span class="sd">    theta0: initial parameters</span>
+<span class="sd">    Theta0: initial parameters</span>
 <span class="sd">    lr: learning rate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="o">...</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># Shuffle data indices</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>
+            <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+    <span class="k">return</span> <span class="n">Theta</span>
 </pre></div>
 </div>
 </div>
@@ -713,28 +735,6 @@ f_\Theta(x^{(i)}) = \Theta^T \tilde{x}^{(i)} = \Theta^T [1, x^{(i)}] = \Theta_1 
 \]</div>
 <p>effectively recovering the bias term.</p>
 <p>We can now move to implementing the data preprocessing step for our example problem.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-<span class="c1"># Load the dataset (download from Kaggle first)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/train.csv&quot;</span><span class="p">)</span>
-
-<span class="c1"># Select some useful continuous features</span>
-<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LotArea&quot;</span><span class="p">,</span> <span class="s2">&quot;OverallQual&quot;</span><span class="p">,</span> <span class="s2">&quot;YearBuilt&quot;</span><span class="p">]</span>
-<span class="c1"># X = </span>
-<span class="c1"># Y = </span>
-
-<span class="c1"># Normalize features</span>
-<span class="c1"># ...</span>
-
-<span class="c1"># Add bias term</span>
-<span class="c1"># ...</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="implementing-gradient-descent">
@@ -744,24 +744,6 @@ f_\Theta(x^{(i)}) = \Theta^T \tilde{x}^{(i)} = \Theta^T [1, x^{(i)}] = \Theta_1 
 \[
 \Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y).
 \]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
-    <span class="n">residuals</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="c1"># ...</span>
-    <span class="k">pass</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-    <span class="c1"># ...</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="implementing-stochastic-gradient-descent">
 <h3>4. Implementing Stochastic Gradient Descent<a class="headerlink" href="#implementing-stochastic-gradient-descent" title="Link to this heading">#</a></h3>
@@ -770,28 +752,10 @@ f_\Theta(x^{(i)}) = \Theta^T \tilde{x}^{(i)} = \Theta^T [1, x^{(i)}] = \Theta_1 
 \[
 \nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}_k) = \frac{2}{N_\text{batch}} X_{\mathcal{M}_k}^T (X_{\mathcal{M}_k}\Theta - Y_{\mathcal{M}_k}).
 \]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-    <span class="c1"># ...</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="training-and-comparison">
 <h3>5. Training and Comparison<a class="headerlink" href="#training-and-comparison" title="Link to this heading">#</a></h3>
 <p>We can now train both algorithms and compare their convergence.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run both GD and SGD</span>
-<span class="c1"># Theta_gd, loss_gd = ...</span>
-<span class="c1"># Theta_sgd, loss_sgd = ...</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="discussion">
 <h3>6. Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h3>
@@ -857,66 +821,12 @@ v^{(k)} &amp;= \beta_2\, v^{(k-1)} + (1-\beta_2)\, (g^{(k)})^2 &amp;&amp;\text{(
 <section id="implementing-adam-on-the-house-prices-dataset">
 <h3>Implementing Adam on the House Prices dataset<a class="headerlink" href="#implementing-adam-on-the-house-prices-dataset" title="Link to this heading">#</a></h3>
 <p>We reuse the Kaggle <em>House Prices</em> dataset and we solve the same optimization problem as before with Adam.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-<span class="c1"># Load the dataset</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/train.csv&quot;</span><span class="p">)</span>
-
-<span class="c1"># Select features</span>
-<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LotArea&quot;</span><span class="p">,</span> <span class="s2">&quot;OverallQual&quot;</span><span class="p">,</span> <span class="s2">&quot;YearBuilt&quot;</span><span class="p">]</span>
-<span class="c1"># ...</span>
-
-<span class="c1"># Normalize the data</span>
-<span class="c1"># ...</span>
-
-<span class="c1"># Add bias column</span>
-<span class="c1"># ...</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="c1"># ...</span>
-    <span class="k">pass</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_grad</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="c1"># ...</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="adam-optimizer-with-mini-batches">
 <h3>Adam Optimizer (with mini-batches)<a class="headerlink" href="#adam-optimizer-with-mini-batches" title="Link to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> 
-        <span class="n">grad_l</span><span class="p">,</span>
-        <span class="n">Theta0</span><span class="p">,</span> 
-        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> 
-        <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
-        <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> 
-        <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> 
-        <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-    <span class="c1"># ...</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="comparison-sgd-vs-adam-with-standardized-data">
 <h3>Comparison: SGD vs. Adam (with standardized data)<a class="headerlink" href="#comparison-sgd-vs-adam-with-standardized-data" title="Link to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train both</span>
-<span class="c1"># Theta_sgd, loss_sgd =</span>
-<span class="c1"># Theta_adam, loss_adam = </span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="id1">
 <h3>Discussion<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
@@ -974,6 +884,15 @@ v^{(k)} &amp;= \beta_2\, v^{(k-1)} + (1-\beta_2)\, (g^{(k)})^2 &amp;&amp;\text{(
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Gradient Descent</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="supervised.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Supervised Learning for Classification</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

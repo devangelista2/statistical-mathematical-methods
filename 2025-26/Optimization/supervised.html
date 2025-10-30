@@ -1,0 +1,1079 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Supervised Learning for Classification &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/supervised';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unsupervised Learning via Linear Algebra" href="unsupervised.html" />
+    <link rel="prev" title="Stochastic Gradient Descent (SGD)" href="SGD.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">NLA with Python</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/basics_python.html">Python Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/introduction_to_numpy.html">Introduction to Python for NLA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NLA_numpy/matplotlib.html">Visualization with Matplotlib</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Supervised Learning for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unsupervised.html">Unsupervised Learning via Linear Algebra</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">Homework 1: Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">Homework 2: Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">Homework 3: Supervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">Homework 4: Unsupervised Learning</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/supervised.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Optimization/supervised.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Supervised Learning for Classification</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-regression-to-classification">From Regression to Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sigmoid-function-and-probabilistic-interpretation">The Sigmoid Function and Probabilistic Interpretation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sigmoid">Why Sigmoid?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-model-interpretation">Logistic Model Interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-interpretation">Geometric Interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-of-sigmoid">Gradient of Sigmoid</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-cross-entropy-loss">Binary Cross-Entropy Loss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy">Why Cross-Entropy?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-derivation">Gradient Derivation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-the-gradient">Interpretation of the Gradient</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluating-classification-models">Evaluating Classification Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-confusion-matrix">The Confusion Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy">Accuracy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#precision-and-recall">Precision and Recall</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f1-score">F1 Score</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-exercise-evaluate-logistic-regression">Implementation Exercise: Evaluate Logistic Regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-logistic-regression-on-a-real-dataset">Example: Logistic Regression on a Real Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-prepare-data">Load and Prepare Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-sgd-training">Logistic Regression (SGD Training)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-training">Adam Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-logistic-regression-to-a-simple-neural-network">From Logistic Regression to a Simple Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-hidden-layer">Adding a Hidden Layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network-the-chain-rule-in-action">Training the Network: The Chain Rule in Action</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-from-scratch">Implementation From Scratch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-remarks">Final Remarks</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="supervised-learning-for-classification">
+<h1>Supervised Learning for Classification<a class="headerlink" href="#supervised-learning-for-classification" title="Link to this heading">#</a></h1>
+<p>In the previous chapters, we introduced the general Machine Learning pipeline and developed a detailed understanding of optimization techniques such as Gradient Descent and Stochastic Gradient Descent, applied in particular to <strong>regression</strong> problems. In regression, the goal is to predict a <em>continuous</em> quantity, such as the price of a house, the temperature of a city, or the value of a sensor measurement.</p>
+<p>We now shift our focus to another fundamental branch of supervised learning: <strong>classification</strong>.</p>
+<section id="from-regression-to-classification">
+<h2>From Regression to Classification<a class="headerlink" href="#from-regression-to-classification" title="Link to this heading">#</a></h2>
+<p>In a <strong>classification</strong> problem, the objective is <em>not</em> to predict a continuous value, but instead to assign each input <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span> to one of a set of <strong>discrete classes</strong>. Typical examples include:</p>
+<ul class="simple">
+<li><p>Classifying emails as <em>spam</em> or <em>not spam</em>,</p></li>
+<li><p>Determining whether a medical image shows <em>healthy</em> tissue or a <em>tumor</em>,</p></li>
+<li><p>Recognizing handwritten digits (0–9),</p></li>
+<li><p>Predicting whether a customer will <em>buy</em> a product or <em>not</em>.</p></li>
+</ul>
+<p>In the simplest case (that is, binary classification), we aim to predict whether a label <span class="math notranslate nohighlight">\(y\)</span> belongs to one of two classes, which we will denote by</p>
+<div class="math notranslate nohighlight">
+\[
+y \in \{0, 1\}.
+\]</div>
+<p>This setup strongly resembles linear regression: we receive an input <span class="math notranslate nohighlight">\(x\)</span> and produce an output <span class="math notranslate nohighlight">\(y = f_\Theta(x)\)</span>. However, while regression outputs a real number, classification requires a <strong>probability</strong> or a <strong>discrete decision</strong>.</p>
+<p>For this reason, we will begin with a natural extension of linear regression to binary classification. The key idea is simple:</p>
+<blockquote>
+<div><p>We compute a linear prediction as in regression, then pass it through a <strong>sigmoid function</strong> to obtain a probability in <span class="math notranslate nohighlight">\([0,1]\)</span>.</p>
+</div></blockquote>
+<p>Formally,</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) := \sigma \left( \sum_{i=1}^n \Theta_i x_i \right) = \sigma(\Theta^T x),
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(t) = \frac{1}{1 + e^{-t}}
+\]</div>
+<p>is the <strong>sigmoid function</strong>, which maps any real number to a value between 0 and 1. We interpret <span class="math notranslate nohighlight">\(f_\Theta(x)\)</span> as the probability that <span class="math notranslate nohighlight">\(x\)</span> is associated with the class <span class="math notranslate nohighlight">\(y = 1\)</span>, i.e.:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(\Theta^T x) = \mathbb{P}(y=1 \mid x).
+\]</div>
+<p>Thus, we have transformed a linear regression model into a <strong>probabilistic classifier</strong>.</p>
+<p>This model is known as <strong>logistic regression</strong>, and it represents the fundamental building block for modern binary classifiers, including neural networks and deep learning models.</p>
+<p>Before deriving its training procedure, we first explore why the sigmoid is a good choice and how classification differs from regression in terms of modeling and objective functions.</p>
+</section>
+<section id="the-sigmoid-function-and-probabilistic-interpretation">
+<h2>The Sigmoid Function and Probabilistic Interpretation<a class="headerlink" href="#the-sigmoid-function-and-probabilistic-interpretation" title="Link to this heading">#</a></h2>
+<p>To move from regression to classification, we need a mechanism that transforms a real-valued output into a probability. The <strong>sigmoid function</strong> plays this role perfectly as it maps any real number <span class="math notranslate nohighlight">\(t \in \mathbb{R}\)</span> into the interval <span class="math notranslate nohighlight">\((0,1)\)</span>, making it ideal for modeling probabilities.</p>
+<section id="why-sigmoid">
+<h3>Why Sigmoid?<a class="headerlink" href="#why-sigmoid" title="Link to this heading">#</a></h3>
+<p>Consider a linear model (such as the one viewed in the previous chapter),</p>
+<div class="math notranslate nohighlight">
+\[
+z = \Theta^T x.
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(z\)</span> can be negative or positive, we cannot interpret it directly as a probability. The sigmoid, however, has the following desirable properties:</p>
+<ul class="simple">
+<li><p><strong>Range:</strong> <span class="math notranslate nohighlight">\(\sigma(t) \in (0,1)\)</span>, which makes it easy to interpret its output as a probability,</p></li>
+<li><p><strong>Monotonicity:</strong> larger linear scores correspond to higher probabilities,</p></li>
+<li><p><strong>Smoothness:</strong> continuously differentiable (needed for gradient methods),</p></li>
+</ul>
+</section>
+<section id="logistic-model-interpretation">
+<h3>Logistic Model Interpretation<a class="headerlink" href="#logistic-model-interpretation" title="Link to this heading">#</a></h3>
+<p>We interpret the model output as</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(\Theta^T x) = \mathbb{P}(y=1 \mid x;\Theta).
+\]</div>
+<p>The <strong>decision rule</strong> for binary classification becomes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\hat{y} = 
+\begin{cases}
+1 &amp; \text{if } \sigma(\Theta^T x) \ge 0.5, \\
+0 &amp; \text{otherwise}.
+\end{cases}
+\end{split}\]</div>
+<p>This creates a <strong>decision boundary</strong> given by</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^T x = 0,
+\]</div>
+<p>which is a hyperplane, exactly as in linear regression, meaning logistic regression produces a <strong>linear classifier</strong>.</p>
+</section>
+<section id="geometric-interpretation">
+<h3>Geometric Interpretation<a class="headerlink" href="#geometric-interpretation" title="Link to this heading">#</a></h3>
+<p>The sign of the linear function determines the predicted class. The sigmoid simply “softens” this decision, providing a <em>probability</em> rather than a hard assignment.</p>
+<p>Intuitively:</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(\Theta^T x \gg 0\)</span>: high confidence in class 1</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\Theta^T x \ll 0\)</span>: high confidence in class 0</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\Theta^T x \approx 0\)</span>: uncertain prediction (<span class="math notranslate nohighlight">\(\approx\)</span>0.5 probability)</p></li>
+</ul>
+</section>
+<section id="gradient-of-sigmoid">
+<h3>Gradient of Sigmoid<a class="headerlink" href="#gradient-of-sigmoid" title="Link to this heading">#</a></h3>
+<p>To train the model via gradient methods, we need its derivative:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma'(t) = \sigma(t)(1 - \sigma(t)).
+\]</div>
+<p>This elegant form (a product of the output and its complement) explains why the sigmoid is extremely convenient for optimization.</p>
+</section>
+</section>
+<section id="binary-cross-entropy-loss">
+<h2>Binary Cross-Entropy Loss<a class="headerlink" href="#binary-cross-entropy-loss" title="Link to this heading">#</a></h2>
+<p>Now that we model the probability of a sample belonging to class 1 as</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y} = \sigma(\Theta^T x),
+\qquad 
+\hat{y} \in (0,1),
+\]</div>
+<p>we need an appropriate loss function to measure how well the model matches the true labels.</p>
+<p>Since classification outputs <em>probabilities</em>, the correct loss is derived from <strong>maximum likelihood</strong> and corresponds to the <strong>binary cross-entropy</strong> (also called logistic loss). Let <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span> be the true label. We interpret the model as assigning the probability</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{P}(y = 1 \mid x;\Theta) = \hat{y}, 
+\qquad 
+\mathbb{P}(y = 0 \mid x;\Theta) = 1 - \hat{y}.
+\]</div>
+<p>Thus, the likelihood of observing <span class="math notranslate nohighlight">\(y\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{P}(y \mid x;\Theta)
+= \hat{y}^y \, (1 - \hat{y})^{(1-y)}.
+\]</div>
+<p>Maximizing the likelihood is equivalent to minimizing the <strong>negative log-likelihood</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\Theta; x, y)
+= - \left( y \log \hat{y} + (1 - y) \log (1 - \hat{y}) \right).
+\]</div>
+<p>Substituting <span class="math notranslate nohighlight">\(\hat{y} = f_\Theta(x) = \sigma(\Theta^T x)\)</span>, the <strong>binary cross-entropy (BCE)</strong> loss becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\Theta; x, y)
+= - \left(
+y \log \sigma(\Theta^T x)
++ (1-y) \log \left(1 - \sigma(\Theta^T x)\right)
+\right).
+\]</div>
+<p>For a dataset <span class="math notranslate nohighlight">\((X,Y) = \{(x^{(i)}, y^{(i)})\}_{i=1}^N\)</span>, the empirical loss is therefore:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta; X, Y)
+= \frac{1}{N} \sum_{i=1}^N \ell(\Theta; x^{(i)}, y^{(i)}).
+\]</div>
+<section id="why-cross-entropy">
+<h3>Why Cross-Entropy?<a class="headerlink" href="#why-cross-entropy" title="Link to this heading">#</a></h3>
+<p>Cross-entropy is preferred over MSE for classification because:</p>
+<ul class="simple">
+<li><p>It directly measures <strong>log-likelihood</strong> (statistically principled),</p></li>
+<li><p>It penalizes confident wrong predictions more strongly,</p></li>
+<li><p>Its gradients remain informative even when <span class="math notranslate nohighlight">\(\sigma(\Theta^T x)\)</span> saturates,</p></li>
+<li><p>Empirically, it leads to <strong>much faster and more reliable training</strong>.</p></li>
+</ul>
+<p>You can think of BCE as telling the model:</p>
+<blockquote>
+<div><p>“Assign high probability to true labels and low probability to incorrect ones, and pay a high price if you are confidently wrong.”</p>
+</div></blockquote>
+</section>
+<section id="gradient-derivation">
+<h3>Gradient Derivation<a class="headerlink" href="#gradient-derivation" title="Link to this heading">#</a></h3>
+<p>We train the classification model with a variant of Stochastic Gradient Descent (SGD). To do that, we first need to derive the gradient needed for optimization. Recall that:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta; X, Y) = \sum_{i=1}^N \ell (\Theta; x^{(i)}, y^{(i)}),
+\]</div>
+<p>and therefore:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta; X, Y) = \sum_{i=1}^N \nabla_\Theta \ell (\Theta; x^{(i)}, y^{(i)}),
+\]</div>
+<p>for which we only need to compute <span class="math notranslate nohighlight">\(\nabla_\Theta \ell (\Theta; x^{(i)}, y^{(i)})\)</span> to run the SGD algorithm. To do that, let:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat y = \sigma(z),\qquad z = \Theta^T x,\qquad 
+\ell(\Theta; x,y) = -\Big[y\log \hat y + (1-y)\log(1-\hat y)\Big].
+\]</div>
+<p>We apply the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \ell \;=\; \frac{\partial \ell}{\partial z}\,\frac{\partial z}{\partial \Theta}
+\;=\; \frac{\partial \ell}{\partial z}\,x,
+\]</div>
+<p>since <span class="math notranslate nohighlight">\(\partial z/\partial \Theta = x\)</span>. Differentiating <span class="math notranslate nohighlight">\(\ell\)</span> w.r.t. <span class="math notranslate nohighlight">\(z\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial z}
+= -\left[
+y \cdot \frac{1}{\hat y}\cdot \frac{\partial \hat y}{\partial z}
++ (1-y)\cdot \frac{-1}{1-\hat y}\cdot \frac{\partial \hat y}{\partial z}
+\right]
+= -\frac{\partial \hat y}{\partial z}
+\left[
+\frac{y}{\hat y} - \frac{1-y}{1-\hat y}
+\right].
+\]</div>
+<p>Using that <span class="math notranslate nohighlight">\(\sigma'(z)=\hat y(1-\hat y)\)</span>, we have <span class="math notranslate nohighlight">\(\dfrac{\partial \hat y}{\partial z}=\hat y(1-\hat y)\)</span>. Substitute:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial z}
+= -\hat y(1-\hat y)\left[
+\frac{y}{\hat y} - \frac{1-y}{1-\hat y}
+\right].
+\]</div>
+<p>Simplify the bracket:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{y}{\hat y} - \frac{1-y}{1-\hat y}
+= \frac{y(1-\hat y) - (1-y)\hat y}{\hat y(1-\hat y)}
+= \frac{y - y\hat y - \hat y + y\hat y}{\hat y(1-\hat y)}
+= \frac{y - \hat y}{\hat y(1-\hat y)}.
+\]</div>
+<p>Therefore,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial z}
+= -\hat y(1-\hat y)\cdot \frac{y - \hat y}{\hat y(1-\hat y)}
+= -(y - \hat y)
+= \hat y - y.
+\]</div>
+<p>Plugging back into the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \ell(\Theta; x, y)
+= \frac{\partial \ell}{\partial z}\,x
+= (\hat y - y)\,x.
+\]</div>
+<p>Therefore, for any batch <span class="math notranslate nohighlight">\(\mathcal{M} \subseteq \{ X, Y \}\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta; X, Y) = \sum_{i=1}^N (\sigma(\Theta^T x^{(i)}) - y^{(i)})\,x^{(i)}.
+\]</div>
+<p>This is <strong>very convenient</strong>:</p>
+<ul class="simple">
+<li><p>It has the same form as linear regression,</p></li>
+<li><p>Only the error term changes: <span class="math notranslate nohighlight">\(\hat{y}^{(i)} - y^{(i)}\)</span>,</p></li>
+<li><p>The sigmoid derivative magically cancels during simplification.</p></li>
+</ul>
+<p>Thus, the SGD / GD update rule becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k\,(\sigma(\Theta^{(k), T} x^{(i)}) - y^{(i)})\,x^{(i)}.
+\]</div>
+<p>This simplicity is one reason logistic regression remains foundational.</p>
+</section>
+<section id="interpretation-of-the-gradient">
+<h3>Interpretation of the Gradient<a class="headerlink" href="#interpretation-of-the-gradient" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If the model predicts a probability <strong>too high</strong> for label 1, it pushes <span class="math notranslate nohighlight">\(\Theta\)</span> <strong>down</strong>.</p></li>
+<li><p>If the probability is <strong>too low</strong>, it pushes <span class="math notranslate nohighlight">\(\Theta\)</span> <strong>up</strong>.</p></li>
+<li><p>The update magnitude depends on the <strong>confidence error</strong> and the <strong>input</strong>.</p></li>
+</ul>
+<p>Logistic regression is thus <strong>a smooth, probabilistic, differentiable extension of linear classification</strong>.</p>
+</section>
+</section>
+<section id="evaluating-classification-models">
+<h2>Evaluating Classification Models<a class="headerlink" href="#evaluating-classification-models" title="Link to this heading">#</a></h2>
+<p>In regression we measured performance using metrics such as Mean Squared Error. For classification, the target is no longer a real number, but a <strong>category</strong>, so evaluation metrics must reflect <strong>decision quality</strong>, not numerical closeness.</p>
+<section id="the-confusion-matrix">
+<h3>The Confusion Matrix<a class="headerlink" href="#the-confusion-matrix" title="Link to this heading">#</a></h3>
+<p>Given binary labels <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span> and predictions <span class="math notranslate nohighlight">\(\hat{y} \in \{0,1\}\)</span>, we define:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Actual \ Predicted</p></th>
+<th class="head"><p>1 (Positive)</p></th>
+<th class="head"><p>0 (Negative)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1 (Positive)</strong></p></td>
+<td><p>True Positive (TP)</p></td>
+<td><p>False Negative (FN)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>0 (Negative)</strong></p></td>
+<td><p>False Positive (FP)</p></td>
+<td><p>True Negative (TN)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>These four numbers form the <strong>confusion matrix</strong> and are the basis for all metrics below.</p>
+</section>
+<section id="accuracy">
+<h3>Accuracy<a class="headerlink" href="#accuracy" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{Acc}
+= \frac{\text{TP} + \text{TN}}{\text{TP + TN + FP + FN}}
+\]</div>
+<p>Accuracy answers: <em>“What fraction of total predictions are correct?”</em></p>
+<p><strong>Limitation:</strong> Alone, it can be misleading when classes are very unbalanced<br />
+(e.g., always predicting “0” in a dataset that is 99% zeros gives 99% accuracy, but is useless).<br />
+<em>(We ignore class imbalance handling for now, but this explains why accuracy is often not enough.)</em></p>
+</section>
+<section id="precision-and-recall">
+<h3>Precision and Recall<a class="headerlink" href="#precision-and-recall" title="Link to this heading">#</a></h3>
+<p>Precision:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Precision}
+= \frac{\text{TP}}{\text{TP + FP}}
+\]</div>
+<p><em>“Of the samples predicted as positive, how many are actually positive?”</em></p>
+<p>Recall (a.k.a. True Positive Rate):</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Recall}
+= \frac{\text{TP}}{\text{TP + FN}}
+\]</div>
+<p><em>“Of all positive samples, how many did we correctly detect?”</em></p>
+<p>Different applications emphasize different metrics:</p>
+<ul class="simple">
+<li><p>Spam detection: <strong>High precision</strong> (avoid marking real emails as spam)</p></li>
+<li><p>Disease screening: <strong>High recall</strong> (catch as many sick patients as possible)</p></li>
+</ul>
+</section>
+<section id="f1-score">
+<h3>F1 Score<a class="headerlink" href="#f1-score" title="Link to this heading">#</a></h3>
+<p>The <strong>harmonic mean</strong> of precision and recall:</p>
+<div class="math notranslate nohighlight">
+\[
+F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}
+{\text{Precision} + \text{Recall}}
+\]</div>
+<p>Useful when you need a single number summarizing both precision and recall.</p>
+</section>
+<section id="implementation-exercise-evaluate-logistic-regression">
+<h3>Implementation Exercise: Evaluate Logistic Regression<a class="headerlink" href="#implementation-exercise-evaluate-logistic-regression" title="Link to this heading">#</a></h3>
+<p>After training your logistic regression model via SGD:</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(\hat{y} = \sigma(\Theta^T x)\)</span></p></li>
+<li><p>Convert to predictions <span class="math notranslate nohighlight">\(\hat{y} \in \{0,1\}\)</span> using a threshold (start with 0.5)</p></li>
+<li><p>Compute:</p>
+<ul class="simple">
+<li><p>Confusion matrix</p></li>
+<li><p>Accuracy</p></li>
+<li><p>Precision, Recall, F1</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="example-logistic-regression-on-a-real-dataset">
+<h2>Example: Logistic Regression on a Real Dataset<a class="headerlink" href="#example-logistic-regression-on-a-real-dataset" title="Link to this heading">#</a></h2>
+<p>To conclude this chapter, we train a logistic regression model <strong>from scratch (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> only)</strong> on a real classification dataset from Kaggle:</p>
+<p><strong>Pima Indians Diabetes Database</strong>: <a class="reference external" href="https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database">https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database</a></p>
+<p>This dataset contains medical measurements for female patients and a binary label indicating whether diabetes was diagnosed. Similarly to what we previously did for regression, we will:</p>
+<ul class="simple">
+<li><p>Load the dataset</p></li>
+<li><p>Standardize features</p></li>
+<li><p>Train logistic regression with SGD</p></li>
+<li><p>Evaluate accuracy</p></li>
+</ul>
+<section id="load-and-prepare-data">
+<h3>Load and Prepare Data<a class="headerlink" href="#load-and-prepare-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Download `diabetes.csv` from Kaggle and place it in notebook directory</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/diabetes.csv&quot;</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Outcome&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>   <span class="c1"># features</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># labels</span>
+
+<span class="c1"># Standardize features</span>
+<span class="n">X_mean</span><span class="p">,</span> <span class="n">X_std</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">X_std</span>
+
+<span class="c1"># Add bias term</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-sgd-training">
+<h3>Logistic Regression (SGD Training)<a class="headerlink" href="#logistic-regression-sgd-training" title="Link to this heading">#</a></h3>
+</section>
+<section id="adam-training">
+<h3>Adam Training<a class="headerlink" href="#adam-training" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="from-logistic-regression-to-a-simple-neural-network">
+<h2>From Logistic Regression to a Simple Neural Network<a class="headerlink" href="#from-logistic-regression-to-a-simple-neural-network" title="Link to this heading">#</a></h2>
+<p>Up to this point, our models have been <strong>linear</strong>: for both regression and classification we always computed a single linear score of the form</p>
+<div class="math notranslate nohighlight">
+\[
+z = \Theta^T x,
+\qquad
+\hat y = \sigma(z),
+\]</div>
+<p>and then trained the parameters by minimizing an appropriate loss. This is the core of <strong>logistic regression</strong>, and as we have seen, it already performs surprisingly well. However, a single linear transformation can only separate data that is linearly separable.<br />
+In other words, logistic regression can only learn <strong>linear decision boundaries</strong>. But what if the true relationship between the input and the output is more complex? For example, what if the classes lie on <em>curved</em> or <em>intertwined</em> regions of space? This motivates the next step: <strong>neural networks</strong>.</p>
+<section id="adding-a-hidden-layer">
+<h3>Adding a Hidden Layer<a class="headerlink" href="#adding-a-hidden-layer" title="Link to this heading">#</a></h3>
+<p>The idea behind neural networks is very simple:</p>
+<blockquote>
+<div><p>Instead of directly mapping input features to an output, we first transform the inputs into a richer representation, and then we make predictions based on that representation.</p>
+</div></blockquote>
+<p>We do this by inserting a <strong>hidden layer</strong>. Concretely, we take our input <span class="math notranslate nohighlight">\(x\)</span>, apply a <strong>linear map</strong>, then a <strong>nonlinear activation function</strong>, and use the resulting features to make the final prediction. Mathematically, instead of</p>
+<div class="math notranslate nohighlight">
+\[
+\hat y = \sigma(\Theta^T x),
+\]</div>
+<p>we compute</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+z_1 &amp;= W_1 x + b_1,\\
+a_1 &amp;= \mathrm{ReLU}(z_1),\\
+z_2 &amp;= W_2 a_1 + b_2,\\
+\hat y &amp;= \sigma(z_2),
+\end{aligned}
+\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W_1, b_1\)</span> are the parameters of the <strong>hidden layer</strong>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_2, b_2\)</span> are the parameters of the <strong>output (logistic) layer</strong>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathrm{ReLU}(t) = \max(0, t)\)</span> introduces <strong>nonlinearity</strong>.</p></li>
+</ul>
+<p>This model can now learn <strong>non-linear decision boundaries</strong>, because the ReLU transformation can bend and reshape the input space before classification happens.</p>
+<p>Notice how intuitive this is: the ReLU layer is learning new features automatically, instead of us hand-engineering them.</p>
+</section>
+<section id="training-the-network-the-chain-rule-in-action">
+<h3>Training the Network: The Chain Rule in Action<a class="headerlink" href="#training-the-network-the-chain-rule-in-action" title="Link to this heading">#</a></h3>
+<p>Even though the model is more complex, the training principle remains unchanged:</p>
+<blockquote>
+<div><p>we compute the loss, and then adjust the parameters to reduce it.</p>
+</div></blockquote>
+<p>The key difference is that we now have more parameters and a composition of functions. Luckily, differentiation rules scale perfectly: we simply apply the <strong>chain rule</strong> layer by layer. This process, known as <strong>backpropagation</strong>, is nothing more than repeatedly applying:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d}{dx} f(g(x)) = f'(g(x)) \cdot g'(x).
+\]</div>
+<p>The ReLU nonlinearity also has a very simple derivative:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathrm{ReLU}'(z) =
+\begin{cases}
+1, &amp; z &gt; 0,\\
+0, &amp; z \le 0.
+\end{cases}
+\end{split}\]</div>
+<p>During backpropagation, this means that gradients are allowed to “flow” only through neurons that were active (i.e., had positive input). Neurons that had negative inputs simply do not contribute.</p>
+<p>This simple idea already allows us to build a universal function approximator: a network with only one hidden layer can theoretically approximate <strong>any continuous function</strong>, provided we use enough hidden units.</p>
+<p>Of course, in practice, deeper networks tend to learn more effectively but that is the story for coming courses.</p>
+</section>
+<section id="implementation-from-scratch">
+<h3>Implementation From Scratch<a class="headerlink" href="#implementation-from-scratch" title="Link to this heading">#</a></h3>
+<p>Below is a compact, fully-vectorized implementation of a one-hidden-layer neural network for binary classification.</p>
+<p>This code:</p>
+<ul class="simple">
+<li><p>Computes the forward pass,</p></li>
+<li><p>Computes all gradients manually using the chain rule,</p></li>
+<li><p>Applies SGD updates,</p></li>
+<li><p>Logs training loss and accuracy.</p></li>
+</ul>
+<p>You will recognize the familiar structure from logistic regression, just with one more layer.</p>
+</section>
+<section id="final-remarks">
+<h3>Final Remarks<a class="headerlink" href="#final-remarks" title="Link to this heading">#</a></h3>
+<p>What we have built here is the simplest possible neural network. Yet, conceptually, it already contains <strong>all the essential ingredients of deep learning</strong>:</p>
+<ul class="simple">
+<li><p>Stacking linear transformations,</p></li>
+<li><p>Inserting nonlinearities,</p></li>
+<li><p>Applying the chain rule backwards through the model,</p></li>
+<li><p>Updating parameters via gradient-based optimization.</p></li>
+</ul>
+<p>Everything you may have heard about, such as convolutional networks, transformers, diffusion models, LLMs, is built on top of this same foundation.</p>
+<p>By making the jump from logistic regression to a one-hidden-layer network, we now start seeing how machines can <strong>learn powerful, nonlinear patterns</strong> from data, instead of relying on manually engineered features. From here, we will continue increasing expressivity, depth, and scalability, always guided by the same core mathematical principles introduced in this course.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="SGD.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Stochastic Gradient Descent (SGD)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="unsupervised.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Unsupervised Learning via Linear Algebra</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-regression-to-classification">From Regression to Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sigmoid-function-and-probabilistic-interpretation">The Sigmoid Function and Probabilistic Interpretation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sigmoid">Why Sigmoid?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-model-interpretation">Logistic Model Interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-interpretation">Geometric Interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-of-sigmoid">Gradient of Sigmoid</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-cross-entropy-loss">Binary Cross-Entropy Loss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy">Why Cross-Entropy?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-derivation">Gradient Derivation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-the-gradient">Interpretation of the Gradient</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluating-classification-models">Evaluating Classification Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-confusion-matrix">The Confusion Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy">Accuracy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#precision-and-recall">Precision and Recall</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f1-score">F1 Score</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-exercise-evaluate-logistic-regression">Implementation Exercise: Evaluate Logistic Regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-logistic-regression-on-a-real-dataset">Example: Logistic Regression on a Real Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-prepare-data">Load and Prepare Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-sgd-training">Logistic Regression (SGD Training)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-training">Adam Training</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-logistic-regression-to-a-simple-neural-network">From Logistic Regression to a Simple Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-hidden-layer">Adding a Hidden Layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network-the-chain-rule-in-action">Training the Network: The Chain Rule in Action</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-from-scratch">Implementation From Scratch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-remarks">Final Remarks</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

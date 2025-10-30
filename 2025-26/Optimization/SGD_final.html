@@ -193,6 +193,18 @@
 <li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="supervised.html">Supervised Learning for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unsupervised.html">Unsupervised Learning via Linear Algebra</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">Homework 1: Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">Homework 2: Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">Homework 3: Supervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">Homework 4: Unsupervised Learning</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -397,7 +409,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-complete-example-multi-linear-regression-with-gd-and-sgd">A Complete Example: Multi-Linear Regression with GD and SGD</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The Dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-definition">1. Problem Definition</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2. Data Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-normalization">Data Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bias-column">The bias column</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-gradient-descent">3. Implementing Gradient Descent</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-stochastic-gradient-descent">4. Implementing Stochastic Gradient Descent</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-comparison">5. Training and Comparison</a></li>
@@ -406,8 +422,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-adaptive-moment-estimation">Adam: Adaptive Moment Estimation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-normalization-matters">Why Normalization Matters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-adam-with-standardized-data">Implementing Adam with Standardized Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-adam-on-the-house-prices-dataset">Implementing Adam on the House Prices dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-optimizer-with-mini-batches">Adam Optimizer (with mini-batches)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-sgd-vs-adam-with-standardized-data">Comparison: SGD vs. Adam (with standardized data)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Discussion</a></li>
@@ -518,6 +533,7 @@ Randomly select a subset <span class="math notranslate nohighlight">\(\mathcal{M
 When the entire dataset has been processed, we say one <strong>epoch</strong> of SGD has been completed.<br />
 The algorithm is typically run for a fixed number <span class="math notranslate nohighlight">\(E\)</span> of epochs.</p></li>
 </ol>
+<p><img alt="" src="../_images/SGD.png" /></p>
 </section>
 <section id="comparison-with-full-gradient-descent">
 <h2>Comparison with Full Gradient Descent<a class="headerlink" href="#comparison-with-full-gradient-descent" title="Link to this heading">#</a></h2>
@@ -556,29 +572,28 @@ The algorithm is typically run for a fixed number <span class="math notranslate 
 </section>
 <section id="typical-implementation">
 <h2>Typical Implementation<a class="headerlink" href="#typical-implementation" title="Link to this heading">#</a></h2>
-<p>Below is a reference Python-like pseudocode for SGD (for educational purposes only):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">SGD</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">theta0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">SGD</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simplified Stochastic Gradient Descent (SGD) implementation.</span>
-<span class="sd">    f: loss function, grad_f: gradient wrt theta</span>
+<span class="sd">    f: loss function, grad_f: gradient wrt Theta</span>
 <span class="sd">    X, Y: dataset</span>
-<span class="sd">    theta0: initial parameters</span>
+<span class="sd">    Theta0: initial parameters</span>
 <span class="sd">    lr: learning rate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
         <span class="c1"># Shuffle data indices</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
             <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
-            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>
-            <span class="n">theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
-    <span class="k">return</span> <span class="n">theta</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>
+            <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+    <span class="k">return</span> <span class="n">Theta</span>
 </pre></div>
 </div>
 </div>
@@ -589,22 +604,24 @@ The algorithm is typically run for a fixed number <span class="math notranslate 
 <ul>
 <li><p>The <strong>batch size</strong> controls the trade-off between computational cost and gradient accuracy.<br />
 Small batches introduce more stochastic noise; large batches approach full GD behavior.</p></li>
-<li><p>The <strong>learning rate</strong> <span class="math notranslate nohighlight">\(\alpha_k\)</span> is usually constant or follows a decaying schedule, e.g.</p>
+<li><p>The <strong>learning rate</strong> <span class="math notranslate nohighlight">\(\eta_k\)</span> is usually constant or follows a decaying schedule, e.g.</p>
 <div class="math notranslate nohighlight">
 \[
-  \alpha_k = \frac{\alpha_0}{1 + \gamma k}, \quad \gamma &gt; 0.
+  \eta_k = \frac{\eta_0}{1 + \gamma_k}, \quad \gamma &gt; 0.
   \]</div>
 </li>
 <li><p>In practice, modern optimizers (e.g. Adam, RMSProp) extend SGD with adaptive step-sizes and momentum, which we will discuss later in the course.</p></li>
 </ul>
 <blockquote>
 <div><p><strong>Exercise (Mini-Batch Approximation):</strong><br />
-Consider the function</p>
+For a <span class="math notranslate nohighlight">\(d\)</span>-dimensional input vector <span class="math notranslate nohighlight">\(x^{(i)}\)</span>, consider the function</p>
 <div class="math notranslate nohighlight">
 \[
-&gt; \mathcal{L}(\Theta; X, Y) = \frac{1}{N}\sum_{i=1}^N (\Theta^T x^{(i)} - y^{(i)})^2.
+&gt; \mathcal{L}(\Theta; X, Y) = \frac{1}{N}\sum_{i=1}^N (\Theta^T x^{(i)} - y^{(i)})^2,
 &gt; \]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta \in \mathbb{R}^d\)</span>.</p>
 <ol class="arabic simple">
+<li><p>For <span class="math notranslate nohighlight">\(d = 1\)</span>, define a synthetic dataset <span class="math notranslate nohighlight">\(X, Y\)</span> where <span class="math notranslate nohighlight">\(X\)</span> is a set of <span class="math notranslate nohighlight">\(N = 100\)</span> evenly-spaced elements in the range <span class="math notranslate nohighlight">\([0, 1]\)</span>, while <span class="math notranslate nohighlight">\(Y = 2X + 1 + e\)</span>, <span class="math notranslate nohighlight">\(e \sim \mathcal{N}(0, 0.01)\)</span>.</p></li>
 <li><p>Implement Gradient Descent and Stochastic Gradient Descent for this loss.</p></li>
 <li><p>Compare the number of iterations and the computational cost.</p></li>
 <li><p>Plot the evolution of the loss across epochs for different batch sizes (<span class="math notranslate nohighlight">\(N_\text{batch} = 1, 10, N\)</span>).</p></li>
@@ -612,7 +629,7 @@ Consider the function</p>
 </div></blockquote>
 <blockquote>
 <div><p><strong>Exercise (Variance of the Stochastic Gradient):</strong><br />
-For the same quadratic loss, compute the gradient over multiple random batches <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> of the same size, and compare:</p>
+For the same loss of the previous exercise, compute the gradient over multiple random batches <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> of the same size, and compare:</p>
 <div class="math notranslate nohighlight">
 \[
 &gt; \mathrm{Var}\big(\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}_k)\big)
@@ -623,9 +640,13 @@ Discuss how increasing <span class="math notranslate nohighlight">\(N_\text{batc
 <blockquote>
 <div><p><strong>Exercise (Learning Rate Scheduling):</strong><br />
 Implement SGD on the same dataset with three learning-rate strategies:<br />
-constant <span class="math notranslate nohighlight">\(\alpha_k=\alpha_0\)</span>, exponentially decaying <span class="math notranslate nohighlight">\(\alpha_k = \alpha_0 \, e^{-\gamma k}\)</span>, and inverse scaling <span class="math notranslate nohighlight">\(\alpha_k = \frac{\alpha_0}{1+\gamma k}\)</span>.<br />
+constant <span class="math notranslate nohighlight">\(\eta_k=\eta_0\)</span>, exponentially decaying <span class="math notranslate nohighlight">\(\eta_k = \eta_0 \, e^{-\gamma k}\)</span>, and inverse scaling <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1+\gamma k}\)</span>.<br />
 Compare convergence rates and discuss which choice balances speed and stability better.</p>
 </div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SGD has some drawbacks compared to GD. In particular, there is no way to check whether it reached the convergence (since we can’t obviously compute the gradient of <span class="math notranslate nohighlight">\(\mathcal{L}(\theta; X, Y)\)</span> to check its distance from zero, as it is required for the first Stopping Criteria) and we can’t use the backtracking algorithm, for the same reason. As a consequence, the algorithm will stop ONLY after reaching the fixed number of epochs, and we must set a good value for the step size <span class="math notranslate nohighlight">\(\alpha_k\)</span> by hand. Those problems are partially solved by recent algorithms like SGD with Momentum, Adam, AdaGrad, …</p>
+</div>
 </section>
 <section id="a-complete-example-multi-linear-regression-with-gd-and-sgd">
 <h2>A Complete Example: Multi-Linear Regression with GD and SGD<a class="headerlink" href="#a-complete-example-multi-linear-regression-with-gd-and-sgd" title="Link to this heading">#</a></h2>
@@ -633,8 +654,7 @@ Compare convergence rates and discuss which choice balances speed and stability 
 <p>This exercise will help you understand how both <strong>Gradient Descent (GD)</strong> and <strong>Stochastic Gradient Descent (SGD)</strong> behave in a real training scenario and how different choices (e.g., batch size, learning rate) affect convergence.</p>
 <section id="the-dataset">
 <h3>The Dataset<a class="headerlink" href="#the-dataset" title="Link to this heading">#</a></h3>
-<p>We will use the <strong>“House Prices – Advanced Regression Techniques”</strong> dataset from Kaggle:<br />
-🔗 <a class="reference external" href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques</a></p>
+<p>We will use the <strong>“House Prices – Advanced Regression Techniques”</strong> dataset from Kaggle: <a class="reference external" href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques</a></p>
 <p>The dataset contains various features describing houses (e.g., number of rooms, area, year built) and the <strong>sale price</strong> as the target variable.</p>
 <p>For simplicity, we will use only a few continuous variables, for example:</p>
 <ul class="simple">
@@ -642,12 +662,12 @@ Compare convergence rates and discuss which choice balances speed and stability 
 <li><p><code class="docutils literal notranslate"><span class="pre">OverallQual</span></code> (an overall quality rating),</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">YearBuilt</span></code> (the construction year).</p></li>
 </ul>
-<p>Our goal is to predict the house price <span class="math notranslate nohighlight">\( y \)</span> using a linear model:</p>
+<p>Our goal is to predict the house price <span class="math notranslate nohighlight">\(y\)</span> using a linear model:</p>
 <div class="math notranslate nohighlight">
 \[
 f_\Theta(x) = \Theta^T x,
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span> is the feature vector (including a bias term), and <span class="math notranslate nohighlight">\(\Theta \in \mathbb{R}^d\)</span> are the model parameters.</p>
+<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span> is the feature vector (including a bias term), and <span class="math notranslate nohighlight">\(\Theta = [\Theta_1, \Theta_2, \Theta_3] \in \mathbb{R}^d\)</span> are the model parameters.</p>
 </section>
 <section id="problem-definition">
 <h3>1. Problem Definition<a class="headerlink" href="#problem-definition" title="Link to this heading">#</a></h3>
@@ -657,8 +677,7 @@ f_\Theta(x) = \Theta^T x,
 \mathcal{L}(\Theta; X, Y) = \frac{1}{N}\sum_{i=1}^N (f_\Theta(x^{(i)}) - y^{(i)})^2
 = \frac{1}{N}\|X\Theta - Y\|_2^2,
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(X\)</span> is the data matrix of shape <span class="math notranslate nohighlight">\((N, d)\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> the vector of targets.</p>
-<p>The gradient of the loss with respect to <span class="math notranslate nohighlight">\(\Theta\)</span> is:</p>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> is the data matrix of shape <span class="math notranslate nohighlight">\((N, d)\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> the vector of targets. The gradient of the loss with respect to <span class="math notranslate nohighlight">\(\Theta\)</span> is:</p>
 <div class="math notranslate nohighlight">
 \[
 \nabla_\Theta \mathcal{L}(\Theta; X, Y) = \frac{2}{N} X^T (X\Theta - Y).
@@ -669,10 +688,53 @@ f_\Theta(x) = \Theta^T x,
 <p>The first step is to:</p>
 <ul class="simple">
 <li><p>Load the dataset (you can download the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file from Kaggle),</p></li>
-<li><p>Select the numerical columns we are interested in,</p></li>
+<li><p>Select only the numerical columns we are interested in,</p></li>
 <li><p>Normalize them to have mean 0 and variance 1,</p></li>
 <li><p>Add a <strong>bias column</strong> of ones to <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
 </ul>
+<p>Before delving into the implementation details of these steps, let us discuss the motivation for the last two steps.</p>
+<section id="data-normalization">
+<h4>Data Normalization<a class="headerlink" href="#data-normalization" title="Link to this heading">#</a></h4>
+<p>Before applying any gradient-based optimizer (such as Gradient Descent, Stochastic Gradient Descent, or any variant), it is essential to <strong>normalize or standardize the data</strong>, because:</p>
+<ol class="arabic simple">
+<li><p><strong>Balanced feature scales:</strong><br />
+Features measured in different units (e.g., square meters, years, ratings) produce gradients of very different magnitudes, making the loss landscape highly anisotropic and ill-conditioned (as we already saw in the previous section).</p></li>
+<li><p><strong>Faster and smoother convergence:</strong><br />
+Centering and scaling features makes the contours of the loss more spherical, helping gradient-based methods move more directly toward the minimum.</p></li>
+</ol>
+<p>Hence, we always <strong>standardize both the features and the target</strong> in regression tasks:</p>
+<div class="math notranslate nohighlight">
+\[
+x_j \leftarrow \frac{x_j - \mu_j}{\sigma_j}, 
+\quad
+y \leftarrow \frac{y - \mu_y}{\sigma_y}.
+\]</div>
+<p>After training, predictions can be <strong>denormalized</strong> back to the original scale.</p>
+</section>
+<section id="the-bias-column">
+<h4>The bias column<a class="headerlink" href="#the-bias-column" title="Link to this heading">#</a></h4>
+<p>To simplify the implementation of the SGD method and make the resulting algorithm independent on the dimensionality <span class="math notranslate nohighlight">\(d\)</span> of the input space, we consider the <strong>matrix formulation</strong> of the optimization problem, where the model <span class="math notranslate nohighlight">\(f_\Theta(x^{(i)})\)</span> reads:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) = \Theta^T x^{(i)}.
+\]</div>
+<p>Note that, while this formulation leads to more flexible implementation, the resulting model loses access to the <strong>bias</strong> term (sometimes called <strong>quote</strong>) compared to the scalar formulation:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) = \sum_{j=1}^d W_j x_j^{(i)} + b_i.
+\]</div>
+<p>To recover that term, a typical solution is to add an artificial dummy column on <span class="math notranslate nohighlight">\(X\)</span>, composed of all <span class="math notranslate nohighlight">\(1\)</span>s, so that:</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{X} = [1, X],
+\]</div>
+<p>and:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x^{(i)}) = \Theta^T \tilde{x}^{(i)} = \Theta^T [1, x^{(i)}] = \Theta_1 + \Theta_{2:{d+1}}^T x^{(i)},
+\]</div>
+<p>effectively recovering the bias term.</p>
+<p>We can now move to implementing the data preprocessing step for our example problem.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -688,6 +750,7 @@ f_\Theta(x) = \Theta^T x,
 
 <span class="c1"># Normalize features</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">Y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Add bias term</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
@@ -703,31 +766,32 @@ f_\Theta(x) = \Theta^T x,
 </div>
 </div>
 </section>
+</section>
 <section id="implementing-gradient-descent">
 <h3>3. Implementing Gradient Descent<a class="headerlink" href="#implementing-gradient-descent" title="Link to this heading">#</a></h3>
 <p>We now implement Gradient Descent using the formula</p>
 <div class="math notranslate nohighlight">
 \[
-\Theta^{(k+1)} = \Theta^{(k)} - \alpha \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y).
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y).
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="n">residuals</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_grad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-    <span class="n">Theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span>
     <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-        <span class="n">grad</span> <span class="o">=</span> <span class="n">compute_grad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
         <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
-        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">))</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
 </pre></div>
 </div>
@@ -743,8 +807,8 @@ f_\Theta(x) = \Theta^T x,
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-    <span class="n">Theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">Theta0</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
@@ -752,9 +816,9 @@ f_\Theta(x) = \Theta^T x,
         <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
             <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
             <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
-            <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">Yb</span><span class="p">))</span> <span class="o">*</span> <span class="n">Xb</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">Xb</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Yb</span><span class="p">)</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span><span class="p">)</span>
             <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
-        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">))</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
 </pre></div>
 </div>
@@ -767,8 +831,8 @@ f_\Theta(x) = \Theta^T x,
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run both GD and SGD</span>
-<span class="n">Theta_gd</span><span class="p">,</span> <span class="n">loss_gd</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-<span class="n">Theta_sgd</span><span class="p">,</span> <span class="n">loss_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">Theta_gd</span><span class="p">,</span> <span class="n">loss_gd</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">Theta_sgd</span><span class="p">,</span> <span class="n">loss_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;GD&quot;</span><span class="p">)</span>
@@ -783,7 +847,7 @@ f_\Theta(x) = \Theta^T x,
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8f46f60b705939d8b2aeaab02a7fc31fe713dc7b56cd42ac4edbed2a8bb39dc6.png" src="../_images/8f46f60b705939d8b2aeaab02a7fc31fe713dc7b56cd42ac4edbed2a8bb39dc6.png" />
+<img alt="../_images/efea5cfc657d7f4f9bceee116d7939cf14524820b36d245625b82f30f26f7a5d.png" src="../_images/efea5cfc657d7f4f9bceee116d7939cf14524820b36d245625b82f30f26f7a5d.png" />
 </div>
 </div>
 </section>
@@ -799,7 +863,6 @@ This noise can even <strong>help</strong> avoid getting stuck in local minima (f
 <ul class="simple">
 <li><p>Different values of <code class="docutils literal notranslate"><span class="pre">lr</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">1e-2</span></code>, <code class="docutils literal notranslate"><span class="pre">5e-4</span></code>),</p></li>
 <li><p>Different batch sizes (<code class="docutils literal notranslate"><span class="pre">N_batch</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">32,</span> <span class="pre">128,</span> <span class="pre">N</span></code>),</p></li>
-<li><p>And normalization (try running without standardization to see instability).</p></li>
 </ul>
 </section>
 <section id="questions-for-reflection">
@@ -807,8 +870,9 @@ This noise can even <strong>help</strong> avoid getting stuck in local minima (f
 <ol class="arabic simple">
 <li><p>Compare the convergence curves of GD and SGD. Which is smoother? Which converges faster in terms of time per epoch?</p></li>
 <li><p>How does batch size influence the final convergence point and oscillations?</p></li>
-<li><p>If you replace the fixed learning rate with a decaying schedule (e.g. <span class="math notranslate nohighlight">\(\alpha_k = \frac{\alpha_0}{1+k}\)</span>), how does the behavior change?</p></li>
+<li><p>If you replace the fixed learning rate with a decaying schedule (e.g. <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1+k}\)</span>), how does the behavior change?</p></li>
 <li><p>Compute the norm of the final gradient <span class="math notranslate nohighlight">\(\|\nabla_\Theta \mathcal{L}(\Theta^{(E)}; X, Y)\|\)</span> for both algorithms and interpret its value.</p></li>
+<li><p>Plot the value of <span class="math notranslate nohighlight">\(\|\nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y)\|\)</span> along the iterations for the two methods and discuss the behavior.</p></li>
 </ol>
 <p>This exercise consolidates all the concepts discussed so far:</p>
 <ul class="simple">
@@ -817,14 +881,12 @@ This noise can even <strong>help</strong> avoid getting stuck in local minima (f
 <li><p>iterative updates via Gradient Descent and SGD,</p></li>
 <li><p>and the trade-offs between accuracy, stability, and computational cost.</p></li>
 </ul>
-<p>You are now ready to apply these methods to more complex models (e.g. logistic regression or neural networks), where SGD remains the core optimization strategy.</p>
 </section>
 </section>
 <section id="adam-adaptive-moment-estimation">
 <h2>Adam: Adaptive Moment Estimation<a class="headerlink" href="#adam-adaptive-moment-estimation" title="Link to this heading">#</a></h2>
-<p><strong>Adam</strong> is an optimization algorithm that improves on standard SGD by using both<br />
-<strong>momentum</strong> (to accelerate convergence) and <strong>adaptive learning rates</strong> (to handle parameters with different scales).</p>
-<p>Given a stochastic gradient at iteration (k),</p>
+<p><strong>Adam</strong> is an optimization algorithm that improves on standard SGD by using both <strong>momentum</strong> (to accelerate convergence) and <strong>adaptive learning rates</strong> (to handle parameters with different scales).</p>
+<p>Given a stochastic gradient at iteration <span class="math notranslate nohighlight">\(k\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[
 g^{(k)} \;=\; \nabla_\Theta \mathcal{L}\big(\Theta^{(k)}; \mathcal{M}_k\big),
@@ -847,33 +909,12 @@ v^{(k)} &amp;= \beta_2\, v^{(k-1)} + (1-\beta_2)\, (g^{(k)})^2 &amp;&amp;\text{(
 <p>the parameter update is:</p>
 <div class="math notranslate nohighlight">
 \[
-\Theta^{(k+1)} = \Theta^{(k)} - \alpha\, \frac{\hat m^{(k)}}{\sqrt{\hat v^{(k)}} + \varepsilon}.
+\Theta^{(k+1)} = \Theta^{(k)} - \eta\, \frac{\hat m^{(k)}}{\sqrt{\hat v^{(k)}} + \varepsilon} g^{(k)}.
 \]</div>
-<p>Typical choices:<br />
-(\beta_1=0.9, ; \beta_2=0.999, ; \varepsilon = 10^{-8}).</p>
-<section id="why-normalization-matters">
-<h3>Why Normalization Matters<a class="headerlink" href="#why-normalization-matters" title="Link to this heading">#</a></h3>
-<p>Before applying Adam (or any gradient-based optimizer), it is essential to <strong>normalize or standardize the data</strong>.</p>
-<ol class="arabic simple">
-<li><p><strong>Balanced feature scales:</strong><br />
-Features measured in different units (e.g., square meters, years, ratings) produce gradients of very different magnitudes, making the loss landscape highly anisotropic and ill-conditioned.</p></li>
-<li><p><strong>Stable updates:</strong><br />
-Adam adapts learning rates <em>per parameter</em> based on the running averages of gradients and squared gradients. If features or target values have very different scales, the computed (v^{(k)}) can vary by orders of magnitude across dimensions, leading to unstable or diverging updates.</p></li>
-<li><p><strong>Faster and smoother convergence:</strong><br />
-Centering and scaling features makes the contours of the loss more spherical, helping gradient-based methods move more directly toward the minimum.</p></li>
-</ol>
-<p>Hence, we always <strong>standardize both the features and the target</strong> in regression tasks:</p>
-<div class="math notranslate nohighlight">
-\[
-x_j \leftarrow \frac{x_j - \mu_j}{\sigma_j}, 
-\quad
-y \leftarrow \frac{y - \mu_y}{\sigma_y}.
-\]</div>
-<p>After training, predictions can be <strong>denormalized</strong> back to the original scale.</p>
-</section>
-<section id="implementing-adam-with-standardized-data">
-<h3>Implementing Adam with Standardized Data<a class="headerlink" href="#implementing-adam-with-standardized-data" title="Link to this heading">#</a></h3>
-<p>We reuse the Kaggle <em>House Prices</em> dataset but now <strong>normalize both inputs and outputs</strong> before training.</p>
+<p>Typical choices: <span class="math notranslate nohighlight">\(\beta_1=0.9, \; \beta_2=0.999, \; \varepsilon = 10^{-8}\)</span>.</p>
+<section id="implementing-adam-on-the-house-prices-dataset">
+<h3>Implementing Adam on the House Prices dataset<a class="headerlink" href="#implementing-adam-on-the-house-prices-dataset" title="Link to this heading">#</a></h3>
+<p>We reuse the Kaggle <em>House Prices</em> dataset and we solve the same optimization problem as before with Adam.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -887,7 +928,7 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;SalePrice&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># === STANDARDIZATION ===</span>
+<span class="c1"># Normalize the data</span>
 <span class="n">X_mean</span><span class="p">,</span> <span class="n">X_std</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">Y_mean</span><span class="p">,</span> <span class="n">Y_std</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
@@ -898,11 +939,11 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">])</span>
 <span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
     <span class="n">residuals</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_grad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span>
 </pre></div>
@@ -914,17 +955,16 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 <h3>Adam Optimizer (with mini-batches)<a class="headerlink" href="#adam-optimizer-with-mini-batches" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">adam</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> 
-    <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>                <span class="c1"># smaller LR for stability</span>
-    <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> 
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> 
-    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">theta0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">adam</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> 
+        <span class="n">grad_l</span><span class="p">,</span>
+        <span class="n">Theta0</span><span class="p">,</span> 
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> 
+        <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> 
+        <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> 
+        <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
     <span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">Theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="n">theta0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">Theta0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Theta</span><span class="p">)</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Theta</span><span class="p">)</span>
@@ -932,15 +972,12 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
     <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
             <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
             <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
-            <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">Yb</span><span class="p">))</span> <span class="o">*</span> <span class="n">Xb</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">Xb</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Yb</span><span class="p">)</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">grad_l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span><span class="p">)</span>
 
             <span class="c1"># Adam updates</span>
             <span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -950,7 +987,7 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
             <span class="n">v_hat</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="o">**</span><span class="n">t</span><span class="p">)</span>
             <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="p">(</span><span class="n">m_hat</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_hat</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">))</span>
 
-        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">))</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
 </pre></div>
@@ -962,23 +999,9 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 <h3>Comparison: SGD vs. Adam (with standardized data)<a class="headerlink" href="#comparison-sgd-vs-adam-with-standardized-data" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-    <span class="n">Theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
-            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
-            <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
-            <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">Yb</span><span class="p">))</span> <span class="o">*</span> <span class="n">Xb</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">Xb</span> <span class="o">@</span> <span class="n">Theta</span> <span class="o">-</span> <span class="n">Yb</span><span class="p">)</span>
-            <span class="n">Theta</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
-        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Theta</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">losses</span>
-
-<span class="c1"># Train both</span>
-<span class="n">Theta_sgd</span><span class="p">,</span> <span class="n">loss_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">Theta_adam</span><span class="p">,</span> <span class="n">loss_adam</span> <span class="o">=</span> <span class="n">adam</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train both</span>
+<span class="n">Theta_sgd</span><span class="p">,</span> <span class="n">loss_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">Theta_adam</span><span class="p">,</span> <span class="n">loss_adam</span> <span class="o">=</span> <span class="n">adam</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">grad_l</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;SGD&quot;</span><span class="p">)</span>
@@ -993,7 +1016,7 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/80514aef9debdf7ba3edf287d149ffed71804e671a0a6438df7843a7456c073e.png" src="../_images/80514aef9debdf7ba3edf287d149ffed71804e671a0a6438df7843a7456c073e.png" />
+<img alt="../_images/a1678847ebe096a7364a2c66ede5f956f7f334e0cc01ef83438261f6aee1d301.png" src="../_images/a1678847ebe096a7364a2c66ede5f956f7f334e0cc01ef83438261f6aee1d301.png" />
 </div>
 </div>
 </section>
@@ -1011,10 +1034,6 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 \[
 \hat{y}_\text{real} = \hat{y}_\text{normalized} \cdot \sigma_Y + \mu_Y.
 \]</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>SGD has some drawbacks compared to GD. In particular, there is no way to check whether it reached the convergence (since we can’t obviously compute the gradient of <span class="math notranslate nohighlight">\(\ell(\theta; X, Y)\)</span> to check its distance from zero, as it is required for the first Stopping Criteria) and we can’t use the backtracking algorithm, for the same reason. As a consequence, the algorithm will stop ONLY after reaching the fixed number of epochs, and we must set a good value for the step size <span class="math notranslate nohighlight">\(\alpha_k\)</span> by hand. Those problems are partially solved by recent algorithms like SGD with Momentum, Adam, AdaGrad, … whose study is beyond the scope of the course.</p>
-</div>
 </section>
 </section>
 </section>
@@ -1075,7 +1094,11 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-complete-example-multi-linear-regression-with-gd-and-sgd">A Complete Example: Multi-Linear Regression with GD and SGD</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The Dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-definition">1. Problem Definition</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2. Data Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">2. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-normalization">Data Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bias-column">The bias column</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-gradient-descent">3. Implementing Gradient Descent</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-stochastic-gradient-descent">4. Implementing Stochastic Gradient Descent</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-comparison">5. Training and Comparison</a></li>
@@ -1084,8 +1107,7 @@ y \leftarrow \frac{y - \mu_y}{\sigma_y}.
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-adaptive-moment-estimation">Adam: Adaptive Moment Estimation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-normalization-matters">Why Normalization Matters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-adam-with-standardized-data">Implementing Adam with Standardized Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-adam-on-the-house-prices-dataset">Implementing Adam on the House Prices dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-optimizer-with-mini-batches">Adam Optimizer (with mini-batches)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-sgd-vs-adam-with-standardized-data">Comparison: SGD vs. Adam (with standardized data)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Discussion</a></li>
