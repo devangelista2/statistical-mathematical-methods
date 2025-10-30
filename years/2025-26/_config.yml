@@ -8,7 +8,7 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: "force"  # Set to "auto", "force", "no", or "cache"
+  execute_notebooks: "cache"  # Set to "auto", "force", "no", or "cache"
   allow_errors: true  # Allow the notebook to continue executing even if an error occurs
 
 

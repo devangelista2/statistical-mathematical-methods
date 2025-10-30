@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -192,6 +192,18 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="supervised.html">Supervised Learning for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unsupervised.html">Unsupervised Learning via Linear Algebra</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">Homework 1: Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">Homework 2: Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">Homework 3: Supervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">Homework 4: Unsupervised Learning</a></li>
 </ul>
 
     </div>
@@ -496,11 +508,11 @@ f_\Theta(x) = \Theta_1 + \Theta_2 x.
 <p>This equation describes a straight line where <span class="math notranslate nohighlight">\(\Theta_1\)</span> is the intercept and <span class="math notranslate nohighlight">\(\Theta_2\)</span> is the slope.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="c1"># Define parameterized function f</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
 
 <span class="c1"># Choose two different values for the parameters</span>
@@ -523,7 +535,7 @@ f_\Theta(x) = \Theta_1 + \Theta_2 x.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ed322229f1bd94615522a60239136cf09e3b107ecd38f817d682afbd29edbc8c.png" src="../_images/ed322229f1bd94615522a60239136cf09e3b107ecd38f817d682afbd29edbc8c.png" />
+<img alt="../_images/863cc0fb076a60bf68c2cd5a34075a2106a489ff1d6012843bda03d6f539ffdb.png" src="../_images/863cc0fb076a60bf68c2cd5a34075a2106a489ff1d6012843bda03d6f539ffdb.png" />
 </div>
 </div>
 <p>Think of <span class="math notranslate nohighlight">\(x\)</span> as the input data that we use to predict an output <span class="math notranslate nohighlight">\(y\)</span>. Notice how different choices of <span class="math notranslate nohighlight">\(\Theta\)</span> can lead to vastly different predictions.</p>
@@ -547,7 +559,7 @@ f_\Theta(x) = \Theta_1 + \Theta_2 x.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/89914df99b7c11e045ab96e1a0b04416927cced9bdc60f42e58c2caab248837a.png" src="../_images/89914df99b7c11e045ab96e1a0b04416927cced9bdc60f42e58c2caab248837a.png" />
+<img alt="../_images/d1dfb4cb39e82e381fa88e14de699c71d4af7882a52eeb8938ef885ccf299b76.png" src="../_images/d1dfb4cb39e82e381fa88e14de699c71d4af7882a52eeb8938ef885ccf299b76.png" />
 </div>
 </div>
 <p><em>Which of the two straight lines better fits the given data?</em>
@@ -592,7 +604,7 @@ f_\Theta(x) = W x + b
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/aad1d9dc87ebd6c56f5a4864fcc1b941514931b568529c8b5b97da5dd5ab9981.png" src="../_images/aad1d9dc87ebd6c56f5a4864fcc1b941514931b568529c8b5b97da5dd5ab9981.png" />
+<img alt="../_images/2fafe42756edfb4ce1c52358cb13932419860b498beada5b575bf3f4041b0ed8.png" src="../_images/2fafe42756edfb4ce1c52358cb13932419860b498beada5b575bf3f4041b0ed8.png" />
 </div>
 </div>
 <p>To this aim, multiple ML algorithms have been proposed in the literature, with the most successful being Polynomial Regression, Support Vector Machines (SVM), Random Forest (RF), and XGBoost.</p>
@@ -661,14 +673,14 @@ f_\theta(x) \approx f(x) \qquad \forall x \in \mathbb{R}^d
 <p>Two classical encoding strategies are:</p>
 <ul>
 <li><p><strong>Integer Encoding</strong>: Each class <span class="math notranslate nohighlight">\(C_k\)</span> is mapped to an integer index <span class="math notranslate nohighlight">\(k\)</span>. A crucial drawback of this method is that it introduces an artificial ordering between categories. It is implemented in Python via:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
 <span class="n">encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
 <span class="n">encoded</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p><strong>One-Hot Encoding</strong>: Each class <span class="math notranslate nohighlight">\(C_k\)</span> is mapped to the <span class="math notranslate nohighlight">\(k\)</span>-th canonical vector <span class="math notranslate nohighlight">\(e_k \in \mathbb{R}^K\)</span>, which is all zeros except for a single 1 at position <span class="math notranslate nohighlight">\(k\)</span>. It is implemented in Python via:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
 <span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">encoded</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">categories</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
@@ -676,7 +688,7 @@ f_\theta(x) \approx f(x) \qquad \forall x \in \mathbb{R}^d
 </li>
 </ul>
 <p>After encoding, the dataset can be converted to a NumPy array with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">encoded_dataset</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -701,8 +713,8 @@ Y = [y_1, y_2, \ldots, y_N]^T \in \mathbb{R}^N.
 <li><p>Similar strategies are used in <strong>recommender systems</strong> (e.g., embedding users and items) and <strong>graph learning</strong> (node embeddings).</p></li>
 </ul>
 <p>In practice, this means that instead of manually encoding categories, we let the model <strong>learn a representation</strong> that is optimal for the task. In PyTorch, for example, this can be done with the <code class="docutils literal notranslate"><span class="pre">nn.Embedding</span></code> layer:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 
 <span class="c1"># Suppose we have 100 possible categories, mapped into 16-dimensional embeddings</span>
 <span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_embeddings</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>

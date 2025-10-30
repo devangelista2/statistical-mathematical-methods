@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -192,6 +192,18 @@
 <li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Gradient Descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="supervised.html">Supervised Learning for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unsupervised.html">Unsupervised Learning via Linear Algebra</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homeworks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW1.html">Homework 1: Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW2.html">Homework 2: Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW3.html">Homework 3: Supervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/HW4.html">Homework 4: Unsupervised Learning</a></li>
 </ul>
 
     </div>
@@ -529,9 +541,9 @@ Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \ma
 <p><strong>Backtracking:</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">grad_L</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">backtracking</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">grad_L</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a step size eta that satisfies the Armijo condition:</span>
 <span class="sd">        L(theta - eta*g) &lt;= L(theta) - c * eta * ||g||^2</span>
@@ -595,21 +607,16 @@ Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \ma
 </ul>
 <p>The level sets are ellipses whose axes scale with <span class="math notranslate nohighlight">\(\lambda_1^{-1/2}\)</span> and <span class="math notranslate nohighlight">\(\lambda_2^{-1/2}\)</span>. When the ratio <span class="math notranslate nohighlight">\(\lambda_2/\lambda_1\)</span> is large, Gradient Descent with a fixed <span class="math notranslate nohighlight">\(\eta\)</span> progresses slowly and “zig-zags” across narrow valleys.</p>
 <blockquote>
-<div><p><strong>Exercise (condition number intuition; left-multiplication):</strong></p>
-<ol class="arabic simple">
-<li><p>Sketch the level sets of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)=\tfrac{1}{2}\,\Theta^\top A\,\Theta\)</span> for <span class="math notranslate nohighlight">\(A=\mathrm{diag}(\lambda_1,\lambda_2)\)</span>.</p></li>
-<li><p>Show that the gradient is <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L} (\Theta)=A\,\Theta\)</span>.</p></li>
-<li><p>Explain geometrically why taking a step along <span class="math notranslate nohighlight">\(-g(\Theta)\)</span> with a fixed <span class="math notranslate nohighlight">\(\eta\)</span> leads to slow progress when <span class="math notranslate nohighlight">\(\lambda_2\gg \lambda_1\)</span>.</p></li>
-<li><p>Relate this to the stability requirement <span class="math notranslate nohighlight">\(\eta \le 1/\lambda_{\max}(A)\)</span>.</p></li>
-</ol>
+<div><p><strong>Exercise (condition number intuition; left-multiplication):</strong><br />
+Sketch the level sets of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)=\tfrac{1}{2}\,\Theta^\top A\,\Theta\)</span> for <span class="math notranslate nohighlight">\(A=\mathrm{diag}(\lambda_1,\lambda_2)\)</span>.</p>
 </div></blockquote>
 <p><strong>Level-set plot helper:</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">quad_levelsets</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">ngrid</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">ncontours</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">quad_levelsets</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">ngrid</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">ncontours</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ngrid</span><span class="p">)</span>
     <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ngrid</span><span class="p">)</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
@@ -633,7 +640,7 @@ Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \ma
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/010b55280b5c1157ef6ca2df5c7e38e6882466b2787926bf73d67c68396ee4ba.png" src="../_images/010b55280b5c1157ef6ca2df5c7e38e6882466b2787926bf73d67c68396ee4ba.png" />
+<img alt="../_images/c0c9b11a33309ae3654491974a8dc38b084cc3c14331e32fbf4dedc476029b85.png" src="../_images/c0c9b11a33309ae3654491974a8dc38b084cc3c14331e32fbf4dedc476029b85.png" />
 </div>
 </div>
 </section>
@@ -650,11 +657,6 @@ Let <span class="math notranslate nohighlight">\(H(\Theta) = \nabla^2_\Theta \ma
 <h3>Motivation for Stochastic Gradient Descent<a class="headerlink" href="#motivation-for-stochastic-gradient-descent" title="Link to this heading">#</a></h3>
 <p>These limitations motivate more practical algorithms. In particular, instead of computing the gradient using the <em>entire dataset</em> at every iteration, one can approximate it using a <strong>subset of the data (mini-batches)</strong>. This gives rise to <strong>Stochastic Gradient Descent (SGD)</strong>, the subject of the next chapter.</p>
 <p>SGD addresses the scalability issue and often improves generalization, at the cost of introducing stochasticity in the updates.</p>
-<blockquote>
-<div><p><strong>Exercise (learning rate sensitivity):</strong><br />
-For <span class="math notranslate nohighlight">\(f(\theta) = (\theta - 3)^2\)</span>, analyze <em>by hand</em> the first 5 GD iterates for <span class="math notranslate nohighlight">\(\eta \in \{0.01,\;0.1,\;1.0\}\)</span> starting from <span class="math notranslate nohighlight">\(\theta^{(0)}=-5\)</span>.<br />
-Explain which choices lead to convergence, divergence, or slow progress, and connect your reasoning to curvature (second derivative) and to the sufficient-decrease (Armijo) condition.</p>
-</div></blockquote>
 <p>In summary, <strong>Gradient Descent</strong> provides the foundational principles of optimization in Machine Learning:</p>
 <ul class="simple">
 <li><p>It is an iterative method for minimizing loss based on <strong>negative gradients</strong>.</p></li>
