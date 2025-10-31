@@ -63,7 +63,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Unsupervised Learning via Linear Algebra" href="unsupervised.html" />
-    <link rel="prev" title="Stochastic Gradient Descent (SGD)" href="SGD.html" />
+    <link rel="prev" title="Gradient Descent" href="GD.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -191,7 +191,6 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="current nav bd-sidenav">
@@ -928,7 +927,7 @@ F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam accuracy: 78.12%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam accuracy: 78.26%
 </pre></div>
 </div>
 </div>
@@ -962,8 +961,8 @@ F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/497721cdb0d55292667ab2ba2284b8df9e1ce90d48321e9754eebaa02ece61bc.png" src="../_images/497721cdb0d55292667ab2ba2284b8df9e1ce90d48321e9754eebaa02ece61bc.png" />
-<img alt="../_images/dee4d7fb1ff76b04093afba7acfa62dc0c4d95fabc1bb947a43d0af8ad513dc5.png" src="../_images/dee4d7fb1ff76b04093afba7acfa62dc0c4d95fabc1bb947a43d0af8ad513dc5.png" />
+<img alt="../_images/b56780c42a1741d69521fc75ee21d980587c2291979beed55188499f6db22385.png" src="../_images/b56780c42a1741d69521fc75ee21d980587c2291979beed55188499f6db22385.png" />
+<img alt="../_images/784261aeabfd9b90e454f64d96a6cf74ca9fef29f3685b0a808ac77da08a7221.png" src="../_images/784261aeabfd9b90e454f64d96a6cf74ca9fef29f3685b0a808ac77da08a7221.png" />
 </div>
 </div>
 </section>
@@ -1060,6 +1059,10 @@ z_2 &amp;= W_2 a_1 + b_2,\\
     <span class="n">g</span><span class="p">[</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="k">return</span> <span class="n">g</span>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">bce_loss</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_hat</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">train_mlp_adam</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
     <span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 
@@ -1121,33 +1124,12 @@ z_2 &amp;= W_2 a_1 + b_2,\\
     <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
     <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Neural Network final accuracy: </span><span class="si">{</span><span class="n">acc_nn</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Neural Network final accuracy: </span><span class="si">{</span><span class="n">acc_nn_sgd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">68</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span>         <span class="n">accs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">preds</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="g g-Whitespace">     </span><span class="mi">66</span>     <span class="k">return</span> <span class="p">(</span><span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">losses</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accs</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">68</span> <span class="n">theta_nn_sgd</span><span class="p">,</span> <span class="n">loss_nn_sgd</span><span class="p">,</span> <span class="n">acc_nn_sgd</span> <span class="o">=</span> <span class="n">train_mlp_adam</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span>     <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="n">hidden</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>       
-<span class="g g-Whitespace">     </span><span class="mi">71</span>     <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">74</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">75</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Neural Network final accuracy: </span><span class="si">{</span><span class="n">acc_nn</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-
-<span class="nn">Cell In[5], line 62,</span> in <span class="ni">train_mlp_adam</span><span class="nt">(X, y, hidden, lr, epochs, batch_size)</span>
-<span class="g g-Whitespace">     </span><span class="mi">59</span> <span class="n">z2</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">@</span> <span class="n">W2</span> <span class="o">+</span> <span class="n">b2</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">yhat_full</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">z2</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">62</span> <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bce_loss</span><span class="p">(</span><span class="n">yhat_full</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">63</span> <span class="n">preds</span> <span class="o">=</span> <span class="p">(</span><span class="n">yhat_full</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="n">accs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">preds</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-
-<span class="ne">NameError</span>: name &#39;bce_loss&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Network final accuracy: 75.26%
 </pre></div>
 </div>
 </div>
@@ -1158,7 +1140,7 @@ z_2 &amp;= W_2 a_1 + b_2,\\
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Logistic Regression (SGD) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_adam</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Logistic Regression (Adam) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_nn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Neural Network (SGD) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_nn_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Neural Network (SGD) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Binary Cross-Entropy Loss&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Comparison&quot;</span><span class="p">)</span>
@@ -1170,7 +1152,7 @@ z_2 &amp;= W_2 a_1 + b_2,\\
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">acc_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Logistic Regression (SGD) Accuracy&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">acc_adam</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Logistic Regression (Adam) Accuracy&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">acc_nn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Neural Network (SGD) Accuracy&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">acc_nn_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Neural Network (SGD) Accuracy&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Accuracy Comparison&quot;</span><span class="p">)</span>
@@ -1181,19 +1163,8 @@ z_2 &amp;= W_2 a_1 + b_2,\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_sgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Logistic Regression (SGD) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_adam</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Logistic Regression (Adam) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_nn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Neural Network (SGD) Loss&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Binary Cross-Entropy Loss&quot;</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;loss_nn&#39; is not defined
-</pre></div>
-</div>
-<img alt="../_images/a90f7a02d215a2389f29c0f1212cb92daf2df80b754c871e7275f70c4be6bfd0.png" src="../_images/a90f7a02d215a2389f29c0f1212cb92daf2df80b754c871e7275f70c4be6bfd0.png" />
+<img alt="../_images/05235c2be74db97d5520e8b386bdd5b4dad9de6e0be24965e1af54f9e9b50904.png" src="../_images/05235c2be74db97d5520e8b386bdd5b4dad9de6e0be24965e1af54f9e9b50904.png" />
+<img alt="../_images/f4a01dff4d31418bac36da9a33c07e01b68e171b1eacc710176934d51f0b0cb2.png" src="../_images/f4a01dff4d31418bac36da9a33c07e01b68e171b1eacc710176934d51f0b0cb2.png" />
 </div>
 </div>
 </section>
@@ -1243,12 +1214,12 @@ z_2 &amp;= W_2 a_1 + b_2,\\
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="SGD.html"
+       href="GD.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Stochastic Gradient Descent (SGD)</p>
+        <p class="prev-next-title">Gradient Descent</p>
       </div>
     </a>
     <a class="right-next"
