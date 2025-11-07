@@ -36,7 +36,8 @@ jobs:
             numpy \
             matplotlib \
             pandas \
-            scipy
+            scipy \
+            skimage
 
       # --- 2024-25 ---
       - name: Build 2024-25
