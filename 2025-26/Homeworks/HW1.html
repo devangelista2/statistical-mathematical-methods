@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW1';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -374,7 +376,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -390,6 +394,18 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-gd-on-a-1d-function">Exercise 1: GD on a 1D Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-backtracking-line-search">Exercise 2: Backtracking Line Search</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-gd-in-2d">Exercise 3: GD in 2D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-exact-line-search-vs-backtracking">Exercise 4: Exact Line Search vs Backtracking</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-gradient-descent-on-the-rosenbrock-function">Exercise 5: Gradient Descent on the Rosenbrock Function</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -411,6 +427,191 @@ document.write(`
 </ul>
 <p>Joining the oral exam with a non-executed code OR without a PDF file with the obtained results visible on that, will cause the student to be rejected.</p>
 </div>
+<section id="exercise-1-gd-on-a-1d-function">
+<h2>Exercise 1: GD on a 1D Function<a class="headerlink" href="#exercise-1-gd-on-a-1d-function" title="Link to this heading">#</a></h2>
+<p>Consider the 1-dimensional function</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta)  = (\Theta - 3)^2 + 1.
+\]</div>
+<ol class="arabic simple">
+<li><p><strong>Compute the Gradient</strong> of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> explicitly.</p></li>
+<li><p><strong>Implement the Gradient Descent</strong> to optimize <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> following what we introduced on the theoretical sections.</p></li>
+<li><p>Test three different constant step sizes:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\eta = 0.05\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta = 0.2\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta = 1.0\)</span></p></li>
+</ul>
+</li>
+<li><p>For each choice:</p>
+<ul class="simple">
+<li><p>Plot the sequence <span class="math notranslate nohighlight">\(\Theta^{(k)}\)</span> on the real line (i.e. draw a line and represent, on top of it, the position of all the successive elements <span class="math notranslate nohighlight">\(\Theta^{(k)}\)</span>).</p></li>
+<li><p>Plot the function values <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta^{(k)})\)</span> vs iteration.</p></li>
+<li><p>Comment on convergence, oscillations, and divergence.</p></li>
+</ul>
+</li>
+<li><p>Relate your observations to the discussion in class about:</p>
+<ul class="simple">
+<li><p>step-size being too small / too large,</p></li>
+<li><p>the role of convexity,</p></li>
+<li><p>how the “just right” step size leads to fast convergence.</p></li>
+</ul>
+</li>
+</ol>
+<p><em>Hint:</em> This function is strictly convex with a unique minimizer at <span class="math notranslate nohighlight">\(\Theta^* = 3\)</span>.</p>
+</section>
+<section id="exercise-2-backtracking-line-search">
+<h2>Exercise 2: Backtracking Line Search<a class="headerlink" href="#exercise-2-backtracking-line-search" title="Link to this heading">#</a></h2>
+<p>Consider the non-convex function</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta)  = \Theta^4 - 3\Theta^2 + 2.
+\]</div>
+<ol class="arabic simple">
+<li><p>Implement <strong>Gradient Descent with Backtracking</strong>, using the Armijo condition, considering the <code class="docutils literal notranslate"><span class="pre">backtracking(...)</span></code> function from class.</p></li>
+<li><p>Test different initial points:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\Theta_0 = -2\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Theta_0 = 0.5\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Theta_0 = 2\)</span></p></li>
+</ul>
+</li>
+<li><p>For each starting point, plot:</p>
+<ul class="simple">
+<li><p>the function curve <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> in 1D in the domain <span class="math notranslate nohighlight">\([-3, 3]\)</span>,</p></li>
+<li><p>the trajectory of the iterates <span class="math notranslate nohighlight">\(\Theta^{(k)}\)</span> overlaid on the curve.</p></li>
+</ul>
+</li>
+<li><p>Discuss:</p>
+<ul class="simple">
+<li><p>Why different initializations converge to different minima.</p></li>
+<li><p>How backtracking automatically chooses a suitable step size at each iteration.</p></li>
+<li><p>Situations where constant step size would fail.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-3-gd-in-2d">
+<h2>Exercise 3: GD in 2D<a class="headerlink" href="#exercise-3-gd-in-2d" title="Link to this heading">#</a></h2>
+<p>Consider the quadratic function:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathcal{L}(\Theta) = \tfrac{1}{2}\,\Theta^T A\,\Theta,
+\qquad
+A = \begin{bmatrix}1 &amp; 0 \\ 0 &amp; 25\end{bmatrix}.
+\end{split}\]</div>
+<ol class="arabic simple">
+<li><p>Implement Gradient Descent in 2D, as seen in class.</p></li>
+<li><p>Plot the <strong>level sets</strong> of <span class="math notranslate nohighlight">\(L\)</span> (using the helper code provided in the lecture notes) and overlay the iterates <span class="math notranslate nohighlight">\(\Theta^{(k)}\)</span> for:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\eta = 0.02\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta = 0.05\)</span> (borderline),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta = 0.1\)</span> (diverging).
+To overlay the iterates on the plot, simply add a <code class="docutils literal notranslate"><span class="pre">plt.plot(...)</span></code> function taking as input the coordinates <span class="math notranslate nohighlight">\(\Theta_1^{(k)}\)</span> and <span class="math notranslate nohighlight">\(\Theta_2^{(k)}\)</span> for each <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Comment on:</p>
+<ul class="simple">
+<li><p>the elongated ellipses produced by ill-conditioning,</p></li>
+<li><p>the gradient direction compared to the level set lines,</p></li>
+<li><p>zig-zag behaviour for large condition numbers,</p></li>
+<li><p>the relation to the lecture discussion on slow convergence in narrow valleys.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-4-exact-line-search-vs-backtracking">
+<h2>Exercise 4: Exact Line Search vs Backtracking<a class="headerlink" href="#exercise-4-exact-line-search-vs-backtracking" title="Link to this heading">#</a></h2>
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathcal{L}(\Theta) = \frac{1}{2}\Theta^T A \Theta,\qquad
+A=\begin{bmatrix}5 &amp; 0\\0 &amp; 2\end{bmatrix}.
+\end{split}\]</div>
+<ol class="arabic">
+<li><p>For GD with <strong>exact line search</strong> i.e. selecting the <strong>optimal</strong> step, you get:</p>
+<div class="math notranslate nohighlight">
+\[
+   \eta_k^* = \frac{g_k^T g_k}{g_k^T A\,g_k},
+   \qquad g_k = A\,\Theta^{(k)}.
+   \]</div>
+</li>
+<li><p>For GD with <strong>backtracking</strong>, use the implementation provided in your notes.</p></li>
+<li><p>Starting from <span class="math notranslate nohighlight">\(\Theta_0 = (3,\,3)^T\)</span>:</p>
+<ul class="simple">
+<li><p>Plot trajectories on the level-set map.</p></li>
+<li><p>Plot the loss <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta^{(k)})\)</span> vs iteration for both methods.</p></li>
+</ul>
+</li>
+<li><p>Compare:</p>
+<ul class="simple">
+<li><p>speed of convergence,</p></li>
+<li><p>smoothness of step-sizes.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-5-gradient-descent-on-the-rosenbrock-function">
+<h2>Exercise 5: Gradient Descent on the Rosenbrock Function<a class="headerlink" href="#exercise-5-gradient-descent-on-the-rosenbrock-function" title="Link to this heading">#</a></h2>
+<p>The 2-dimensional Rosenbrock function is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal(\Theta) = (1 - \Theta_1)^2 + 100(\Theta_2 - \Theta_1^2)^2,
+\]</div>
+<p>with a unique global minimum at:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^* = (1,\,1), \qquad \mathcal{L}(\Theta_1^*,\Theta_2y^*) = 0.
+\]</div>
+<p>Despite having only one minimum, its landscape is <strong>extremely challenging</strong>:</p>
+<ul class="simple">
+<li><p>The valley is long and curved.</p></li>
+<li><p>The condition number varies drastically across the region.</p></li>
+<li><p>Gradients can point almost orthogonally to the valley direction.</p></li>
+<li><p>Gradient Descent may zig-zag and make very slow progress toward the solution.</p></li>
+</ul>
+<p>This makes Rosenbrock a perfect testbed to study the difficulties of pure Gradient Descent.</p>
+<ol class="arabic simple">
+<li><p>Implement the function and its gradient to run the Gradient Descent algorithm. Test its performance using both <strong>constant step size</strong> and the <strong>backtracking algorithm</strong>.</p></li>
+<li><p>Plot the level sets of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>: use the standard 2D contour plotting approach practiced earlier.<br />
+Ensure that you plot:</p></li>
+</ol>
+<ul class="simple">
+<li><p>A wide range (e.g. <span class="math notranslate nohighlight">\(\Theta_1 \in[-2,2]\)</span>, <span class="math notranslate nohighlight">\(\Theta_2 \in[-1,3]\)</span>)</p></li>
+<li><p>A reasonable number of contour lines to visualize the narrow valley.</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Choose multiple initial points, testing at least the following four:</p></li>
+</ol>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\Theta^{(0)} = (-1.5, \; 2)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Theta^{(0)} = (-1, \; 0)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Theta^{(0)} = (0, \; 2)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Theta^{(0)} = (1.5, \; 1.5)\)</span></p></li>
+</ul>
+<p>Run both:</p>
+<ul class="simple">
+<li><p>GD with constant step size (try <span class="math notranslate nohighlight">\(\eta = 10^{-3}\)</span>, <span class="math notranslate nohighlight">\(10^{-4}\)</span>, <span class="math notranslate nohighlight">\(10^{-5}\)</span>),</p></li>
+<li><p>GD with backtracking line search.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Visualize and analyze the trajectories: For each initialization and each training method:</p>
+<ol class="arabic simple">
+<li><p>Plot the sequence of iterates <span class="math notranslate nohighlight">\((\Theta_1^{(k)}, \Theta_2^{(k)})\)</span> as a path on the level-set map.</p></li>
+<li><p>Plot the loss curve <span class="math notranslate nohighlight">\(L(\Theta^{(k)})\)</span> vs iteration.</p></li>
+<li><p>Observe and explain:</p>
+<ul class="simple">
+<li><p>whether the method enters the valley,</p></li>
+<li><p>how long it takes to “turn” correctly along the valley direction,</p></li>
+<li><p>whether the method zig-zags,</p></li>
+<li><p>whether step sizes become too small (with constant <span class="math notranslate nohighlight">\(\eta\)</span>) or too large (divergence).</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -467,6 +668,25 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-gd-on-a-1d-function">Exercise 1: GD on a 1D Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-backtracking-line-search">Exercise 2: Backtracking Line Search</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-gd-in-2d">Exercise 3: GD in 2D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-exact-line-search-vs-backtracking">Exercise 4: Exact Line Search vs Backtracking</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-gradient-descent-on-the-rosenbrock-function">Exercise 5: Gradient Descent on the Rosenbrock Function</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

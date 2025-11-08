@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -374,7 +376,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -390,6 +394,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-sgd-vs-gd-on-a-simple-1d-regression-problem">Exercise 1: SGD vs GD on a Simple 1D Regression Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-variance-of-the-stochastic-gradient-1d-experiment">Exercise 2: Variance of the Stochastic Gradient (1D Experiment)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-sgd-in-2d">Exercise 3: SGD in 2D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-an-ml-project-with-sgd">Exercise 4: An ML Project with SGD</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -411,6 +426,190 @@ document.write(`
 </ul>
 <p>Joining the oral exam with a non-executed code OR without a PDF file with the obtained results visible on that, will cause the student to be rejected.</p>
 </div>
+<section id="exercise-1-sgd-vs-gd-on-a-simple-1d-regression-problem">
+<h2>Exercise 1: SGD vs GD on a Simple 1D Regression Problem<a class="headerlink" href="#exercise-1-sgd-vs-gd-on-a-simple-1d-regression-problem" title="Link to this heading">#</a></h2>
+<p>Consider the synthetic dataset</p>
+<div class="math notranslate nohighlight">
+\[
+x^{(i)} = \frac{i}{N},\qquad
+y^{(i)} = 2x^{(i)} + 1 + \varepsilon^{(i)}, \qquad \varepsilon^{(i)}\sim\mathcal N(0,0.01),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(N = 200\)</span>.
+We model the data with a linear function:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) = \Theta_0 + \Theta_1 x = \Theta^T \tilde{x},
+\]</div>
+<p>if we define <span class="math notranslate nohighlight">\(\tilde{x} = [1, x]\)</span> as we did during the lab session.</p>
+<ol class="arabic">
+<li><p>Implement the MSE loss:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal L(\Theta)=\frac{1}{N}\sum_{i=1}^N (f_\Theta(x^{(i)}) - y^{(i)})^2.
+   \]</div>
+</li>
+<li><p>Implement <strong>full GD</strong> and <strong>SGD</strong> (mini-batch) using batch sizes:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N_{\text{batch}} = 1\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_{\text{batch}} = 10\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_{\text{batch}} = 50\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_{\text{batch}} = N\)</span> (this recovers GD).</p></li>
+</ul>
+</li>
+<li><p>Plot for each method:</p>
+<ul class="simple">
+<li><p>the loss curve (loss vs epoch),</p></li>
+<li><p>the trajectory of parameters <span class="math notranslate nohighlight">\((\Theta_0,\Theta_1)\)</span> in the 2D parameter space. This is similar to what you did in the previous homework: simply plot the value of <span class="math notranslate nohighlight">\(\Theta_0^{(k)}\)</span> and <span class="math notranslate nohighlight">\(\Theta_1^{(k)}\)</span> for all the <span class="math notranslate nohighlight">\(k\)</span>s in a 2-dimensional plot.</p></li>
+</ul>
+</li>
+<li><p>Discuss:</p>
+<ul class="simple">
+<li><p>Why GD is smooth but slow for large <span class="math notranslate nohighlight">\(N\)</span>,</p></li>
+<li><p>Why SGD is noisy but progresses faster,</p></li>
+<li><p>How batch size affects the noise level and convergence stability.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-2-variance-of-the-stochastic-gradient-1d-experiment">
+<h2>Exercise 2: Variance of the Stochastic Gradient (1D Experiment)<a class="headerlink" href="#exercise-2-variance-of-the-stochastic-gradient-1d-experiment" title="Link to this heading">#</a></h2>
+<p>Fix a parameter vector <span class="math notranslate nohighlight">\(\Theta\)</span>, and repeatedly draw random mini-batches of the same size.</p>
+<ol class="arabic">
+<li><p>Choose batch sizes:</p>
+<div class="math notranslate nohighlight">
+\[
+   N_{\text{batch}} \in \{1, 5, 20, N\}.
+   \]</div>
+</li>
+<li><p>At the <strong>same</strong> <span class="math notranslate nohighlight">\(\Theta\)</span>, compute:</p>
+<div class="math notranslate nohighlight">
+\[
+   g_k = \nabla_\Theta \mathcal L(\Theta; \mathcal M_k)
+   \]</div>
+<p>for 100 randomly sampled batches <span class="math notranslate nohighlight">\(\mathcal M_k\)</span>.</p>
+</li>
+<li><p>For each batch size, compute the empirical variance:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathrm{Var}(g) = \frac{1}{100}\sum_{k=1}^{100} \|g_k - \bar g\|^2,
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{g}\)</span> is the average of the <span class="math notranslate nohighlight">\(g_k\)</span>s, defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+   \bar{g} = \frac{1}{100} \sum_{k=1}^{100} g_k.
+   \]</div>
+</li>
+<li><p>Plot the variance as a function of the batch size.</p></li>
+<li><p>Comment:</p>
+<ul class="simple">
+<li><p>Why the variance decreases with larger batches,</p></li>
+<li><p>Why SGD becomes more stable as <span class="math notranslate nohighlight">\(N_{\text{batch}}\)</span> increases,</p></li>
+<li><p>The trade-off between stability and computational cost.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-3-sgd-in-2d">
+<h2>Exercise 3: SGD in 2D<a class="headerlink" href="#exercise-3-sgd-in-2d" title="Link to this heading">#</a></h2>
+<p>We now study SGD on the 2D non-convex function:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta_1,\Theta_2) = (\Theta_1^2 - 1)^2 + 10(\Theta_2 - \Theta_1^2)^2.
+\]</div>
+<p>This function has:</p>
+<ul class="simple">
+<li><p>two valleys,</p></li>
+<li><p>multiple stationary points,</p></li>
+<li><p>strong curvature differences.</p></li>
+</ul>
+<ol class="arabic">
+<li><p>Treat <span class="math notranslate nohighlight">\(\Theta = (\Theta_1,\Theta_2)\)</span> as a “parameter vector” updated by SGD:</p>
+<div class="math notranslate nohighlight">
+\[
+   \Theta_{k+1} = \Theta_k - \eta\, g_k,
+   \]</div>
+<p>where the ``gradient batch’’ <span class="math notranslate nohighlight">\(g_k\)</span> is simulated by adding noise to the gradient:</p>
+<div class="math notranslate nohighlight">
+\[
+   g_k = \nabla \mathcal{L}(\Theta_k) + \varepsilon_k, \qquad \varepsilon_k \sim \mathcal{N}(0, \sigma^2I),
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma^2\)</span> is called <strong>noise level</strong> and represent the variance of the noise. Try different values of <span class="math notranslate nohighlight">\(\sigma^2\)</span> to answer the following questions. <em>Note: <span class="math notranslate nohighlight">\(\sigma^2\)</span> should always be lower than 1</em>.</p>
+</li>
+<li><p>Plot:</p>
+<ul class="simple">
+<li><p>level sets of <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta_1,\Theta_2)\)</span>,</p></li>
+<li><p>trajectories of SGD for different noise levels and step sizes.</p></li>
+</ul>
+</li>
+<li><p>Discuss:</p>
+<ul class="simple">
+<li><p>How noise helps escape shallow minima or bad regions,</p></li>
+<li><p>How too much noise prevents convergence,</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-4-an-ml-project-with-sgd">
+<h2>Exercise 4: An ML Project with SGD<a class="headerlink" href="#exercise-4-an-ml-project-with-sgd" title="Link to this heading">#</a></h2>
+<p>For the final exercise, you will train a simple machine learning model using SGD on a real prediction task.
+To begin, download the Kaggle dataset: <a class="reference external" href="https://www.kaggle.com/datasets/mirichoi0218/insurance">https://www.kaggle.com/datasets/mirichoi0218/insurance</a>.</p>
+<p>It contains approximately 1300 samples, and its associated task is to predict <strong>individual medical insurance cost</strong> based on numerical features:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bmi</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">children</span></code></p></li>
+</ul>
+<p>The task is:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{charges} \approx f_\Theta(\text{age},\text{bmi},\text{children}).
+\]</div>
+<p>We use a simple linear model:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) = \Theta^T \tilde{x}.
+\]</div>
+<ol class="arabic">
+<li><p>Load &amp; preprocess the dataset</p>
+<ul class="simple">
+<li><p>Download <code class="docutils literal notranslate"><span class="pre">insurance.csv</span></code> from Kaggle.</p></li>
+<li><p>Select numerical columns:<br />
+<code class="docutils literal notranslate"><span class="pre">[&quot;age&quot;,</span> <span class="pre">&quot;bmi&quot;,</span> <span class="pre">&quot;children&quot;]</span></code>.</p></li>
+<li><p>Standardize each feature (mean 0, variance 1).</p></li>
+<li><p>Standardize the target <code class="docutils literal notranslate"><span class="pre">&quot;charges&quot;</span></code>.</p></li>
+<li><p>Add a bias column.</p></li>
+</ul>
+</li>
+<li><p>Consider the MSE loss:</p>
+<div class="math notranslate nohighlight">
+\[
+   \mathcal{L}(\Theta)=\frac{1}{N}\sum_{i=1}^N (\Theta^T \tilde{x}^{(i)} - \tilde{y}^{(i)})^2.
+   \]</div>
+<p>Implement:</p>
+<ul class="simple">
+<li><p>Full GD</p></li>
+<li><p>SGD with batch sizes 1, 10, 50</p></li>
+</ul>
+<p>Use a fixed learning rate <span class="math notranslate nohighlight">\(\eta=10^{-2}\)</span> and a fixed number of epochs (equivalently, a fixed amount of maximum iterations for GD) of your choice.</p>
+</li>
+<li><p>Compare GD and SGD
+For each method:</p>
+<ul class="simple">
+<li><p>Plot the loss vs epoch.</p></li>
+<li><p>Plot the L2 norm of the <strong>full gradient</strong> <span class="math notranslate nohighlight">\(\|\nabla \mathcal{L}(\Theta_k)\|\)</span> measured at the end of every epoch.</p></li>
+<li><p>Report the final learned parameters.</p></li>
+</ul>
+</li>
+<li><p>Discuss:</p>
+<ul class="simple">
+<li><p>Why GD gives a smooth curve and SGD oscillates.</p></li>
+<li><p>Why larger batches reduce noise but cost more per iteration.</p></li>
+<li><p>Why all methods roughly converge to the same region.</p></li>
+<li><p>Why SGD is more suitable for large datasets, even when noisy.</p></li>
+</ul>
+</li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -467,6 +666,24 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-sgd-vs-gd-on-a-simple-1d-regression-problem">Exercise 1: SGD vs GD on a Simple 1D Regression Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-variance-of-the-stochastic-gradient-1d-experiment">Exercise 2: Variance of the Stochastic Gradient (1D Experiment)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-sgd-in-2d">Exercise 3: SGD in 2D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-an-ml-project-with-sgd">Exercise 4: An ML Project with SGD</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

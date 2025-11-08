@@ -479,10 +479,10 @@ A_k = \sum_{i=1}^k \sigma_i u_i v_i^T.
 <p class="admonition-title">Note</p>
 <p>The <span class="math notranslate nohighlight">\(k\)</span>-rank approximation <span class="math notranslate nohighlight">\(A_k\)</span> of <span class="math notranslate nohighlight">\(A\)</span> is simply obtained by stopping the summation defining <span class="math notranslate nohighlight">\(A\)</span> through dyads at term <span class="math notranslate nohighlight">\(k \leq r\)</span>. Whenever <span class="math notranslate nohighlight">\(k = r\)</span>, clearly <span class="math notranslate nohighlight">\(A_k = A\)</span>.</p>
 </div>
-<p>It can also be shown that the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation of <span class="math notranslate nohighlight">\(A\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>-rank matrix that minimizes the distance (expressed in Frobenius norm) from <span class="math notranslate nohighlight">\(A\)</span>, i.e.</p>
+<p>It can also be shown that the <span class="math notranslate nohighlight">\(k\)</span>-rank approximation of <span class="math notranslate nohighlight">\(A\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>-rank matrix that minimizes the distance (expressed in 2-norm) from <span class="math notranslate nohighlight">\(A\)</span>, i.e.</p>
 <div class="math notranslate nohighlight">
 \[
-A_k = \arg\min_{M: rk(M) = k} || M - A ||_F.
+A_k = \arg\min_{M: rk(M) = k} || M - A ||_2.
 \]</div>
 <section id="svd-of-a-matrix-in-python">
 <h3>SVD of a Matrix in Python<a class="headerlink" href="#svd-of-a-matrix-in-python" title="Link to this heading">#</a></h3>
@@ -818,14 +818,14 @@ X_c = X - c(X),
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute centroid</span>
-<span class="n">cX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Make it a row vector</span>
 <span class="n">cX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cX</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of c(X): </span><span class="si">{</span><span class="n">cX</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
 <span class="c1"># Center the data (row-by-row)</span>
-<span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">cX</span>
+<span class="n">Xc</span> <span class="o">=</span> <span class="n">X_train</span> <span class="o">-</span> <span class="n">cX</span>
 
 <span class="c1"># Compute SVD decomposition</span>
 <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">VT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Xc</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -838,7 +838,7 @@ X_c = X - c(X),
 <span class="n">P</span> <span class="o">=</span> <span class="n">VTk</span>
 
 <span class="c1"># Project X_train -&gt; Z_train</span>
-<span class="n">Z_train</span> <span class="o">=</span> <span class="n">X_train</span> <span class="o">@</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span>
+<span class="n">Z_train</span> <span class="o">=</span> <span class="n">Xc</span> <span class="o">@</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of projected data: </span><span class="si">{</span><span class="n">Z_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -874,7 +874,7 @@ X_c = X - c(X),
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/0197e4f2015421cf84d21d0e6821f22a4cd8fae0e0eb0984b81db120fc405f75.png" src="../_images/0197e4f2015421cf84d21d0e6821f22a4cd8fae0e0eb0984b81db120fc405f75.png" />
+<img alt="../_images/54a7dd7e155c179a0a71f230c05fd2d52391aafeaa0f216faa648c455476e5e2.png" src="../_images/54a7dd7e155c179a0a71f230c05fd2d52391aafeaa0f216faa648c455476e5e2.png" />
 </div>
 </div>
 <blockquote>
