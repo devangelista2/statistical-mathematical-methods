@@ -57,6 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Homeworks/HW4';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -373,7 +375,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -389,6 +393,24 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-compute-the-svd-of-a-matrix-verify-the-reconstruction">Exercise 1: Compute the SVD of a Matrix &amp; Verify the Reconstruction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-best-rank-k-approximation">Exercise 2: Best Rank-<span class="math notranslate nohighlight">\(k\)</span> Approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-image-compression-with-svd">Exercise 3: Image Compression with SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-pca-clustering-on-a-real-dataset">Exercise 5: PCA + Clustering on a Real Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-classification-after-pca-linear-classifier-and-centroid-classifier">Exercise 6: Classification After PCA: Linear Classifier and Centroid Classifier</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-pca-projection">Step 1: PCA Projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-fit-a-linear-classifier">Step 2: Fit a linear classifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-pca-centroid-classifier-nearest-centroid-in-pca-space">Step 3: PCA-Centroid Classifier (Nearest-Centroid in PCA Space)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-compare-accuracy-and-error-patterns">Step 4: Compare accuracy and error patterns</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -410,6 +432,254 @@ document.write(`
 </ul>
 <p>Joining the oral exam with a non-executed code OR without a PDF file with the obtained results visible on that, will cause the student to be rejected.</p>
 </div>
+<section id="exercise-1-compute-the-svd-of-a-matrix-verify-the-reconstruction">
+<h2>Exercise 1: Compute the SVD of a Matrix &amp; Verify the Reconstruction<a class="headerlink" href="#exercise-1-compute-the-svd-of-a-matrix-verify-the-reconstruction" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>Construct any non-square matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{m \times n}\)</span> (e.g. <span class="math notranslate nohighlight">\(m=10\)</span>, <span class="math notranslate nohighlight">\(n=6\)</span>) with random or structured entries.</p></li>
+<li><p>Compute its SVD:</p>
+<div class="math notranslate nohighlight">
+\[
+   A = U\Sigma V^T.
+   \]</div>
+</li>
+<li><p>Verify numerically that:</p>
+<div class="math notranslate nohighlight">
+\[
+   A \approx U\Sigma V^T,
+   \qquad
+   \|A - U\Sigma V^T\|_F \approx 0.
+   \]</div>
+</li>
+<li><p>Print and plot the singular values <span class="math notranslate nohighlight">\(\sigma_1,\dots,\sigma_{\min(m,n)}\)</span>.</p></li>
+<li><p>Comment on why singular values appear in descending order, why small singular values correspond to “less important” directions, and why floating-point arithmetic makes exact zeros rare.</p></li>
+</ol>
+</section>
+<section id="exercise-2-best-rank-k-approximation">
+<h2>Exercise 2: Best Rank-<span class="math notranslate nohighlight">\(k\)</span> Approximation<a class="headerlink" href="#exercise-2-best-rank-k-approximation" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>Implement a function:</p>
+<div class="math notranslate nohighlight">
+\[
+   A_k = \sum_{i=1}^k \sigma_i u_i v_i^T.
+   \]</div>
+</li>
+<li><p>For several values of <span class="math notranslate nohighlight">\(k\)</span>, compute:</p>
+<div class="math notranslate nohighlight">
+\[
+   E(k) = \|A - A_k\|_F.
+   \]</div>
+</li>
+<li><p>Plot the approximation error <span class="math notranslate nohighlight">\(E(k)\)</span> vs <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+<li><p>Explain why SVD gives the <em>optimal</em> rank-<span class="math notranslate nohighlight">\(k\)</span> approximation.</p></li>
+</ol>
+</section>
+<section id="exercise-3-image-compression-with-svd">
+<h2>Exercise 3: Image Compression with SVD<a class="headerlink" href="#exercise-3-image-compression-with-svd" title="Link to this heading">#</a></h2>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">cameraman</span></code> image (as in the notes):</p>
+<ol class="arabic">
+<li><p>Load the image as a matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{512\times512}\)</span>.</p></li>
+<li><p>Compute its SVD:</p>
+<div class="math notranslate nohighlight">
+\[
+   X = U\Sigma V^T.
+   \]</div>
+</li>
+<li><p>For <span class="math notranslate nohighlight">\(k \in \{5, 20, 50, 100, 200\}\)</span>:</p>
+<ul>
+<li><p>Compute the rank-<span class="math notranslate nohighlight">\(k\)</span> approximation <span class="math notranslate nohighlight">\(X_k\)</span>,</p></li>
+<li><p>Plot each reconstructed image,</p></li>
+<li><p>Compute the compression factor:</p>
+<div class="math notranslate nohighlight">
+\[
+     c_k
+     = 1 - \frac{k(m+n+1)}{mn}.
+     \]</div>
+</li>
+<li><p>Plot reconstruction error vs <span class="math notranslate nohighlight">\(k\)</span>,</p></li>
+<li><p>Plot compression factor vs <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Comment on:</p>
+<ul class="simple">
+<li><p>How visual quality improves with <span class="math notranslate nohighlight">\(k\)</span>,</p></li>
+<li><p>Why most of the “energy” is contained in the first singular values,</p></li>
+<li><p>The trade-off between compression and fidelity,</p></li>
+<li><p>The connection between SVD and optimal low-rank approximation.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="exercise-5-pca-clustering-on-a-real-dataset">
+<h2>Exercise 5: PCA + Clustering on a Real Dataset<a class="headerlink" href="#exercise-5-pca-clustering-on-a-real-dataset" title="Link to this heading">#</a></h2>
+<p>Use the MNIST Kaggle dataset: <a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer</a>.</p>
+<p>To reduce computational burden, <strong>filter only digits 3 and 4</strong> exactly as in the teaching notes.</p>
+<p>Do as follows:</p>
+<ol class="arabic">
+<li><p>Load the CSV file into memory (you may use NumPy or pandas).</p></li>
+<li><p>Split into training and test sets.</p></li>
+<li><p>Center the training data:</p>
+<div class="math notranslate nohighlight">
+\[
+   X_{c,\text{train}} = X_{\text{train}} - c(X_{\text{train}}).
+   \]</div>
+</li>
+<li><p>Compute the reduced SVD of the centered training data.</p></li>
+<li><p>Choose <span class="math notranslate nohighlight">\(k=2\)</span> principal components.</p></li>
+<li><p>Project:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Z_{\text{train}} = X_{c,\text{train}} V_2\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(Z_{\text{test}} = X_{c,\text{test}} V_2\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Plot:</p>
+<ul class="simple">
+<li><p>Scatterplot of <span class="math notranslate nohighlight">\(Z_{\text{train}}\)</span> colored by labels (3 vs 4),</p></li>
+<li><p>Scatterplot of <span class="math notranslate nohighlight">\(Z_{\text{test}}\)</span> overlaid in the same plot.</p></li>
+</ul>
+</li>
+<li><p>Repeat with digits 5 vs 8, or 1 vs 7 and discuss on the different results.</p></li>
+<li><p>Finally, try <span class="math notranslate nohighlight">\(k=3\)</span> and use a 3D scatterplot.</p></li>
+</ol>
+</section>
+<section id="exercise-6-classification-after-pca-linear-classifier-and-centroid-classifier">
+<h2>Exercise 6: Classification After PCA: Linear Classifier and Centroid Classifier<a class="headerlink" href="#exercise-6-classification-after-pca-linear-classifier-and-centroid-classifier" title="Link to this heading">#</a></h2>
+<p>In this exercise, you will build two simple classifiers <strong>after projecting the data with PCA</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>A linear classifier on 2D PCA features</strong>,</p></li>
+<li><p><strong>A PCA-centroid classifier</strong> that assigns each test point to the closest class centroid in the reduced space.</p></li>
+</ol>
+<p>You will perform all experiments on the same Kaggle dataset used previously: <a class="reference external" href="https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer">https://www.kaggle.com/datasets/animatronbot/mnist-digit-recognizer</a>, filtering only digits 3 and 4, as you did in the previosu exercise.</p>
+<p>The aim of this exercise is to connect dimensionality reduction with classification and illustrates how PCA can be used not only for visualization, but also as a preprocessing tool for machine learning pipelines.</p>
+<section id="step-1-pca-projection">
+<h3>Step 1: PCA Projection<a class="headerlink" href="#step-1-pca-projection" title="Link to this heading">#</a></h3>
+<p>Use exactly the same PCA workflow as in Exercise 6:</p>
+<ol class="arabic">
+<li><p>Load and split digits {3,4} into <code class="docutils literal notranslate"><span class="pre">train</span></code> and <code class="docutils literal notranslate"><span class="pre">test</span></code>.</p></li>
+<li><p>Center the training data:</p>
+<div class="math notranslate nohighlight">
+\[
+   X_{c,\text{train}} = X_{\text{train}} - c(X_{\text{train}}).
+   \]</div>
+</li>
+<li><p>Compute the reduced SVD:</p>
+<div class="math notranslate nohighlight">
+\[
+   X_{c,\text{train}} = U \Sigma V^T.
+   \]</div>
+</li>
+<li><p>Take the first two principal directions:</p>
+<div class="math notranslate nohighlight">
+\[
+   P = V_2 \in \mathbb{R}^{d \times 2}.
+   \]</div>
+</li>
+<li><p>Project:</p>
+<div class="math notranslate nohighlight">
+\[
+   Z_{\text{train}} = X_{c,\text{train}} P,
+   \qquad
+   Z_{\text{test}} = (X_{\text{test}} - c(X_{\text{train}}))\, P.
+   \]</div>
+</li>
+</ol>
+<p>You will now use these 2D representations <span class="math notranslate nohighlight">\(Z_{\text{train}}\)</span> and <span class="math notranslate nohighlight">\(Z_{\text{test}}\)</span> for classification.</p>
+</section>
+<section id="step-2-fit-a-linear-classifier">
+<h3>Step 2: Fit a linear classifier<a class="headerlink" href="#step-2-fit-a-linear-classifier" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Use the logistic regression model:</p>
+<div class="math notranslate nohighlight">
+\[
+    f_{\Theta}(z) = \sigma(\Theta^T z), \qquad z \in \mathbb{R}^2,
+    \]</div>
+<p>with sigmoid and binary cross-entropy loss, and train the model using SGD.</p>
+</li>
+<li><p>Once trained:</p>
+<ol class="arabic">
+<li><p>Plot the PCA-reduced training data in 2D,</p></li>
+<li><p>Plot the decision boundary defined by:</p>
+<div class="math notranslate nohighlight">
+\[
+      \Theta^T z = 0 \quad \Rightarrow \quad \text{boundary line}.
+      \]</div>
+</li>
+</ol>
+</li>
+<li><p>Compute, on the test set:</p>
+<ul class="simple">
+<li><p>Accuracy,</p></li>
+<li><p>Precision and Recall,</p></li>
+<li><p>Confusion matrix.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="step-3-pca-centroid-classifier-nearest-centroid-in-pca-space">
+<h3>Step 3: PCA-Centroid Classifier (Nearest-Centroid in PCA Space)<a class="headerlink" href="#step-3-pca-centroid-classifier-nearest-centroid-in-pca-space" title="Link to this heading">#</a></h3>
+<p>This classifier does <strong>not</strong> use a linear model. It relies purely on geometry in the reduced PCA space.</p>
+<ol class="arabic">
+<li><p>For each class <span class="math notranslate nohighlight">\(c\in\{3,4\}\)</span>, compute the centroid in PCA space:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mu_c = \frac{1}{|\mathcal{D}_c|}\sum_{z_i \in \mathcal{D}_c} z_i.
+    \]</div>
+<p>Plot both centroids <span class="math notranslate nohighlight">\(\mu_3\)</span> and <span class="math notranslate nohighlight">\(\mu_4\)</span> in the PCA plane.</p>
+</li>
+<li><p>Given a test sample <span class="math notranslate nohighlight">\(x\in\mathbb{R}^d\)</span>:</p>
+<ol class="arabic">
+<li><p>Project it:</p>
+<div class="math notranslate nohighlight">
+\[
+      z = (x - c(X_{\text{train}}))\, P.
+      \]</div>
+</li>
+<li><p>Compute distances:</p>
+<div class="math notranslate nohighlight">
+\[
+      d_3 = \|z - \mu_3\|_2,\qquad
+      d_4 = \|z - \mu_4\|_2.
+      \]</div>
+</li>
+<li><p>Assign:</p>
+<div class="math notranslate nohighlight">
+\[
+      \hat y = \arg\min_{c\in\{3,4\}} d_c.
+      \]</div>
+</li>
+</ol>
+<p>This is the <strong>nearest-centroid classifier in PCA space</strong>.</p>
+</li>
+<li><p>Compute, on the test set:</p>
+<ul class="simple">
+<li><p>Accuracy,</p></li>
+<li><p>Precision and Recall,</p></li>
+<li><p>Confusion matrix.</p></li>
+</ul>
+<p>Plot the test points with colors given by classification results.</p>
+</li>
+</ol>
+</section>
+<section id="step-4-compare-accuracy-and-error-patterns">
+<h3>Step 4: Compare accuracy and error patterns<a class="headerlink" href="#step-4-compare-accuracy-and-error-patterns" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Compare linear classifier on PCA features vs centroid classifier in PCA space.</p></li>
+<li><p>On the PCA scatterplot, plot:</p>
+<ul class="simple">
+<li><p>the linear boundary,</p></li>
+<li><p>the two centroids,</p></li>
+<li><p>misclassified test samples highlighted in red.</p></li>
+</ul>
+</li>
+<li><p>Repeat by changing the digits in <span class="math notranslate nohighlight">\(\{ (1,7), (5,8), (2,3) \}\)</span> and observe how class similarity influences:</p>
+<ul class="simple">
+<li><p>the cluster shape,</p></li>
+<li><p>centroid separation,</p></li>
+<li><p>decision boundaries.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -457,6 +727,31 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-compute-the-svd-of-a-matrix-verify-the-reconstruction">Exercise 1: Compute the SVD of a Matrix &amp; Verify the Reconstruction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-best-rank-k-approximation">Exercise 2: Best Rank-<span class="math notranslate nohighlight">\(k\)</span> Approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-image-compression-with-svd">Exercise 3: Image Compression with SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-pca-clustering-on-a-real-dataset">Exercise 5: PCA + Clustering on a Real Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-classification-after-pca-linear-classifier-and-centroid-classifier">Exercise 6: Classification After PCA: Linear Classifier and Centroid Classifier</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-pca-projection">Step 1: PCA Projection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-fit-a-linear-classifier">Step 2: Fit a linear classifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-pca-centroid-classifier-nearest-centroid-in-pca-space">Step 3: PCA-Centroid Classifier (Nearest-Centroid in PCA Space)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-compare-accuracy-and-error-patterns">Step 4: Compare accuracy and error patterns</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
