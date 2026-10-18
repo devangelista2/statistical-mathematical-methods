@@ -16,41 +16,44 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
     <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -61,7 +64,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -71,55 +74,52 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'NLA_numpy/basics_python';</script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
-    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <script src="../_static/searchtools.js?v=63a53a7d"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/language_data.js?v=d4673a71"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
-    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Introduction to Python for NLA" href="introduction_to_numpy.html" />
     <link rel="prev" title="Statistical and Mathematical Methods for Machine Learning (SMM)" href="../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -127,7 +127,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -135,15 +134,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -152,7 +195,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -182,21 +226,17 @@
     
     
     <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -244,9 +284,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -376,7 +421,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -390,25 +435,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -430,7 +467,7 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typing">Typing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#f-string"><code class="docutils literal notranslate"><span class="pre">f-string</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-tuple-and-list">Array: <code class="docutils literal notranslate"><span class="pre">tuple</span></code> and <code class="docutils literal notranslate"><span class="pre">list</span></code></a></li>
@@ -465,10 +502,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a couple of variabiles</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># this is an &quot;int&quot;</span>
-<span class="n">b</span> <span class="o">=</span> <span class="mf">2.1</span> <span class="c1"># this is a &quot;float&quot;</span>
-<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span> <span class="c1"># this is a &quot;str&quot;</span>
-<span class="n">c</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># this is a &quot;bool&quot;</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># this is an "int"</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">2.1</span> <span class="c1"># this is a "float"</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s2">"Hello, World!"</span> <span class="c1"># this is a "str"</span>
+<span class="n">c</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># this is a "bool"</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
@@ -476,8 +513,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;int&#39;&gt;
-&lt;class &#39;str&#39;&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class 'int'&gt;
+&lt;class 'str'&gt;
 </pre></div>
 </div>
 </div>
@@ -489,8 +526,8 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define variables a and A</span>
-<span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;Hello!&quot;</span>
-<span class="n">A</span> <span class="o">=</span> <span class="s2">&quot;World!&quot;</span>
+<span class="n">a</span> <span class="o">=</span> <span class="s2">"Hello!"</span>
+<span class="n">A</span> <span class="o">=</span> <span class="s2">"World!"</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -512,7 +549,7 @@ World!
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159265358979323846</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The value of pi is: </span><span class="si">{</span><span class="n">pi</span><span class="si">:</span><span class="s2">0.4f</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The value of pi is: </span><span class="si">{</span><span class="n">pi</span><span class="si">:</span><span class="s2">0.4f</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -532,7 +569,7 @@ World!
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tuple</span>
-<span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
 
@@ -544,10 +581,10 @@ World!
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, True, &#39;Hello&#39;)
-&lt;class &#39;tuple&#39;&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, True, 'Hello')
+&lt;class 'tuple'&gt;
 [2.3, 1, 0, -2]
-&lt;class &#39;list&#39;&gt;
+&lt;class 'list'&gt;
 </pre></div>
 </div>
 </div>
@@ -558,7 +595,7 @@ World!
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a list and a tuple</span>
 <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Access its element of index 2</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
@@ -578,11 +615,13 @@ Hello
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> 
 <span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># Modify the element</span>
 <span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.1</span>
 <span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.1</span>
 
-<span class="ne">TypeError</span>: &#39;tuple&#39; object does not support item assignment
+<span class="ne">TypeError</span>: 'tuple' object does not support item assignment
 </pre></div>
 </div>
 </div>
@@ -627,9 +666,9 @@ Hello
 <span class="n">condition</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Verified&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Verified"</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not verified&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Not verified"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -653,9 +692,9 @@ Hello
 <span class="c1"># And if a &lt; c^2</span>
 <span class="n">condition_2</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span>
 
-<span class="c1"># If the first is verified, while the second is not, print &quot;Ok!&quot;</span>
+<span class="c1"># If the first is verified, while the second is not, print "Ok!"</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">condition_1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">condition_2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ok!&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Ok!"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -782,9 +821,9 @@ To avoid infite cycles, iterations are usually stopped after reaching a pre-dete
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
 
-<span class="n">out</span> <span class="o">=</span> <span class="n">hello</span><span class="p">(</span><span class="s2">&quot;World&quot;</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">hello</span><span class="p">(</span><span class="s2">"World"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -843,7 +882,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0982997216561827
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0693431632758785
 </pre></div>
 </div>
 </div>
@@ -860,7 +899,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4956439852939647
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6675045775566862
 </pre></div>
 </div>
 </div>
@@ -911,7 +950,7 @@ x - \frac{f(x)}{f'(x)}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a path (possibly relative to the current Working Directory)</span>
-<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;./data&quot;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">"./data"</span>
 
 <span class="c1"># Print the files in the given path</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
@@ -919,7 +958,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;US_births_2000-2014_SSA.csv&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>['US_births_2000-2014_SSA.csv']
 </pre></div>
 </div>
 </div>
@@ -960,7 +999,7 @@ x - \frac{f(x)}{f'(x)}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.008131027221679688
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.006914854049682617
 </pre></div>
 </div>
 </div>
@@ -984,7 +1023,9 @@ x - \frac{f(x)}{f'(x)}.
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> 
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># This will generate an error because we are trying to divide by zero</span>
 <span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -1011,7 +1052,7 @@ x - \frac{f(x)}{f'(x)}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">5</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Syntax error&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Syntax error"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1019,7 +1060,7 @@ x - \frac{f(x)}{f'(x)}.
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">5</span>
              <span class="o">^</span>
-<span class="ne">SyntaxError</span>: expected &#39;:&#39;
+<span class="ne">SyntaxError</span>: expected ':'
 </pre></div>
 </div>
 </div>
@@ -1029,7 +1070,7 @@ x - \frac{f(x)}{f'(x)}.
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10&quot;</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"10"</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1037,9 +1078,9 @@ x - \frac{f(x)}{f'(x)}.
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10&quot;</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"10"</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
 
-<span class="ne">TypeError</span>: can only concatenate str (not &quot;int&quot;) to str
+<span class="ne">TypeError</span>: can only concatenate str (not "int") to str
 </pre></div>
 </div>
 </div>
@@ -1059,7 +1100,7 @@ x - \frac{f(x)}{f'(x)}.
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-<span class="ne">NameError</span>: name &#39;p&#39; is not defined
+<span class="ne">NameError</span>: name 'p' is not defined
 </pre></div>
 </div>
 </div>
@@ -1091,7 +1132,7 @@ x - \frac{f(x)}{f'(x)}.
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span><span class="p">(</span><span class="s2">"abc"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1099,9 +1140,9 @@ x - \frac{f(x)}{f'(x)}.
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">int</span><span class="p">(</span><span class="s2">"abc"</span><span class="p">)</span>
 
-<span class="ne">ValueError</span>: invalid literal for int() with base 10: &#39;abc&#39;
+<span class="ne">ValueError</span>: invalid literal for int() with base 10: 'abc'
 </pre></div>
 </div>
 </div>
@@ -1128,23 +1169,23 @@ x - \frac{f(x)}{f'(x)}.
     <span class="k">return</span> <span class="n">largest</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_number_input</span><span class="p">():</span>
-    <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter a number: &quot;</span><span class="p">))</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Enter a number: "</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">nm</span>
 
 <span class="c1"># Main program</span>
 <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The average is:&quot;</span><span class="p">,</span> <span class="n">compute_average</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"The average is:"</span><span class="p">,</span> <span class="n">compute_average</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
 
 <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">b</span> <span class="o">=</span> <span class="s2">&quot;10&quot;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="s2">"10"</span>
 <span class="n">c</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The product is:&quot;</span><span class="p">,</span> <span class="n">multiply_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"The product is:"</span><span class="p">,</span> <span class="n">multiply_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The largest number is:&quot;</span><span class="p">,</span> <span class="n">find_largest</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"The largest number is:"</span><span class="p">,</span> <span class="n">find_largest</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
 
 <span class="n">user_number</span> <span class="o">=</span> <span class="n">get_number_input</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You entered:&quot;</span><span class="p">,</span> <span class="n">user_number</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"You entered:"</span><span class="p">,</span> <span class="n">user_number</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1152,7 +1193,7 @@ x - \frac{f(x)}{f'(x)}.
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">26</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span>
                <span class="o">^</span>
-<span class="ne">SyntaxError</span>: &#39;(&#39; was never closed
+<span class="ne">SyntaxError</span>: '(' was never closed
 </pre></div>
 </div>
 </div>
@@ -1215,15 +1256,17 @@ x - \frac{f(x)}{f'(x)}.
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typing">Typing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#f-string"><code class="docutils literal notranslate"><span class="pre">f-string</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-tuple-and-list">Array: <code class="docutils literal notranslate"><span class="pre">tuple</span></code> and <code class="docutils literal notranslate"><span class="pre">list</span></code></a></li>
@@ -1282,8 +1325,8 @@ By Davide Evangelista
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
   </footer>
