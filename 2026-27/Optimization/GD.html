@@ -1,0 +1,1333 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gradient Descent &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/GD';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stochastic Gradient Descent (SGD)" href="SGD.html" />
+    <link rel="prev" title="Neural Networks for Classification" href="../NN/from_ML_to_NN.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning and Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NN/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NN/from_ML_to_NN.html">Neural Networks for Classification</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Adam.html">Adam and a Realistic Experiment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homework</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/homework.html">Homework</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/GD.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Optimization/GD.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gradient Descent</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-problems">Optimization problems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-hessian-and-optimality-conditions">Gradient, Hessian and optimality conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient-is-the-direction-of-steepest-ascent">The gradient is the direction of steepest ascent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-conditions">Optimality conditions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient-descent-algorithm">The Gradient Descent algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-gradient-descent">Convergence of Gradient Descent</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-the-parameters">Selection of the parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-the-initial-iterate">Choice of the initial iterate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size">Step size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backtracking">Backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping criteria</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-1-ill-conditioning">Test 1: Ill-conditioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-2-constant-step-size-vs-backtracking">Test 2: Constant step size vs. backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-3-non-convexity-and-the-initial-iterate">Test 3: Non-convexity and the initial iterate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-neural-networks-training-with-gradient-descent">Back to Neural Networks: training with Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-gradient-descent">Limitations of Gradient Descent</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gradient-descent">
+<h1>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we have seen that the <strong>training phase</strong> of a Neural Network (and, more generally, of any Machine Learning model) can be expressed as an <strong>optimization problem</strong>: given a loss function</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta) = \frac{1}{N}\sum_{i=1}^N \ell(\Theta; x^{(i)}, y^{(i)}),
+\]</div>
+<p>our goal is to find</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^* = \arg\min_\Theta \, \mathcal{L}(\Theta).
+\]</div>
+<p>For very simple models (like linear regression with the MSE loss), this minimization problem admits a closed-form solution. In general, however, the loss function is <strong>non-linear, high-dimensional, and non-convex</strong>, making analytic solutions impossible. We therefore rely on <strong>iterative optimization algorithms</strong>, the most fundamental of which is <strong>Gradient Descent</strong>.</p>
+<p>Since the theory of optimization does not depend on the fact that we are training a Machine Learning model, in the first part of this chapter we will consider a generic function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> of a variable <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>. At the end of the chapter, we will go back to our Neural Network, with <span class="math notranslate nohighlight">\(f = \mathcal{L}\)</span> and <span class="math notranslate nohighlight">\(x = \Theta\)</span>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In this chapter, <span class="math notranslate nohighlight">\(x\)</span> denotes the <strong>optimization variable</strong> (i.e. the parameters of the model), and not the input of the model, as it was in the previous chapters.</p>
+</div>
+<section id="optimization-problems">
+<h2>Optimization problems<a class="headerlink" href="#optimization-problems" title="Link to this heading">#</a></h2>
+<p>Consider a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>, named <strong>objective function</strong>. Given a set of <em>admissible solutions</em> <span class="math notranslate nohighlight">\(\Omega \subseteq \mathbb{R}^n\)</span>, an optimization problem is a problem of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{x \in \Omega} f(x).
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, we say that the optimization problem is <strong>unconstrained</strong>. If <span class="math notranslate nohighlight">\(\Omega \subset \mathbb{R}^n\)</span>, the problem is <strong>constrained</strong>. In the following, we will always assume <span class="math notranslate nohighlight">\(\Omega = \mathbb{R}^n\)</span>, i.e. the unconstrained setup, which is the one of interest for training Neural Networks.</p>
+<p>We need to be precise about what we mean by “solution” of an optimization problem:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> is a <strong>global minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span> if <span class="math notranslate nohighlight">\(f(x^*) \leq f(x)\)</span> for any <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> is a <strong>local minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span> if there exists a neighborhood <span class="math notranslate nohighlight">\(\mathcal{U}\)</span> of <span class="math notranslate nohighlight">\(x^*\)</span> such that <span class="math notranslate nohighlight">\(f(x^*) \leq f(x)\)</span> for any <span class="math notranslate nohighlight">\(x \in \mathcal{U}\)</span>.</p></li>
+<li><p>If the inequalities above are strict for any <span class="math notranslate nohighlight">\(x \neq x^*\)</span>, we talk about <strong>strict</strong> global (local) minimum.</p></li>
+</ul>
+<p>Clearly, any global minimum is also a local minimum, but the opposite is not true in general. Ideally, we would like to find a global minimum but, as we will see, the algorithms we are going to introduce are only able (in general) to find <strong>local</strong> minima.</p>
+</section>
+<section id="convexity">
+<h2>Convexity<a class="headerlink" href="#convexity" title="Link to this heading">#</a></h2>
+<p>A common assumption in optimization is <em>convexity</em>. By definition, a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is <strong>convex</strong> if</p>
+<div class="math notranslate nohighlight">
+\[
+f(tx_1 + (1-t)x_2) \leq tf(x_1) + (1-t)f(x_2), \quad \forall x_1, x_2 \in \mathbb{R}^n, \quad \forall t \in [0, 1],
+\]</div>
+<p>i.e. if the segment joining any two points of the graph of <span class="math notranslate nohighlight">\(f\)</span> lies above the graph itself. If the inequality is strict for any <span class="math notranslate nohighlight">\(x_1 \neq x_2\)</span> and <span class="math notranslate nohighlight">\(t \in (0, 1)\)</span>, then <span class="math notranslate nohighlight">\(f\)</span> is said to be <strong>strictly convex</strong>.</p>
+<p><img alt="" src="../_images/convexity.png" /></p>
+<p>The importance of convex functions in optimization is due to the following properties:</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(f\)</span> is convex, then every local minimum of <span class="math notranslate nohighlight">\(f\)</span> is also a <strong>global minimum</strong>, and the set of global minima is a convex set (the <span class="math notranslate nohighlight">\(n\)</span>-dimensional extension of the concept of <em>interval</em>).</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(f\)</span> is strictly convex, then it has <strong>at most one</strong> global minimum.</p></li>
+</ul>
+<p>On the other side, if a function is non-convex (<em>NOTE:</em> the opposite of convex is <strong>not</strong> concave), then there can be multiple distinct minimum points, some of which are <em>local minima</em> while others are <em>global minima</em>.</p>
+<p><img alt="" src="../_images/non_convexity.png" /></p>
+<p>When <span class="math notranslate nohighlight">\(f\)</span> is differentiable (twice differentiable), convexity can be equivalently characterized by its gradient (Hessian):</p>
+<ul>
+<li><p><strong>First-order characterization:</strong> <span class="math notranslate nohighlight">\(f\)</span> is convex if and only if</p>
+<div class="math notranslate nohighlight">
+\[
+  f(y) \geq f(x) + \nabla f(x)^T (y - x), \quad \forall x, y \in \mathbb{R}^n,
+  \]</div>
+<p>i.e. the tangent plane at any point lies <em>below</em> the graph of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+</li>
+<li><p><strong>Second-order characterization:</strong> <span class="math notranslate nohighlight">\(f\)</span> is convex if and only if the Hessian matrix <span class="math notranslate nohighlight">\(\nabla^2 f(x)\)</span> is <strong>positive semi-definite</strong> for any <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>.</p></li>
+</ul>
+<p><strong>Example.</strong> Consider the quadratic function <span class="math notranslate nohighlight">\(f(x) = \frac{1}{2} x^T A x - b^T x\)</span>, with <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> symmetric. Its Hessian is <span class="math notranslate nohighlight">\(\nabla^2 f(x) = A\)</span>, therefore <span class="math notranslate nohighlight">\(f\)</span> is convex if and only if <span class="math notranslate nohighlight">\(A\)</span> is positive semi-definite, and strictly convex if <span class="math notranslate nohighlight">\(A\)</span> is positive definite. As a consequence, the MSE loss of a linear regression model, <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta) = \frac{1}{N} \| X\Theta - Y \|_2^2\)</span>, is always convex (check it!).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The loss function of a Neural Network is (almost always) <strong>non-convex</strong>. To convince yourself, consider an MLP with one hidden layer, and assume <span class="math notranslate nohighlight">\(\Theta^*\)</span> is a global minimum of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. If we swap two neurons of the hidden layer (i.e. we swap two rows of <span class="math notranslate nohighlight">\(W^1\)</span> and <span class="math notranslate nohighlight">\(b^1\)</span>, and the corresponding two columns of <span class="math notranslate nohighlight">\(W^2\)</span>), the network computes exactly the same function, therefore the swapped parameters <span class="math notranslate nohighlight">\(\tilde{\Theta}^*\)</span> are a global minimum as well. However, the midpoint <span class="math notranslate nohighlight">\(\frac{1}{2}(\Theta^* + \tilde{\Theta}^*)\)</span> corresponds to a network where the two neurons are identical, which, in general, is <strong>not</strong> a minimum. This contradicts the convexity.</p>
+</div>
+</section>
+<section id="gradient-hessian-and-optimality-conditions">
+<h2>Gradient, Hessian and optimality conditions<a class="headerlink" href="#gradient-hessian-and-optimality-conditions" title="Link to this heading">#</a></h2>
+<p>Recall that, for a differentiable function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>, the <strong>gradient</strong> of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span> is the vector of its partial derivatives:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x) = \begin{bmatrix} \frac{\partial f}{\partial x_1}(x) \\ \vdots \\ \frac{\partial f}{\partial x_n}(x) \end{bmatrix} \in \mathbb{R}^n,
+\end{split}\]</div>
+<p>while, if <span class="math notranslate nohighlight">\(f\)</span> is twice differentiable, its <strong>Hessian</strong> is the symmetric matrix of its second-order partial derivatives:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla^2 f(x) = \left[ \frac{\partial^2 f}{\partial x_i \partial x_j}(x) \right]_{i, j = 1}^n \in \mathbb{R}^{n \times n}.
+\]</div>
+<section id="the-gradient-is-the-direction-of-steepest-ascent">
+<h3>The gradient is the direction of steepest ascent<a class="headerlink" href="#the-gradient-is-the-direction-of-steepest-ascent" title="Link to this heading">#</a></h3>
+<p>Given a direction <span class="math notranslate nohighlight">\(p \in \mathbb{R}^n\)</span> with <span class="math notranslate nohighlight">\(\| p \|_2 = 1\)</span>, the <strong>directional derivative</strong> of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span> along <span class="math notranslate nohighlight">\(p\)</span> measures how fast <span class="math notranslate nohighlight">\(f\)</span> changes when we move from <span class="math notranslate nohighlight">\(x\)</span> in the direction <span class="math notranslate nohighlight">\(p\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial p}(x) = \lim_{\alpha \to 0} \frac{f(x + \alpha p) - f(x)}{\alpha} = \nabla f(x)^T p.
+\]</div>
+<p>By the Cauchy-Schwarz inequality,</p>
+<div class="math notranslate nohighlight">
+\[
+- \| \nabla f(x) \|_2 \leq \nabla f(x)^T p \leq \| \nabla f(x) \|_2,
+\]</div>
+<p>where the right equality holds if and only if <span class="math notranslate nohighlight">\(p = \frac{\nabla f(x)}{\| \nabla f(x) \|_2}\)</span>, while the left equality holds if and only if <span class="math notranslate nohighlight">\(p = - \frac{\nabla f(x)}{\| \nabla f(x) \|_2}\)</span>. Therefore:</p>
+<blockquote>
+<div><p>The gradient <span class="math notranslate nohighlight">\(\nabla f(x)\)</span> points in the direction of <strong>steepest ascent</strong> of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span>, while <span class="math notranslate nohighlight">\(-\nabla f(x)\)</span> points in the direction of <strong>steepest descent</strong>.</p>
+</div></blockquote>
+<p>Moreover, if <span class="math notranslate nohighlight">\(\nabla f(x)^T p &lt; 0\)</span>, then moving along <span class="math notranslate nohighlight">\(p\)</span> (for a sufficiently small step) decreases the value of <span class="math notranslate nohighlight">\(f\)</span>. Any such direction is called a <strong>descent direction</strong>. This simple observation is the basis of all the algorithms we will study.</p>
+</section>
+<section id="optimality-conditions">
+<h3>Optimality conditions<a class="headerlink" href="#optimality-conditions" title="Link to this heading">#</a></h3>
+<p>Most of the algorithms to find the minimum points of a given function <span class="math notranslate nohighlight">\(f(x)\)</span> are based on the following properties:</p>
+<ul>
+<li><p><strong>First-order necessary condition:</strong> If <span class="math notranslate nohighlight">\(f\)</span> is continuously differentiable and <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <span class="math notranslate nohighlight">\(f\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+  \nabla f(x^*) = 0.
+  \]</div>
+<p><em>Proof (sketch).</em> If <span class="math notranslate nohighlight">\(\nabla f(x^*) \neq 0\)</span>, then <span class="math notranslate nohighlight">\(p = -\nabla f(x^*)\)</span> is a descent direction, and therefore there are points arbitrarily close to <span class="math notranslate nohighlight">\(x^*\)</span> with a smaller value of <span class="math notranslate nohighlight">\(f\)</span>, which contradicts the local minimality of <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+</li>
+<li><p><strong>Second-order necessary condition:</strong> If <span class="math notranslate nohighlight">\(f\)</span> is twice continuously differentiable and <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <span class="math notranslate nohighlight">\(f\)</span>, then <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span> and <span class="math notranslate nohighlight">\(\nabla^2 f(x^*)\)</span> is <strong>positive semi-definite</strong>.</p></li>
+<li><p><strong>Second-order sufficient condition:</strong> If <span class="math notranslate nohighlight">\(f\)</span> is twice continuously differentiable, <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span> and <span class="math notranslate nohighlight">\(\nabla^2 f(x^*)\)</span> is <strong>positive definite</strong>, then <span class="math notranslate nohighlight">\(x^*\)</span> is a <strong>strict local minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span>.</p></li>
+</ul>
+<p>The points <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> such that <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span> are called <strong>stationary points</strong> of <span class="math notranslate nohighlight">\(f\)</span>. Note that the first-order condition is only <em>necessary</em>: a stationary point can be a (local) minimum, a (local) maximum or a <strong>saddle point</strong> (a point which is a minimum along some directions and a maximum along others, i.e. where the Hessian is <em>indefinite</em>).</p>
+<p><img alt="" src="../_images/minmaxsaddle.png" /></p>
+<p>The situation is much simpler for convex functions. Indeed:</p>
+<ul>
+<li><p><strong>Convex case:</strong> If <span class="math notranslate nohighlight">\(f\)</span> is convex and differentiable, then <span class="math notranslate nohighlight">\(x^*\)</span> is a global minimum of <span class="math notranslate nohighlight">\(f\)</span> <strong>if and only if</strong> <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>.</p>
+<p><em>Proof.</em> By the first-order characterization of convexity, for any <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, <span class="math notranslate nohighlight">\(f(y) \geq f(x^*) + \nabla f(x^*)^T (y - x^*) = f(x^*)\)</span>.</p>
+</li>
+</ul>
+<p>Consequently, in the following, we will look for points <span class="math notranslate nohighlight">\(x^* \in \mathbb{R}^n\)</span> such that <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>, keeping in mind that, when <span class="math notranslate nohighlight">\(f\)</span> is not convex, such a point is not necessarily a global minimum (and not even necessarily a minimum).</p>
+<blockquote>
+<div><p><strong>Exercise:</strong> Compute the stationary points of <span class="math notranslate nohighlight">\(f(x) = x_1^2 - x_2^2\)</span> and of <span class="math notranslate nohighlight">\(f(x) = x_1^4 + x_2^2\)</span>, and classify them using the second-order conditions. Is the second-order sufficient condition satisfied in both cases?</p>
+</div></blockquote>
+</section>
+</section>
+<section id="the-gradient-descent-algorithm">
+<h2>The Gradient Descent algorithm<a class="headerlink" href="#the-gradient-descent-algorithm" title="Link to this heading">#</a></h2>
+<p>The most common algorithm to solve optimization problems is the so-called <strong>Gradient Descent (GD)</strong>. The idea is very simple: since <span class="math notranslate nohighlight">\(-\nabla f(x)\)</span> is the direction of steepest descent, if we move from <span class="math notranslate nohighlight">\(x\)</span> a little bit along <span class="math notranslate nohighlight">\(-\nabla f(x)\)</span>, the value of <span class="math notranslate nohighlight">\(f\)</span> decreases. Repeating this procedure iteratively, we expect to reach a (local) minimum of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>This leads to the iterative algorithm:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1} = x_k - \alpha_k \nabla f(x_k), \quad k = 0, 1, \dots, \texttt{maxit}-1,
+\]</div>
+<p>where the initial iterate, <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>, is given as input and the <strong>step size</strong> (equivalently, <strong>learning rate</strong>) <span class="math notranslate nohighlight">\(\alpha_k &gt; 0\)</span> controls how far we move along the descent direction at each iteration.</p>
+<p>Formally, the resulting algorithm reads:</p>
+<p><strong>Input</strong>: initial iterate <span class="math notranslate nohighlight">\(x_0\)</span>, step sizes <span class="math notranslate nohighlight">\(\{ \alpha_k \}_k\)</span>, stopping criterion.
+<strong>Repeat</strong> for <span class="math notranslate nohighlight">\(k = 0, 1, \dots\)</span> until the stopping criterion is satisfied:</p>
+<ol class="arabic simple">
+<li><p>Compute the gradient <span class="math notranslate nohighlight">\(\nabla f(x_k)\)</span>.</p></li>
+<li><p>Update the iterate: <span class="math notranslate nohighlight">\(x_{k+1} = x_k - \alpha_k \nabla f(x_k)\)</span>.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The gradient descent algorithm is an example of <strong>descent methods</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1} = x_k + \alpha_k p_k, \quad k = 0, 1, \dots, \texttt{maxit}-1,
+\]</div>
+<p>where the descent direction <span class="math notranslate nohighlight">\(p_k\)</span> has to be chosen such that for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x_k)^T p_k &lt; 0.
+\]</div>
+<p>Since for GD, <span class="math notranslate nohighlight">\(p_k = - \nabla f(x_k)\)</span>, then the condition above is always satisfied (unless we are already in a stationary point):</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(x_k)^T p_k = - \nabla f(x_k)^T \nabla f(x_k) = - \| \nabla f(x_k) \|_2^2 &lt; 0.
+\]</div>
+</div>
+<section id="convergence-of-gradient-descent">
+<h3>Convergence of Gradient Descent<a class="headerlink" href="#convergence-of-gradient-descent" title="Link to this heading">#</a></h3>
+<p>When does GD converge, and how fast? To answer this question, we need an assumption on the regularity of <span class="math notranslate nohighlight">\(f\)</span>. We say that a differentiable function <span class="math notranslate nohighlight">\(f\)</span> is <strong><span class="math notranslate nohighlight">\(L\)</span>-smooth</strong> if its gradient is Lipschitz continuous with constant <span class="math notranslate nohighlight">\(L &gt; 0\)</span>, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+\| \nabla f(x) - \nabla f(y) \|_2 \leq L \| x - y \|_2, \quad \forall x, y \in \mathbb{R}^n.
+\]</div>
+<p>For twice differentiable functions, this is equivalent to <span class="math notranslate nohighlight">\(\| \nabla^2 f(x) \|_2 \leq L\)</span> for any <span class="math notranslate nohighlight">\(x\)</span>, i.e. the curvature of <span class="math notranslate nohighlight">\(f\)</span> is bounded by <span class="math notranslate nohighlight">\(L\)</span>. A key consequence of <span class="math notranslate nohighlight">\(L\)</span>-smoothness is the so-called <strong>descent lemma</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+f(y) \leq f(x) + \nabla f(x)^T (y - x) + \frac{L}{2} \| y - x \|_2^2, \quad \forall x, y \in \mathbb{R}^n,
+\]</div>
+<p>which states that <span class="math notranslate nohighlight">\(f\)</span> is bounded from above by a quadratic function. Applying it with <span class="math notranslate nohighlight">\(x = x_k\)</span> and <span class="math notranslate nohighlight">\(y = x_{k+1} = x_k - \alpha \nabla f(x_k)\)</span>, we get:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_{k+1}) \leq f(x_k) - \alpha \| \nabla f(x_k) \|_2^2 + \frac{L \alpha^2}{2} \| \nabla f(x_k) \|_2^2 = f(x_k) - \alpha \left( 1 - \frac{L\alpha}{2} \right) \| \nabla f(x_k) \|_2^2.
+\]</div>
+<p>Therefore, if <span class="math notranslate nohighlight">\(0 &lt; \alpha &lt; \frac{2}{L}\)</span>, the value of <span class="math notranslate nohighlight">\(f\)</span> <strong>decreases</strong> at every iteration. In particular, choosing <span class="math notranslate nohighlight">\(\alpha \leq \frac{1}{L}\)</span>, we have <span class="math notranslate nohighlight">\(1 - \frac{L\alpha}{2} \geq \frac{1}{2}\)</span>, and thus</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_{k+1}) \leq f(x_k) - \frac{\alpha}{2} \| \nabla f(x_k) \|_2^2.
+\]</div>
+<p>Summing this inequality for <span class="math notranslate nohighlight">\(k = 0, \dots, K-1\)</span> and assuming that <span class="math notranslate nohighlight">\(f\)</span> is bounded from below by <span class="math notranslate nohighlight">\(f^* = \inf_x f(x)\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\alpha}{2} \sum_{k=0}^{K-1} \| \nabla f(x_k) \|_2^2 \leq f(x_0) - f(x_K) \leq f(x_0) - f^*,
+\]</div>
+<p>which implies:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{k = 0, \dots, K-1} \| \nabla f(x_k) \|_2^2 \leq \frac{2 (f(x_0) - f^*)}{\alpha K} \xrightarrow{K \to \infty} 0.
+\]</div>
+<p>We have just proved the following result.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Theorem (convergence of GD).</strong> Let <span class="math notranslate nohighlight">\(f\)</span> be <span class="math notranslate nohighlight">\(L\)</span>-smooth and bounded from below. Then, for any <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>, Gradient Descent with constant step size <span class="math notranslate nohighlight">\(0 &lt; \alpha \leq \frac{1}{L}\)</span> satisfies <span class="math notranslate nohighlight">\(\| \nabla f(x_k) \|_2 \to 0\)</span>, i.e. it converges to a <strong>stationary point</strong>, with rate <span class="math notranslate nohighlight">\(\min_{k &lt; K} \| \nabla f(x_k) \|_2^2 = \mathcal{O}(1/K)\)</span>.</p>
+<p>Moreover:</p>
+<ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(f\)</span> is also <strong>convex</strong>, then <span class="math notranslate nohighlight">\(f(x_K) - f(x^*) \leq \frac{\| x_0 - x^* \|_2^2}{2 \alpha K}\)</span>, i.e. GD converges to a <strong>global minimum</strong> with rate <span class="math notranslate nohighlight">\(\mathcal{O}(1/K)\)</span>;</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(f\)</span> is also <strong><span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex</strong> (i.e. <span class="math notranslate nohighlight">\(\nabla^2 f(x) \succeq \mu I\)</span> with <span class="math notranslate nohighlight">\(\mu &gt; 0\)</span>), then <span class="math notranslate nohighlight">\(\| x_K - x^* \|_2^2 \leq \left( 1 - \frac{\mu}{L} \right)^K \| x_0 - x^* \|_2^2\)</span>, i.e. GD converges <strong>linearly</strong>, with a speed that depends on the <strong>condition number</strong> <span class="math notranslate nohighlight">\(\kappa = L / \mu\)</span>.</p></li>
+</ul>
+</div>
+<p>This theorem tells us a lot about the behavior of GD:</p>
+<ul class="simple">
+<li><p>GD converges for <strong>any</strong> initial iterate <span class="math notranslate nohighlight">\(x_0\)</span> (it is said to be <em>globally convergent</em>), but only to a stationary point, which, for non-convex functions, may not be a global minimum.</p></li>
+<li><p>The step size must be chosen <strong>small enough</strong>, depending on the curvature <span class="math notranslate nohighlight">\(L\)</span> of the function.</p></li>
+<li><p>The larger the condition number <span class="math notranslate nohighlight">\(\kappa = L / \mu\)</span>, the slower the convergence.</p></li>
+</ul>
+<p>We will now discuss each of these aspects in detail.</p>
+</section>
+</section>
+<section id="selection-of-the-parameters">
+<h2>Selection of the parameters<a class="headerlink" href="#selection-of-the-parameters" title="Link to this heading">#</a></h2>
+<section id="choice-of-the-initial-iterate">
+<h3>Choice of the initial iterate<a class="headerlink" href="#choice-of-the-initial-iterate" title="Link to this heading">#</a></h3>
+<p>GD requires the user to input an initial iterate <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>. Since GD has a <em>global convergence</em> property, for any <span class="math notranslate nohighlight">\(x_0\)</span> it will always converge to a <strong>stationary point</strong> of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(f(x)\)</span> is convex, then every stationary point is a (global) minimum of <span class="math notranslate nohighlight">\(f(x)\)</span>, implying that the choice of <span class="math notranslate nohighlight">\(x_0\)</span> is not really important, and we can always set <span class="math notranslate nohighlight">\(x_0 = 0\)</span>. On the other side, when <span class="math notranslate nohighlight">\(f(x)\)</span> is not convex, different initial iterates may lead to <strong>different</strong> stationary points, and we have to choose <span class="math notranslate nohighlight">\(x_0\)</span> as close as possible to the <em>right</em> stationary point, to increase the chances of getting to it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For Neural Networks, the initial iterate is the <strong>initialization</strong> of the weights. As we discussed in the previous chapter, we cannot use <span class="math notranslate nohighlight">\(x_0 = 0\)</span>, since all the neurons would remain identical during training. That is why we use random initializations (such as the He initialization).</p>
+</div>
+</section>
+<section id="step-size">
+<h3>Step size<a class="headerlink" href="#step-size" title="Link to this heading">#</a></h3>
+<p>Selecting the step size is arguably the hardest component of the gradient descent algorithm. Indeed, there are three possible scenarios:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is <strong>too small</strong> <span class="math notranslate nohighlight">\(\implies\)</span> the iterates converge, but extremely slowly, and in practice we stop the algorithm far from the minimum.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is <strong>too large</strong> <span class="math notranslate nohighlight">\(\implies\)</span> the iterates bounce back and forth around the minimum, without reaching it (or they even diverge).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> is <strong>just right</strong> <span class="math notranslate nohighlight">\(\implies\)</span> we quickly reach the stationary point.</p></li>
+</ul>
+<p><img alt="" src="../_images/right_alpha.png" /></p>
+<p>To understand where these three regimes come from, consider the simplest possible case: the one-dimensional quadratic function <span class="math notranslate nohighlight">\(f(x) = \frac{\lambda}{2} x^2\)</span>, with <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>, whose minimum is <span class="math notranslate nohighlight">\(x^* = 0\)</span>. Here, <span class="math notranslate nohighlight">\(f'(x) = \lambda x\)</span> and <span class="math notranslate nohighlight">\(L = \lambda\)</span>, so that the GD iteration with constant step size <span class="math notranslate nohighlight">\(\alpha\)</span> reads</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1} = x_k - \alpha \lambda x_k = (1 - \alpha \lambda) x_k \quad \implies \quad x_k = (1 - \alpha \lambda)^k x_0.
+\]</div>
+<p>Therefore, GD converges if and only if <span class="math notranslate nohighlight">\(|1 - \alpha\lambda| &lt; 1\)</span>, i.e. <span class="math notranslate nohighlight">\(0 &lt; \alpha &lt; \frac{2}{\lambda}\)</span>, in accordance with the theorem above. In particular:</p>
+<ul class="simple">
+<li><p>for <span class="math notranslate nohighlight">\(\alpha \ll 1/\lambda\)</span>, the factor <span class="math notranslate nohighlight">\(1 - \alpha\lambda\)</span> is close to <span class="math notranslate nohighlight">\(1\)</span>, and the convergence is <strong>slow</strong>;</p></li>
+<li><p>for <span class="math notranslate nohighlight">\(\alpha = 1/\lambda\)</span>, GD converges in <strong>one</strong> iteration;</p></li>
+<li><p>for <span class="math notranslate nohighlight">\(1/\lambda &lt; \alpha &lt; 2/\lambda\)</span>, the factor is negative, and the iterates <strong>oscillate</strong> around <span class="math notranslate nohighlight">\(x^*\)</span>;</p></li>
+<li><p>for <span class="math notranslate nohighlight">\(\alpha &gt; 2/\lambda\)</span>, the iterates <strong>diverge</strong>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">]):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"$\alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">$ ($\alpha\lambda = </span><span class="si">{</span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lam</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">$)"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e185634bb643a3230e6fe431413d9106a14c061a13233e12275ab54718e05118.png" src="../_images/e185634bb643a3230e6fe431413d9106a14c061a13233e12275ab54718e05118.png" />
+</div>
+</div>
+<p>The issue is that, in practice, we do not know the value of <span class="math notranslate nohighlight">\(L\)</span> (for a Neural Network, we have no idea of what the maximum curvature of the loss is). Therefore, we need either to choose <span class="math notranslate nohighlight">\(\alpha\)</span> by trial and error, or to compute it automatically.</p>
+</section>
+<section id="backtracking">
+<h3>Backtracking<a class="headerlink" href="#backtracking" title="Link to this heading">#</a></h3>
+<p>Fortunately, there is a way to automatically choose a step size which guarantees convergence. Indeed, it is possible to prove that, if <span class="math notranslate nohighlight">\(\alpha_k\)</span> satisfies the following conditions (known as <strong>Wolfe Conditions</strong>):</p>
+<ul class="simple">
+<li><p><em>Sufficient decrease:</em> <span class="math notranslate nohighlight">\( f(x_k - \alpha_k \nabla f(x_k)) \leq f(x_k) - c_1 \alpha_k \| \nabla f(x_k) \|_2^2 \)</span>;</p></li>
+<li><p><em>Curvature condition:</em> <span class="math notranslate nohighlight">\(\nabla f(x_k)^T \nabla f(x_k - \alpha_k \nabla f(x_k)) \leq c_2 \|  \nabla f(x_k)  \|_2^2\)</span>;</p></li>
+</ul>
+<p>with <span class="math notranslate nohighlight">\(0 &lt; c_1 &lt; c_2 &lt; 1\)</span>, for any <span class="math notranslate nohighlight">\(k \in \mathbb{N}\)</span>, then the associated GD algorithm will <strong>always</strong> converge to a stationary point. In particular, the Sufficient decrease condition, also known as <strong>Armijo Condition</strong>, is of particular importance. It requires that <span class="math notranslate nohighlight">\(x_{k+1}\)</span> causes a reduction in the value of <span class="math notranslate nohighlight">\(f\)</span> compared to <span class="math notranslate nohighlight">\(x_k\)</span> which is <em>large enough</em>. Indeed, note that the Armijo condition rewrites:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_k) - f(\underbrace{x_k - \alpha_k \nabla f(x_k)}_{x_{k+1}}) \geq c_1 \alpha_k \| \nabla f(x_k) \|_2^2,
+\]</div>
+<p>meaning that the reduction in the function <span class="math notranslate nohighlight">\(f\)</span> due to <span class="math notranslate nohighlight">\(x_{k+1}\)</span> has to be at least as big as a multiple of <span class="math notranslate nohighlight">\(\| \nabla f(x_k) \|_2^2\)</span>.</p>
+<p>The Armijo condition is easily satisfied by the <strong>backtracking algorithm</strong>. The idea of this algorithm is to begin with an initial (large) guess for <span class="math notranslate nohighlight">\(\alpha_k\)</span>, which is then reduced as <span class="math notranslate nohighlight">\(\alpha_k \leftarrow \tau \alpha_k\)</span> with <span class="math notranslate nohighlight">\(\tau \in (0, 1)\)</span> until the Armijo condition is satisfied. Since, by the descent lemma, the Armijo condition holds for any <span class="math notranslate nohighlight">\(\alpha_k \leq \frac{2(1 - c_1)}{L}\)</span>, the backtracking always terminates after a finite number of reductions. A Python implementation for the backtracking algorithm can be found in the following.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">alpha0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Returns a step size alpha that satisfies the Armijo condition:</span>
+<span class="sd">        f(x - alpha * g) &lt;= f(x) - c * alpha * ||g||^2</span>
+
+<span class="sd">    f: function. The function that we want to optimize.</span>
+<span class="sd">    grad_f: function. The gradient of f(x).</span>
+<span class="sd">    x: ndarray. The actual iterate x_k.</span>
+<span class="sd">    alpha0: float. The initial guess for the step size.</span>
+<span class="sd">    tau: float in (0, 1). The shrinking factor.</span>
+<span class="sd">    c: float in (0, 1). The Armijo constant.</span>
+<span class="sd">    """</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha0</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">g_norm2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">fx</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">g_norm2</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">alpha</span>
+    <span class="k">return</span> <span class="n">alpha</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Backtracking requires to evaluate <span class="math notranslate nohighlight">\(f\)</span> multiple times at each iteration. When <span class="math notranslate nohighlight">\(f\)</span> is the loss function of a Machine Learning model, every evaluation of <span class="math notranslate nohighlight">\(f\)</span> requires a forward pass on the <strong>whole</strong> dataset. This is one of the reasons why backtracking is rarely used for training Neural Networks.</p>
+</div>
+</section>
+<section id="stopping-criteria">
+<h3>Stopping criteria<a class="headerlink" href="#stopping-criteria" title="Link to this heading">#</a></h3>
+<p>Gradient descent is an iterative algorithm, meaning that it iteratively generates new estimates of the minimum, starting from <span class="math notranslate nohighlight">\(x_0\)</span>. Theoretically, after infinitely many iterations, we converge to the solution of the optimization problem but, since we cannot run infinitely many iterations, we have to find a way to tell the algorithm when it is time to stop. A convergence condition for an iterative algorithm is called <strong>stopping criterion</strong>.</p>
+<p>Remember that gradient descent aims to find stationary points. Consequently, it makes sense to use the norm of the gradient as a stopping criterion:</p>
+<p><strong>Stopping criterion 1:</strong> Given a tolerance <code class="docutils literal notranslate"><span class="pre">tolf</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(\| \nabla f(x_k) \|_2 \leq \texttt{tolf} \cdot \| \nabla f(x_0) \|_2\)</span>. If so, stop the iterations.</p>
+<p>Unfortunately, this condition alone is not sufficient. Indeed, if the function <span class="math notranslate nohighlight">\(f(x)\)</span> is almost flat around its minimum (a <strong>plateau</strong>), then <span class="math notranslate nohighlight">\(\| \nabla f(x_k) \|_2\)</span> will be small even if <span class="math notranslate nohighlight">\(x_k\)</span> is far from the true minimum.</p>
+<p><img alt="" src="../_images/plateau.png" /></p>
+<p>Consequently, it is required to add another stopping criterion.</p>
+<p><strong>Stopping criterion 2:</strong> Given a tolerance <code class="docutils literal notranslate"><span class="pre">tolx</span></code>, for any iterate <span class="math notranslate nohighlight">\(x_k\)</span>, check whether or not <span class="math notranslate nohighlight">\(\| x_k - x_{k-1} \|_2 \leq \texttt{tolx}\)</span>. If so, stop the iterations.</p>
+<p>Moreover, to stop the algorithm from running indefinitely, it is always recommended to add an additional variable, <code class="docutils literal notranslate"><span class="pre">maxit</span></code>, which automatically stops the algorithm if more than <code class="docutils literal notranslate"><span class="pre">maxit</span></code> iterations have been performed. When this happens, it is suggested to also tell the user that the algorithm stopped due to the <code class="docutils literal notranslate"><span class="pre">maxit</span></code> condition, and therefore it did not converge.</p>
+<p>The choice for the parameters <code class="docutils literal notranslate"><span class="pre">tolf</span></code>, <code class="docutils literal notranslate"><span class="pre">tolx</span></code> and <code class="docutils literal notranslate"><span class="pre">maxit</span></code> depends on the specific application. Usually, <code class="docutils literal notranslate"><span class="pre">tolf</span></code> and <code class="docutils literal notranslate"><span class="pre">tolx</span></code> are chosen in the range [<code class="docutils literal notranslate"><span class="pre">1e-6</span></code>, <code class="docutils literal notranslate"><span class="pre">1e-4</span></code>], while <code class="docutils literal notranslate"><span class="pre">maxit</span></code> <span class="math notranslate nohighlight">\(\approx\)</span> <code class="docutils literal notranslate"><span class="pre">1000</span></code>.</p>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
+<p>We now have all the ingredients to implement the Gradient Descent algorithm. Our implementation takes as input the function <span class="math notranslate nohighlight">\(f\)</span>, its gradient, the initial iterate and the parameters discussed above. If <code class="docutils literal notranslate"><span class="pre">alpha</span></code> is a number, it is used as a constant step size, while if <code class="docutils literal notranslate"><span class="pre">alpha=&quot;backtracking&quot;</span></code>, the step size is computed at each iteration via backtracking. To analyze the behavior of the algorithm, we return the whole sequence of iterates, together with the values of <span class="math notranslate nohighlight">\(f(x_k)\)</span> and <span class="math notranslate nohighlight">\(\| \nabla f(x_k) \|_2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">tolf</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">tolx</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Gradient Descent algorithm.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      x_hist: array (k+1, n). The iterates x_0, ..., x_k.</span>
+<span class="sd">      f_hist: array (k+1,). The values f(x_0), ..., f(x_k).</span>
+<span class="sd">      grad_norm: array (k+1,). The values ||grad f(x_0)||, ..., ||grad f(x_k)||.</span>
+<span class="sd">    """</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">g0_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x_hist</span><span class="p">,</span> <span class="n">f_hist</span><span class="p">,</span> <span class="n">grad_norm</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()],</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span> <span class="p">[</span><span class="n">g0_norm</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="c1"># Choose the step size</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="s2">"backtracking"</span><span class="p">:</span>
+            <span class="n">alpha_k</span> <span class="o">=</span> <span class="n">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">alpha_k</span> <span class="o">=</span> <span class="n">alpha</span>
+
+        <span class="c1"># GD update</span>
+        <span class="n">x_new</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">alpha_k</span> <span class="o">*</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Save history</span>
+        <span class="n">x_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_new</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="n">f_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_new</span><span class="p">))</span>
+        <span class="n">grad_norm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">grad_f</span><span class="p">(</span><span class="n">x_new</span><span class="p">)))</span>
+
+        <span class="c1"># Stopping criteria</span>
+        <span class="k">if</span> <span class="n">grad_norm</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tolf</span> <span class="o">*</span> <span class="n">g0_norm</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_new</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tolx</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x_new</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Warning: GD stopped after maxit=</span><span class="si">{</span><span class="n">maxit</span><span class="si">}</span><span class="s2"> iterations without converging."</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_hist</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_hist</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grad_norm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Link to this heading">#</a></h2>
+<section id="test-1-ill-conditioning">
+<h3>Test 1: Ill-conditioning<a class="headerlink" href="#test-1-ill-conditioning" title="Link to this heading">#</a></h3>
+<p>Consider the quadratic function</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(x) = \frac{1}{2} x^T A x, \qquad A = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; \lambda \end{bmatrix}, \quad \lambda \geq 1,
+\end{split}\]</div>
+<p>whose unique minimum is <span class="math notranslate nohighlight">\(x^* = 0\)</span>. Here <span class="math notranslate nohighlight">\(L = \lambda\)</span>, <span class="math notranslate nohighlight">\(\mu = 1\)</span>, and therefore the condition number is <span class="math notranslate nohighlight">\(\kappa = \lambda\)</span>. The level sets of <span class="math notranslate nohighlight">\(f\)</span> are ellipses, which become more and more elongated as <span class="math notranslate nohighlight">\(\lambda\)</span> grows. Let’s run GD with step size <span class="math notranslate nohighlight">\(\alpha = 1.8/L\)</span> (i.e. close to the maximum value <span class="math notranslate nohighlight">\(2/L\)</span> allowed by the theory) for different values of <span class="math notranslate nohighlight">\(\lambda\)</span>, and visualize the trajectories of the iterates on the level sets of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">lam</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">]):</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lam</span><span class="p">])</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">@</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span>
+    <span class="n">grad_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span>
+
+    <span class="n">x_hist</span><span class="p">,</span> <span class="n">f_hist</span><span class="p">,</span> <span class="n">grad_norm</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">2.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+                                                 <span class="n">alpha</span><span class="o">=</span><span class="mf">1.8</span> <span class="o">/</span> <span class="n">lam</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">xx1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">xx2</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_hist</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_hist</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"$\kappa = </span><span class="si">{</span><span class="n">lam</span><span class="si">}</span><span class="s2">$: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x_hist</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> iterations"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$x_1$"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/365fe9fa976bf18dab829267b95b11d3c7ec853e0a0245ef2f3e4fede5f6af95.png" src="../_images/365fe9fa976bf18dab829267b95b11d3c7ec853e0a0245ef2f3e4fede5f6af95.png" />
+</div>
+</div>
+<p>When <span class="math notranslate nohighlight">\(\kappa = 1\)</span>, the level sets are circles, the gradient points exactly toward the minimum, and GD moves along a straight line toward it. When <span class="math notranslate nohighlight">\(\kappa\)</span> grows, the step size must be small to avoid divergence along the “steep” direction <span class="math notranslate nohighlight">\(x_2\)</span>, which makes the progress along the “flat” direction <span class="math notranslate nohighlight">\(x_1\)</span> very slow. As a consequence, the iterates <strong>zig-zag</strong> across the narrow valley, and the number of iterations grows (proportionally to <span class="math notranslate nohighlight">\(\kappa\)</span>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ill-conditioning is one of the main issues when training Neural Networks, whose loss functions typically have directions with very different curvatures. As we will see in the last chapter, the <strong>Adam</strong> optimizer has been designed (also) to mitigate this problem. A simple way to improve the conditioning, as we will see, is to <strong>normalize</strong> the input data.</p>
+</div>
+</section>
+<section id="test-2-constant-step-size-vs-backtracking">
+<h3>Test 2: Constant step size vs. backtracking<a class="headerlink" href="#test-2-constant-step-size-vs-backtracking" title="Link to this heading">#</a></h3>
+<p>We now consider the <strong>Rosenbrock function</strong>, a classical (non-convex) benchmark for optimization algorithms:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = 100(x_2 - x_1^2)^2 + (1-x_1)^2,
+\]</div>
+<p>whose global minimum is <span class="math notranslate nohighlight">\(x^* = (1, 1)\)</span>, located at the bottom of a long, narrow, curved valley. Its gradient is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla f(x) = \begin{bmatrix} -400 x_1 (x_2 - x_1^2) - 2(1 - x_1) \\ 200 (x_2 - x_1^2) \end{bmatrix}.
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">400</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                     <span class="mi">200</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">x_const</span><span class="p">,</span> <span class="n">f_const</span><span class="p">,</span> <span class="n">g_const</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">x_back</span><span class="p">,</span> <span class="n">f_back</span><span class="p">,</span> <span class="n">g_back</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="s2">"backtracking"</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Constant step: x = </span><span class="si">{</span><span class="n">x_const</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, iterations = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x_const</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Backtracking:  x = </span><span class="si">{</span><span class="n">x_back</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, iterations = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x_back</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Constant step: x = [0.99888354 0.99776385], iterations = 15403
+Backtracking:  x = [1.00039244 1.00078739], iterations = 10012
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Trajectories</span>
+<span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">xx2</span> <span class="o">-</span> <span class="n">xx1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">xx1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_const</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_const</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Constant step"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_back</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_back</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Backtracking"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'k*'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$x^*$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Trajectories"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Objective function and gradient norm</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f_const</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Constant step"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f_back</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Backtracking"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$f(x_k)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"k"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">g_const</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Constant step"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">g_back</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Backtracking"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\|\nabla f(x_k)\|_2$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"k"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/22a6b10e0b2c072824315a31956fd36d932e42ed01665bfbf30144b953752bbd.png" src="../_images/22a6b10e0b2c072824315a31956fd36d932e42ed01665bfbf30144b953752bbd.png" />
+</div>
+</div>
+<p>Note that the objective function decreases monotonically, while the gradient norm does not: GD is only guaranteed to decrease <span class="math notranslate nohighlight">\(f\)</span>, not <span class="math notranslate nohighlight">\(\|\nabla f\|_2\)</span>. Moreover, backtracking allows to use much larger step sizes when the function is flat (at the bottom of the valley), resulting in a faster convergence, even if each iteration is more expensive.</p>
+</section>
+<section id="test-3-non-convexity-and-the-initial-iterate">
+<h3>Test 3: Non-convexity and the initial iterate<a class="headerlink" href="#test-3-non-convexity-and-the-initial-iterate" title="Link to this heading">#</a></h3>
+<p>Finally, consider the one-dimensional non-convex function</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = x^4 - 3x^2 + x,
+\]</div>
+<p>which has two local minima, only one of which is global. Let’s run GD from different initial iterates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span>
+<span class="n">grad_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x0</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]:</span>
+    <span class="n">x_hist</span><span class="p">,</span> <span class="n">f_hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x0</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_hist</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">f_hist</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"$x_0 = </span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">$ $</span><span class="se">\\</span><span class="s2">to$ $x^* = </span><span class="si">{</span><span class="n">x_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"GD on a non-convex function"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/80820bbbe6ac90cba981c9779c752e9c765d63be317c0dceb1aed8cdea47ec0e.png" src="../_images/80820bbbe6ac90cba981c9779c752e9c765d63be317c0dceb1aed8cdea47ec0e.png" />
+</div>
+</div>
+<p>As expected, depending on the initial iterate, GD converges to a different local minimum. For a Neural Network, this means that <strong>different random initializations lead to different trained networks</strong>. Luckily, it has been observed that, for large Neural Networks, most of the local minima have a similar (low) value of the loss, so this is less problematic than it may seem.</p>
+</section>
+</section>
+<section id="back-to-neural-networks-training-with-gradient-descent">
+<h2>Back to Neural Networks: training with Gradient Descent<a class="headerlink" href="#back-to-neural-networks-training-with-gradient-descent" title="Link to this heading">#</a></h2>
+<p>We are now ready to go back to the problem we left open at the end of the previous chapter: training the MLP classifier on the triangle dataset. Here, the optimization variable is <span class="math notranslate nohighlight">\(x = \Theta = \{ W^l, b^l \}_{l=1}^L\)</span>, the objective function is the Cross-Entropy loss <span class="math notranslate nohighlight">\(f = \mathcal{L}\)</span>, and its gradient is computed by backpropagation. The GD update reads:</p>
+<div class="math notranslate nohighlight">
+\[
+W^l \leftarrow W^l - \alpha \nabla_{W^l} \mathcal{L}(\Theta), \qquad b^l \leftarrow b^l - \alpha \nabla_{b^l} \mathcal{L}(\Theta), \qquad l = 1, \dots, L.
+\]</div>
+<p>We copy here the code from the previous chapter (expand the cell below to see it).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Code from the previous chapter ----</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">relu_prime</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sizes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n_in</span><span class="p">),</span> <span class="p">(</span><span class="n">n_out</span><span class="p">,</span> <span class="n">n_in</span><span class="p">))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_out</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">cache</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y_hat</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">))):</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+        <span class="n">H_prev</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">grads</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Delta</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">H_prev</span><span class="p">,</span> <span class="n">Delta</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">Delta</span> <span class="o">@</span> <span class="n">W</span><span class="p">)</span> <span class="o">*</span> <span class="n">relu_prime</span><span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">grads</span>
+
+<span class="c1"># ---- The triangle dataset ----</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">inside_triangle</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">x2</span> <span class="o">+</span> <span class="mf">0.7</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mf">1.7</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.7</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">inside_triangle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="n">y</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Since the parameters are stored as a list of <code class="docutils literal notranslate"><span class="pre">[W,</span> <span class="pre">b]</span></code> pairs, we write a GD training loop which updates each of them. At each iteration, we also store the loss and the accuracy on the training set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y_hat</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">train_gd</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="c1"># Forward and backward pass on the WHOLE dataset</span>
+        <span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+        <span class="c1"># GD update for each parameter</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">dW</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+            <span class="n">W</span> <span class="o">-=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">dW</span>
+            <span class="n">b</span> <span class="o">-=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">db</span>
+
+        <span class="n">loss_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+        <span class="n">acc_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">loss_hist</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">acc_hist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s train the network for different values of the step size <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]:</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span> <span class="o">=</span> <span class="n">train_gd</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">: final loss = </span><span class="si">{</span><span class="n">loss_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, final accuracy = </span><span class="si">{</span><span class="n">acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span>
+          <span class="sa">f</span><span class="s2">" (time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s)"</span><span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">loss_hist</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"$\alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">acc_hist</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"$\alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Training loss"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Training accuracy"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Iteration k"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.01: final loss = 0.1843, final accuracy = 92.70% (time: 0.47s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.1: final loss = 0.0262, final accuracy = 99.80% (time: 0.45s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.5: final loss = 0.0067, final accuracy = 100.00% (time: 0.45s)
+</pre></div>
+</div>
+<img alt="../_images/e7ed2472a604d58589f18fe47fbf5b2551006c35677d6826998208f2184be73b.png" src="../_images/e7ed2472a604d58589f18fe47fbf5b2551006c35677d6826998208f2184be73b.png" />
+</div>
+</div>
+<p>The behavior is exactly the one predicted by the theory: with a small step size, the loss decreases very slowly, while larger step sizes lead to faster convergence. Let’s look at the decision boundary learned by the network with the largest step size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">xx1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">xx2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">P_grid</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">P_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\mathbb</span><span class="si">{P}</span><span class="s2">(y = 1 \mid x)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Prediction of the trained network"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"$x_1$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/af2ede7fd8eacb46a46df1a62027fea306ce5bbf11659544eb624814bb21539c.png" src="../_images/af2ede7fd8eacb46a46df1a62027fea306ce5bbf11659544eb624814bb21539c.png" />
+</div>
+</div>
+<p>The network learned, by itself, to recognize the triangle, and we never told it that the region was a triangle!</p>
+</section>
+<section id="limitations-of-gradient-descent">
+<h2>Limitations of Gradient Descent<a class="headerlink" href="#limitations-of-gradient-descent" title="Link to this heading">#</a></h2>
+<p>Despite its simplicity and its nice theoretical properties, Gradient Descent has several drawbacks when applied to the training of Machine Learning models:</p>
+<ol class="arabic simple">
+<li><p><strong>Computationally expensive</strong>: computing the gradient requires a forward and a backward pass over the <strong>entire</strong> dataset at every iteration. Here, we used <span class="math notranslate nohighlight">\(N = 1000\)</span> datapoints in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>, but realistic datasets contain millions of high-dimensional datapoints.</p></li>
+<li><p><strong>Learning rate sensitivity</strong>: too small <span class="math notranslate nohighlight">\(\implies\)</span> slow convergence, too large <span class="math notranslate nohighlight">\(\implies\)</span> oscillations or divergence. Backtracking solves this issue, but it requires additional evaluations of the loss on the whole dataset.</p></li>
+<li><p><strong>Local minima, saddle points, and plateaus</strong> in non-convex landscapes.</p></li>
+<li><p><strong>Ill-conditioning</strong> causes slow progress and zig-zagging.</p></li>
+</ol>
+<p>The first limitation is, by far, the most important in practice, and it is the topic of the next chapter, where we introduce <strong>Stochastic Gradient Descent (SGD)</strong>.</p>
+<blockquote>
+<div><p><strong>Exercise:</strong> Repeat the training of the MLP on the triangle dataset with <span class="math notranslate nohighlight">\(N = 100, 1000, 10000, 100000\)</span> datapoints, measuring the time required for each iteration of GD. How does it scale with <span class="math notranslate nohighlight">\(N\)</span>?</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise:</strong> Implement a GD training loop for the MLP with backtracking. Compare the number of iterations and the total time required to reach a training loss of <span class="math notranslate nohighlight">\(10^{-1}\)</span> with the ones of the constant step size.</p>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../NN/from_ML_to_NN.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Neural Networks for Classification</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="SGD.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Stochastic Gradient Descent (SGD)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-problems">Optimization problems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-hessian-and-optimality-conditions">Gradient, Hessian and optimality conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient-is-the-direction-of-steepest-ascent">The gradient is the direction of steepest ascent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-conditions">Optimality conditions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient-descent-algorithm">The Gradient Descent algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-gradient-descent">Convergence of Gradient Descent</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-the-parameters">Selection of the parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-the-initial-iterate">Choice of the initial iterate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-size">Step size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backtracking">Backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping criteria</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-1-ill-conditioning">Test 1: Ill-conditioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-2-constant-step-size-vs-backtracking">Test 2: Constant step size vs. backtracking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-3-non-convexity-and-the-initial-iterate">Test 3: Non-convexity and the initial iterate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-neural-networks-training-with-gradient-descent">Back to Neural Networks: training with Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-gradient-descent">Limitations of Gradient Descent</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

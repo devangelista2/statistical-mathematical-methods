@@ -1,0 +1,1307 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Neural Networks for Classification &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NN/from_ML_to_NN';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Gradient Descent" href="../Optimization/GD.html" />
+    <link rel="prev" title="A (Very Short) Introduction to Machine Learning" href="intro_ML.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning and Neural Networks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Neural Networks for Classification</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Optimization/Adam.html">Adam and a Realistic Experiment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homework</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/homework.html">Homework</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FNN/from_ML_to_NN.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/NN/from_ML_to_NN.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Neural Networks for Classification</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-as-drawing-boundaries">Classification as drawing boundaries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-classifier-as-a-graph">A classifier as a graph</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-one-line-is-not-enough">When one line is not enough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-hand-made-to-learned-networks">From hand-made to learned networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multi-layer-perceptron-mlp">The Multi-Layer Perceptron (MLP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-output-layer-for-classification-the-softmax">The output layer for classification: the Softmax</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network-the-loss-function">Training the network: the loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation">Backpropagation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-scalar-example">A scalar example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-general-case">The general case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-batches-of-data">Working with batches of data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-from-scratch">Implementation from scratch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-gradient">Checking the gradient</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-we-are">Where we are</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="neural-networks-for-classification">
+<h1>Neural Networks for Classification<a class="headerlink" href="#neural-networks-for-classification" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we saw that a Machine Learning model is a parametric function <span class="math notranslate nohighlight">\(f_\Theta: \mathbb{R}^d \to \mathbb{R}^s\)</span>, and that linear models are often not expressive enough to describe the relationship between the input and the output. In this chapter, we introduce the most successful family of non-linear models: <strong>Neural Networks</strong>.</p>
+<p>There are many ways to introduce Neural Networks. Here, we will follow a <em>constructive</em> path: we will start from the problem of <strong>classification</strong>, and we will try to solve it by drawing a graph of very simple computational units. Step by step, we will see that this graph naturally becomes what is known as a <strong>Multi-Layer Perceptron (MLP)</strong>. Finally, we will ask ourselves <em>how</em> to choose the parameters of such a network, which will lead us to the definition of the <strong>loss function</strong> and to the computation of its gradient through the <strong>backpropagation</strong> algorithm.</p>
+<section id="classification-as-drawing-boundaries">
+<h2>Classification as drawing boundaries<a class="headerlink" href="#classification-as-drawing-boundaries" title="Link to this heading">#</a></h2>
+<p>Consider a binary classification problem with <span class="math notranslate nohighlight">\(d = 2\)</span> features, where each datapoint <span class="math notranslate nohighlight">\(x = (x_1, x_2) \in \mathbb{R}^2\)</span> belongs to one of two classes, <span class="math notranslate nohighlight">\(y \in \{0, 1\}\)</span>. As we already discussed, we can visualize such a dataset as a set of points in the plane, colored by their class.</p>
+<p><img alt="" src="../_images/classification1.png" /></p>
+<p>Solving the classification problem means finding a function <span class="math notranslate nohighlight">\(f_\Theta(x)\)</span> that outputs <span class="math notranslate nohighlight">\(1\)</span> when <span class="math notranslate nohighlight">\(x\)</span> belongs to the red class and <span class="math notranslate nohighlight">\(0\)</span> when <span class="math notranslate nohighlight">\(x\)</span> belongs to the blue class. Geometrically, this is equivalent to <strong>dividing the plane into two regions</strong>, one for each class. In the example above, it is clear that a <strong>straight line</strong> would do the job.</p>
+<p>A straight line in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> (or, more generally, a hyperplane in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>) can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+w^T x + b = w_1 x_1 + w_2 x_2 + b = 0,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(w \in \mathbb{R}^d\)</span> is a vector orthogonal to the line, and <span class="math notranslate nohighlight">\(b \in \mathbb{R}\)</span> is a shift. The line divides the space into two <strong>half-planes</strong>: the points where <span class="math notranslate nohighlight">\(w^T x + b &gt; 0\)</span> and the points where <span class="math notranslate nohighlight">\(w^T x + b &lt; 0\)</span>. Therefore, a very natural classifier is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f_\Theta(x) = H(w^T x + b), \qquad
+H(t) =
+\begin{cases}
+1 &amp; \text{if } t \geq 0, \\
+0 &amp; \text{if } t &lt; 0,
+\end{cases}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(H(t)\)</span> is the <strong>Heaviside (step) function</strong>, and the parameters of the model are <span class="math notranslate nohighlight">\(\Theta = \{ w, b \}\)</span>.</p>
+<p><img alt="" src="../_images/classification_2.png" /></p>
+<section id="a-classifier-as-a-graph">
+<h3>A classifier as a graph<a class="headerlink" href="#a-classifier-as-a-graph" title="Link to this heading">#</a></h3>
+<p>Let’s look at the classifier above from a different perspective. To compute <span class="math notranslate nohighlight">\(f_\Theta(x)\)</span>, we:</p>
+<ol class="arabic simple">
+<li><p>take each input feature <span class="math notranslate nohighlight">\(x_j\)</span>,</p></li>
+<li><p>multiply it by a <strong>weight</strong> <span class="math notranslate nohighlight">\(w_j\)</span>,</p></li>
+<li><p>sum all the results together with the <strong>bias</strong> <span class="math notranslate nohighlight">\(b\)</span>,</p></li>
+<li><p>apply a <strong>threshold</strong> (the function <span class="math notranslate nohighlight">\(H\)</span>) to decide whether the output is <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+</ol>
+<p>We can represent this sequence of operations as a <strong>graph</strong>, where each input feature is a node, each weight is an edge, and the sum-and-threshold operation is a new node, which “collects” the information coming from the inputs and “fires” a decision.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_network</span><span class="p">(</span><span class="n">layer_sizes</span><span class="p">,</span> <span class="n">layer_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">node_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Draws a fully-connected network as a graph.</span>
+<span class="sd">    layer_sizes: list of the number of nodes in each layer.</span>
+<span class="sd">    node_labels: list (one per layer) of lists of strings.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"#dae8fc"</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"#ffe6cc"</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layer_sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"#d5e8d4"</span><span class="p">]</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layer_sizes</span><span class="p">):</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">pos</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">])</span>
+    <span class="c1"># Edges</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layer_sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">l</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.32</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.32</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">edge_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">edge_labels</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="mf">0.35</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+                            <span class="n">edge_labels</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">)</span>
+    <span class="c1"># Nodes</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layer</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mf">0.32</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">node_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">node_labels</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">layer_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">pos</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">lab</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layer_labels</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">-</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">lab</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">autoscale_view</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ax</span>
+
+<span class="n">draw_network</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+             <span class="n">layer_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Input"</span><span class="p">,</span> <span class="s2">"Neuron"</span><span class="p">],</span>
+             <span class="n">node_labels</span><span class="o">=</span><span class="p">[[</span><span class="s2">"$x_1$"</span><span class="p">,</span> <span class="s2">"$x_2$"</span><span class="p">,</span> <span class="s2">"$x_3$"</span><span class="p">],</span> <span class="p">[</span><span class="sa">r</span><span class="s2">"$\Sigma, H$"</span><span class="p">]],</span>
+             <span class="n">edge_labels</span><span class="o">=</span><span class="p">[[[</span><span class="s2">"$w_1$"</span><span class="p">,</span> <span class="s2">"$w_2$"</span><span class="p">,</span> <span class="s2">"$w_3$"</span><span class="p">]]],</span>
+             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/2f28f310e02322d57783e67a1271e7c5d97a5c2b292e76085451b0dc9cb1aea6.png" src="../_images/2f28f310e02322d57783e67a1271e7c5d97a5c2b292e76085451b0dc9cb1aea6.png" />
+</div>
+</div>
+<p>This simple computational unit is called an <strong>artificial neuron</strong> (or <em>perceptron</em>), and it was introduced by Rosenblatt in 1958, inspired by an earlier model by McCulloch and Pitts (1943). The name comes from a (very rough) analogy with biological neurons: a neuron receives electrical signals from other neurons through its <em>dendrites</em>, sums them up and, if the total signal exceeds a certain threshold, it <em>fires</em> a signal through its <em>axon</em> to the next neurons.</p>
+<p>Mathematically, a neuron is just the composition of a linear (more precisely, <em>affine</em>) function and a scalar non-linear function <span class="math notranslate nohighlight">\(\rho: \mathbb{R} \to \mathbb{R}\)</span>, named <strong>activation function</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{neuron}(x) = \rho(w^T x + b).
+\]</div>
+<p>In our first example, <span class="math notranslate nohighlight">\(\rho = H\)</span>.</p>
+</section>
+</section>
+<section id="when-one-line-is-not-enough">
+<h2>When one line is not enough<a class="headerlink" href="#when-one-line-is-not-enough" title="Link to this heading">#</a></h2>
+<p>Unfortunately, most of the classification problems we are interested in cannot be solved by a single straight line. Consider for example the following dataset, where the points belonging to class <span class="math notranslate nohighlight">\(1\)</span> are the ones <em>inside</em> a triangle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate a dataset of points uniformly distributed in [-1.5, 1.5]^2</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Class 1 = points inside the triangle with vertices (0, 1), (-1, -0.7), (1, -0.7)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inside_triangle</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">x2</span> <span class="o">+</span> <span class="mf">0.7</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mf">1.7</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.7</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">inside_triangle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Class 0"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Class 1"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"$x_1$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"A non linearly separable dataset"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"upper right"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bb1b6461e30b94db92d34cd60f3680927af87d5f1d503a2a67733d61f50fa7fa.png" src="../_images/bb1b6461e30b94db92d34cd60f3680927af87d5f1d503a2a67733d61f50fa7fa.png" />
+</div>
+</div>
+<p>Clearly, there is no straight line separating the two classes. However, note that a point is inside the triangle <strong>if and only if</strong> it lies on the correct side of <strong>all three</strong> lines defining the edges of the triangle. In particular, <span class="math notranslate nohighlight">\(x\)</span> is inside the triangle if and only if:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+x_2 + 0.7 \geq 0 &amp; \text{(above the bottom edge)}, \\
+1.7 x_1 - x_2 + 1 \geq 0 &amp; \text{(right of the left edge)}, \\
+-1.7 x_1 - x_2 + 1 \geq 0 &amp; \text{(left of the right edge)}.
+\end{cases}
+\end{split}\]</div>
+<p>Each of these conditions is exactly what a single neuron can check! Therefore, we can use <strong>three neurons</strong>, each of them responsible for one edge of the triangle:</p>
+<div class="math notranslate nohighlight">
+\[
+h_j = H(w_j^T x + b_j), \qquad j = 1, 2, 3,
+\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+w_1 = \begin{bmatrix} 0 \\ 1 \end{bmatrix}, \; b_1 = 0.7, \qquad
+w_2 = \begin{bmatrix} 1.7 \\ -1 \end{bmatrix}, \; b_2 = 1, \qquad
+w_3 = \begin{bmatrix} -1.7 \\ -1 \end{bmatrix}, \; b_3 = 1.
+\end{split}\]</div>
+<p>Then, we need to combine the three answers <span class="math notranslate nohighlight">\(h_1, h_2, h_3 \in \{0, 1\}\)</span> into a single decision: the point is inside the triangle if <span class="math notranslate nohighlight">\(h_1 = h_2 = h_3 = 1\)</span> (a logical <strong>AND</strong>). But note that the AND of three binary values can be computed by… another neuron! Indeed,</p>
+<div class="math notranslate nohighlight">
+\[
+h_1 \text{ AND } h_2 \text{ AND } h_3 = H(h_1 + h_2 + h_3 - 2.5),
+\]</div>
+<p>since <span class="math notranslate nohighlight">\(h_1 + h_2 + h_3 - 2.5 \geq 0\)</span> if and only if all the <span class="math notranslate nohighlight">\(h_j\)</span> are equal to <span class="math notranslate nohighlight">\(1\)</span>. Putting everything together, we obtained a classifier made of <strong>two layers</strong> of neurons:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_network</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+             <span class="n">layer_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Input"</span><span class="p">,</span> <span class="s2">"Hidden layer</span><span class="se">\n</span><span class="s2">(one neuron per edge)"</span><span class="p">,</span> <span class="s2">"Output</span><span class="se">\n</span><span class="s2">(AND)"</span><span class="p">],</span>
+             <span class="n">node_labels</span><span class="o">=</span><span class="p">[[</span><span class="s2">"$x_1$"</span><span class="p">,</span> <span class="s2">"$x_2$"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"$h_1$"</span><span class="p">,</span> <span class="s2">"$h_2$"</span><span class="p">,</span> <span class="s2">"$h_3$"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"$</span><span class="se">\\</span><span class="s2">hat</span><span class="si">{y}</span><span class="s2">$"</span><span class="p">]],</span>
+             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/52dd42967a38ad98c628c976b745de597df59fdbb275583efb1d9cad33bdbb55.png" src="../_images/52dd42967a38ad98c628c976b745de597df59fdbb275583efb1d9cad33bdbb55.png" />
+</div>
+</div>
+<p>Let’s implement it, and let’s check that it correctly classifies our dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">heaviside</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># First layer: one row of W1 for each neuron (i.e. for each edge of the triangle)</span>
+<span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+               <span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">1.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]])</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="c1"># Second layer: AND of the three hidden neurons</span>
+<span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">2.5</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">hand_made_network</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">heaviside</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">W1</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>     <span class="c1"># shape (N, 3)</span>
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">heaviside</span><span class="p">(</span><span class="n">h</span> <span class="o">@</span> <span class="n">W2</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span> <span class="c1"># shape (N, 1)</span>
+    <span class="k">return</span> <span class="n">h</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">h</span><span class="p">,</span> <span class="n">y_hat</span> <span class="o">=</span> <span class="n">hand_made_network</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy of the hand-made network: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_hat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy of the hand-made network: 100.00%
+</pre></div>
+</div>
+</div>
+</div>
+<p>It works perfectly! To better understand what is going on, let’s visualize the region of the plane where each hidden neuron outputs <span class="math notranslate nohighlight">\(1\)</span>, together with the final output of the network.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">xx1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">xx2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">h_grid</span><span class="p">,</span> <span class="n">y_grid</span> <span class="o">=</span> <span class="n">hand_made_network</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">h_grid</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span>
+                     <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"white"</span><span class="p">,</span> <span class="s2">"tab:orange"</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Neuron $h_</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">y_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span>
+                 <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"white"</span><span class="p">,</span> <span class="s2">"tab:green"</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:orange"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Output $\hat</span><span class="si">{y}</span><span class="s2">$ (AND)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$x_1$"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/3b8096481114b2af176f3d0b329fd785d5b57cc762bebc4f8b742c1e564fb497.png" src="../_images/3b8096481114b2af176f3d0b329fd785d5b57cc762bebc4f8b742c1e564fb497.png" />
+</div>
+</div>
+<p>This simple example contains the fundamental idea of Neural Networks:</p>
+<blockquote>
+<div><p>Each neuron solves a <strong>very simple</strong> problem (in our case: “on which side of a line is the point?”). By <strong>composing</strong> many simple neurons in a graph, we can solve <strong>complex</strong> problems.</p>
+</div></blockquote>
+<p>In particular:</p>
+<ul class="simple">
+<li><p>With <span class="math notranslate nohighlight">\(n\)</span> neurons in the hidden layer followed by an AND neuron, we can represent <strong>any convex polygon</strong> with <span class="math notranslate nohighlight">\(n\)</span> edges.</p></li>
+<li><p>With an additional layer, we can compute the <strong>OR</strong> of multiple polygons (try to write the OR neuron by yourself!), and therefore represent <strong>any union of polygons</strong>, which can approximate any region of the plane as accurately as we want.</p></li>
+</ul>
+<p>This intuition can be made rigorous: it is known as the <strong>Universal Approximation Theorem</strong>, which states (informally) that a Neural Network with at least one hidden layer and enough neurons can approximate any continuous function to an arbitrary accuracy.</p>
+<blockquote>
+<div><p><strong>Exercise:</strong> Design by hand a Neural Network with Heaviside activations solving the <strong>XOR</strong> problem, i.e. classifying as <span class="math notranslate nohighlight">\(1\)</span> the points <span class="math notranslate nohighlight">\(x \in \mathbb{R}^2\)</span> such that <span class="math notranslate nohighlight">\(x_1 x_2 &lt; 0\)</span> (second and fourth quadrant), and as <span class="math notranslate nohighlight">\(0\)</span> the others. <em>Hint:</em> the XOR can be written as <span class="math notranslate nohighlight">\((A \text{ OR } B) \text{ AND NOT } (A \text{ AND } B)\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="from-hand-made-to-learned-networks">
+<h2>From hand-made to learned networks<a class="headerlink" href="#from-hand-made-to-learned-networks" title="Link to this heading">#</a></h2>
+<p>In the previous example, we designed the network <strong>by hand</strong>, choosing the weights by looking at the data. Of course, this is impossible in realistic applications: think of classifying images of <span class="math notranslate nohighlight">\(28 \times 28\)</span> pixels, where each datapoint lives in <span class="math notranslate nohighlight">\(\mathbb{R}^{784}\)</span>, and we do not even know what “the right lines” are.</p>
+<p>Therefore, we want the network to <strong>learn</strong> the weights directly from the data. As discussed in the previous chapter, this is done by minimizing a loss function <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> which measures how wrong the predictions are. Since we will minimize it with gradient-based algorithms, we need <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> to be <strong>differentiable</strong> with respect to <span class="math notranslate nohighlight">\(\Theta\)</span>.</p>
+<p>Here comes the problem: the Heaviside function is constant almost everywhere, and therefore its derivative is <span class="math notranslate nohighlight">\(H'(t) = 0\)</span> for any <span class="math notranslate nohighlight">\(t \neq 0\)</span> (and it is not defined in <span class="math notranslate nohighlight">\(t = 0\)</span>). In other words, an infinitesimal change in the weights does not change the output of the network, and the gradient does not give any information on how to improve the weights.</p>
+<p>The solution is to replace <span class="math notranslate nohighlight">\(H\)</span> with a <strong>smooth</strong> (or at least <em>almost everywhere differentiable</em>) activation function, which behaves similarly but has an informative derivative. The most common choices are:</p>
+<ul class="simple">
+<li><p><strong>Sigmoid</strong>: <span class="math notranslate nohighlight">\(\sigma(t) = \frac{1}{1 + e^{-t}}\)</span>, a smooth version of the step function, with <span class="math notranslate nohighlight">\(\sigma'(t) = \sigma(t)(1 - \sigma(t))\)</span>.</p></li>
+<li><p><strong>Hyperbolic tangent</strong>: <span class="math notranslate nohighlight">\(\tanh(t) = \frac{e^t - e^{-t}}{e^t + e^{-t}}\)</span>, similar to the sigmoid but with values in <span class="math notranslate nohighlight">\((-1, 1)\)</span>, with <span class="math notranslate nohighlight">\(\tanh'(t) = 1 - \tanh^2(t)\)</span>.</p></li>
+<li><p><strong>ReLU</strong> (Rectified Linear Unit): <span class="math notranslate nohighlight">\(\mathrm{ReLU}(t) = \max(0, t)\)</span>, with <span class="math notranslate nohighlight">\(\mathrm{ReLU}'(t) = 1\)</span> if <span class="math notranslate nohighlight">\(t &gt; 0\)</span> and <span class="math notranslate nohighlight">\(0\)</span> if <span class="math notranslate nohighlight">\(t &lt; 0\)</span>.</p></li>
+</ul>
+<p><img alt="" src="../_images/sigmoid.svg" /></p>
+<p>The ReLU is, by far, the most used activation function in modern Neural Networks for the hidden layers, since it is extremely cheap to compute, and its derivative does not vanish for large positive inputs (contrary to the sigmoid and the tanh, whose derivatives go to zero when <span class="math notranslate nohighlight">\(|t| \to \infty\)</span>, a phenomenon known as <strong>saturation</strong>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+<span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">heaviside</span><span class="p">(</span><span class="n">tt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Heaviside $H(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">tt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"Sigmoid $\sigma(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">tt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\tanh(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">relu</span><span class="p">(</span><span class="n">tt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"ReLU$(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Activation functions"</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">tt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$H'(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">tt</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\sigma'(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\tanh'(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">heaviside</span><span class="p">(</span><span class="n">tt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"ReLU$'(t)$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Their derivatives"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"t"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b2f2a944211ec60c5f43c30fde52d39a5472769e7d42abb6d40563efc12fff74.png" src="../_images/b2f2a944211ec60c5f43c30fde52d39a5472769e7d42abb6d40563efc12fff74.png" />
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A single neuron with sigmoid activation, <span class="math notranslate nohighlight">\(f_\Theta(x) = \sigma(w^T x + b)\)</span>, is a well-known classifier named <strong>Logistic Regression</strong>. Its output lies in <span class="math notranslate nohighlight">\((0, 1)\)</span> and is interpreted as the probability that <span class="math notranslate nohighlight">\(x\)</span> belongs to class <span class="math notranslate nohighlight">\(1\)</span>, i.e. <span class="math notranslate nohighlight">\(f_\Theta(x) = \mathbb{P}(y = 1 \mid x)\)</span>. Neural Networks can be thought as many logistic regressions stacked together.</p>
+</div>
+</section>
+<section id="the-multi-layer-perceptron-mlp">
+<h2>The Multi-Layer Perceptron (MLP)<a class="headerlink" href="#the-multi-layer-perceptron-mlp" title="Link to this heading">#</a></h2>
+<p>We are now ready to give the general definition. A <strong>Multi-Layer Perceptron (MLP)</strong> (also called <em>fully-connected</em> or <em>dense</em> Neural Network) is a function <span class="math notranslate nohighlight">\(f_\Theta: \mathbb{R}^d \to \mathbb{R}^s\)</span> obtained by stacking <span class="math notranslate nohighlight">\(L\)</span> <strong>layers</strong> of neurons, where each neuron of a layer receives as input the outputs of <strong>all</strong> the neurons of the previous layer.</p>
+<p><img alt="" src="../_images/NN.png" /></p>
+<p>Let <span class="math notranslate nohighlight">\(n_0 = d, n_1, \dots, n_{L-1}, n_L = s\)</span> be the number of neurons in each layer (also called the <strong>width</strong> of the layer). Then, by grouping the weights <span class="math notranslate nohighlight">\(w_j\)</span> of all the neurons in the <span class="math notranslate nohighlight">\(l\)</span>-th layer as the rows of a matrix <span class="math notranslate nohighlight">\(W^l \in \mathbb{R}^{n_l \times n_{l-1}}\)</span> and their biases in a vector <span class="math notranslate nohighlight">\(b^l \in \mathbb{R}^{n_l}\)</span>, the MLP is defined recursively as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+h^0 &amp;= x, \\
+z^l &amp;= W^l h^{l-1} + b^l, \qquad &amp;l = 1, \dots, L, \\
+h^l &amp;= \rho(z^l), \qquad &amp;l = 1, \dots, L-1, \\
+f_\Theta(x) &amp;= z^L,
+\end{aligned}
+\end{split}\]</div>
+<p>where the activation function <span class="math notranslate nohighlight">\(\rho\)</span> is applied <strong>element-wise</strong>. The vectors <span class="math notranslate nohighlight">\(z^l\)</span> are called <strong>pre-activations</strong>, while the vectors <span class="math notranslate nohighlight">\(h^l\)</span> are called <strong>activations</strong> (or <em>hidden features</em>). The layers <span class="math notranslate nohighlight">\(1, \dots, L-1\)</span> are named <strong>hidden layers</strong>, while the layer <span class="math notranslate nohighlight">\(L\)</span> is the <strong>output layer</strong>. The parameters of the network are</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta = \{ W^1, b^1, W^2, b^2, \dots, W^L, b^L \},
+\]</div>
+<p>and their total number is <span class="math notranslate nohighlight">\(\sum_{l=1}^L n_l (n_{l-1} + 1)\)</span>.</p>
+<p>In other words, an MLP is the <strong>composition</strong> of <span class="math notranslate nohighlight">\(L\)</span> affine functions, interleaved by element-wise non-linearities:</p>
+<div class="math notranslate nohighlight">
+\[
+f_\Theta(x) = W^L \rho\Big( W^{L-1} \rho\big( \cdots \rho(W^1 x + b^1) \cdots \big) + b^{L-1} \Big) + b^L.
+\]</div>
+<p>The number of layers <span class="math notranslate nohighlight">\(L\)</span> is called the <strong>depth</strong> of the network: when <span class="math notranslate nohighlight">\(L\)</span> is large, we talk about <strong>Deep Learning</strong>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The non-linearity <span class="math notranslate nohighlight">\(\rho\)</span> is <strong>fundamental</strong>. Indeed, if <span class="math notranslate nohighlight">\(\rho(t) = t\)</span>, then the composition of affine functions is again an affine function, and the MLP would collapse into a simple linear model <span class="math notranslate nohighlight">\(f_\Theta(x) = Wx + b\)</span>, no matter how many layers we use.</p>
+</div>
+<blockquote>
+<div><p><strong>Exercise:</strong> Compute the number of parameters of an MLP with input dimension <span class="math notranslate nohighlight">\(d = 784\)</span>, two hidden layers with <span class="math notranslate nohighlight">\(n_1 = n_2 = 128\)</span> neurons, and output dimension <span class="math notranslate nohighlight">\(s = 10\)</span>.</p>
+</div></blockquote>
+<section id="the-output-layer-for-classification-the-softmax">
+<h3>The output layer for classification: the Softmax<a class="headerlink" href="#the-output-layer-for-classification-the-softmax" title="Link to this heading">#</a></h3>
+<p>For a classification problem with <span class="math notranslate nohighlight">\(K\)</span> classes, we set the output dimension to <span class="math notranslate nohighlight">\(s = K\)</span>, so that the network outputs a vector <span class="math notranslate nohighlight">\(z^L \in \mathbb{R}^K\)</span>, whose elements are usually called <strong>logits</strong>. As anticipated in the previous chapter, we want to interpret the output of the network as the <strong>probability</strong> of each class. However, the logits are arbitrary real numbers, and therefore they cannot be directly interpreted as probabilities.</p>
+<p>To convert them into a probability vector (i.e. a vector with non-negative entries summing up to one), we apply the <strong>Softmax</strong> function:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y} = \mathrm{softmax}(z^L), \qquad \hat{y}_k = \frac{e^{z^L_k}}{\sum_{j=1}^K e^{z^L_j}}, \quad k = 1, \dots, K.
+\]</div>
+<p>It is easy to check that <span class="math notranslate nohighlight">\(\hat{y}_k \in (0, 1)\)</span> for any <span class="math notranslate nohighlight">\(k\)</span> and that <span class="math notranslate nohighlight">\(\sum_{k=1}^K \hat{y}_k = 1\)</span>. Moreover, the Softmax preserves the ordering of the logits: the largest logit corresponds to the largest probability. Therefore, we interpret</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_k = \mathbb{P}(y = k \mid x; \Theta),
+\]</div>
+<p>and the <strong>predicted class</strong> is the one with the highest probability:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{c}(x) = \arg\max_{k = 1, \dots, K} \hat{y}_k.
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For <span class="math notranslate nohighlight">\(K = 2\)</span>, the Softmax reduces to the sigmoid. Indeed, <span class="math notranslate nohighlight">\(\hat{y}_1 = \frac{e^{z_1}}{e^{z_1} + e^{z_2}} = \frac{1}{1 + e^{-(z_1 - z_2)}} = \sigma(z_1 - z_2)\)</span>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When implementing the Softmax, computing <span class="math notranslate nohighlight">\(e^{z_k}\)</span> for large values of <span class="math notranslate nohighlight">\(z_k\)</span> easily leads to <strong>overflow</strong>. Since <span class="math notranslate nohighlight">\(\mathrm{softmax}(z) = \mathrm{softmax}(z - c)\)</span> for any constant <span class="math notranslate nohighlight">\(c \in \mathbb{R}\)</span> (check it!), we always subtract the maximum logit before taking the exponential, i.e. we compute <span class="math notranslate nohighlight">\(\mathrm{softmax}(z - \max_j z_j)\)</span>.</p>
+</div>
+</section>
+</section>
+<section id="training-the-network-the-loss-function">
+<h2>Training the network: the loss function<a class="headerlink" href="#training-the-network-the-loss-function" title="Link to this heading">#</a></h2>
+<p>We now have a model <span class="math notranslate nohighlight">\(f_\Theta(x)\)</span> whose output, after the Softmax, is a probability vector <span class="math notranslate nohighlight">\(\hat{y} \in \mathbb{R}^K\)</span>. Given a training set <span class="math notranslate nohighlight">\(\mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N\)</span>, where the labels are <strong>one-hot encoded</strong>, i.e. <span class="math notranslate nohighlight">\(y^{(i)} = e_{c^{(i)}} \in \mathbb{R}^K\)</span> if <span class="math notranslate nohighlight">\(x^{(i)}\)</span> belongs to class <span class="math notranslate nohighlight">\(c^{(i)}\)</span>, we need to define a loss function measuring how far the predicted probabilities are from the true labels.</p>
+<p>The standard choice comes from Statistics, and it is based on the <strong>Maximum Likelihood</strong> principle: we want to choose <span class="math notranslate nohighlight">\(\Theta\)</span> such that the probability that the model assigns to the true labels is as large as possible. For a single datapoint <span class="math notranslate nohighlight">\((x, y)\)</span> with <span class="math notranslate nohighlight">\(y = e_c\)</span>, the probability assigned by the model to the true class is <span class="math notranslate nohighlight">\(\hat{y}_c\)</span>. Assuming the datapoints are independent, the likelihood of the whole dataset is</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_{i=1}^N \hat{y}^{(i)}_{c^{(i)}}.
+\]</div>
+<p>Maximizing the likelihood is equivalent to minimizing the <strong>negative log-likelihood</strong> (since the logarithm is monotone and it turns products into sums), which, normalized by <span class="math notranslate nohighlight">\(N\)</span>, reads:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta) = -\frac{1}{N} \sum_{i=1}^N \log \hat{y}^{(i)}_{c^{(i)}} = \frac{1}{N} \sum_{i=1}^N \underbrace{\left( - \sum_{k=1}^K y^{(i)}_k \log \hat{y}^{(i)}_k \right)}_{=: \ell(\Theta; x^{(i)}, y^{(i)})},
+\]</div>
+<p>where we used that <span class="math notranslate nohighlight">\(y^{(i)}_k = 1\)</span> if <span class="math notranslate nohighlight">\(k = c^{(i)}\)</span> and <span class="math notranslate nohighlight">\(0\)</span> otherwise. The function <span class="math notranslate nohighlight">\(\ell(\Theta; x, y) = - \sum_{k=1}^K y_k \log \hat{y}_k\)</span> is called <strong>Cross-Entropy</strong> loss.</p>
+<p>Intuitively, the Cross-Entropy is <span class="math notranslate nohighlight">\(0\)</span> if the network assigns probability <span class="math notranslate nohighlight">\(1\)</span> to the correct class, and it goes to <span class="math notranslate nohighlight">\(+\infty\)</span> when the probability assigned to the correct class goes to <span class="math notranslate nohighlight">\(0\)</span>. Thus, it heavily penalizes <strong>confident wrong</strong> predictions.</p>
+<p>The <strong>training problem</strong> of our Neural Network classifier is therefore:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^* = \arg\min_\Theta \mathcal{L}(\Theta) = \arg\min_\Theta \frac{1}{N} \sum_{i=1}^N \ell(\Theta; x^{(i)}, y^{(i)}).
+\]</div>
+<p>This is a <strong>non-convex</strong> optimization problem (we will define what this means in the next chapter) in a possibly huge number of variables, which cannot be solved analytically. As we will see, the algorithms to solve it (Gradient Descent and its variants) only require the computation of the <strong>gradient</strong> <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta)\)</span>. Since the gradient is linear,</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta) = \frac{1}{N} \sum_{i=1}^N \nabla_\Theta \ell(\Theta; x^{(i)}, y^{(i)}),
+\]</div>
+<p>it is sufficient to compute the gradient of the loss on a <strong>single datapoint</strong>, <span class="math notranslate nohighlight">\(\nabla_\Theta \ell(\Theta; x, y)\)</span>. This is exactly what the backpropagation algorithm does.</p>
+</section>
+<section id="backpropagation">
+<h2>Backpropagation<a class="headerlink" href="#backpropagation" title="Link to this heading">#</a></h2>
+<p>Computing the gradient of a Neural Network may look scary, since the network is a composition of many functions, and its parameters are spread across many layers. However, it all reduces to a careful application of the <strong>chain rule</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d}{dt} f(g(t)) = f'(g(t)) \, g'(t).
+\]</div>
+<section id="a-scalar-example">
+<h3>A scalar example<a class="headerlink" href="#a-scalar-example" title="Link to this heading">#</a></h3>
+<p>To understand the idea, consider a tiny network with a single input <span class="math notranslate nohighlight">\(x \in \mathbb{R}\)</span>, a single hidden neuron and a single output, trained with the squared error:</p>
+<div class="math notranslate nohighlight">
+\[
+z^1 = w^1 x + b^1, \qquad h^1 = \rho(z^1), \qquad z^2 = w^2 h^1 + b^2, \qquad \ell = \frac{1}{2}(z^2 - y)^2.
+\]</div>
+<p>We can visualize this computation as a <strong>computational graph</strong>, where each node is an intermediate value and each edge is an elementary operation:</p>
+<div class="math notranslate nohighlight">
+\[
+x \xrightarrow{\; w^1, b^1 \;} z^1 \xrightarrow{\; \rho \;} h^1 \xrightarrow{\; w^2, b^2 \;} z^2 \xrightarrow{\; \ell \;} \ell(\Theta; x, y).
+\]</div>
+<p>To compute the derivative of <span class="math notranslate nohighlight">\(\ell\)</span> with respect to each parameter, we go through the graph <strong>backward</strong>, from the loss to the input, reusing the derivatives already computed:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial \ell}{\partial z^2} &amp;= z^2 - y =: \delta^2, \\
+\frac{\partial \ell}{\partial w^2} &amp;= \frac{\partial \ell}{\partial z^2} \frac{\partial z^2}{\partial w^2} = \delta^2 h^1, \qquad
+\frac{\partial \ell}{\partial b^2} = \delta^2, \\
+\frac{\partial \ell}{\partial z^1} &amp;= \frac{\partial \ell}{\partial z^2} \frac{\partial z^2}{\partial h^1} \frac{\partial h^1}{\partial z^1} = \delta^2 w^2 \rho'(z^1) =: \delta^1, \\
+\frac{\partial \ell}{\partial w^1} &amp;= \frac{\partial \ell}{\partial z^1} \frac{\partial z^1}{\partial w^1} = \delta^1 x, \qquad
+\frac{\partial \ell}{\partial b^1} = \delta^1.
+\end{aligned}
+\end{split}\]</div>
+<p>Note two important facts:</p>
+<ol class="arabic simple">
+<li><p>To compute the derivatives, we need the intermediate values <span class="math notranslate nohighlight">\(z^1, h^1, z^2\)</span>. Those are computed and <strong>stored</strong> during the evaluation of the network, which is called <strong>forward pass</strong>.</p></li>
+<li><p>The quantity <span class="math notranslate nohighlight">\(\delta^l = \partial \ell / \partial z^l\)</span> (sometimes called the <em>error signal</em> of layer <span class="math notranslate nohighlight">\(l\)</span>) is computed from <span class="math notranslate nohighlight">\(\delta^{l+1}\)</span> by multiplying by the derivative of the layer. The error <strong>propagates backward</strong> through the network, from which the name <strong>backpropagation</strong> (or <strong>backward pass</strong>).</p></li>
+</ol>
+</section>
+<section id="the-general-case">
+<h3>The general case<a class="headerlink" href="#the-general-case" title="Link to this heading">#</a></h3>
+<p>The very same procedure works for an MLP of any depth and width. Define the error signal of the <span class="math notranslate nohighlight">\(l\)</span>-th layer as the gradient of the loss with respect to the pre-activation <span class="math notranslate nohighlight">\(z^l\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta^l := \nabla_{z^l} \ell \in \mathbb{R}^{n_l}.
+\]</div>
+<p><strong>Output layer.</strong> For the Softmax + Cross-Entropy, a direct computation (see the exercise below) shows that the error signal of the last layer has an extremely simple form:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta^L = \nabla_{z^L} \ell = \hat{y} - y,
+\]</div>
+<p>i.e. it is just the difference between the predicted probabilities and the one-hot encoded label.</p>
+<p><strong>Gradient with respect to the parameters.</strong> Since <span class="math notranslate nohighlight">\(z^l = W^l h^{l-1} + b^l\)</span>, i.e. <span class="math notranslate nohighlight">\(z^l_i = \sum_j W^l_{ij} h^{l-1}_j + b^l_i\)</span>, by the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial W^l_{ij}} = \delta^l_i \, h^{l-1}_j, \qquad \frac{\partial \ell}{\partial b^l_i} = \delta^l_i,
+\]</div>
+<p>which, in matrix form, reads:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_{W^l} \ell = \delta^l (h^{l-1})^T \in \mathbb{R}^{n_l \times n_{l-1}}, \qquad \nabla_{b^l} \ell = \delta^l \in \mathbb{R}^{n_l}.
+\]</div>
+<p><strong>From layer <span class="math notranslate nohighlight">\(l\)</span> to layer <span class="math notranslate nohighlight">\(l-1\)</span>.</strong> Since <span class="math notranslate nohighlight">\(z^l = W^l \rho(z^{l-1}) + b^l\)</span>, by the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta^{l-1} = \left( (W^l)^T \delta^l \right) \odot \rho'(z^{l-1}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\odot\)</span> denotes the element-wise (Hadamard) product.</p>
+<p>Summing up, the gradient of the loss with respect to all the parameters of the network is computed by the following algorithm.</p>
+<p><strong>Backpropagation algorithm</strong></p>
+<p><strong>Input</strong>: a datapoint <span class="math notranslate nohighlight">\((x, y)\)</span>, the parameters <span class="math notranslate nohighlight">\(\Theta = \{ W^l, b^l \}_{l=1}^L\)</span>.</p>
+<ol class="arabic simple">
+<li><p><strong>Forward pass</strong>: set <span class="math notranslate nohighlight">\(h^0 = x\)</span> and, for <span class="math notranslate nohighlight">\(l = 1, \dots, L\)</span>, compute and store <span class="math notranslate nohighlight">\(z^l = W^l h^{l-1} + b^l\)</span> and <span class="math notranslate nohighlight">\(h^l = \rho(z^l)\)</span> (with <span class="math notranslate nohighlight">\(\hat{y} = \mathrm{softmax}(z^L)\)</span> for the last layer).</p></li>
+<li><p><strong>Backward pass</strong>: set <span class="math notranslate nohighlight">\(\delta^L = \hat{y} - y\)</span> and, for <span class="math notranslate nohighlight">\(l = L, L-1, \dots, 1\)</span>:</p>
+<ul class="simple">
+<li><p>compute <span class="math notranslate nohighlight">\(\nabla_{W^l} \ell = \delta^l (h^{l-1})^T\)</span> and <span class="math notranslate nohighlight">\(\nabla_{b^l} \ell = \delta^l\)</span>,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(l &gt; 1\)</span>, compute <span class="math notranslate nohighlight">\(\delta^{l-1} = \left( (W^l)^T \delta^l \right) \odot \rho'(z^{l-1})\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Output</strong>: <span class="math notranslate nohighlight">\(\nabla_\Theta \ell = \{ \nabla_{W^l} \ell, \nabla_{b^l} \ell \}_{l=1}^L\)</span>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The cost of the backward pass is roughly the same as the cost of the forward pass (about twice, in practice). On the contrary, approximating the gradient by finite differences, <span class="math notranslate nohighlight">\(\frac{\partial \ell}{\partial \Theta_j} \approx \frac{\ell(\Theta + \epsilon e_j) - \ell(\Theta)}{\epsilon}\)</span>, would require <strong>one forward pass for each parameter</strong>, which is unfeasible for networks with millions of parameters. Backpropagation is what makes the training of Neural Networks possible, and it is exactly what libraries such as PyTorch and TensorFlow do automatically (under the name of <strong>automatic differentiation</strong>).</p>
+</div>
+<blockquote>
+<div><p><strong>Exercise:</strong> Prove that, for <span class="math notranslate nohighlight">\(\hat{y} = \mathrm{softmax}(z)\)</span> and <span class="math notranslate nohighlight">\(\ell = -\sum_{k=1}^K y_k \log \hat{y}_k\)</span> with <span class="math notranslate nohighlight">\(y\)</span> one-hot encoded, it holds <span class="math notranslate nohighlight">\(\nabla_z \ell = \hat{y} - y\)</span>. <em>Hint:</em> first show that <span class="math notranslate nohighlight">\(\frac{\partial \hat{y}_k}{\partial z_j} = \hat{y}_k (\mathbb{1}\{k = j\} - \hat{y}_j)\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="working-with-batches-of-data">
+<h3>Working with batches of data<a class="headerlink" href="#working-with-batches-of-data" title="Link to this heading">#</a></h3>
+<p>In practice, we never process one datapoint at a time. Instead, we stack many datapoints as the <strong>rows</strong> of a matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{N \times d}\)</span> (as discussed in the previous chapter), and we process all of them together with matrix-matrix products, which are much more efficient than a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop over the datapoints. With this convention, the forward pass of the <span class="math notranslate nohighlight">\(l\)</span>-th layer reads</p>
+<div class="math notranslate nohighlight">
+\[
+Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad H^l = \rho(Z^l),
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(i\)</span>-th row of <span class="math notranslate nohighlight">\(Z^l\)</span> and <span class="math notranslate nohighlight">\(H^l\)</span> are the pre-activation and the activation of the <span class="math notranslate nohighlight">\(i\)</span>-th datapoint. Similarly, by stacking the error signals <span class="math notranslate nohighlight">\(\delta^{l, (i)}\)</span> of each datapoint as the rows of a matrix <span class="math notranslate nohighlight">\(\Delta^l \in \mathbb{R}^{N \times n_l}\)</span>, the gradient of the <strong>average</strong> loss <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta) = \frac{1}{N} \sum_{i=1}^N \ell(\Theta; x^{(i)}, y^{(i)})\)</span> becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_{W^l} \mathcal{L} = \frac{1}{N} \sum_{i=1}^N \delta^{l, (i)} (h^{l-1, (i)})^T = \frac{1}{N} (\Delta^l)^T H^{l-1}, \qquad
+\nabla_{b^l} \mathcal{L} = \frac{1}{N} (\Delta^l)^T \mathbf{1},
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta^{l-1} = (\Delta^l W^l) \odot \rho'(Z^{l-1}).
+\]</div>
+</section>
+<section id="implementation-from-scratch">
+<h3>Implementation from scratch<a class="headerlink" href="#implementation-from-scratch" title="Link to this heading">#</a></h3>
+<p>We now have all the ingredients to implement an MLP classifier (with ReLU activation on the hidden layers) from scratch, using only <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. We store the parameters as a list of pairs <code class="docutils literal notranslate"><span class="pre">[W,</span> <span class="pre">b]</span></code>, one for each layer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The parameters are initialized <strong>randomly</strong>: if all the weights were initialized to the same value, all the neurons of a layer would compute the same function and receive the same gradient, and they would remain identical forever. A common choice for ReLU networks is the so-called <strong>He initialization</strong>, where the entries of <span class="math notranslate nohighlight">\(W^l\)</span> are sampled from <span class="math notranslate nohighlight">\(\mathcal{N}(0, 2 / n_{l-1})\)</span>, which keeps the magnitude of the activations approximately constant across the layers.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">relu_prime</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># For numerical stability</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    sizes: list [n_0, n_1, ..., n_L] with the width of each layer.</span>
+<span class="sd">    Returns a list of [W, b] pairs, with W of shape (n_l, n_{l-1}).</span>
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sizes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n_in</span><span class="p">),</span> <span class="p">(</span><span class="n">n_out</span><span class="p">,</span> <span class="n">n_in</span><span class="p">))</span>  <span class="c1"># He initialization</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_out</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Forward pass. X has shape (N, d).</span>
+<span class="sd">    Returns the predicted probabilities Y_hat (N, K), and the list of</span>
+<span class="sd">    intermediate values [(Z^l, H^l)], needed for the backward pass.</span>
+<span class="sd">    """</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">cache</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y_hat</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Backward pass. Returns the gradient of the average Cross-Entropy</span>
+<span class="sd">    with respect to each [W, b], with the same structure of params.</span>
+<span class="sd">    """</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>           <span class="c1"># Delta^L = (Y_hat - Y) / N</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">))):</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+        <span class="n">H_prev</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>                 <span class="c1"># H^{l-1}</span>
+        <span class="n">grads</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Delta</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">H_prev</span><span class="p">,</span> <span class="n">Delta</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">Delta</span> <span class="o">@</span> <span class="n">W</span><span class="p">)</span> <span class="o">*</span> <span class="n">relu_prime</span><span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Delta^{l-1}</span>
+    <span class="k">return</span> <span class="n">grads</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="checking-the-gradient">
+<h3>Checking the gradient<a class="headerlink" href="#checking-the-gradient" title="Link to this heading">#</a></h3>
+<p>Implementing backpropagation by hand is error-prone: a single wrong transpose would lead to a wrong gradient, and the training would silently fail. A classical way to check the implementation is to compare the result of backpropagation with a finite-difference approximation of the gradient, on a small network:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial \Theta_j} \approx \frac{\mathcal{L}(\Theta + \epsilon e_j) - \mathcal{L}(\Theta - \epsilon e_j)}{2 \epsilon}.
+\]</div>
+<p>As discussed above, this is way too expensive to be used for training, but it is perfect for debugging.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A small network: 2 inputs -&gt; 5 hidden -&gt; 4 hidden -&gt; 3 classes</span>
+<span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Random data and one-hot labels</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X_small</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">Y_small</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+
+<span class="c1"># Gradient via backpropagation</span>
+<span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)</span>
+<span class="n">grads</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y_small</span><span class="p">)</span>
+
+<span class="c1"># Gradient via (centered) finite differences</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">max_err</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">grads</span><span class="p">[</span><span class="n">l</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            <span class="n">old</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">old</span> <span class="o">+</span> <span class="n">eps</span>
+            <span class="n">L_plus</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y_small</span><span class="p">)</span>
+            <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">old</span> <span class="o">-</span> <span class="n">eps</span>
+            <span class="n">L_minus</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y_small</span><span class="p">)</span>
+            <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">old</span>
+            <span class="n">fd</span> <span class="o">=</span> <span class="p">(</span><span class="n">L_plus</span> <span class="o">-</span> <span class="n">L_minus</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
+            <span class="n">max_err</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_err</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fd</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Maximum difference between backprop and finite differences: </span><span class="si">{</span><span class="n">max_err</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Maximum difference between backprop and finite differences: 1.74e-10
+</pre></div>
+</div>
+</div>
+</div>
+<p>The two gradients agree up to the accuracy of the finite-difference approximation: our implementation of backpropagation is correct.</p>
+</section>
+</section>
+<section id="where-we-are">
+<h2>Where we are<a class="headerlink" href="#where-we-are" title="Link to this heading">#</a></h2>
+<p>Let’s go back to the triangle dataset. We can now define an MLP with, say, two hidden layers of <span class="math notranslate nohighlight">\(16\)</span> neurons each, and use it to classify our data. Of course, since the weights are initialized randomly, we expect the network to be completely useless at the moment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One-hot encoding of the labels (K = 2 classes)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="n">y</span><span class="p">]</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Y_hat</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loss of the untrained network: </span><span class="si">{</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy of the untrained network: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y_hat</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss of the untrained network: 1.1963
+Accuracy of the untrained network: 18.40%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_grid</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">P_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\mathbb</span><span class="si">{P}</span><span class="s2">(y = 1 \mid x)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Prediction of the untrained network"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"$x_1$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/d800bebbac15f5a60e2b5c53472add3afcccd2d5f7f890abd6a84c8b4a2ded93.png" src="../_images/d800bebbac15f5a60e2b5c53472add3afcccd2d5f7f890abd6a84c8b4a2ded93.png" />
+</div>
+</div>
+<p>As expected, the untrained network has nothing to do with the triangle. Nevertheless, we now have everything we need to train it:</p>
+<ul class="simple">
+<li><p>a <strong>model</strong> <span class="math notranslate nohighlight">\(f_\Theta\)</span> (the MLP), expressive enough to represent the triangle (we built one by hand!),</p></li>
+<li><p>a <strong>loss function</strong> <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> (the Cross-Entropy), measuring how wrong the network is,</p></li>
+<li><p>the <strong>gradient</strong> <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta)\)</span>, computed efficiently by backpropagation.</p></li>
+</ul>
+<p>The only missing piece is the answer to the question:</p>
+<blockquote>
+<div><p><em>How can we use the gradient to find the parameters <span class="math notranslate nohighlight">\(\Theta^*\)</span> that minimize the loss?</em></p>
+</div></blockquote>
+<p>This is the topic of the next chapter, where we will introduce the <strong>Gradient Descent</strong> algorithm.</p>
+<blockquote>
+<div><p><strong>Exercise:</strong> Modify the functions <code class="docutils literal notranslate"><span class="pre">forward</span></code> and <code class="docutils literal notranslate"><span class="pre">backward</span></code> to use the <span class="math notranslate nohighlight">\(\tanh\)</span> activation function instead of the ReLU. Check the correctness of your implementation with the finite-difference test above.</p>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NN"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro_ML.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">A (Very Short) Introduction to Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Optimization/GD.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Gradient Descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-as-drawing-boundaries">Classification as drawing boundaries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-classifier-as-a-graph">A classifier as a graph</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-one-line-is-not-enough">When one line is not enough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-hand-made-to-learned-networks">From hand-made to learned networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multi-layer-perceptron-mlp">The Multi-Layer Perceptron (MLP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-output-layer-for-classification-the-softmax">The output layer for classification: the Softmax</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network-the-loss-function">Training the network: the loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation">Backpropagation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-scalar-example">A scalar example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-general-case">The general case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-batches-of-data">Working with batches of data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-from-scratch">Implementation from scratch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-gradient">Checking the gradient</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-we-are">Where we are</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

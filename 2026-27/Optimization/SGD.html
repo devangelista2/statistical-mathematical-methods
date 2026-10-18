@@ -1,0 +1,1121 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Stochastic Gradient Descent (SGD) &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/SGD';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Adam and a Realistic Experiment" href="Adam.html" />
+    <link rel="prev" title="Gradient Descent" href="GD.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning and Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NN/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NN/from_ML_to_NN.html">Neural Networks for Classification</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic Gradient Descent (SGD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Adam.html">Adam and a Realistic Experiment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homework</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/homework.html">Homework</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/SGD.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Optimization/SGD.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Stochastic Gradient Descent (SGD)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-structure-of-the-loss-function">The structure of the loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-stochastic-gradient-descent">Motivation for Stochastic Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stochastic-gradient">The stochastic gradient</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sgd-algorithm">The SGD Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-full-gradient-descent">Comparison with Full Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-sgd-and-the-learning-rate">Convergence of SGD and the learning rate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-of-the-stochastic-gradient">Variance of the stochastic gradient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gd-vs-sgd">GD vs. SGD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effect-of-the-learning-rate-schedule">The effect of the learning rate schedule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="stochastic-gradient-descent-sgd">
+<h1>Stochastic Gradient Descent (SGD)<a class="headerlink" href="#stochastic-gradient-descent-sgd" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we trained a Neural Network with Gradient Descent on a small dataset of <span class="math notranslate nohighlight">\(N = 1000\)</span> points in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. In realistic applications, however, datasets are <strong>huge</strong>: the classical MNIST dataset of handwritten digits contains <span class="math notranslate nohighlight">\(N = 60\,000\)</span> images in <span class="math notranslate nohighlight">\(\mathbb{R}^{784}\)</span>, ImageNet contains more than <span class="math notranslate nohighlight">\(10^6\)</span> images in <span class="math notranslate nohighlight">\(\mathbb{R}^{150\,528}\)</span>, while modern Large Language Models are trained on datasets containing trillions of words. In these scenarios, even a <strong>single</strong> iteration of Gradient Descent is extremely expensive. In this chapter, we introduce the algorithm that made the training of large models possible: <strong>Stochastic Gradient Descent (SGD)</strong>.</p>
+<section id="the-structure-of-the-loss-function">
+<h2>The structure of the loss function<a class="headerlink" href="#the-structure-of-the-loss-function" title="Link to this heading">#</a></h2>
+<p>When training a Machine Learning model, we typically deal with a dataset</p>
+<div class="math notranslate nohighlight">
+\[
+(X, Y) = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N,
+\]</div>
+<p>and a <strong>parametric model</strong> <span class="math notranslate nohighlight">\( f_\Theta(x) \)</span> whose parameters <span class="math notranslate nohighlight">\(\Theta\)</span> (also called <strong>weights</strong>) must be learned. As we already discussed, the loss function used for training has a very particular structure: it is the <strong>average of <span class="math notranslate nohighlight">\(N\)</span> independent terms</strong>, one for each datapoint:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\Theta; X, Y) = \frac{1}{N} \sum_{i=1}^N \ell_i(\Theta), \qquad \ell_i(\Theta) := \ell(\Theta; x^{(i)}, y^{(i)}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell_i\)</span> quantifies the error on the <span class="math notranslate nohighlight">\(i\)</span>-th training sample (for our Neural Network classifier, <span class="math notranslate nohighlight">\(\ell_i\)</span> is the Cross-Entropy between the predicted probabilities <span class="math notranslate nohighlight">\(\hat{y}^{(i)}\)</span> and the one-hot label <span class="math notranslate nohighlight">\(y^{(i)}\)</span>). Optimization problems of this form are known as <strong>Empirical Risk Minimization (ERM)</strong> problems, or <em>finite-sum</em> problems.</p>
+<p>The <strong>Gradient Descent (GD)</strong> method (from the previous chapter) updates the parameters iteratively as:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; X, Y)
+= \Theta^{(k)} - \eta_k \, \frac{1}{N}\sum_{i=1}^N \nabla_\Theta \ell_i(\Theta^{(k)}),
+\]</div>
+<p>where, following the Machine Learning notation, <span class="math notranslate nohighlight">\(\eta_k &gt; 0\)</span> denotes the <strong>learning rate</strong> (what we called step size <span class="math notranslate nohighlight">\(\alpha_k\)</span> in the previous chapter).</p>
+</section>
+<section id="motivation-for-stochastic-gradient-descent">
+<h2>Motivation for Stochastic Gradient Descent<a class="headerlink" href="#motivation-for-stochastic-gradient-descent" title="Link to this heading">#</a></h2>
+<p>While the computation of each <span class="math notranslate nohighlight">\(\nabla_\Theta \ell_i(\Theta)\)</span> is inexpensive (it requires one forward and one backward pass on a single datapoint), the full gradient <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta; X, Y)\)</span> requires to compute <strong>all the <span class="math notranslate nohighlight">\(N\)</span> terms</strong> of the sum, which is a prohibitive cost when <span class="math notranslate nohighlight">\(N\)</span> is very large. Moreover, all the datapoints have to be processed <em>before</em> making a single update of the parameters: if the dataset contains <span class="math notranslate nohighlight">\(10^6\)</span> images, we need to process <span class="math notranslate nohighlight">\(10^6\)</span> images just to make a single (small) step toward the minimum.</p>
+<p>But do we really need the <strong>exact</strong> gradient? Remember that GD converges for any (small enough) step size: we are not interested in following <em>exactly</em> the direction of steepest descent, we just need a direction which, <em>on average</em>, decreases the loss. Moreover, datasets are usually highly <strong>redundant</strong>: think of <span class="math notranslate nohighlight">\(60\,000\)</span> images of handwritten digits, where thousands of images represent very similar “<span class="math notranslate nohighlight">\(1\)</span>”s. The gradient computed on a few hundreds of images will be very similar to the gradient computed on the whole dataset.</p>
+<p>The <strong>Stochastic Gradient Descent (SGD)</strong> algorithm is based exactly on this idea: replacing the <strong>exact gradient</strong> with a <strong>stochastic approximation</strong>, computed on a small random subset of the data (a <em>mini-batch</em>).</p>
+</section>
+<section id="the-stochastic-gradient">
+<h2>The stochastic gradient<a class="headerlink" href="#the-stochastic-gradient" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(N_\text{batch} \ll N\)</span> be the <strong>batch size</strong>, and let <span class="math notranslate nohighlight">\(\mathcal{M} \subset \{1,\dots,N\}\)</span> be a random subset of indices such that <span class="math notranslate nohighlight">\(|\mathcal{M}| = N_\text{batch}\)</span>. We define the <strong>stochastic gradient</strong> as the average of the gradients of the datapoints in <span class="math notranslate nohighlight">\(\mathcal{M}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}) := \frac{1}{N_\text{batch}}\sum_{i\in\mathcal{M}} \nabla_\Theta \ell_i(\Theta).
+\]</div>
+<p>Note that computing <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M})\)</span> costs <span class="math notranslate nohighlight">\(N_\text{batch}\)</span> forward and backward passes, instead of <span class="math notranslate nohighlight">\(N\)</span>. Of course, <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M})\)</span> is a <strong>random variable</strong>, since it depends on the random choice of <span class="math notranslate nohighlight">\(\mathcal{M}\)</span>. Its two key properties are the following.</p>
+<p><strong>1. It is unbiased.</strong> Consider first the case <span class="math notranslate nohighlight">\(N_\text{batch} = 1\)</span>, i.e. <span class="math notranslate nohighlight">\(\mathcal{M} = \{ i \}\)</span>, where <span class="math notranslate nohighlight">\(i\)</span> is sampled uniformly from <span class="math notranslate nohighlight">\(\{ 1, \dots, N \}\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_i \left[ \nabla_\Theta \ell_i(\Theta) \right] = \sum_{j=1}^N \mathbb{P}(i = j) \nabla_\Theta \ell_j(\Theta) = \frac{1}{N} \sum_{j=1}^N \nabla_\Theta \ell_j(\Theta) = \nabla_\Theta \mathcal{L}(\Theta; X, Y).
+\]</div>
+<p>By linearity of the expectation, the same holds for any batch size, as each element of <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> is (marginally) uniformly distributed on <span class="math notranslate nohighlight">\(\{1, \dots, N\}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_\mathcal{M} \left[ \nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}) \right] = \nabla_\Theta \mathcal{L}(\Theta; X, Y).
+\]</div>
+<p>In other words, the stochastic gradient is <strong>on average</strong> equal to the true gradient: it is an <em>unbiased estimator</em> of <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}\)</span>.</p>
+<p><strong>2. Its variance decreases with the batch size.</strong> If the indices in <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> are sampled independently (i.e. with replacement), the stochastic gradient is the average of <span class="math notranslate nohighlight">\(N_\text{batch}\)</span> i.i.d. random vectors, each with variance</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^2(\Theta) := \mathbb{E}_i \left[ \| \nabla_\Theta \ell_i(\Theta) - \nabla_\Theta \mathcal{L}(\Theta; X, Y) \|_2^2 \right],
+\]</div>
+<p>and therefore</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_\mathcal{M} \left[ \| \nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}) - \nabla_\Theta \mathcal{L}(\Theta; X, Y) \|_2^2 \right] = \frac{\sigma^2(\Theta)}{N_\text{batch}}.
+\]</div>
+<p>Thus, the batch size controls a <strong>trade-off</strong>: small batches give cheap but noisy gradients, while large batches give accurate but expensive gradients. In the limit case <span class="math notranslate nohighlight">\(N_\text{batch} = N\)</span>, we recover the exact gradient (and GD).</p>
+</section>
+<section id="the-sgd-algorithm">
+<h2>The SGD Algorithm<a class="headerlink" href="#the-sgd-algorithm" title="Link to this heading">#</a></h2>
+<p>The idea of SGD is to replace the true gradient with the stochastic gradient in the GD iteration:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, \nabla_\Theta \mathcal{L}(\Theta^{(k)}; \mathcal{M}_k),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> is a different random mini-batch at each iteration. In practice, instead of sampling a new random batch independently at each iteration, the dataset is <strong>shuffled</strong> and then <strong>partitioned</strong> into <span class="math notranslate nohighlight">\(\lceil N / N_\text{batch} \rceil\)</span> disjoint batches <span class="math notranslate nohighlight">\(\mathcal{M}_1, \mathcal{M}_2, \dots\)</span>, which are processed one after the other. This guarantees that each datapoint is used exactly once every <span class="math notranslate nohighlight">\(\lceil N / N_\text{batch} \rceil\)</span> iterations.</p>
+<p><img alt="" src="../_images/SGD.png" /></p>
+<p>When the entire dataset has been processed (i.e. after <span class="math notranslate nohighlight">\(\lceil N / N_\text{batch} \rceil\)</span> iterations), we say one <strong>epoch</strong> of SGD has been completed. The dataset is then shuffled again, and a new epoch begins. Summing up, the algorithm reads:</p>
+<p><strong>Input</strong>: initial parameters <span class="math notranslate nohighlight">\(\Theta^{(0)}\)</span>, learning rates <span class="math notranslate nohighlight">\(\{ \eta_k \}_k\)</span>, batch size <span class="math notranslate nohighlight">\(N_\text{batch}\)</span>, number of epochs <span class="math notranslate nohighlight">\(E\)</span>.
+<strong>For</strong> each epoch <span class="math notranslate nohighlight">\(e = 1, \dots, E\)</span>:</p>
+<ol class="arabic simple">
+<li><p><strong>Shuffle</strong> the dataset, and split it into <span class="math notranslate nohighlight">\(n_\text{batches} = \lceil N / N_\text{batch} \rceil\)</span> batches <span class="math notranslate nohighlight">\(\mathcal{M}_1, \dots, \mathcal{M}_{n_\text{batches}}\)</span>.</p></li>
+<li><p><strong>For</strong> each batch <span class="math notranslate nohighlight">\(\mathcal{M}_j\)</span>, <span class="math notranslate nohighlight">\(j = 1, \dots, n_\text{batches}\)</span>:</p>
+<ul class="simple">
+<li><p>compute the stochastic gradient <span class="math notranslate nohighlight">\(g^{(k)} = \nabla_\Theta \mathcal{L}(\Theta^{(k)}; \mathcal{M}_j)\)</span> (forward + backward pass on the batch),</p></li>
+<li><p>update the parameters: <span class="math notranslate nohighlight">\(\Theta^{(k+1)} = \Theta^{(k)} - \eta_k \, g^{(k)}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(k \leftarrow k + 1\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Make sure you understand the difference between the following terms, which are ubiquitous in Deep Learning:</p>
+<ul class="simple">
+<li><p><strong>Batch</strong> (or <em>mini-batch</em>): the subset <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span> of datapoints used to compute one stochastic gradient. Its size <span class="math notranslate nohighlight">\(N_\text{batch}\)</span> is the <strong>batch size</strong>.</p></li>
+<li><p><strong>Iteration</strong> (or <em>step</em>): a single update of the parameters, which processes one batch.</p></li>
+<li><p><strong>Epoch</strong>: a full pass over the dataset, consisting of <span class="math notranslate nohighlight">\(\lceil N / N_\text{batch} \rceil\)</span> iterations.</p></li>
+</ul>
+<p>For example, training for <span class="math notranslate nohighlight">\(E = 10\)</span> epochs on a dataset with <span class="math notranslate nohighlight">\(N = 60\,000\)</span> datapoints and batch size <span class="math notranslate nohighlight">\(N_\text{batch} = 100\)</span> means performing <span class="math notranslate nohighlight">\(10 \cdot 600 = 6\,000\)</span> iterations. On the same dataset, <span class="math notranslate nohighlight">\(10\)</span> epochs of GD correspond to only <span class="math notranslate nohighlight">\(10\)</span> iterations. <strong>Both algorithms have the same computational cost</strong>, since both of them process each datapoint <span class="math notranslate nohighlight">\(10\)</span> times!</p>
+</div>
+<p>Depending on the batch size, we distinguish:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N_\text{batch} = 1\)</span>: <strong>pure</strong> (or <em>online</em>) SGD. The cheapest and noisiest version. It does not exploit the parallelism of modern hardware (matrix-matrix products on a batch are much more efficient than many matrix-vector products).</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_\text{batch} = N\)</span>: (full-batch) <strong>GD</strong>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(1 &lt; N_\text{batch} &lt; N\)</span>: <strong>mini-batch SGD</strong>, the standard choice in practice. Typical values are <span class="math notranslate nohighlight">\(N_\text{batch} \in \{ 16, 32, 64, 128, 256 \}\)</span>, mostly limited by the memory of the GPU.</p></li>
+</ul>
+</section>
+<section id="comparison-with-full-gradient-descent">
+<h2>Comparison with Full Gradient Descent<a class="headerlink" href="#comparison-with-full-gradient-descent" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Gradient Descent (GD)</p></th>
+<th class="head"><p>Stochastic Gradient Descent (SGD)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gradient computation</p></td>
+<td><p>Full dataset</p></td>
+<td><p>Random subset (mini-batch)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Iteration cost</p></td>
+<td><p>High (depends on <span class="math notranslate nohighlight">\(N\)</span>)</p></td>
+<td><p>Low (depends on <span class="math notranslate nohighlight">\(N_\text{batch}\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Iterations per epoch</p></td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\lceil N / N_\text{batch} \rceil\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Gradient</p></td>
+<td><p>Exact (deterministic)</p></td>
+<td><p>Approximated (stochastic)</p></td>
+</tr>
+<tr class="row-even"><td><p>Convergence</p></td>
+<td><p>Smooth and stable</p></td>
+<td><p>Noisy, but much faster per epoch</p></td>
+</tr>
+<tr class="row-odd"><td><p>Scalability</p></td>
+<td><p>Poor for large datasets</p></td>
+<td><p>Excellent</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="convergence-of-sgd-and-the-learning-rate">
+<h2>Convergence of SGD and the learning rate<a class="headerlink" href="#convergence-of-sgd-and-the-learning-rate" title="Link to this heading">#</a></h2>
+<p>Since the stochastic gradient is only an approximation of the true gradient, SGD does <strong>not</strong> decrease the loss at every iteration: the loss curve of SGD is typically noisy. But what happens in the limit?</p>
+<p>Assume we are close to a minimum <span class="math notranslate nohighlight">\(\Theta^*\)</span>. Here the true gradient is (almost) zero, but the stochastic gradient is not, since its variance <span class="math notranslate nohighlight">\(\sigma^2(\Theta^*) / N_\text{batch}\)</span> is in general positive (each datapoint “pulls” the parameters toward its own minimum). Therefore, with a <strong>constant</strong> learning rate <span class="math notranslate nohighlight">\(\eta\)</span>, the iterates of SGD never settle down: they keep bouncing in a neighborhood of <span class="math notranslate nohighlight">\(\Theta^*\)</span>, whose size is proportional to <span class="math notranslate nohighlight">\(\eta \, \sigma^2 / N_\text{batch}\)</span>.</p>
+<p>To obtain convergence, the learning rate must go to zero. Indeed, it can be proved that (under suitable assumptions on <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>) SGD converges to a stationary point if the learning rates satisfy the so-called <strong>Robbins-Monro conditions</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{k=0}^\infty \eta_k = \infty, \qquad \sum_{k=0}^\infty \eta_k^2 &lt; \infty.
+\]</div>
+<p>The first condition guarantees that the iterates can travel arbitrarily far (so that they can reach the minimum from any initial point), while the second guarantees that the noise is eventually averaged out. A typical example is <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1 + \gamma k}\)</span>, with <span class="math notranslate nohighlight">\(\gamma &gt; 0\)</span>.</p>
+<p>In practice, common choices are:</p>
+<ul class="simple">
+<li><p><strong>Constant</strong> learning rate: <span class="math notranslate nohighlight">\(\eta_k = \eta\)</span>. Simple, and often good enough.</p></li>
+<li><p><strong>Step decay</strong>: the learning rate is divided by a factor (e.g. <span class="math notranslate nohighlight">\(10\)</span>) after a fixed number of epochs.</p></li>
+<li><p><strong>Inverse decay</strong>: <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1 + \gamma k}\)</span>.</p></li>
+<li><p><strong>Cosine decay</strong>: <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{2} \left( 1 + \cos\left( \frac{\pi k}{K} \right) \right)\)</span>, where <span class="math notranslate nohighlight">\(K\)</span> is the total number of iterations. This is very popular in modern Deep Learning.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>SGD has some drawbacks compared to GD. In particular, there is no way to check whether it reached convergence: we cannot compute <span class="math notranslate nohighlight">\(\|\nabla_\Theta \mathcal{L}(\Theta; X, Y)\|_2\)</span> (that would require a pass over the whole dataset), and the norm of the stochastic gradient does not go to zero. For the same reason, we cannot use backtracking. As a consequence, the algorithm is usually stopped <strong>only after a fixed number of epochs</strong> (or when the loss on a validation set stops improving, a technique known as <strong>early stopping</strong>), and the learning rate must be set <strong>by hand</strong>. These problems are partially solved by modern algorithms such as Adam, which we will discuss in the next chapter.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Why does SGD work so well for Neural Networks?</strong> Besides the computational advantage, it has been observed that the <strong>noise</strong> of SGD is actually beneficial for training Neural Networks: it helps the iterates to escape from saddle points and from <em>sharp</em> minima, which are known to generalize worse than <em>flat</em> minima. This is one of the reasons why SGD (and its variants) is still the standard algorithm for training Neural Networks, even when the full gradient would be computationally affordable.</p>
+</div>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
+<p>We now implement SGD for the training of our MLP classifier. As in the previous chapter, we first copy the code for the MLP (expand the cell below to see it).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># ---- Code from the previous chapters ----</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">relu_prime</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sizes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n_in</span><span class="p">),</span> <span class="p">(</span><span class="n">n_out</span><span class="p">,</span> <span class="n">n_in</span><span class="p">))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_out</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">cache</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y_hat</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">))):</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+        <span class="n">H_prev</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">grads</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Delta</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">H_prev</span><span class="p">,</span> <span class="n">Delta</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">Delta</span> <span class="o">@</span> <span class="n">W</span><span class="p">)</span> <span class="o">*</span> <span class="n">relu_prime</span><span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">grads</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y_hat</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>The implementation of SGD follows exactly the algorithm described above. Note that, since our <code class="docutils literal notranslate"><span class="pre">backward</span></code> function computes the gradient of the <strong>average</strong> loss over the datapoints it receives, calling it on a batch directly returns the stochastic gradient <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta; \mathcal{M}_k)\)</span>. At the end of each epoch, we evaluate the loss and the accuracy on the whole training set, to monitor the training.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_sgd</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Trains the MLP with mini-batch SGD.</span>
+<span class="sd">    params: list of [W, b]. The initial parameters (modified in-place).</span>
+<span class="sd">    X, Y, y: the dataset (inputs, one-hot labels, integer labels).</span>
+<span class="sd">    lr: the learning rate. Either a float, or a function k -&gt; eta_k.</span>
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span><span class="p">,</span> <span class="n">time_hist</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># Shuffle the dataset</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">start_batch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="c1"># Select the batch M_k</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start_batch</span><span class="p">:</span><span class="n">start_batch</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+
+            <span class="c1"># Stochastic gradient (forward + backward pass on the batch)</span>
+            <span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">Xb</span><span class="p">)</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Yb</span><span class="p">)</span>
+
+            <span class="c1"># SGD update</span>
+            <span class="n">eta</span> <span class="o">=</span> <span class="n">lr</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span> <span class="k">else</span> <span class="n">lr</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">dW</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+                <span class="n">W</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">dW</span>
+                <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">db</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Log full-dataset metrics after each epoch</span>
+        <span class="n">Y_hat</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+        <span class="n">loss_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+        <span class="n">acc_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">time_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">loss_hist</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">acc_hist</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">time_hist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="experiments">
+<h2>Experiments<a class="headerlink" href="#experiments" title="Link to this heading">#</a></h2>
+<section id="the-dataset">
+<h3>The dataset<a class="headerlink" href="#the-dataset" title="Link to this heading">#</a></h3>
+<p>To test SGD, we consider a more challenging classification problem: the <strong>spiral dataset</strong>, a synthetic dataset with <span class="math notranslate nohighlight">\(K = 3\)</span> classes, where the points of each class lie on an arm of a spiral. We generate <span class="math notranslate nohighlight">\(N = 30\,000\)</span> datapoints, i.e. <span class="math notranslate nohighlight">\(30\)</span> times more than the triangle dataset of the previous chapter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_spirals</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generates N points in R^2 on K intertwined spirals (one per class).</span>
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">K</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>                                        <span class="c1"># radius</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># angle</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">k</span> <span class="o">*</span> <span class="n">n</span><span class="p">:(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">k</span> <span class="o">*</span> <span class="n">n</span><span class="p">:(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_spirals</span><span class="p">(</span><span class="mi">30000</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="n">y</span><span class="p">]</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Class </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Spiral dataset (N = </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/59b5182aef969dbc551950004e330fdee8f3c3d8bc0ef7c0a4de878083695aa0.png" src="../_images/59b5182aef969dbc551950004e330fdee8f3c3d8bc0ef7c0a4de878083695aa0.png" />
+</div>
+</div>
+</section>
+<section id="variance-of-the-stochastic-gradient">
+<h3>Variance of the stochastic gradient<a class="headerlink" href="#variance-of-the-stochastic-gradient" title="Link to this heading">#</a></h3>
+<p>First, let’s verify numerically that the stochastic gradient is an unbiased estimator of the true gradient, and that its variance decreases as <span class="math notranslate nohighlight">\(1 / N_\text{batch}\)</span>. To do that, we fix the parameters <span class="math notranslate nohighlight">\(\Theta\)</span> (at initialization) and we compute the stochastic gradient over many random batches of the same size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">flatten</span><span class="p">(</span><span class="n">grads</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Concatenates all the gradients in a single vector."""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">g</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">grads</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">])</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># True gradient (on the whole dataset)</span>
+<span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">true_grad</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">batch_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">1024</span><span class="p">]</span>
+<span class="n">mean_err</span><span class="p">,</span> <span class="n">variances</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bs</span> <span class="ow">in</span> <span class="n">batch_sizes</span><span class="p">:</span>
+    <span class="n">sg</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">):</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>
+        <span class="n">sg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])))</span>
+    <span class="n">sg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sg</span><span class="p">)</span>
+    <span class="n">mean_err</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">true_grad</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">true_grad</span><span class="p">))</span>
+    <span class="n">variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">sg</span> <span class="o">-</span> <span class="n">true_grad</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="k">for</span> <span class="n">bs</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">batch_sizes</span><span class="p">,</span> <span class="n">mean_err</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"N_batch = </span><span class="si">{</span><span class="n">bs</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">: relative error of the average stochastic gradient = </span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">batch_sizes</span><span class="p">,</span> <span class="n">variances</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Empirical variance"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">batch_sizes</span><span class="p">,</span> <span class="n">variances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">batch_sizes</span><span class="p">),</span> <span class="s1">'k--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\sigma^2 / N_</span><span class="si">{batch}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$N_</span><span class="si">{batch}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Variance"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Variance of the stochastic gradient"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N_batch =     1: relative error of the average stochastic gradient = 0.272
+N_batch =     4: relative error of the average stochastic gradient = 0.099
+N_batch =    16: relative error of the average stochastic gradient = 0.026
+N_batch =    64: relative error of the average stochastic gradient = 0.015
+N_batch =   256: relative error of the average stochastic gradient = 0.016
+N_batch =  1024: relative error of the average stochastic gradient = 0.006
+</pre></div>
+</div>
+<img alt="../_images/84face5f090d853bbb33fe786c956be1c0b26cf112c0e34c32bbb16b157460c4.png" src="../_images/84face5f090d853bbb33fe786c956be1c0b26cf112c0e34c32bbb16b157460c4.png" />
+</div>
+</div>
+<p>The average of the stochastic gradients is close to the true gradient (the residual error is due to the finite number of samples, and it gets smaller for larger batch sizes), and the variance perfectly follows the theoretical <span class="math notranslate nohighlight">\(1 / N_\text{batch}\)</span> behavior.</p>
+</section>
+<section id="gd-vs-sgd">
+<h3>GD vs. SGD<a class="headerlink" href="#gd-vs-sgd" title="Link to this heading">#</a></h3>
+<p>We now train the same MLP, with two hidden layers of <span class="math notranslate nohighlight">\(64\)</span> neurons, with GD (i.e. <span class="math notranslate nohighlight">\(N_\text{batch} = N\)</span>) and with SGD for different batch sizes, for the <strong>same number of epochs</strong> (i.e. with the same computational cost). The learning rates have been chosen (by trial and error) to work well for each batch size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">configs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">N</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)]</span>  <span class="c1"># (batch size, learning rate)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">bs</span><span class="p">,</span> <span class="n">lr</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span><span class="p">,</span> <span class="n">time_hist</span> <span class="o">=</span> <span class="n">train_sgd</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span>
+                                                       <span class="n">batch_size</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"GD"</span> <span class="k">if</span> <span class="n">bs</span> <span class="o">==</span> <span class="n">N</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"SGD ($N_</span><span class="se">{{</span><span class="s2">batch</span><span class="se">}}</span><span class="s2">$ = </span><span class="si">{</span><span class="n">bs</span><span class="si">}</span><span class="s2">)"</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span><span class="p">,</span> <span class="n">time_hist</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">25s</span><span class="si">}</span><span class="s2">: iterations = </span><span class="si">{</span><span class="n">epochs</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">N</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">bs</span><span class="p">))</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2">, final loss = </span><span class="si">{</span><span class="n">loss_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"final accuracy = </span><span class="si">{</span><span class="n">acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%, time = </span><span class="si">{</span><span class="n">time_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GD                       : iterations =     30, final loss = 0.3764, final accuracy = 92.53%, time = 1.59s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD ($N_{batch}$ = 256)  : iterations =   3540, final loss = 0.0239, final accuracy = 99.59%, time = 2.20s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD ($N_{batch}$ = 64)   : iterations =  14070, final loss = 0.0109, final accuracy = 99.68%, time = 2.53s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD ($N_{batch}$ = 16)   : iterations =  56250, final loss = 0.0095, final accuracy = 99.68%, time = 4.47s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span><span class="p">,</span> <span class="n">time_hist</span><span class="p">)</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">acc_hist</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">time_hist</span><span class="p">,</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Training loss vs. epochs"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Epoch"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Training accuracy vs. epochs"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Epoch"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Training loss vs. time"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (s)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1ef141be73b71c6907ed0d18c5e0630eed276736ecb1450c665c47afee6e8421.png" src="../_images/1ef141be73b71c6907ed0d18c5e0630eed276736ecb1450c665c47afee6e8421.png" />
+</div>
+</div>
+<p>The results are impressive: with the same computational cost (same number of epochs), SGD reaches a much lower loss than GD. Indeed, in <span class="math notranslate nohighlight">\(30\)</span> epochs, GD performed only <span class="math notranslate nohighlight">\(30\)</span> updates of the parameters, while SGD with <span class="math notranslate nohighlight">\(N_\text{batch} = 64\)</span> performed almost <span class="math notranslate nohighlight">\(15\,000\)</span> updates, each of them computed on an approximated (but good enough) gradient. Note, however, that smaller batch sizes are not always better in terms of time: with very small batches, the number of iterations per epoch grows, and we lose the efficiency of matrix-matrix products (in our case, the overhead of the Python <code class="docutils literal notranslate"><span class="pre">for</span></code> loop also plays a role).</p>
+<p>Let’s visualize the decision regions learned by GD and by SGD.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">xx1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">xx2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="s2">"GD"</span><span class="p">,</span> <span class="s2">"SGD ($N_</span><span class="si">{batch}</span><span class="s2">$ = 64)"</span><span class="p">]):</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">P_grid</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">P_grid</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span>
+                <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="s2">"tab:orange"</span><span class="p">,</span> <span class="s2">"tab:green"</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">][::</span><span class="mi">10</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">][::</span><span class="mi">10</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Decision regions: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/a8aa6e23a5a36e0e6a7119456a414cffda832a215ef7119f8ea488affea1f822.png" src="../_images/a8aa6e23a5a36e0e6a7119456a414cffda832a215ef7119f8ea488affea1f822.png" />
+</div>
+</div>
+</section>
+<section id="the-effect-of-the-learning-rate-schedule">
+<h3>The effect of the learning rate schedule<a class="headerlink" href="#the-effect-of-the-learning-rate-schedule" title="Link to this heading">#</a></h3>
+<p>Finally, let’s look more closely at the behavior of SGD with constant learning rate. Since the loss we plotted above is evaluated only at the end of each epoch, it hides the noise of SGD. Let’s train the network with <span class="math notranslate nohighlight">\(N_\text{batch} = 16\)</span> for <span class="math notranslate nohighlight">\(20\)</span> epochs, with a large constant learning rate and with a decaying learning rate <span class="math notranslate nohighlight">\(\eta_k = \frac{\eta_0}{1 + \gamma k}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eta0</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">iters_per_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="mi">16</span><span class="p">))</span>
+<span class="n">schedules</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"Constant"</span><span class="p">:</span> <span class="n">eta0</span><span class="p">,</span>
+    <span class="s2">"Inverse decay"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">eta0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">k</span> <span class="o">/</span> <span class="n">iters_per_epoch</span><span class="p">),</span>  <span class="c1"># gamma = 1 / iters_per_epoch</span>
+<span class="p">}</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">lr</span> <span class="ow">in</span> <span class="n">schedules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="n">acc_hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">train_sgd</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">15s</span><span class="si">}</span><span class="s2">: final loss = </span><span class="si">{</span><span class="n">loss_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, final accuracy = </span><span class="si">{</span><span class="n">acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="n">loss_hist</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Epoch"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Training loss for different learning rate schedules"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Constant       : final loss = 0.0114, final accuracy = 99.47%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inverse decay  : final loss = 0.0108, final accuracy = 99.94%
+</pre></div>
+</div>
+<img alt="../_images/8077cab49a934acd6219a76d46eac913137c22290ed180fff6d41922df99658d.png" src="../_images/8077cab49a934acd6219a76d46eac913137c22290ed180fff6d41922df99658d.png" />
+</div>
+</div>
+<p>With a constant (large) learning rate, the loss stops decreasing and oscillates: the iterates bounce around the minimum, as predicted by the theory. With a decaying learning rate, the noise is progressively reduced and the loss keeps decreasing.</p>
+</section>
+</section>
+<section id="remarks">
+<h2>Remarks<a class="headerlink" href="#remarks" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <strong>batch size</strong> controls the trade-off between computational cost and gradient accuracy. Small batches introduce more stochastic noise; large batches approach full GD behavior.</p></li>
+<li><p>The <strong>learning rate</strong> and the <strong>batch size</strong> must be tuned together: as a rule of thumb, larger batches allow (and require) larger learning rates.</p></li>
+<li><p>The <strong>number of epochs</strong> is the natural way of measuring the computational cost of training, since it does not depend on the batch size.</p></li>
+<li><p>SGD is extremely sensitive to the choice of the learning rate, and it uses <strong>the same learning rate for all the parameters</strong>, regardless of the curvature of the loss along each direction. This makes it slow on ill-conditioned problems, which are very common in Deep Learning. In the next chapter, we will introduce <strong>Adam</strong>, an optimizer designed to address these issues.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Exercise (Batch size and time):</strong> Repeat the comparison between GD and SGD with <span class="math notranslate nohighlight">\(N_\text{batch} \in \{1, 4, 16, 64, 256, 1024, N\}\)</span>. For each of them, measure the time required to complete one epoch and the final loss after a fixed time budget (e.g. <span class="math notranslate nohighlight">\(5\)</span> seconds). Which batch size is the best?</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Learning rate):</strong> For <span class="math notranslate nohighlight">\(N_\text{batch} = 64\)</span>, train the network with learning rates <span class="math notranslate nohighlight">\(\eta \in \{ 10^{-3}, 10^{-2}, 10^{-1}, 1 \}\)</span>. Plot the training loss for each of them and discuss the results, in light of the theory of the previous chapter.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Cosine schedule):</strong> Implement the cosine learning rate schedule, and compare it with the constant and inverse decay schedules.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Generalization):</strong> Split the spiral dataset into a training set (<span class="math notranslate nohighlight">\(80\%\)</span>) and a test set (<span class="math notranslate nohighlight">\(20\%\)</span>). Modify <code class="docutils literal notranslate"><span class="pre">train_sgd</span></code> to also record the loss and the accuracy on the test set at the end of each epoch, and plot both curves. Do you observe overfitting? What happens if you reduce the number of training datapoints to <span class="math notranslate nohighlight">\(N = 300\)</span>?</p>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="GD.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Gradient Descent</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Adam.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Adam and a Realistic Experiment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-structure-of-the-loss-function">The structure of the loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-stochastic-gradient-descent">Motivation for Stochastic Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stochastic-gradient">The stochastic gradient</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sgd-algorithm">The SGD Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-full-gradient-descent">Comparison with Full Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-sgd-and-the-learning-rate">Convergence of SGD and the learning rate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-of-the-stochastic-gradient">Variance of the stochastic gradient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gd-vs-sgd">GD vs. SGD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effect-of-the-learning-rate-schedule">The effect of the learning rate schedule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
