@@ -1,0 +1,1473 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Adam and a Realistic Experiment &#8212; Statistical and Mathematical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Optimization/Adam';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Homework" href="../Homeworks/homework.html" />
+    <link rel="prev" title="Stochastic Gradient Descent (SGD)" href="SGD.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Statistical and Mathematical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Statistical and Mathematical Methods for Machine Learning (SMM)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning and Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../NN/intro_ML.html">A (Very Short) Introduction to Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../NN/from_ML_to_NN.html">Neural Networks for Classification</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Optimization</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="GD.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SGD.html">Stochastic Gradient Descent (SGD)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Adam and a Realistic Experiment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homework</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/homework.html">Homework</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/devangelista2/statistical-mathematical-methods/issues/new?title=Issue%20on%20page%20%2FOptimization/Adam.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Optimization/Adam.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Adam and a Realistic Experiment</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momentum">Momentum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-learning-rates-rmsprop">Adaptive learning rates: RMSProp</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-adaptive-moment-estimation">Adam: Adaptive Moment Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-correction">Bias correction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-algorithm">The algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-first-comparison-on-the-ill-conditioned-quadratic">A first comparison on the ill-conditioned quadratic</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-realistic-experiment-fashion-mnist">A realistic experiment: Fashion-MNIST</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-the-data">Downloading the data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-data-in-memory">Loading the data in memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing">Pre-processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model">The model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-optimizers">The optimizers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-training-loop">The training loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sensitivity-to-the-learning-rate">Sensitivity to the learning rate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-on-the-test-set">Evaluation on the test set</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="adam-and-a-realistic-experiment">
+<h1>Adam and a Realistic Experiment<a class="headerlink" href="#adam-and-a-realistic-experiment" title="Link to this heading">#</a></h1>
+<p>In the previous chapters, we built a Neural Network from scratch, we computed its gradient with backpropagation, and we trained it with Gradient Descent and Stochastic Gradient Descent. We also observed that SGD has a few weak points:</p>
+<ul class="simple">
+<li><p>it is very <strong>sensitive to the learning rate</strong>, which has to be tuned by hand;</p></li>
+<li><p>it uses <strong>the same learning rate for all the parameters</strong>, even if the loss may have very different curvatures along different directions (<strong>ill-conditioning</strong>);</p></li>
+<li><p>its updates are <strong>noisy</strong>, which makes the iterates bounce around the minimum.</p></li>
+</ul>
+<p>In this last chapter, we introduce <strong>Adam</strong> (<em>Adaptive Moment Estimation</em>, Kingma and Ba, 2014), which is, by far, the most used optimizer in modern Deep Learning. We will build it step by step, starting from two simpler ideas: <strong>momentum</strong> and <strong>adaptive learning rates</strong>. Then, we will put everything together in a realistic experiment: we will download a real image classification dataset, and we will train an MLP on it, from scratch, comparing SGD and Adam.</p>
+<section id="momentum">
+<h2>Momentum<a class="headerlink" href="#momentum" title="Link to this heading">#</a></h2>
+<p>Let’s go back to the ill-conditioned quadratic function of the GD chapter, <span class="math notranslate nohighlight">\(f(x) = \frac{1}{2}(x_1^2 + \lambda x_2^2)\)</span>. We observed that GD <strong>zig-zags</strong> across the narrow valley: the gradient keeps changing sign along the steep direction <span class="math notranslate nohighlight">\(x_2\)</span>, while it is small and always with the same sign along the flat direction <span class="math notranslate nohighlight">\(x_1\)</span>.</p>
+<p>The idea of <strong>momentum</strong> (also known as <em>heavy-ball</em> method, Polyak, 1964) is to think of the iterate as a <strong>ball rolling down the graph of <span class="math notranslate nohighlight">\(f\)</span></strong>: the ball does not only follow the slope at its current position, but it also keeps memory of its previous velocity. Mathematically, we introduce a <em>velocity</em> vector <span class="math notranslate nohighlight">\(m^{(k)}\)</span>, which accumulates the past gradients:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+m^{(k)} &amp;= \beta \, m^{(k-1)} + g^{(k)}, \\
+\Theta^{(k+1)} &amp;= \Theta^{(k)} - \eta \, m^{(k)},
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(g^{(k)} = \nabla_\Theta \mathcal{L}(\Theta^{(k)}; \mathcal{M}_k)\)</span> is the (stochastic) gradient, <span class="math notranslate nohighlight">\(m^{(-1)} = 0\)</span>, and <span class="math notranslate nohighlight">\(\beta \in [0, 1)\)</span> is the <strong>momentum</strong> parameter (typically <span class="math notranslate nohighlight">\(\beta = 0.9\)</span>). For <span class="math notranslate nohighlight">\(\beta = 0\)</span>, we recover SGD. Unrolling the recursion, we get</p>
+<div class="math notranslate nohighlight">
+\[
+m^{(k)} = \sum_{j=0}^{k} \beta^{k-j} g^{(j)},
+\]</div>
+<p>i.e. the update direction is a weighted sum of all the past gradients, where older gradients have exponentially smaller weights. As a consequence:</p>
+<ul class="simple">
+<li><p>along directions where the gradient <strong>keeps the same sign</strong> (the flat direction <span class="math notranslate nohighlight">\(x_1\)</span>), the contributions accumulate, and the iterate <strong>accelerates</strong> (up to a factor <span class="math notranslate nohighlight">\(\frac{1}{1-\beta} = 10\)</span> for <span class="math notranslate nohighlight">\(\beta = 0.9\)</span>);</p></li>
+<li><p>along directions where the gradient <strong>oscillates</strong> (the steep direction <span class="math notranslate nohighlight">\(x_2\)</span>), the contributions cancel out, and the oscillations are <strong>damped</strong>;</p></li>
+<li><p>in the stochastic setting, averaging over many past gradients also <strong>reduces the noise</strong> of the stochastic gradient.</p></li>
+</ul>
+</section>
+<section id="adaptive-learning-rates-rmsprop">
+<h2>Adaptive learning rates: RMSProp<a class="headerlink" href="#adaptive-learning-rates-rmsprop" title="Link to this heading">#</a></h2>
+<p>Momentum mitigates ill-conditioning, but it still uses the same learning rate <span class="math notranslate nohighlight">\(\eta\)</span> for all the parameters. However, in a Neural Network, different parameters may have gradients with very different magnitudes (for example, the weights of the first layer versus the weights of the last layer). A learning rate that is good for some parameters may be too large or too small for others.</p>
+<p>The idea of <strong>adaptive</strong> methods is to use a <strong>different learning rate for each parameter</strong>, which is automatically adjusted based on the magnitude of its past gradients. The most popular adaptive method before Adam is <strong>RMSProp</strong> (Hinton, 2012), which keeps track of an exponential moving average of the <strong>squared</strong> gradients:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+v^{(k)} &amp;= \beta_2 \, v^{(k-1)} + (1 - \beta_2) \, (g^{(k)})^2, \\
+\Theta^{(k+1)} &amp;= \Theta^{(k)} - \eta \, \frac{g^{(k)}}{\sqrt{v^{(k)}} + \varepsilon},
+\end{aligned}
+\end{split}\]</div>
+<p>where all the operations (square, square root and division) are applied <strong>element-wise</strong>, and <span class="math notranslate nohighlight">\(\varepsilon \approx 10^{-8}\)</span> is a small constant avoiding divisions by zero. The quantity <span class="math notranslate nohighlight">\(\sqrt{v^{(k)}_j}\)</span> is an estimate of the typical magnitude (the <em>Root Mean Square</em>, from which the name) of the <span class="math notranslate nohighlight">\(j\)</span>-th component of the gradient. Therefore, each component of the gradient is <strong>normalized</strong> by its own typical magnitude: parameters with large gradients take smaller steps, and parameters with small gradients take larger steps. In the ill-conditioned quadratic example, this means that the steep direction and the flat direction are treated in the same way.</p>
+</section>
+<section id="adam-adaptive-moment-estimation">
+<h2>Adam: Adaptive Moment Estimation<a class="headerlink" href="#adam-adaptive-moment-estimation" title="Link to this heading">#</a></h2>
+<p><strong>Adam</strong> combines the two ideas above: it uses <strong>momentum</strong> to smooth the gradient direction, and <strong>adaptive learning rates</strong> to rescale each component. Given the stochastic gradient <span class="math notranslate nohighlight">\(g^{(k)}\)</span>, Adam maintains two <strong>exponential moving averages (EMAs)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+m^{(k)} &amp;= \beta_1\, m^{(k-1)} + (1-\beta_1)\, g^{(k)} &amp;&amp;\text{(first moment: mean of the gradients)}, \\
+v^{(k)} &amp;= \beta_2\, v^{(k-1)} + (1-\beta_2)\, (g^{(k)})^2 &amp;&amp;\text{(second moment: uncentered variance of the gradients)},
+\end{aligned}
+\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(m^{(-1)} = v^{(-1)} = 0\)</span>.</p>
+<section id="bias-correction">
+<h3>Bias correction<a class="headerlink" href="#bias-correction" title="Link to this heading">#</a></h3>
+<p>Since <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(v\)</span> are initialized to zero, they are <strong>biased toward zero</strong> in the first iterations. Indeed, unrolling the recursion and assuming, for simplicity, that the gradients <span class="math notranslate nohighlight">\(g^{(j)}\)</span> are identically distributed with mean <span class="math notranslate nohighlight">\(\mathbb{E}[g]\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}[m^{(k)}] = (1 - \beta_1) \sum_{j=0}^{k} \beta_1^{k-j} \, \mathbb{E}[g] = (1 - \beta_1^{k+1}) \, \mathbb{E}[g],
+\]</div>
+<p>where we used the formula for the geometric sum. For example, at the first iteration (<span class="math notranslate nohighlight">\(k = 0\)</span>) with <span class="math notranslate nohighlight">\(\beta_1 = 0.9\)</span>, <span class="math notranslate nohighlight">\(m^{(0)} = 0.1 \, g^{(0)}\)</span>, which is <span class="math notranslate nohighlight">\(10\)</span> times smaller than the gradient. The same holds for <span class="math notranslate nohighlight">\(v^{(k)}\)</span>, with <span class="math notranslate nohighlight">\(\beta_2\)</span> in place of <span class="math notranslate nohighlight">\(\beta_1\)</span>. To remove this bias, Adam divides the moments by the factors <span class="math notranslate nohighlight">\((1 - \beta_1^{k+1})\)</span> and <span class="math notranslate nohighlight">\((1 - \beta_2^{k+1})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat m^{(k)} = \frac{m^{(k)}}{1-\beta_1^{k+1}},
+\qquad
+\hat v^{(k)} = \frac{v^{(k)}}{1-\beta_2^{k+1}}.
+\]</div>
+<p>Note that, as <span class="math notranslate nohighlight">\(k\)</span> grows, the correction factors go to <span class="math notranslate nohighlight">\(1\)</span>, and the bias correction becomes irrelevant.</p>
+</section>
+<section id="the-algorithm">
+<h3>The algorithm<a class="headerlink" href="#the-algorithm" title="Link to this heading">#</a></h3>
+<p>Putting everything together, the <strong>Adam</strong> algorithm reads:</p>
+<p><strong>Input</strong>: initial parameters <span class="math notranslate nohighlight">\(\Theta^{(0)}\)</span>, learning rate <span class="math notranslate nohighlight">\(\eta\)</span>, <span class="math notranslate nohighlight">\(\beta_1, \beta_2 \in [0, 1)\)</span>, <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, batch size <span class="math notranslate nohighlight">\(N_\text{batch}\)</span>, number of epochs <span class="math notranslate nohighlight">\(E\)</span>.
+Initialize <span class="math notranslate nohighlight">\(m^{(-1)} = v^{(-1)} = 0\)</span> and <span class="math notranslate nohighlight">\(k = 0\)</span>.
+<strong>For</strong> each epoch, shuffle and split the dataset into batches and, <strong>for</strong> each batch <span class="math notranslate nohighlight">\(\mathcal{M}_k\)</span>:</p>
+<ol class="arabic">
+<li><p>Compute the stochastic gradient: <span class="math notranslate nohighlight">\(g^{(k)} = \nabla_\Theta \mathcal{L}(\Theta^{(k)}; \mathcal{M}_k)\)</span>.</p></li>
+<li><p>Update the moments:</p>
+<div class="math notranslate nohighlight">
+\[
+   m^{(k)} = \beta_1\, m^{(k-1)} + (1-\beta_1)\, g^{(k)}, \qquad v^{(k)} = \beta_2\, v^{(k-1)} + (1-\beta_2)\, (g^{(k)})^2.
+   \]</div>
+</li>
+<li><p>Correct the bias:</p>
+<div class="math notranslate nohighlight">
+\[
+   \hat m^{(k)} = \frac{m^{(k)}}{1-\beta_1^{k+1}}, \qquad \hat v^{(k)} = \frac{v^{(k)}}{1-\beta_2^{k+1}}.
+   \]</div>
+</li>
+<li><p>Update the parameters:</p>
+<div class="math notranslate nohighlight">
+\[
+   \Theta^{(k+1)} = \Theta^{(k)} - \eta\, \frac{\hat m^{(k)}}{\sqrt{\hat v^{(k)}} + \varepsilon}.
+   \]</div>
+</li>
+<li><p><span class="math notranslate nohighlight">\(k \leftarrow k + 1\)</span>.</p></li>
+</ol>
+<p>The default values, suggested in the original paper and used almost everywhere, are <span class="math notranslate nohighlight">\(\eta = 10^{-3}\)</span>, <span class="math notranslate nohighlight">\(\beta_1=0.9\)</span>, <span class="math notranslate nohighlight">\(\beta_2=0.999\)</span>, <span class="math notranslate nohighlight">\(\varepsilon = 10^{-8}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since each component of <span class="math notranslate nohighlight">\(\hat m^{(k)}\)</span> is divided by (an estimate of) its typical magnitude <span class="math notranslate nohighlight">\(\sqrt{\hat v^{(k)}}\)</span>, the size of the update of each parameter is roughly bounded by the learning rate <span class="math notranslate nohighlight">\(\eta\)</span>, <strong>independently of the scale of the gradient</strong>. For example, if we multiply the loss function by a constant <span class="math notranslate nohighlight">\(c &gt; 0\)</span>, the iterates of SGD change (the effective learning rate becomes <span class="math notranslate nohighlight">\(c \, \eta\)</span>), while the iterates of Adam remain (almost) the same. This is the main reason why Adam is much <strong>less sensitive to the choice of the learning rate</strong> than SGD, and why its default learning rate <span class="math notranslate nohighlight">\(\eta = 10^{-3}\)</span> works well in a wide range of problems.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In modern Deep Learning (e.g. for training Large Language Models), the most used optimizer is <strong>AdamW</strong>, a variant of Adam which also includes a <em>weight decay</em> term, <span class="math notranslate nohighlight">\(\Theta^{(k+1)} = \Theta^{(k)} - \eta \left( \frac{\hat m^{(k)}}{\sqrt{\hat v^{(k)}} + \varepsilon} + \lambda \Theta^{(k)} \right)\)</span>, which keeps the weights small and improves generalization.</p>
+</div>
+</section>
+<section id="a-first-comparison-on-the-ill-conditioned-quadratic">
+<h3>A first comparison on the ill-conditioned quadratic<a class="headerlink" href="#a-first-comparison-on-the-ill-conditioned-quadratic" title="Link to this heading">#</a></h3>
+<p>Before moving to Neural Networks, let’s visualize the behavior of GD, GD with Momentum and Adam on the ill-conditioned quadratic function <span class="math notranslate nohighlight">\(f(x) = \frac{1}{2}(x_1^2 + \lambda x_2^2)\)</span>, with <span class="math notranslate nohighlight">\(\lambda = 25\)</span>. Since here the gradient is exact, there is no stochasticity: we only observe the effect of momentum and of the adaptive learning rates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">grad_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="k">def</span> <span class="nf">run_gd</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">maxit</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">run_momentum</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">maxit</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">m</span>
+        <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">run_adam</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">maxit</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">beta2</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">m_hat</span> <span class="o">=</span> <span class="n">m</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta1</span><span class="o">**</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">v_hat</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="o">**</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">m_hat</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_hat</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">2.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">maxit</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">trajectories</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;GD&quot;</span><span class="p">:</span> <span class="n">run_gd</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.8</span> <span class="o">/</span> <span class="n">lam</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="n">maxit</span><span class="p">),</span>
+    <span class="s2">&quot;Momentum&quot;</span><span class="p">:</span> <span class="n">run_momentum</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">2.5</span> <span class="o">/</span> <span class="n">lam</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="n">maxit</span><span class="p">),</span>
+    <span class="s2">&quot;Adam&quot;</span><span class="p">:</span> <span class="n">run_adam</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="n">maxit</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">xx1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">xx2</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">xs</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trajectories (</span><span class="si">{</span><span class="n">maxit</span><span class="si">}</span><span class="s2"> iterations)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x_k)$&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c9bc737926577eec12115275a39893e920594db77ad5732698c981a8283c9a11.png" src="../_images/c9bc737926577eec12115275a39893e920594db77ad5732698c981a8283c9a11.png" />
+</div>
+</div>
+<p>GD zig-zags along the valley and moves slowly in the flat direction. Momentum damps the oscillations and accelerates along the flat direction, converging much faster than GD. Adam, thanks to the per-coordinate normalization, does not zig-zag at all: at the beginning, it moves roughly along the diagonal, treating the two directions in the same way, regardless of their curvature.</p>
+<p>Note, however, that on this (deterministic, perfectly known) problem, Adam is <strong>not</strong> the fastest method: with a constant learning rate, it does not converge exactly to the minimum, but it keeps oscillating in a small neighborhood of it, whose size is proportional to <span class="math notranslate nohighlight">\(\eta\)</span>. Its real advantage is a different one: the learning rates of GD and Momentum must be chosen proportional to <span class="math notranslate nohighlight">\(1/\lambda = 1/L\)</span> (try to increase them, and they diverge!), while the learning rate of Adam is <strong>independent of the curvature</strong> of the function. As we will see, this robustness is what makes Adam so useful for training Neural Networks, where <span class="math notranslate nohighlight">\(L\)</span> is unknown.</p>
+</section>
+</section>
+<section id="a-realistic-experiment-fashion-mnist">
+<h2>A realistic experiment: Fashion-MNIST<a class="headerlink" href="#a-realistic-experiment-fashion-mnist" title="Link to this heading">#</a></h2>
+<p>We are now ready to put everything together. We will:</p>
+<ol class="arabic simple">
+<li><p><strong>download</strong> a real classification dataset from the internet;</p></li>
+<li><p><strong>load</strong> it in memory as <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays;</p></li>
+<li><p><strong>pre-process</strong> it (normalization, one-hot encoding, train/validation/test split);</p></li>
+<li><p><strong>build</strong> an MLP from scratch;</p></li>
+<li><p><strong>train</strong> it with SGD, SGD with Momentum and Adam, implemented from scratch;</p></li>
+<li><p><strong>evaluate</strong> the trained model on the test set.</p></li>
+</ol>
+<section id="the-dataset">
+<h3>The dataset<a class="headerlink" href="#the-dataset" title="Link to this heading">#</a></h3>
+<p>We will use <strong>Fashion-MNIST</strong> (Xiao, Rasul and Vollgraf, 2017), a dataset of <span class="math notranslate nohighlight">\(70\,000\)</span> grayscale images of <span class="math notranslate nohighlight">\(28 \times 28\)</span> pixels, each representing a clothing item from the Zalando catalog, belonging to one of <span class="math notranslate nohighlight">\(K = 10\)</span> classes:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Label</p></th>
+<th class="head"><p>Class</p></th>
+<th class="head"><p>Label</p></th>
+<th class="head"><p>Class</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>T-shirt/top</p></td>
+<td><p>5</p></td>
+<td><p>Sandal</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Trouser</p></td>
+<td><p>6</p></td>
+<td><p>Shirt</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Pullover</p></td>
+<td><p>7</p></td>
+<td><p>Sneaker</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Dress</p></td>
+<td><p>8</p></td>
+<td><p>Bag</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Coat</p></td>
+<td><p>9</p></td>
+<td><p>Ankle boot</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The dataset is split into <span class="math notranslate nohighlight">\(60\,000\)</span> training images and <span class="math notranslate nohighlight">\(10\,000\)</span> test images. It has been designed as a drop-in replacement of the classical MNIST dataset of handwritten digits (same size, same format, same number of classes), but it is significantly harder to classify. The dataset is publicly available on <a class="reference external" href="https://github.com/zalandoresearch/fashion-mnist">GitHub</a>.</p>
+</section>
+<section id="downloading-the-data">
+<h3>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Link to this heading">#</a></h3>
+<p>The dataset is distributed as four compressed (<code class="docutils literal notranslate"><span class="pre">.gz</span></code>) files: images and labels, for the training and the test set. We download them with the <code class="docutils literal notranslate"><span class="pre">urllib</span></code> module of the Python standard library, saving them in the <code class="docutils literal notranslate"><span class="pre">data/fashion_mnist</span></code> folder (if they have not been already downloaded).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/zalandoresearch/fashion-mnist/raw/master/data/fashion/&quot;</span>
+<span class="n">FILES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;X_train&quot;</span><span class="p">:</span> <span class="s2">&quot;train-images-idx3-ubyte.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;y_train&quot;</span><span class="p">:</span> <span class="s2">&quot;train-labels-idx1-ubyte.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;X_test&quot;</span><span class="p">:</span> <span class="s2">&quot;t10k-images-idx3-ubyte.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;y_test&quot;</span><span class="p">:</span> <span class="s2">&quot;t10k-labels-idx1-ubyte.gz&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;data/fashion_mnist&quot;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">FILES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">URL</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train-images-idx3-ubyte.gz: 26.4 MB
+train-labels-idx1-ubyte.gz: 0.0 MB
+t10k-images-idx3-ubyte.gz: 4.4 MB
+t10k-labels-idx1-ubyte.gz: 0.0 MB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loading-the-data-in-memory">
+<h3>Loading the data in memory<a class="headerlink" href="#loading-the-data-in-memory" title="Link to this heading">#</a></h3>
+<p>The files are stored in the <strong>IDX</strong> format, a very simple binary format for vectors and multidimensional arrays: each file starts with a short <em>header</em> (a “magic number” identifying the type of data, followed by the size of each dimension, each of them stored as a 4-byte integer), followed by the raw data, stored as unsigned 8-bit integers (<code class="docutils literal notranslate"><span class="pre">uint8</span></code>, i.e. numbers in <span class="math notranslate nohighlight">\(\{0, \dots, 255\}\)</span>). In particular:</p>
+<ul class="simple">
+<li><p>the <strong>images</strong> files have a header of <span class="math notranslate nohighlight">\(16\)</span> bytes (magic number, number of images, number of rows, number of columns), followed by the pixel values;</p></li>
+<li><p>the <strong>labels</strong> files have a header of <span class="math notranslate nohighlight">\(8\)</span> bytes (magic number, number of labels), followed by the labels.</p></li>
+</ul>
+<p>Therefore, we can read them with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, by skipping the header with the <code class="docutils literal notranslate"><span class="pre">offset</span></code> argument of <code class="docutils literal notranslate"><span class="pre">np.frombuffer</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_images</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">load_labels</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">X_train_full</span> <span class="o">=</span> <span class="n">load_images</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">FILES</span><span class="p">[</span><span class="s2">&quot;X_train&quot;</span><span class="p">]))</span>
+<span class="n">y_train_full</span> <span class="o">=</span> <span class="n">load_labels</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">FILES</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">]))</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">load_images</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">FILES</span><span class="p">[</span><span class="s2">&quot;X_test&quot;</span><span class="p">]))</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">load_labels</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">FILES</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training images: </span><span class="si">{</span><span class="n">X_train_full</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, dtype: </span><span class="si">{</span><span class="n">X_train_full</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training labels: </span><span class="si">{</span><span class="n">y_train_full</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, values: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train_full</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test images: </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of training images per class: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_train_full</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training images: (60000, 28, 28), dtype: uint8
+Training labels: (60000,), values: [0 1 2 3 4 5 6 7 8 9]
+Test images: (10000, 28, 28)
+Number of training images per class: [6000 6000 6000 6000 6000 6000 6000 6000 6000 6000]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The training set is perfectly <strong>balanced</strong>: each class contains <span class="math notranslate nohighlight">\(6\,000\)</span> images. Let’s visualize some of them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CLASSES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;T-shirt/top&quot;</span><span class="p">,</span> <span class="s2">&quot;Trouser&quot;</span><span class="p">,</span> <span class="s2">&quot;Pullover&quot;</span><span class="p">,</span> <span class="s2">&quot;Dress&quot;</span><span class="p">,</span> <span class="s2">&quot;Coat&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;Sandal&quot;</span><span class="p">,</span> <span class="s2">&quot;Shirt&quot;</span><span class="p">,</span> <span class="s2">&quot;Sneaker&quot;</span><span class="p">,</span> <span class="s2">&quot;Bag&quot;</span><span class="p">,</span> <span class="s2">&quot;Ankle boot&quot;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X_train_full</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">[</span><span class="n">y_train_full</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d3fffbad5e37e94ab4352f31ba8b1b3e295759b91583ea10236cae72c52f24ad.png" src="../_images/d3fffbad5e37e94ab4352f31ba8b1b3e295759b91583ea10236cae72c52f24ad.png" />
+</div>
+</div>
+</section>
+<section id="pre-processing">
+<h3>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading">#</a></h3>
+<p>Before training, we need to transform the data in the format required by our MLP:</p>
+<ol class="arabic">
+<li><p><strong>Flattening</strong>: our MLP takes as input vectors, not matrices. Therefore, each <span class="math notranslate nohighlight">\(28 \times 28\)</span> image is <em>flattened</em> into a vector <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{784}\)</span> (by concatenating its rows), so that the dataset becomes a matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{N \times 784}\)</span>.</p></li>
+<li><p><strong>Normalization</strong>: the pixel values are integers in <span class="math notranslate nohighlight">\(\{0, \dots, 255\}\)</span>. As we discussed in the previous chapters, large and unbalanced input values lead to an ill-conditioned optimization problem. Therefore, we first rescale the pixels to <span class="math notranslate nohighlight">\([0, 1]\)</span>, and then we <strong>standardize</strong> them to have zero mean and unit variance:</p>
+<div class="math notranslate nohighlight">
+\[
+   x \leftarrow \frac{x - \mu}{\sigma},
+   \]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are the mean and the standard deviation of the pixels in the <strong>training set</strong>.</p>
+</li>
+<li><p><strong>Train/validation split</strong>: we keep the last <span class="math notranslate nohighlight">\(10\,000\)</span> images of the training set aside, as a <strong>validation set</strong>, which we use to monitor the training and to compare the optimizers. The <strong>test set</strong> is used only once, at the very end.</p></li>
+<li><p><strong>One-hot encoding</strong> of the labels.</p></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The normalization constants <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> must be computed <strong>only on the training set</strong>, and then applied, unchanged, to the validation and test sets. Using the test set to compute them would be a (small) form of <em>data leakage</em>, i.e. we would use information about the test set during training.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Flattening and conversion to float in [0, 1]</span>
+<span class="n">X_train_full</span> <span class="o">=</span> <span class="n">X_train_full</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+
+<span class="c1"># 3. Train / validation split</span>
+<span class="n">N_val</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">X_train_full</span><span class="p">[:</span><span class="o">-</span><span class="n">N_val</span><span class="p">],</span> <span class="n">y_train_full</span><span class="p">[:</span><span class="o">-</span><span class="n">N_val</span><span class="p">]</span>
+<span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">X_train_full</span><span class="p">[</span><span class="o">-</span><span class="n">N_val</span><span class="p">:],</span> <span class="n">y_train_full</span><span class="p">[</span><span class="o">-</span><span class="n">N_val</span><span class="p">:]</span>
+
+<span class="c1"># 2. Standardization (statistics computed on the training set only!)</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">X_train</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_train</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+<span class="n">X_val</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_val</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+
+<span class="c1"># 4. One-hot encoding</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">Y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">K</span><span class="p">)[</span><span class="n">y_train</span><span class="p">]</span>
+<span class="n">Y_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">K</span><span class="p">)[</span><span class="n">y_val</span><span class="p">]</span>
+<span class="n">Y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">K</span><span class="p">)[</span><span class="n">y_test</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train: X </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Y </span><span class="si">{</span><span class="n">Y_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation: X </span><span class="si">{</span><span class="n">X_val</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Y </span><span class="si">{</span><span class="n">Y_val</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test: X </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, Y </span><span class="si">{</span><span class="n">Y_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train: X (50000, 784), Y (50000, 10)
+Validation: X (10000, 784), Y (10000, 10)
+Test: X (10000, 784), Y (10000, 10)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-model">
+<h3>The model<a class="headerlink" href="#the-model" title="Link to this heading">#</a></h3>
+<p>We use an MLP with two hidden layers of <span class="math notranslate nohighlight">\(256\)</span> and <span class="math notranslate nohighlight">\(128\)</span> neurons, with ReLU activation, and a Softmax output layer with <span class="math notranslate nohighlight">\(K = 10\)</span> neurons:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{R}^{784} \xrightarrow{W^1, b^1} \mathbb{R}^{256} \xrightarrow{\text{ReLU}} \mathbb{R}^{256} \xrightarrow{W^2, b^2} \mathbb{R}^{128} \xrightarrow{\text{ReLU}} \mathbb{R}^{128} \xrightarrow{W^3, b^3} \mathbb{R}^{10} \xrightarrow{\text{softmax}} \hat{y}.
+\]</div>
+<p>The code for the MLP is the same as in the previous chapters (expand the cell below to see it).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># ---- Code from the previous chapters ----</span>
+<span class="k">def</span> <span class="nf">relu</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">relu_prime</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sizes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n_in</span><span class="p">),</span> <span class="p">(</span><span class="n">n_out</span><span class="p">,</span> <span class="n">n_in</span><span class="p">))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_out</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">cache</span>
+
+<span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y_hat</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">))):</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+        <span class="n">H_prev</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">grads</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Delta</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">H_prev</span><span class="p">,</span> <span class="n">Delta</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">Delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">Delta</span> <span class="o">@</span> <span class="n">W</span><span class="p">)</span> <span class="o">*</span> <span class="n">relu_prime</span><span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">grads</span>
+
+<span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y_hat</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">784</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
+<span class="n">n_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of parameters: </span><span class="si">{</span><span class="n">n_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of parameters: 235146
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-optimizers">
+<h3>The optimizers<a class="headerlink" href="#the-optimizers" title="Link to this heading">#</a></h3>
+<p>To compare different optimizers with the same training loop, we implement each optimizer as a small Python <strong>class</strong>, with a method <code class="docutils literal notranslate"><span class="pre">step(params,</span> <span class="pre">grads)</span></code> which updates the parameters in-place, given their gradients. Each optimizer stores its own internal state (e.g. the moments <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(v\)</span> for Adam), with one array for each parameter array. This is exactly the structure used by the optimizers of PyTorch (<code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.optim.Adam</span></code>, …).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SGD</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">dW</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+            <span class="n">W</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">dW</span>
+            <span class="n">b</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">db</span>
+
+
+<span class="k">class</span> <span class="nc">Momentum</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">lr</span><span class="p">,</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">W</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span> <span class="k">for</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span><span class="p">,</span> <span class="n">grad_layer</span><span class="p">,</span> <span class="n">m_layer</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># j = 0: W, j = 1: b</span>
+                <span class="n">m_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">m_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">grad_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">m_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Adam</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">lr</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="p">,</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">W</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span> <span class="k">for</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">W</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span> <span class="k">for</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">layer</span><span class="p">,</span> <span class="n">grad_layer</span><span class="p">,</span> <span class="n">m_layer</span><span class="p">,</span> <span class="n">v_layer</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># j = 0: W, j = 1: b</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">grad_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">m_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span> <span class="o">*</span> <span class="n">m_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span>
+                <span class="n">v_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">*</span> <span class="n">v_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">m_hat</span> <span class="o">=</span> <span class="n">m_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">v_hat</span> <span class="o">=</span> <span class="n">v_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">m_hat</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_hat</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-training-loop">
+<h3>The training loop<a class="headerlink" href="#the-training-loop" title="Link to this heading">#</a></h3>
+<p>The training loop is the same as in the previous chapter, with two differences: the update of the parameters is delegated to the optimizer, and at the end of each epoch we evaluate the model on the <strong>validation set</strong>. To save time, the training loss of each epoch is computed as the average of the losses on the batches (which are computed anyway during the forward pass), instead of performing an additional forward pass on the whole training set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">Y_val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train_loss&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val_loss&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val_acc&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">batch_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">start_batch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">start_batch</span><span class="p">:</span><span class="n">start_batch</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">Xb</span><span class="p">,</span> <span class="n">Yb</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">Y_train</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+
+            <span class="c1"># Forward pass, backward pass, update</span>
+            <span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">Xb</span><span class="p">)</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Yb</span><span class="p">)</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+
+            <span class="n">batch_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Yb</span><span class="p">))</span>
+
+        <span class="c1"># Evaluation on the validation set</span>
+        <span class="n">Y_hat_val</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_val</span><span class="p">)</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;train_loss&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">batch_losses</span><span class="p">))</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat_val</span><span class="p">,</span> <span class="n">Y_val</span><span class="p">))</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_acc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">(</span><span class="n">Y_hat_val</span><span class="p">,</span> <span class="n">Y_val</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">: train loss = </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;val loss = </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, val acc = </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_acc&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s)&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training">
+<h3>Training<a class="headerlink" href="#training" title="Link to this heading">#</a></h3>
+<p>We now train the same network (with the same initialization) with the three optimizers, for <span class="math notranslate nohighlight">\(10\)</span> epochs, with batch size <span class="math notranslate nohighlight">\(N_\text{batch} = 64\)</span>. For Adam, we use the default hyperparameters. For SGD and Momentum, we use learning rates that have been tuned by trial and error (note that, since the momentum accumulates the gradients, its effective learning rate is <span class="math notranslate nohighlight">\(\frac{\eta}{1 - \beta} = 10\,\eta\)</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">optimizers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;SGD&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">SGD</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">),</span>
+    <span class="s2">&quot;Momentum&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">Momentum</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">),</span>
+    <span class="s2">&quot;Adam&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">Adam</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">histories</span><span class="p">,</span> <span class="n">trained_params</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_optimizer</span> <span class="ow">in</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;---- </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> ----&quot;</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">make_optimizer</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">Y_val</span><span class="p">,</span>
+                            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span>
+    <span class="n">histories</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">trained_params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">history</span><span class="p">,</span> <span class="n">params</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---- SGD ----
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  1/10: train loss = 0.5028, val loss = 0.4978, val acc = 81.56% (1.4s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  2/10: train loss = 0.3656, val loss = 0.3792, val acc = 86.43% (1.3s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  3/10: train loss = 0.3261, val loss = 0.4769, val acc = 82.24% (1.4s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  4/10: train loss = 0.2989, val loss = 0.4070, val acc = 85.44% (1.3s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  5/10: train loss = 0.2762, val loss = 0.3407, val acc = 87.47% (1.3s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  6/10: train loss = 0.2594, val loss = 0.4008, val acc = 85.47% (1.3s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  7/10: train loss = 0.2436, val loss = 0.3486, val acc = 87.36% (1.4s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  8/10: train loss = 0.2289, val loss = 0.3148, val acc = 88.77% (1.5s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  9/10: train loss = 0.2151, val loss = 0.3410, val acc = 87.43% (1.3s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 10/10: train loss = 0.2041, val loss = 0.3366, val acc = 88.15% (1.3s)
+---- Momentum ----
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  1/10: train loss = 0.4999, val loss = 0.4232, val acc = 84.35% (1.5s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  2/10: train loss = 0.3671, val loss = 0.3877, val acc = 85.55% (1.5s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  3/10: train loss = 0.3255, val loss = 0.3490, val acc = 87.29% (1.6s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  4/10: train loss = 0.2975, val loss = 0.3447, val acc = 87.54% (1.6s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  5/10: train loss = 0.2779, val loss = 0.3327, val acc = 87.41% (1.7s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  6/10: train loss = 0.2626, val loss = 0.3190, val acc = 88.37% (1.5s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  7/10: train loss = 0.2421, val loss = 0.3213, val acc = 88.50% (1.6s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  8/10: train loss = 0.2272, val loss = 0.3189, val acc = 88.75% (1.6s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  9/10: train loss = 0.2164, val loss = 0.3280, val acc = 88.19% (1.6s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 10/10: train loss = 0.2023, val loss = 0.3451, val acc = 87.98% (1.5s)
+---- Adam ----
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  1/10: train loss = 0.4671, val loss = 0.4048, val acc = 85.39% (2.8s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  2/10: train loss = 0.3533, val loss = 0.3739, val acc = 86.28% (2.7s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  3/10: train loss = 0.3135, val loss = 0.3382, val acc = 87.82% (2.7s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  4/10: train loss = 0.2862, val loss = 0.3439, val acc = 87.59% (2.7s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  5/10: train loss = 0.2679, val loss = 0.3274, val acc = 87.97% (2.8s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  6/10: train loss = 0.2566, val loss = 0.3299, val acc = 88.52% (2.9s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  7/10: train loss = 0.2349, val loss = 0.3332, val acc = 88.61% (2.8s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  8/10: train loss = 0.2236, val loss = 0.3223, val acc = 89.17% (2.8s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch  9/10: train loss = 0.2098, val loss = 0.3435, val acc = 88.19% (2.7s)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 10/10: train loss = 0.1978, val loss = 0.3526, val acc = 88.26% (2.8s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">history</span> <span class="ow">in</span> <span class="n">histories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">ep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;train_loss&quot;</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_acc&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Training loss&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Validation loss&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Validation accuracy (%)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4882ef710e06a3e57b3d6f279a88f0eec99ddd476f441a712ff72338779346c6.png" src="../_images/4882ef710e06a3e57b3d6f279a88f0eec99ddd476f441a712ff72338779346c6.png" />
+</div>
+</div>
+<p>A few observations:</p>
+<ul class="simple">
+<li><p>All the optimizers reach a validation accuracy of almost <span class="math notranslate nohighlight">\(90\%\)</span> in a few epochs. Since the data has been standardized and the learning rates of SGD and Momentum have been tuned, the difference between them in terms of training loss is small (Adam is slightly faster, especially in the first epoch).</p></li>
+<li><p>The validation curves of SGD are much <strong>noisier</strong> than the ones of Momentum and Adam: averaging the gradients over the iterations reduces the noise of the stochastic gradient, and makes the training more stable.</p></li>
+<li><p>After a few epochs, the <strong>validation loss</strong> stops decreasing (and even starts increasing), while the training loss keeps decreasing: the model starts to <strong>overfit</strong> the training data. This is the moment to stop the training (<em>early stopping</em>).</p></li>
+<li><p>Note that an epoch of Adam takes longer than an epoch of SGD, since Adam performs more operations per iteration. In our implementation, this overhead is significant since our network is small; for large networks, the cost of the forward and backward passes dominates, and the overhead becomes negligible.</p></li>
+</ul>
+</section>
+<section id="sensitivity-to-the-learning-rate">
+<h3>Sensitivity to the learning rate<a class="headerlink" href="#sensitivity-to-the-learning-rate" title="Link to this heading">#</a></h3>
+<p>The comparison above is somehow unfair toward Adam: we tuned the learning rate of SGD, while we used the default learning rate for Adam. In practice, tuning the learning rate is expensive, since it requires training the model many times. Let’s see what happens to SGD and Adam when the learning rate changes over several orders of magnitude (for time reasons, we only train for <span class="math notranslate nohighlight">\(2\)</span> epochs).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learning_rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">sensitivity</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;SGD&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;Adam&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+
+<span class="k">for</span> <span class="n">lr</span> <span class="ow">in</span> <span class="n">learning_rates</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">Opt</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&quot;SGD&quot;</span><span class="p">,</span> <span class="n">SGD</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Adam&quot;</span><span class="p">,</span> <span class="n">Adam</span><span class="p">)]:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>  <span class="c1"># Ignore overflow warnings when training diverges</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">Opt</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">),</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">Y_val</span><span class="p">,</span>
+                                    <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">sensitivity</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_acc&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">5s</span><span class="si">}</span><span class="s2"> lr = </span><span class="si">{</span><span class="n">lr</span><span class="si">:</span><span class="s2">.0e</span><span class="si">}</span><span class="s2">: val acc = </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_acc&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD   lr = 1e-04: val acc = 61.11%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam  lr = 1e-04: val acc = 84.74%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD   lr = 1e-03: val acc = 77.83%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam  lr = 1e-03: val acc = 86.28%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD   lr = 1e-02: val acc = 84.15%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam  lr = 1e-02: val acc = 82.46%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD   lr = 1e-01: val acc = 86.64%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam  lr = 1e-01: val acc = 9.68%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SGD   lr = 1e+00: val acc = 10.23%
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam  lr = 1e+00: val acc = 9.65%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">accs</span> <span class="ow">in</span> <span class="n">sensitivity</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">learning_rates</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accs</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Learning rate $\eta$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Validation accuracy (%)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Validation accuracy after 2 epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d9f46559b1fb86954f52d0a856ef46a30c0118ac36b5dfcf0553d68069ef4028.png" src="../_images/d9f46559b1fb86954f52d0a856ef46a30c0118ac36b5dfcf0553d68069ef4028.png" />
+</div>
+</div>
+<p>Both optimizers have a range of “good” learning rates, and both of them diverge when the learning rate is too large. However, the ranges are very different: Adam works well for learning rates between <span class="math notranslate nohighlight">\(10^{-4}\)</span> and <span class="math notranslate nohighlight">\(10^{-2}\)</span>, i.e. around its default value <span class="math notranslate nohighlight">\(\eta = 10^{-3}\)</span>, while SGD requires learning rates which are <span class="math notranslate nohighlight">\(10\)</span> to <span class="math notranslate nohighlight">\(100\)</span> times larger, and it is very slow for small learning rates. Since the right learning rate of SGD depends on the scale of the gradients (i.e. on the curvature of the loss, which changes from problem to problem), it must be tuned for every new problem. On the contrary, the default learning rate of Adam is a reliable starting point for almost any problem, which is the main reason of its popularity.</p>
+</section>
+<section id="evaluation-on-the-test-set">
+<h3>Evaluation on the test set<a class="headerlink" href="#evaluation-on-the-test-set" title="Link to this heading">#</a></h3>
+<p>Finally, we evaluate the model trained with Adam on the <strong>test set</strong>, which we never used so far.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">trained_params</span><span class="p">[</span><span class="s2">&quot;Adam&quot;</span><span class="p">]</span>
+<span class="n">Y_hat_test</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">Y_hat_test</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test loss: </span><span class="si">{</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat_test</span><span class="p">,</span><span class="w"> </span><span class="n">Y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_pred</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test loss: 0.3800
+Test accuracy: 87.23%
+</pre></div>
+</div>
+</div>
+</div>
+<p>The test accuracy is close to the validation accuracy (about <span class="math notranslate nohighlight">\(1\%\)</span> lower), confirming that the validation set gives a reliable estimate of the generalization ability of the model.</p>
+<p>To better understand which errors the model makes, we compute the <strong>confusion matrix</strong> <span class="math notranslate nohighlight">\(C \in \mathbb{R}^{K \times K}\)</span>, where <span class="math notranslate nohighlight">\(C_{ij}\)</span> is the number of test images of class <span class="math notranslate nohighlight">\(i\)</span> which have been classified as class <span class="math notranslate nohighlight">\(j\)</span>. A perfect classifier would have a diagonal confusion matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">true</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">C</span><span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">pred</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">C</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="n">CLASSES</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="n">CLASSES</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicted class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;True class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion matrix (test set)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CLASSES</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">12s</span><span class="si">}</span><span class="s2">: accuracy = </span><span class="si">{</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/14c94d9831a1970c57f9fb47a3f78db3004ac7fe09fff775bdfb7aa849cc8b1f.png" src="../_images/14c94d9831a1970c57f9fb47a3f78db3004ac7fe09fff775bdfb7aa849cc8b1f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T-shirt/top : accuracy = 75.6%
+Trouser     : accuracy = 96.9%
+Pullover    : accuracy = 71.3%
+Dress       : accuracy = 87.8%
+Coat        : accuracy = 90.0%
+Sandal      : accuracy = 95.7%
+Shirt       : accuracy = 66.8%
+Sneaker     : accuracy = 93.4%
+Bag         : accuracy = 97.9%
+Ankle boot  : accuracy = 96.9%
+</pre></div>
+</div>
+</div>
+</div>
+<p>As expected, the hardest classes are the ones that look similar to each other: <em>Shirt</em>, <em>T-shirt/top</em>, <em>Pullover</em> and <em>Coat</em> are often confused, while <em>Trouser</em>, <em>Bag</em> and the shoes are classified almost perfectly. Let’s look at some of the misclassified images, together with the probability that the network assigned to its prediction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wrong</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">!=</span> <span class="n">y_test</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">wrong</span><span class="p">[:</span><span class="mi">16</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;True: </span><span class="si">{</span><span class="n">CLASSES</span><span class="p">[</span><span class="n">y_test</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="si">}</span><span class="se">\n</span><span class="s2">Pred: </span><span class="si">{</span><span class="n">CLASSES</span><span class="p">[</span><span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">Y_hat_test</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">,</span>
+                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6d8ee12f60cb88c958980f31369b7ab33d3b4c6d945b6e39a3ffe7e0cd6f54b3.png" src="../_images/6d8ee12f60cb88c958980f31369b7ab33d3b4c6d945b6e39a3ffe7e0cd6f54b3.png" />
+</div>
+</div>
+<p>Many of these errors are understandable, even for a human.</p>
+</section>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p>In this course, we built from scratch, using only <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, all the components of a modern Deep Learning pipeline:</p>
+<ul class="simple">
+<li><p>a <strong>model</strong>: the Multi-Layer Perceptron, built as a graph of simple computational units (the neurons);</p></li>
+<li><p>a <strong>loss function</strong>: the Cross-Entropy, derived from the Maximum Likelihood principle;</p></li>
+<li><p>the <strong>gradient</strong> of the loss, computed efficiently by <strong>backpropagation</strong>;</p></li>
+<li><p>the <strong>optimizers</strong>: Gradient Descent, Stochastic Gradient Descent, Momentum and Adam;</p></li>
+<li><p>the <strong>data pipeline</strong>: download, loading, pre-processing, train/validation/test split, evaluation.</p></li>
+</ul>
+<p>Libraries such as PyTorch implement exactly these components (with automatic differentiation in place of our hand-written <code class="docutils literal notranslate"><span class="pre">backward</span></code>, and GPUs in place of our CPU), allowing to scale them to models with billions of parameters. However, the mathematical principles behind them are exactly the ones we studied in this course.</p>
+<blockquote>
+<div><p><strong>Exercise (Normalization):</strong> Train the MLP with SGD and Adam <strong>without</strong> standardizing the data (i.e. with pixel values in <span class="math notranslate nohighlight">\(\{0, \dots, 255\}\)</span>). What happens? Which optimizer is more robust? Explain the result using what you learned about the conditioning of the problem and about the scale-invariance of Adam.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Batch size):</strong> Train the MLP with Adam for <span class="math notranslate nohighlight">\(N_\text{batch} \in \{16, 64, 256, 1024\}\)</span>, keeping the number of epochs fixed. Plot the validation accuracy as a function of the epochs and as a function of the training time.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Architecture):</strong> Try different architectures: a single hidden layer with <span class="math notranslate nohighlight">\(32\)</span>, <span class="math notranslate nohighlight">\(128\)</span> or <span class="math notranslate nohighlight">\(512\)</span> neurons, and three hidden layers with <span class="math notranslate nohighlight">\(256\)</span> neurons each. How do the number of parameters, the training time and the test accuracy change? Do you observe more overfitting with larger networks?</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (Early stopping):</strong> Modify the function <code class="docutils literal notranslate"><span class="pre">train</span></code> so that it keeps a copy of the parameters corresponding to the lowest validation loss, and returns them at the end of the training. Compare the test accuracy of these parameters with the ones obtained at the last epoch.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise (MNIST):</strong> Repeat the experiment on the original MNIST dataset of handwritten digits, which can be downloaded in the same format from <a class="reference external" href="https://storage.googleapis.com/cvdf-datasets/mnist/">https://storage.googleapis.com/cvdf-datasets/mnist/</a> (with the same file names). Which accuracy do you obtain?</p>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="SGD.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Stochastic Gradient Descent (SGD)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Homeworks/homework.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Homework</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#momentum">Momentum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-learning-rates-rmsprop">Adaptive learning rates: RMSProp</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adam-adaptive-moment-estimation">Adam: Adaptive Moment Estimation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-correction">Bias correction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-algorithm">The algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-first-comparison-on-the-ill-conditioned-quadratic">A first comparison on the ill-conditioned quadratic</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-realistic-experiment-fashion-mnist">A realistic experiment: Fashion-MNIST</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">The dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-the-data">Downloading the data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-data-in-memory">Loading the data in memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing">Pre-processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model">The model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-optimizers">The optimizers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-training-loop">The training loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sensitivity-to-the-learning-rate">Sensitivity to the learning rate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-on-the-test-set">Evaluation on the test set</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Davide Evangelista
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

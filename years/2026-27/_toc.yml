@@ -1,0 +1,15 @@
+format: jb-book
+root: intro
+parts: 
+  - caption: Machine Learning and Neural Networks
+    chapters:
+      - file: NN/intro_ML
+      - file: NN/from_ML_to_NN
+  - caption: Optimization
+    chapters:
+      - file: Optimization/GD
+      - file: Optimization/SGD
+      - file: Optimization/Adam
+  - caption: Homework
+    chapters:
+      - file: Homeworks/homework
