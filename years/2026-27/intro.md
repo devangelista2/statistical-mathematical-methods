@@ -12,9 +12,6 @@ Module 2 of the SMM course is dedicated to the **optimization algorithms** used 
 
 The focus will always be to deeply understand the math behind those concepts, and how their implementation relates to the basic linear algebra and calculus concepts you studied during your bachelor degree.
 
-## Tutor of the Course
-For this course a tutor is available. In case you need any assistance, please refer to Francesco Pivi (`francesco.pivi2@unibo.it`).
-
 ## Office hour
 The office hour is Wednesday morning, from 9a.m. to 12p.m., via Microsoft Teams or in my office, at Ex Veneta, close to the Zanolini train station. 
 
