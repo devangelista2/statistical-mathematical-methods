@@ -37,17 +37,17 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
     <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -75,20 +75,20 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'NLA_numpy/linear_systems';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
-    <script src="../_static/searchtools.js?v=63a53a7d"></script>
-    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
-    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/searchtools.js?v=63a53a7d"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
-    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
     <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -574,7 +574,7 @@ fl(1 + \epsilon) &gt; fl(1).
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 5.030833666087639e-16
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relative error is 1.5295311772062911e-15
 </pre></div>
 </div>
 </div>
@@ -613,10 +613,10 @@ fl(1 + \epsilon) &gt; fl(1).
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True solution: [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.].
-Computed solution: [  1.00000053   0.99991355   1.00347528   0.93948622   1.56660238
-  -2.16863954  12.1001807  -23.31713131  31.25390565  -8.97856657
- -30.47104425  58.53190489 -45.260422    20.07403333  -2.27369918].
-The relative error is 23.88120834071822
+Computed solution: [ 0.99999993  1.00001176  0.99951799  1.0086855   0.91434401  1.51701217
+ -1.03279492  6.38165371 -8.69895041 12.75467302 -8.12449683  4.92521131
+  0.60789978  0.63121094  1.11602208].
+The relative error is 4.930030954879194
 </pre></div>
 </div>
 </div>
@@ -655,8 +655,8 @@ The relative error is 23.88120834071822
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 32.2845667563375
-Cond. Number Hilbert matrix: 3.3660126672602944e+17
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cond. Number Random matrix: 69.56811577000022
+Cond. Number Hilbert matrix: 3.67568286586649e+17
 </pre></div>
 </div>
 </div>
@@ -693,20 +693,20 @@ Cond. Number Hilbert matrix: 3.3660126672602944e+17
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Condition number for n = 1: 1.0.
-Condition number for n = 2: 19.281470067903967.
-Condition number for n = 3: 524.0567775860627.
-Condition number for n = 4: 15513.738738929662.
-Condition number for n = 5: 476607.2502419338.
-Condition number for n = 6: 14951058.64177819.
-Condition number for n = 7: 475367356.8766496.
-Condition number for n = 8: 15257575563.722723.
-Condition number for n = 9: 493153322841.38226.
-Condition number for n = 10: 16024980732174.455.
-Condition number for n = 11: 522478077916828.5.
-Condition number for n = 12: 1.6425917529444498e+16.
+Condition number for n = 2: 19.28147006790397.
+Condition number for n = 3: 524.0567775860644.
+Condition number for n = 4: 15513.73873892924.
+Condition number for n = 5: 476607.2502425855.
+Condition number for n = 6: 14951058.642254734.
+Condition number for n = 7: 475367356.7446793.
+Condition number for n = 8: 15257575538.060041.
+Condition number for n = 9: 493153755941.02344.
+Condition number for n = 10: 16024416987428.36.
+Condition number for n = 11: 522270131654983.3.
+Condition number for n = 12: 1.7515952300879806e+16.
 </pre></div>
 </div>
-<img alt="../_images/8b30dae66f58ec13e207ec23371fd359db4a65a24a0c87f58245715280faba48.png" src="../_images/8b30dae66f58ec13e207ec23371fd359db4a65a24a0c87f58245715280faba48.png" />
+<img alt="../_images/5c62c6659d103f9f283f198afd0f4283f387a04c3ff2da58097a3772f4a008fe.png" src="../_images/5c62c6659d103f9f283f198afd0f4283f387a04c3ff2da58097a3772f4a008fe.png" />
 </div>
 </div>
 <p>As you can see, the condition number starts relatively small, then grows exponentially for increasing values of <span class="math notranslate nohighlight">\(n\)</span>.</p>
@@ -754,7 +754,7 @@ Condition number for n = 12: 1.6425917529444498e+16.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/e77b5fe05eac02b120bfc1d306c5c18280143923af5482126b6b9c6a44c0a0bf.png" src="../_images/e77b5fe05eac02b120bfc1d306c5c18280143923af5482126b6b9c6a44c0a0bf.png" />
+<img alt="../_images/1859a9d756e02b8c645cc257e38d8bc99c4676298d76532ce86565203b9bda0c.png" src="../_images/1859a9d756e02b8c645cc257e38d8bc99c4676298d76532ce86565203b9bda0c.png" />
 </div>
 </div>
 <p>How can we relate the condition number of a matrix with the accuracy of the solution to a linear system associated with it?</p>
