@@ -707,39 +707,7 @@ x_{k+1} = x_k - \alpha \lambda x_k = (1 - \alpha \lambda) x_k \quad \implies \qu
 <li><p>for <span class="math notranslate nohighlight">\(1/\lambda &lt; \alpha &lt; 2/\lambda\)</span>, the factor is negative, and the iterates <strong>oscillate</strong> around <span class="math notranslate nohighlight">\(x^*\)</span>;</p></li>
 <li><p>for <span class="math notranslate nohighlight">\(\alpha &gt; 2/\lambda\)</span>, the iterates <strong>diverge</strong>.</p></li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="n">lam</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">x</span>
-
-<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">]):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mf">2.0</span>
-    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
-
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"$\alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">$ ($\alpha\lambda = </span><span class="si">{</span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lam</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">$)"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/e185634bb643a3230e6fe431413d9106a14c061a13233e12275ab54718e05118.png" src="../_images/e185634bb643a3230e6fe431413d9106a14c061a13233e12275ab54718e05118.png" />
-</div>
-</div>
+<p><img alt="Four step sizes on the same quadratic: slow, one-step and oscillatory convergence, then divergence." src="../_images/step_size_regimes.png" /></p>
 <p>The issue is that, in practice, we do not know the value of <span class="math notranslate nohighlight">\(L\)</span> (for a Neural Network, we have no idea of what the maximum curvature of the loss is). Therefore, we need either to choose <span class="math notranslate nohighlight">\(\alpha\)</span> by trial and error, or to compute it automatically.</p>
 </section>
 <section id="backtracking">
@@ -758,7 +726,10 @@ f(x_k) - f(\underbrace{x_k - \alpha_k \nabla f(x_k)}_{x_{k+1}}) \geq c_1 \alpha_
 <p>The Armijo condition is easily satisfied by the <strong>backtracking algorithm</strong>. The idea of this algorithm is to begin with an initial (large) guess for <span class="math notranslate nohighlight">\(\alpha_k\)</span>, which is then reduced as <span class="math notranslate nohighlight">\(\alpha_k \leftarrow \tau \alpha_k\)</span> with <span class="math notranslate nohighlight">\(\tau \in (0, 1)\)</span> until the Armijo condition is satisfied. Since, by the descent lemma, the Armijo condition holds for any <span class="math notranslate nohighlight">\(\alpha_k \leq \frac{2(1 - c_1)}{L}\)</span>, the backtracking always terminates after a finite number of reductions. A Python implementation for the backtracking algorithm can be found in the following.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">alpha0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">backtracking</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">alpha0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Returns a step size alpha that satisfies the Armijo condition:</span>
 <span class="sd">        f(x - alpha * g) &lt;= f(x) - c * alpha * ||g||^2</span>
@@ -881,7 +852,7 @@ f(x) = \frac{1}{2} x^T A x, \qquad A = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; \lam
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/365fe9fa976bf18dab829267b95b11d3c7ec853e0a0245ef2f3e4fede5f6af95.png" src="../_images/365fe9fa976bf18dab829267b95b11d3c7ec853e0a0245ef2f3e4fede5f6af95.png" />
+<img alt="../_images/6b3efed26f19c0f1f4968c1066a3219da39e5f4c6fec200e1fdf4b2ec0818aef.png" src="../_images/6b3efed26f19c0f1f4968c1066a3219da39e5f4c6fec200e1fdf4b2ec0818aef.png" />
 </div>
 </div>
 <p>When <span class="math notranslate nohighlight">\(\kappa = 1\)</span>, the level sets are circles, the gradient points exactly toward the minimum, and GD moves along a straight line toward it. When <span class="math notranslate nohighlight">\(\kappa\)</span> grows, the step size must be small to avoid divergence along the “steep” direction <span class="math notranslate nohighlight">\(x_2\)</span>, which makes the progress along the “flat” direction <span class="math notranslate nohighlight">\(x_1\)</span> very slow. As a consequence, the iterates <strong>zig-zag</strong> across the narrow valley, and the number of iterations grows (proportionally to <span class="math notranslate nohighlight">\(\kappa\)</span>).</p>
@@ -961,7 +932,7 @@ Backtracking:  x = [1.00039244 1.00078739], iterations = 10012
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/22a6b10e0b2c072824315a31956fd36d932e42ed01665bfbf30144b953752bbd.png" src="../_images/22a6b10e0b2c072824315a31956fd36d932e42ed01665bfbf30144b953752bbd.png" />
+<img alt="../_images/2615aef3447ae53b71a15b5c068ff0bf31148107022d4d3f139a97c1e28aa552.png" src="../_images/2615aef3447ae53b71a15b5c068ff0bf31148107022d4d3f139a97c1e28aa552.png" />
 </div>
 </div>
 <p>Note that the objective function decreases monotonically, while the gradient norm does not: GD is only guaranteed to decrease <span class="math notranslate nohighlight">\(f\)</span>, not <span class="math notranslate nohighlight">\(\|\nabla f\|_2\)</span>. Moreover, backtracking allows to use much larger step sizes when the function is flat (at the bottom of the valley), resulting in a faster convergence, even if each iteration is more expensive.</p>
@@ -993,7 +964,7 @@ f(x) = x^4 - 3x^2 + x,
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/80820bbbe6ac90cba981c9779c752e9c765d63be317c0dceb1aed8cdea47ec0e.png" src="../_images/80820bbbe6ac90cba981c9779c752e9c765d63be317c0dceb1aed8cdea47ec0e.png" />
+<img alt="../_images/a6faee952665b2d44c145671c76a89b5caa1c94b3569fcd0df3d2f60ee91f714.png" src="../_images/a6faee952665b2d44c145671c76a89b5caa1c94b3569fcd0df3d2f60ee91f714.png" />
 </div>
 </div>
 <p>As expected, depending on the initial iterate, GD converges to a different local minimum. For a Neural Network, this means that <strong>different random initializations lead to different trained networks</strong>. Luckily, it has been observed that, for large Neural Networks, most of the local minima have a similar (low) value of the loss, so this is less problematic than it may seem.</p>
@@ -1127,16 +1098,16 @@ W^l \leftarrow W^l - \alpha \nabla_{W^l} \mathcal{L}(\Theta), \qquad b^l \leftar
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.01: final loss = 0.1843, final accuracy = 92.70% (time: 0.47s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.01: final loss = 0.1843, final accuracy = 92.70% (time: 0.89s)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.1: final loss = 0.0262, final accuracy = 99.80% (time: 0.45s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.1: final loss = 0.0262, final accuracy = 99.80% (time: 0.92s)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.5: final loss = 0.0067, final accuracy = 100.00% (time: 0.45s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alpha = 0.5: final loss = 0.0067, final accuracy = 100.00% (time: 0.92s)
 </pre></div>
 </div>
-<img alt="../_images/e7ed2472a604d58589f18fe47fbf5b2551006c35677d6826998208f2184be73b.png" src="../_images/e7ed2472a604d58589f18fe47fbf5b2551006c35677d6826998208f2184be73b.png" />
+<img alt="../_images/251115e597dc528554952a1f9c749c2d92cba3d99aab1f0f6bfd5b6598aa6dbf.png" src="../_images/251115e597dc528554952a1f9c749c2d92cba3d99aab1f0f6bfd5b6598aa6dbf.png" />
 </div>
 </div>
 <p>The behavior is exactly the one predicted by the theory: with a small step size, the loss decreases very slowly, while larger step sizes lead to faster convergence. Let’s look at the decision boundary learned by the network with the largest step size.</p>
@@ -1159,7 +1130,7 @@ W^l \leftarrow W^l - \alpha \nabla_{W^l} \mathcal{L}(\Theta), \qquad b^l \leftar
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/af2ede7fd8eacb46a46df1a62027fea306ce5bbf11659544eb624814bb21539c.png" src="../_images/af2ede7fd8eacb46a46df1a62027fea306ce5bbf11659544eb624814bb21539c.png" />
+<img alt="../_images/83658b409f8103a457e28922c28c60238fa7fdd1ca8e8eecb95bdb0c25c268a8.png" src="../_images/83658b409f8103a457e28922c28c60238fa7fdd1ca8e8eecb95bdb0c25c268a8.png" />
 </div>
 </div>
 <p>The network learned, by itself, to recognize the triangle, and we never told it that the region was a triangle!</p>
