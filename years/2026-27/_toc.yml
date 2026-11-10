@@ -12,4 +12,5 @@ parts:
       - file: Optimization/Adam
   - caption: Exam
     chapters:
-      - file: Homeworks/homework_test
+      - file: Exam/homework
+      - file: Exam/exam_2025_26
