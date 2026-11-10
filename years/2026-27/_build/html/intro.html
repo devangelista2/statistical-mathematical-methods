@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -193,9 +193,9 @@
 <li class="toctree-l1"><a class="reference internal" href="Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Optimization/Adam.html">Adam and a Realistic Experiment</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homework</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exam</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Homeworks/homework.html">Homework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Homeworks/homework_test.html">Homework Test</a></li>
 </ul>
 
     </div>
@@ -392,6 +392,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics">Topics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exam">Exam</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hour">Office hour</a></li>
 </ul>
             </nav>
@@ -412,12 +413,22 @@ document.write(`
 <p>Module 2 of the SMM course is dedicated to the <strong>optimization algorithms</strong> used to train Machine Learning models, namely <strong>Gradient Descent</strong>, <strong>Stochastic Gradient Descent (SGD)</strong> and <strong>Adam</strong>. To make the discussion concrete, all the algorithms will be applied to the training of (simple) <strong>Neural Networks</strong>, which we will build from scratch using <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. The course is divided into five parts:</p>
 <ol class="arabic simple">
 <li><p><strong>A (Very Short) Introduction to Machine Learning</strong>: what are Artificial Intelligence, Machine Learning, Deep Learning and Data Science; supervised and unsupervised learning; regression and classification; the Machine Learning pipeline.</p></li>
-<li><p><strong>Neural Networks for Classification</strong>: how to build a classifier as a graph of simple computational units (the neurons), up to the Multi-Layer Perceptron (MLP); the Softmax and the Cross-Entropy loss; how to compute the gradient of the loss via <strong>backpropagation</strong>.</p></li>
+<li><p><strong>Neural Networks for Classification</strong>: how to build a classifier as a graph of simple computational units (the neurons), up to the Multi-Layer Perceptron (MLP); binary classification with the sigmoid and the Binary Cross-Entropy loss; how to compute the gradient of the loss via <strong>backpropagation</strong>.</p></li>
 <li><p><strong>Gradient Descent</strong>: optimization problems, convexity, optimality conditions, the Gradient Descent algorithm and its convergence, the choice of the step size, backtracking and stopping criteria.</p></li>
 <li><p><strong>Stochastic Gradient Descent</strong>: the finite-sum structure of the loss, mini-batches, iterations and epochs, the variance of the stochastic gradient and the choice of the learning rate.</p></li>
 <li><p><strong>Adam and a Realistic Experiment</strong>: momentum, adaptive learning rates and Adam; the full training of a Neural Network on a real image classification dataset.</p></li>
 </ol>
 <p>The focus will always be to deeply understand the math behind those concepts, and how their implementation relates to the basic linear algebra and calculus concepts you studied during your bachelor degree.</p>
+</section>
+<section id="exam">
+<h2>Exam<a class="headerlink" href="#exam" title="Link to this heading">#</a></h2>
+<p>The exam of this module consists of a short <strong>homework</strong>: a small project, to be solved in a Jupyter notebook, in which you have to apply what we studied during the course to a real classification problem, commenting and discussing the results. An example of the homework is available in the <a class="reference internal" href="Homeworks/homework_test.html"><span class="doc std std-doc">Homework Test</span></a> section. The exam works as follows:</p>
+<ul class="simple">
+<li><p><strong>Prerequisite.</strong> Module 1 of the same course is <strong>propaedeutic</strong> to this module: the homework can be submitted, and graded, <strong>only after having successfully passed Module 1</strong>.</p></li>
+<li><p><strong>Release.</strong> On the day of each Module 1 exam, the homework of that specific exam session is released. The homework is <strong>slightly different at each exam session</strong>.</p></li>
+<li><p><strong>Deadline.</strong> The homework must be sent by e-mail <strong>within one week</strong> from the date of the Module 1 exam.</p></li>
+<li><p><strong>Evaluation.</strong> The homework is graded based on the correctness of the proposed solution, on the <strong>effort</strong> it shows, and on the ability of the student to <strong>test</strong> and <strong>experiment</strong> with the methods studied in the course. The grade of this module is then combined with the grade of Module 1 to obtain the final grade of the course.</p></li>
+</ul>
 </section>
 <section id="office-hour">
 <h2>Office hour<a class="headerlink" href="#office-hour" title="Link to this heading">#</a></h2>
@@ -488,6 +499,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#topics">Topics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exam">Exam</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hour">Office hour</a></li>
 </ul>
   </nav></div>

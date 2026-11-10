@@ -10,6 +10,6 @@ parts:
       - file: Optimization/GD
       - file: Optimization/SGD
       - file: Optimization/Adam
-  - caption: Homework
+  - caption: Exam
     chapters:
-      - file: Homeworks/homework
+      - file: Homeworks/homework_test

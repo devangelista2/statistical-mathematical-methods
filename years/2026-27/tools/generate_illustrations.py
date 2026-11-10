@@ -185,5 +185,137 @@ def main():
     save(fig, "step_size_regimes", "Optimization")
 
 
+def adam_figures():
+    """Conceptual illustrations for momentum, adaptive learning rates and Adam."""
+    # Momentum: memory of the past gradients, and accumulation vs. cancellation.
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4), layout="constrained")
+    past = np.arange(0, 30)
+    for beta, color in [(0.5, ORANGE), (0.9, BLUE)]:
+        axes[0].plot(past, beta**past, "o-", ms=3, color=color, label=rf"$\beta = {beta}$")
+    axes_labels(axes[0], r"Weight $\beta^{k-j}$ of the gradient $g^{(j)}$ in $m^{(k)}$",
+                "Iterations in the past ($k - j$)", "Weight")
+    axes[0].legend()
+    beta, k = 0.9, np.arange(40)
+    for g, color, label in [(np.ones(40), GREEN, "Gradient with constant sign"),
+                            ((-1.0)**k, RED, "Oscillating gradient")]:
+        m = np.zeros(40)
+        for i in range(40):
+            m[i] = beta*(m[i-1] if i > 0 else 0) + g[i]
+        axes[1].plot(k, g, ":", color=color, lw=1)
+        axes[1].plot(k, m, "o-", ms=3, color=color, label=label)
+    axes[1].axhline(1/(1-beta), ls="--", color="#888888", lw=1)
+    axes[1].text(39, 1/(1-beta) - 0.8, r"$\frac{1}{1-\beta} = 10$", ha="right", va="top")
+    axes_labels(axes[1], r"Velocity $m^{(k)}$ (solid) for two gradient sequences (dotted), $\beta = 0.9$",
+                "Iteration k", "")
+    axes[1].legend(loc="center right")
+    save(fig, "momentum_memory", "Optimization")
+
+    # Momentum vs. GD on an ill-conditioned quadratic.
+    lam = 25
+    grad = lambda x: np.array([x[0], lam*x[1]])
+    def run(eta, beta, n=30):
+        x, m, xs = np.array([-2.8, 1.0]), np.zeros(2), []
+        for _ in range(n):
+            xs.append(x.copy())
+            m = beta*m + grad(x)
+            x = x - eta*m
+        return np.array(xs)
+    a, b = np.meshgrid(np.linspace(-3, 1, 300), np.linspace(-1.3, 1.3, 300))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4), layout="constrained")
+    for ax, xs, title, color in [(axes[0], run(1.8/lam, 0.0), "Gradient Descent: zig-zag", RED),
+                                 (axes[1], run(0.8/lam, 0.7), "Momentum: damped oscillations, faster progress", GREEN)]:
+        ax.contour(a, b, 0.5*(a**2 + lam*b**2), levels=12, colors="#bbbbbb", linewidths=0.8)
+        ax.plot(xs[:, 0], xs[:, 1], "o-", ms=3, color=color)
+        ax.plot(0, 0, "*", color=INK, ms=10)
+        axes_labels(ax, title + " (30 iterations)", "$x_1$", "$x_2$")
+        ax.set_aspect("equal")
+    save(fig, "momentum_trajectory", "Optimization")
+
+    # Adaptive learning rates: direction of the update on an ill-conditioned quadratic.
+    a, b = np.meshgrid(np.linspace(-3, 3, 300), np.linspace(-1.3, 1.3, 300))
+    qa, qb = np.meshgrid(np.linspace(-2.6, 2.6, 9), np.linspace(-1.05, 1.05, 7))
+    ga, gb = qa, lam*qb
+    fig, axes = plt.subplots(1, 2, figsize=(12, 3.8), layout="constrained")
+    for ax, (u, v), title in [(axes[0], (-ga, -gb), r"GD direction: $-\nabla f(x)$"),
+                              (axes[1], (-np.sign(ga), -np.sign(gb)),
+                               r"Adaptive direction: $-\nabla f(x) / \sqrt{v} \approx -\mathrm{sign}(\nabla f(x))$")]:
+        ax.contour(a, b, 0.5*(a**2 + lam*b**2), levels=12, colors="#bbbbbb", linewidths=0.8)
+        norm = np.max(np.hypot(u, v))
+        ax.quiver(qa, qb, u/norm, v/norm, color=BLUE, angles="xy", scale_units="xy", scale=2.2, width=0.004)
+        ax.plot(0, 0, "*", color=INK, ms=10)
+        axes_labels(ax, title, "$x_1$ (flat direction)", "$x_2$ (steep direction)")
+        ax.set_aspect("equal")
+    save(fig, "adaptive_directions", "Optimization")
+
+    # Adaptive learning rates: parameters with gradients of very different scales.
+    rng = np.random.RandomState(0)
+    k = np.arange(200)
+    g1 = 0.02 + 0.01*rng.normal(size=200)
+    g2 = 2.0 + 1.0*rng.normal(size=200)
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4), layout="constrained")
+    for g, color, label in [(g1, BLUE, r"Parameter 1 (small gradients)"), (g2, RED, r"Parameter 2 (large gradients)")]:
+        v = np.zeros(200)
+        for i in range(200):
+            v[i] = 0.9*(v[i-1] if i > 0 else 0) + 0.1*g[i]**2
+        v_hat = v / (1 - 0.9**(k + 1))
+        axes[0].plot(k, np.abs(g), color=color, lw=1, label=label)
+        axes[1].plot(k, np.abs(g)/np.sqrt(v_hat), color=color, lw=1, label=label)
+    axes[0].set_yscale("log")
+    axes_labels(axes[0], r"Raw gradients $|g_j^{(k)}|$: the same $\eta$ is too small or too large", "Iteration k", "")
+    axes_labels(axes[1], r"Normalized gradients $|g_j^{(k)}| / \sqrt{v_j^{(k)}}$: same scale", "Iteration k", "")
+    axes[0].legend()
+    axes[1].set_ylim(0, 3)
+    save(fig, "adaptive_scales", "Optimization")
+
+    # Bias correction of the moments.
+    rng = np.random.RandomState(1)
+    n = 3000
+    k = np.arange(n)
+    g = 1.0 + 0.5*rng.normal(size=n)
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4), layout="constrained")
+    for ax, beta, x, target, name, iters in [(axes[0], 0.9, g, 1.0, "m", 50),
+                                             (axes[1], 0.999, g**2, 1.25, "v", n)]:
+        e = np.zeros(n)
+        for i in range(n):
+            e[i] = beta*(e[i-1] if i > 0 else 0) + (1-beta)*x[i]
+        e_hat = e / (1 - beta**(k + 1))
+        if name == "m":
+            ax.plot(k[:iters], x[:iters], ".", color="#bbbbbb", ms=4, label=r"$g^{(k)}$")
+        ax.plot(k[:iters], e[:iters], color=RED, label=rf"${name}^{{(k)}}$ (biased)")
+        ax.plot(k[:iters], e_hat[:iters], color=GREEN, label=rf"$\hat {name}^{{(k)}}$ (bias-corrected)")
+        ax.axhline(target, ls="--", color=INK, lw=1,
+                   label=r"$\mathbb{E}[g]$" if name == "m" else r"$\mathbb{E}[g^2]$")
+        axes_labels(ax, ("First" if name == "m" else "Second") + rf" moment, $\beta = {beta}$", "Iteration k", "")
+        if name == "v":
+            ax.set_xscale("log")
+            ax.set_ylim(0, 2)
+        ax.legend(loc="lower right")
+    save(fig, "adam_bias_correction", "Optimization")
+
+    # Adam as a diagram.
+    fig, ax = plt.subplots(figsize=(12, 4))
+    def box(x, y, text, fc):
+        ax.text(x, y, text, ha="center", va="center", fontsize=12,
+                bbox=dict(boxstyle="round,pad=0.5", fc=fc, ec=INK, lw=1))
+    def arrow(p, q):
+        ax.add_patch(FancyArrowPatch(p, q, arrowstyle="->", mutation_scale=14, color=INK, lw=1))
+    box(0, 0, r"$g^{(k)}$", "#dae8fc")
+    box(2.6, 1, "Momentum (EMA, $\\beta_1$)\n$m^{(k)}$", "#ffe6cc")
+    box(2.6, -1, "Squares (EMA, $\\beta_2$)\n$v^{(k)}$", "#ffe6cc")
+    box(5.5, 1, "Bias correction\n$\\hat m^{(k)}$", "#fff2cc")
+    box(5.5, -1, "Bias correction\n$\\hat v^{(k)}$", "#fff2cc")
+    box(8.6, 0, "$\\Theta^{(k+1)} = \\Theta^{(k)} - \\eta \\dfrac{\\hat m^{(k)}}{\\sqrt{\\hat v^{(k)}} + \\varepsilon}$", "#d5e8d4")
+    for p, q in [((0.3, 0.15), (1.3, 0.85)), ((0.3, -0.15), (1.3, -0.85)),
+                 ((3.95, 1), (4.6, 1)), ((3.95, -1), (4.6, -1)),
+                 ((6.45, 0.85), (7.0, 0.3)), ((6.45, -0.85), (7.0, -0.3))]:
+        arrow(p, q)
+    ax.text(2.6, 1.75, "smooths the direction", ha="center", fontsize=10, style="italic")
+    ax.text(2.6, -1.75, "estimates the scale of each component", ha="center", fontsize=10, style="italic")
+    ax.set(xlim=(-0.5, 10.6), ylim=(-2.1, 2.1))
+    ax.axis("off")
+    save(fig, "adam_diagram", "Optimization")
+
+
 if __name__ == "__main__":
     main()
+    adam_figures()
