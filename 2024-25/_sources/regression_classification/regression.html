@@ -562,7 +562,7 @@ f_\theta(x) = \theta_1 + \theta_2 x = 0 + 2x = 2x,
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a26935767f59f08b620323ac82497a29987ae3f31d539d6d80b8cd89a6f706af.png" src="../../_images/a26935767f59f08b620323ac82497a29987ae3f31d539d6d80b8cd89a6f706af.png" />
+<img alt="../../_images/7addf4cac7948372c00dcd07ff45536b65c166889b60c05b430f13cfecb8eb0f.png" src="../../_images/7addf4cac7948372c00dcd07ff45536b65c166889b60c05b430f13cfecb8eb0f.png" />
 </div>
 </div>
 <p>Here we want our model to approximately learn the data, somehow ignoring the noise. Luckily, at least when the noise is Gaussian distributed, this is usually what happens.</p>
@@ -640,7 +640,7 @@ XX^T \theta = XY,
 <span class="g g-Whitespace">      </span><span class="mi">8</span> 
 <span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># Visualize the data</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:1866,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, skip_blank_lines, parse_dates, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:1866,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, skip_blank_lines, parse_dates, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1853</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
 <span class="g g-Whitespace">   </span><span class="mi">1854</span>     <span class="n">dialect</span><span class="p">,</span>
 <span class="g g-Whitespace">   </span><span class="mi">1855</span>     <span class="n">delimiter</span><span class="p">,</span>
@@ -649,19 +649,19 @@ XX^T \theta = XY,
 <span class="g g-Whitespace">   </span><span class="mi">1864</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
 <span class="ne">-&gt; </span><span class="mi">1866</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:423,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:423,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
 <span class="g g-Whitespace">    </span><span class="mi">420</span>             <span class="k">return</span> <span class="n">result</span>
 <span class="g g-Whitespace">    </span><span class="mi">422</span> <span class="c1"># Create the parser.</span>
 <span class="ne">--&gt; </span><span class="mi">423</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">425</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">426</span>     <span class="k">return</span> <span class="n">parser</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:2721,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:2721,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
 <span class="g g-Whitespace">   </span><span class="mi">2718</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">"has_index_names"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">"has_index_names"</span><span class="p">]</span>
 <span class="g g-Whitespace">   </span><span class="mi">2720</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="ne">-&gt; </span><span class="mi">2721</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:2988,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/pandas/io/parsers/readers.py:2988,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
 <span class="g g-Whitespace">   </span><span class="mi">2983</span> <span class="n">is_text</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"python"</span><span class="p">,</span> <span class="s2">"python-fwf"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
 <span class="g g-Whitespace">   </span><span class="mi">2984</span>     <span class="n">engine</span> <span class="o">==</span> <span class="s2">"c"</span>
 <span class="nn">   2985     and self.options.get("encoding", "utf-8") not</span> in <span class="nt">(None, "utf-8")</span>
@@ -680,17 +680,17 @@ XX^T \theta = XY,
 <span class="g g-Whitespace">   </span><span class="mi">2998</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <span class="g g-Whitespace">   </span><span class="mi">2999</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/pandas/io/common.py:948,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">939</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">940</span>             <span class="n">handle</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">941</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">944</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">945</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">946</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">947</span>         <span class="c1"># Binary mode</span>
-<span class="ne">--&gt; </span><span class="mi">948</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">949</span>     <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">951</span> <span class="c1"># Convert BytesIO or file objects passed with an encoding</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/pandas/io/common.py:954,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">945</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">946</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">947</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">950</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">951</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">952</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">953</span>         <span class="c1"># Binary mode</span>
+<span class="ne">--&gt; </span><span class="mi">954</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">955</span>     <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">957</span> <span class="c1"># Convert BytesIO or file objects passed with an encoding</span>
 
 <span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: '../code/data/poly_regression_small.csv'
 </pre></div>
