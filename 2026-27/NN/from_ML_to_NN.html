@@ -232,9 +232,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../Optimization/SGD.html">Stochastic Gradient Descent (SGD)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Optimization/Adam.html">Adam and a Realistic Experiment</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Homework</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exam</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Homeworks/homework.html">Homework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Homeworks/homework_test.html">Homework Test</a></li>
 </ul>
 
     </div>
@@ -434,7 +434,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-one-line-is-not-enough">When one line is not enough</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-hand-made-to-learned-networks">From hand-made to learned networks</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multi-layer-perceptron-mlp">The Multi-Layer Perceptron (MLP)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-output-layer-for-classification-the-softmax">The output layer for classification: the Softmax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-output-layer-for-binary-classification-the-sigmoid">The output layer for binary classification: the sigmoid</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network-the-loss-function">Training the network: the loss function</a></li>
@@ -654,51 +654,64 @@ f_\Theta(x) = W^L \rho\Big( W^{L-1} \rho\big( \cdots \rho(W^1 x + b^1) \cdots \b
 <p>The non-linearity <span class="math notranslate nohighlight">\(\rho\)</span> is <strong>fundamental</strong>. Indeed, if <span class="math notranslate nohighlight">\(\rho(t) = t\)</span>, then the composition of affine functions is again an affine function, and the MLP would collapse into a simple linear model <span class="math notranslate nohighlight">\(f_\Theta(x) = Wx + b\)</span>, no matter how many layers we use.</p>
 </div>
 <blockquote>
-<div><p><strong>Exercise:</strong> Compute the number of parameters of an MLP with input dimension <span class="math notranslate nohighlight">\(d = 784\)</span>, two hidden layers with <span class="math notranslate nohighlight">\(n_1 = n_2 = 128\)</span> neurons, and output dimension <span class="math notranslate nohighlight">\(s = 10\)</span>.</p>
+<div><p><strong>Exercise:</strong> Compute the number of parameters of an MLP with input dimension <span class="math notranslate nohighlight">\(d = 784\)</span>, two hidden layers with <span class="math notranslate nohighlight">\(n_1 = n_2 = 128\)</span> neurons, and output dimension <span class="math notranslate nohighlight">\(s = 1\)</span> (i.e. a binary classifier, see below).</p>
 </div></blockquote>
-<section id="the-output-layer-for-classification-the-softmax">
-<h3>The output layer for classification: the Softmax<a class="headerlink" href="#the-output-layer-for-classification-the-softmax" title="Link to this heading">#</a></h3>
-<p>For a classification problem with <span class="math notranslate nohighlight">\(K\)</span> classes, we set the output dimension to <span class="math notranslate nohighlight">\(s = K\)</span>, so that the network outputs a vector <span class="math notranslate nohighlight">\(z^L \in \mathbb{R}^K\)</span>, whose elements are usually called <strong>logits</strong>. As anticipated in the previous chapter, we want to interpret the output of the network as the <strong>probability</strong> of each class. However, the logits are arbitrary real numbers, and therefore they cannot be directly interpreted as probabilities.</p>
-<p>To convert them into a probability vector (i.e. a vector with non-negative entries summing up to one), we apply the <strong>Softmax</strong> function:</p>
+<section id="the-output-layer-for-binary-classification-the-sigmoid">
+<h3>The output layer for binary classification: the sigmoid<a class="headerlink" href="#the-output-layer-for-binary-classification-the-sigmoid" title="Link to this heading">#</a></h3>
+<p>In this course, we focus on <strong>binary classification</strong> problems, where the label is <span class="math notranslate nohighlight">\(y \in \{0, 1\}\)</span>. As anticipated in the previous chapter, we want the network to output the <strong>probability</strong> that <span class="math notranslate nohighlight">\(x\)</span> belongs to class <span class="math notranslate nohighlight">\(1\)</span>. Therefore, we use a <strong>single</strong> neuron in the output layer, i.e. <span class="math notranslate nohighlight">\(n_L = 1\)</span>, whose pre-activation <span class="math notranslate nohighlight">\(z^L \in \mathbb{R}\)</span> is usually called <strong>logit</strong>. Since the logit is an arbitrary real number, it cannot be directly interpreted as a probability. To map it into the interval <span class="math notranslate nohighlight">\((0, 1)\)</span>, we apply the <strong>sigmoid</strong> function:</p>
 <div class="math notranslate nohighlight">
 \[
-\hat{y} = \mathrm{softmax}(z^L), \qquad \hat{y}_k = \frac{e^{z^L_k}}{\sum_{j=1}^K e^{z^L_j}}, \quad k = 1, \dots, K.
+\hat{y} = \sigma(z^L) = \frac{1}{1 + e^{-z^L}} \in (0, 1),
 \]</div>
-<p>It is easy to check that <span class="math notranslate nohighlight">\(\hat{y}_k \in (0, 1)\)</span> for any <span class="math notranslate nohighlight">\(k\)</span> and that <span class="math notranslate nohighlight">\(\sum_{k=1}^K \hat{y}_k = 1\)</span>. Moreover, the Softmax preserves the ordering of the logits: the largest logit corresponds to the largest probability. Therefore, we interpret</p>
+<p>and we interpret</p>
 <div class="math notranslate nohighlight">
 \[
-\hat{y}_k = \mathbb{P}(y = k \mid x; \Theta),
+\hat{y} = \mathbb{P}(y = 1 \mid x; \Theta), \qquad 1 - \hat{y} = \mathbb{P}(y = 0 \mid x; \Theta).
 \]</div>
-<p>and the <strong>predicted class</strong> is the one with the highest probability:</p>
+<p>The <strong>predicted class</strong> is the most probable one:</p>
 <div class="math notranslate nohighlight">
-\[
-\hat{c}(x) = \arg\max_{k = 1, \dots, K} \hat{y}_k.
-\]</div>
+\[\begin{split}
+\hat{c}(x) =
+\begin{cases}
+1 &amp; \text{if } \hat{y} \geq 0.5, \\
+0 &amp; \text{if } \hat{y} &lt; 0.5.
+\end{cases}
+\end{split}\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\sigma(t) \geq 0.5\)</span> if and only if <span class="math notranslate nohighlight">\(t \geq 0\)</span>, the <strong>decision boundary</strong> of the network is the set of points where the logit vanishes, <span class="math notranslate nohighlight">\(\{ x \in \mathbb{R}^d : z^L(x) = 0 \}\)</span>. For a single neuron, <span class="math notranslate nohighlight">\(z^L(x) = w^T x + b\)</span> is affine, and the decision boundary is a straight line (exactly as in the first section of this chapter). For an MLP, <span class="math notranslate nohighlight">\(z^L(x)\)</span> is a non-linear function of <span class="math notranslate nohighlight">\(x\)</span>, and the decision boundary can be an arbitrarily complex curve.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For <span class="math notranslate nohighlight">\(K = 2\)</span>, the Softmax reduces to the sigmoid. Indeed, <span class="math notranslate nohighlight">\(\hat{y}_1 = \frac{e^{z_1}}{e^{z_1} + e^{z_2}} = \frac{1}{1 + e^{-(z_1 - z_2)}} = \sigma(z_1 - z_2)\)</span>.</p>
+<p>The output neuron of the network, <span class="math notranslate nohighlight">\(\hat{y} = \sigma(W^L h^{L-1} + b^L)\)</span>, is exactly a <strong>logistic regression</strong> applied to the hidden features <span class="math notranslate nohighlight">\(h^{L-1}\)</span> instead of the input <span class="math notranslate nohighlight">\(x\)</span>. Thus, an MLP can be interpreted as follows: the hidden layers <strong>learn a new representation</strong> of the data, in which the two classes become (approximately) linearly separable, and the last layer separates them with a hyperplane.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For problems with <span class="math notranslate nohighlight">\(K &gt; 2\)</span> classes, the network has <span class="math notranslate nohighlight">\(K\)</span> output neurons, and the sigmoid is replaced by the <strong>Softmax</strong> function, <span class="math notranslate nohighlight">\(\hat{y}_k = e^{z^L_k} / \sum_{j=1}^K e^{z^L_j}\)</span>, which converts the <span class="math notranslate nohighlight">\(K\)</span> logits into a probability vector. For <span class="math notranslate nohighlight">\(K = 2\)</span>, the Softmax reduces to the sigmoid. We will not use it in this course.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>When implementing the Softmax, computing <span class="math notranslate nohighlight">\(e^{z_k}\)</span> for large values of <span class="math notranslate nohighlight">\(z_k\)</span> easily leads to <strong>overflow</strong>. Since <span class="math notranslate nohighlight">\(\mathrm{softmax}(z) = \mathrm{softmax}(z - c)\)</span> for any constant <span class="math notranslate nohighlight">\(c \in \mathbb{R}\)</span> (check it!), we always subtract the maximum logit before taking the exponential, i.e. we compute <span class="math notranslate nohighlight">\(\mathrm{softmax}(z - \max_j z_j)\)</span>.</p>
+<p>When implementing the sigmoid, computing <span class="math notranslate nohighlight">\(e^{-t}\)</span> for large negative values of <span class="math notranslate nohighlight">\(t\)</span> leads to <strong>overflow</strong>. A numerically stable way to compute it is the identity <span class="math notranslate nohighlight">\(\sigma(t) = \frac{1}{2}\left( 1 + \tanh\left(\frac{t}{2}\right) \right)\)</span> (check it!), which is the one we will use in the code.</p>
 </div>
 </section>
 </section>
 <section id="training-the-network-the-loss-function">
 <h2>Training the network: the loss function<a class="headerlink" href="#training-the-network-the-loss-function" title="Link to this heading">#</a></h2>
-<p>We now have a model <span class="math notranslate nohighlight">\(f_\Theta(x)\)</span> whose output, after the Softmax, is a probability vector <span class="math notranslate nohighlight">\(\hat{y} \in \mathbb{R}^K\)</span>. Given a training set <span class="math notranslate nohighlight">\(\mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N\)</span>, where the labels are <strong>one-hot encoded</strong>, i.e. <span class="math notranslate nohighlight">\(y^{(i)} = e_{c^{(i)}} \in \mathbb{R}^K\)</span> if <span class="math notranslate nohighlight">\(x^{(i)}\)</span> belongs to class <span class="math notranslate nohighlight">\(c^{(i)}\)</span>, we need to define a loss function measuring how far the predicted probabilities are from the true labels.</p>
-<p>The standard choice comes from Statistics, and it is based on the <strong>Maximum Likelihood</strong> principle: we want to choose <span class="math notranslate nohighlight">\(\Theta\)</span> such that the probability that the model assigns to the true labels is as large as possible. For a single datapoint <span class="math notranslate nohighlight">\((x, y)\)</span> with <span class="math notranslate nohighlight">\(y = e_c\)</span>, the probability assigned by the model to the true class is <span class="math notranslate nohighlight">\(\hat{y}_c\)</span>. Assuming the datapoints are independent, the likelihood of the whole dataset is</p>
+<p>We now have a model whose output <span class="math notranslate nohighlight">\(\hat{y} = f_\Theta(x) \in (0, 1)\)</span> is the probability that <span class="math notranslate nohighlight">\(x\)</span> belongs to class <span class="math notranslate nohighlight">\(1\)</span>. Given a training set <span class="math notranslate nohighlight">\(\mathcal{D} = \{ (x^{(i)}, y^{(i)}) \}_{i=1}^N\)</span>, with <span class="math notranslate nohighlight">\(y^{(i)} \in \{ 0, 1 \}\)</span>, we need to define a loss function measuring how far the predicted probabilities are from the true labels.</p>
+<p>The standard choice comes from Statistics, and it is based on the <strong>Maximum Likelihood</strong> principle: we want to choose <span class="math notranslate nohighlight">\(\Theta\)</span> such that the probability that the model assigns to the observed labels is as large as possible. For a single datapoint <span class="math notranslate nohighlight">\((x, y)\)</span>, the probability that the model assigns to the observed label is <span class="math notranslate nohighlight">\(\hat{y}\)</span> if <span class="math notranslate nohighlight">\(y = 1\)</span>, and <span class="math notranslate nohighlight">\(1 - \hat{y}\)</span> if <span class="math notranslate nohighlight">\(y = 0\)</span>, which can be compactly written as</p>
 <div class="math notranslate nohighlight">
 \[
-\prod_{i=1}^N \hat{y}^{(i)}_{c^{(i)}}.
+\mathbb{P}(y \mid x; \Theta) = \hat{y}^{\,y} (1 - \hat{y})^{1 - y}.
+\]</div>
+<p>Assuming the datapoints are independent, the likelihood of the whole dataset is</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_{i=1}^N \big(\hat{y}^{(i)}\big)^{y^{(i)}} \big(1 - \hat{y}^{(i)}\big)^{1 - y^{(i)}}.
 \]</div>
 <p>Maximizing the likelihood is equivalent to minimizing the <strong>negative log-likelihood</strong> (since the logarithm is monotone and it turns products into sums), which, normalized by <span class="math notranslate nohighlight">\(N\)</span>, reads:</p>
 <div class="math notranslate nohighlight">
 \[
-\mathcal{L}(\Theta) = -\frac{1}{N} \sum_{i=1}^N \log \hat{y}^{(i)}_{c^{(i)}} = \frac{1}{N} \sum_{i=1}^N \underbrace{\left( - \sum_{k=1}^K y^{(i)}_k \log \hat{y}^{(i)}_k \right)}_{=: \ell(\Theta; x^{(i)}, y^{(i)})},
+\mathcal{L}(\Theta) = \frac{1}{N} \sum_{i=1}^N \underbrace{- \Big( y^{(i)} \log \hat{y}^{(i)} + (1 - y^{(i)}) \log \big(1 - \hat{y}^{(i)}\big) \Big)}_{=: \ell(\Theta; x^{(i)}, y^{(i)})}.
 \]</div>
-<p>where we used that <span class="math notranslate nohighlight">\(y^{(i)}_k = 1\)</span> if <span class="math notranslate nohighlight">\(k = c^{(i)}\)</span> and <span class="math notranslate nohighlight">\(0\)</span> otherwise. The function <span class="math notranslate nohighlight">\(\ell(\Theta; x, y) = - \sum_{k=1}^K y_k \log \hat{y}_k\)</span> is called <strong>Cross-Entropy</strong> loss.</p>
-<p>Intuitively, the Cross-Entropy is <span class="math notranslate nohighlight">\(0\)</span> if the network assigns probability <span class="math notranslate nohighlight">\(1\)</span> to the correct class, and it goes to <span class="math notranslate nohighlight">\(+\infty\)</span> when the probability assigned to the correct class goes to <span class="math notranslate nohighlight">\(0\)</span>. Thus, it heavily penalizes <strong>confident wrong</strong> predictions.</p>
+<p>The function <span class="math notranslate nohighlight">\(\ell(\Theta; x, y) = - \big( y \log \hat{y} + (1 - y) \log(1 - \hat{y}) \big)\)</span> is called <strong>Binary Cross-Entropy (BCE)</strong> loss.</p>
+<p>Intuitively, if <span class="math notranslate nohighlight">\(y = 1\)</span> the BCE reduces to <span class="math notranslate nohighlight">\(-\log \hat{y}\)</span>, which is <span class="math notranslate nohighlight">\(0\)</span> if the network assigns probability <span class="math notranslate nohighlight">\(1\)</span> to class <span class="math notranslate nohighlight">\(1\)</span>, and goes to <span class="math notranslate nohighlight">\(+\infty\)</span> when <span class="math notranslate nohighlight">\(\hat{y} \to 0\)</span>. Symmetrically, if <span class="math notranslate nohighlight">\(y = 0\)</span> it reduces to <span class="math notranslate nohighlight">\(-\log(1 - \hat{y})\)</span>. Thus, the BCE heavily penalizes <strong>confident wrong</strong> predictions.</p>
 <p>The <strong>training problem</strong> of our Neural Network classifier is therefore:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -755,12 +768,12 @@ x \xrightarrow{\; w^1, b^1 \;} z^1 \xrightarrow{\; \rho \;} h^1 \xrightarrow{\; 
 \[
 \delta^l := \nabla_{z^l} \ell \in \mathbb{R}^{n_l}.
 \]</div>
-<p><strong>Output layer.</strong> For the Softmax + Cross-Entropy, a direct computation (see the exercise below) shows that the error signal of the last layer has an extremely simple form:</p>
+<p><strong>Output layer.</strong> For the sigmoid output and the Binary Cross-Entropy loss, a direct computation (see the exercise below) shows that the error signal of the last layer has an extremely simple form:</p>
 <div class="math notranslate nohighlight">
 \[
-\delta^L = \nabla_{z^L} \ell = \hat{y} - y,
+\delta^L = \frac{\partial \ell}{\partial z^L} = \hat{y} - y,
 \]</div>
-<p>i.e. it is just the difference between the predicted probabilities and the one-hot encoded label.</p>
+<p>i.e. it is just the difference between the predicted probability and the true label.</p>
 <p><strong>Gradient with respect to the parameters.</strong> Since <span class="math notranslate nohighlight">\(z^l = W^l h^{l-1} + b^l\)</span>, i.e. <span class="math notranslate nohighlight">\(z^l_i = \sum_j W^l_{ij} h^{l-1}_j + b^l_i\)</span>, by the chain rule:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -781,7 +794,7 @@ x \xrightarrow{\; w^1, b^1 \;} z^1 \xrightarrow{\; \rho \;} h^1 \xrightarrow{\; 
 <p><strong>Backpropagation algorithm</strong></p>
 <p><strong>Input</strong>: a datapoint <span class="math notranslate nohighlight">\((x, y)\)</span>, the parameters <span class="math notranslate nohighlight">\(\Theta = \{ W^l, b^l \}_{l=1}^L\)</span>.</p>
 <ol class="arabic simple">
-<li><p><strong>Forward pass</strong>: set <span class="math notranslate nohighlight">\(h^0 = x\)</span> and, for <span class="math notranslate nohighlight">\(l = 1, \dots, L\)</span>, compute and store <span class="math notranslate nohighlight">\(z^l = W^l h^{l-1} + b^l\)</span> and <span class="math notranslate nohighlight">\(h^l = \rho(z^l)\)</span> (with <span class="math notranslate nohighlight">\(\hat{y} = \mathrm{softmax}(z^L)\)</span> for the last layer).</p></li>
+<li><p><strong>Forward pass</strong>: set <span class="math notranslate nohighlight">\(h^0 = x\)</span> and, for <span class="math notranslate nohighlight">\(l = 1, \dots, L\)</span>, compute and store <span class="math notranslate nohighlight">\(z^l = W^l h^{l-1} + b^l\)</span> and <span class="math notranslate nohighlight">\(h^l = \rho(z^l)\)</span> (with <span class="math notranslate nohighlight">\(\hat{y} = h^L = \sigma(z^L)\)</span> for the last layer).</p></li>
 <li><p><strong>Backward pass</strong>: set <span class="math notranslate nohighlight">\(\delta^L = \hat{y} - y\)</span> and, for <span class="math notranslate nohighlight">\(l = L, L-1, \dots, 1\)</span>:</p>
 <ul class="simple">
 <li><p>compute <span class="math notranslate nohighlight">\(\nabla_{W^l} \ell = \delta^l (h^{l-1})^T\)</span> and <span class="math notranslate nohighlight">\(\nabla_{b^l} \ell = \delta^l\)</span>,</p></li>
@@ -795,7 +808,7 @@ x \xrightarrow{\; w^1, b^1 \;} z^1 \xrightarrow{\; \rho \;} h^1 \xrightarrow{\; 
 <p>The cost of the backward pass is roughly the same as the cost of the forward pass (about twice, in practice). On the contrary, approximating the gradient by finite differences, <span class="math notranslate nohighlight">\(\frac{\partial \ell}{\partial \Theta_j} \approx \frac{\ell(\Theta + \epsilon e_j) - \ell(\Theta)}{\epsilon}\)</span>, would require <strong>one forward pass for each parameter</strong>, which is unfeasible for networks with millions of parameters. Backpropagation is what makes the training of Neural Networks possible, and it is exactly what libraries such as PyTorch and TensorFlow do automatically (under the name of <strong>automatic differentiation</strong>).</p>
 </div>
 <blockquote>
-<div><p><strong>Exercise:</strong> Prove that, for <span class="math notranslate nohighlight">\(\hat{y} = \mathrm{softmax}(z)\)</span> and <span class="math notranslate nohighlight">\(\ell = -\sum_{k=1}^K y_k \log \hat{y}_k\)</span> with <span class="math notranslate nohighlight">\(y\)</span> one-hot encoded, it holds <span class="math notranslate nohighlight">\(\nabla_z \ell = \hat{y} - y\)</span>. <em>Hint:</em> first show that <span class="math notranslate nohighlight">\(\frac{\partial \hat{y}_k}{\partial z_j} = \hat{y}_k (\mathbb{1}\{k = j\} - \hat{y}_j)\)</span>.</p>
+<div><p><strong>Exercise:</strong> Prove that, for <span class="math notranslate nohighlight">\(\hat{y} = \sigma(z)\)</span> and <span class="math notranslate nohighlight">\(\ell = -\big(y \log \hat{y} + (1 - y) \log(1 - \hat{y})\big)\)</span> with <span class="math notranslate nohighlight">\(y \in \{0, 1\}\)</span>, it holds <span class="math notranslate nohighlight">\(\frac{\partial \ell}{\partial z} = \hat{y} - y\)</span>. <em>Hint:</em> use that <span class="math notranslate nohighlight">\(\sigma'(z) = \sigma(z)(1 - \sigma(z))\)</span>.</p>
 </div></blockquote>
 </section>
 <section id="working-with-batches-of-data">
@@ -819,7 +832,7 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
 </section>
 <section id="implementation-from-scratch">
 <h3>Implementation from scratch<a class="headerlink" href="#implementation-from-scratch" title="Link to this heading">#</a></h3>
-<p>We now have all the ingredients to implement an MLP classifier (with ReLU activation on the hidden layers) from scratch, using only <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. We store the parameters as a list of pairs <code class="docutils literal notranslate"><span class="pre">[W,</span> <span class="pre">b]</span></code>, one for each layer.</p>
+<p>We now have all the ingredients to implement an MLP binary classifier (with ReLU activation on the hidden layers and sigmoid activation on the output neuron) from scratch, using only <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. We store the parameters as a list of pairs <code class="docutils literal notranslate"><span class="pre">[W,</span> <span class="pre">b]</span></code>, one for each layer, while the labels are stored as a column vector <span class="math notranslate nohighlight">\(Y \in \mathbb{R}^{N \times 1}\)</span>, so that they have the same shape as the output of the network.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The parameters are initialized <strong>randomly</strong>: if all the weights were initialized to the same value, all the neurons of a layer would compute the same function and receive the same gradient, and they would remain identical forever. A common choice for ReLU networks is the so-called <strong>He initialization</strong>, where the entries of <span class="math notranslate nohighlight">\(W^l\)</span> are sampled from <span class="math notranslate nohighlight">\(\mathcal{N}(0, 2 / n_{l-1})\)</span>, which keeps the magnitude of the activations approximately constant across the layers.</p>
@@ -832,14 +845,12 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
 <span class="k">def</span><span class="w"> </span><span class="nf">relu_prime</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># For numerical stability</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">z</span><span class="p">))</span>  <span class="c1"># = 1 / (1 + exp(-z)), without overflow</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    sizes: list [n_0, n_1, ..., n_L] with the width of each layer.</span>
+<span class="sd">    sizes: list [n_0, n_1, ..., n_L] with the width of each layer (n_L = 1).</span>
 <span class="sd">    Returns a list of [W, b] pairs, with W of shape (n_l, n_{l-1}).</span>
 <span class="sd">    """</span>
     <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -853,23 +864,24 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
 <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Forward pass. X has shape (N, d).</span>
-<span class="sd">    Returns the predicted probabilities Y_hat (N, K), and the list of</span>
+<span class="sd">    Returns the predicted probabilities Y_hat (N, 1), and the list of</span>
 <span class="sd">    intermediate values [(Z^l, H^l)], needed for the backward pass.</span>
 <span class="sd">    """</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">X</span>
     <span class="n">cache</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
         <span class="n">Z</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span>
-        <span class="n">H</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
         <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">cache</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y_hat</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+    <span class="c1"># eps avoids log(0)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y_hat</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Y_hat</span> <span class="o">+</span> <span class="n">eps</span><span class="p">))</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Backward pass. Returns the gradient of the average Cross-Entropy</span>
+<span class="sd">    Backward pass. Returns the gradient of the average Binary Cross-Entropy</span>
 <span class="sd">    with respect to each [W, b], with the same structure of params.</span>
 <span class="sd">    """</span>
     <span class="n">N</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -897,14 +909,14 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
 <p>As discussed above, this is way too expensive to be used for training, but it is perfect for debugging.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A small network: 2 inputs -&gt; 5 hidden -&gt; 4 hidden -&gt; 3 classes</span>
-<span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A small network: 2 inputs -&gt; 5 hidden -&gt; 4 hidden -&gt; 1 output</span>
+<span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Random data and one-hot labels</span>
+<span class="c1"># Random data and binary labels (as a column vector)</span>
 <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">X_small</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="n">Y_small</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+<span class="n">Y_small</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 
 <span class="c1"># Gradient via backpropagation</span>
 <span class="n">Y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)</span>
@@ -918,9 +930,9 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
             <span class="n">old</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
             <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">old</span> <span class="o">+</span> <span class="n">eps</span>
-            <span class="n">L_plus</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y_small</span><span class="p">)</span>
+            <span class="n">L_plus</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y_small</span><span class="p">)</span>
             <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">old</span> <span class="o">-</span> <span class="n">eps</span>
-            <span class="n">L_minus</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y_small</span><span class="p">)</span>
+            <span class="n">L_minus</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X_small</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y_small</span><span class="p">)</span>
             <span class="n">p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">old</span>
             <span class="n">fd</span> <span class="o">=</span> <span class="p">(</span><span class="n">L_plus</span> <span class="o">-</span> <span class="n">L_minus</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
             <span class="n">max_err</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_err</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fd</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
@@ -930,7 +942,7 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Maximum difference between backprop and finite differences: 1.74e-10
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Maximum difference between backprop and finite differences: 8.83e-11
 </pre></div>
 </div>
 </div>
@@ -940,23 +952,48 @@ Z^l = H^{l-1} (W^l)^T + \mathbf{1} (b^l)^T \in \mathbb{R}^{N \times n_l}, \qquad
 </section>
 <section id="where-we-are">
 <h2>Where we are<a class="headerlink" href="#where-we-are" title="Link to this heading">#</a></h2>
-<p>Let’s go back to the triangle dataset. We can now define an MLP with, say, two hidden layers of <span class="math notranslate nohighlight">\(16\)</span> neurons each, and use it to classify our data. Of course, since the weights are initialized randomly, we expect the network to be completely useless at the moment.</p>
+<p>The triangle dataset was easy enough to be solved by hand. However, most classification problems are not. Consider for example the <strong>two moons</strong> dataset: two interleaving half-circles, one for each class, perturbed by some noise. Here, the decision boundary must be a <strong>curve</strong>, and there is no obvious choice of lines that we could combine by hand. This is the dataset that we will use in the next chapters to test our training algorithms.</p>
+<p>We can now define an MLP with, say, two hidden layers of <span class="math notranslate nohighlight">\(16\)</span> neurons each, and use it to classify these data. Of course, since the weights are initialized randomly, we expect the network to be completely useless at the moment.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One-hot encoding of the labels (K = 2 classes)</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="n">y</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_moons</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generates N points in R^2 on two interleaving half-circles (one per class).</span>
+<span class="sd">    """</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>             <span class="c1"># Class 0: upper moon</span>
+                   <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">s</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>  <span class="c1"># Class 1: lower moon</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
 
-<span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>  <span class="c1"># Labels as a column vector</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Class 0"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Class 1"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"The two moons dataset"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">Y_hat</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loss of the untrained network: </span><span class="si">{</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy of the untrained network: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y_hat</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loss of the untrained network: </span><span class="si">{</span><span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy of the untrained network: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Y_hat</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss of the untrained network: 1.1963
-Accuracy of the untrained network: 18.40%
+<img alt="../_images/d56d586df1adb904fcabdd28907842c0007158d433c75831c78a3e6afc7c65cc.png" src="../_images/d56d586df1adb904fcabdd28907842c0007158d433c75831c78a3e6afc7c65cc.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss of the untrained network: 0.5955
+Accuracy of the untrained network: 51.80%
 </pre></div>
 </div>
 </div>
@@ -968,13 +1005,14 @@ Accuracy of the untrained network: 18.40%
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
 <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">xx1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">xx2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">P_grid</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">P_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">P_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx1</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\mathbb</span><span class="si">{P}</span><span class="s2">(y = 1 \mid x)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"x"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Prediction of the untrained network"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
@@ -986,13 +1024,13 @@ Accuracy of the untrained network: 18.40%
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/f333337c232cf90dee305ac6661a2afecd85c47c946043ca70ab9a005971675c.png" src="../_images/f333337c232cf90dee305ac6661a2afecd85c47c946043ca70ab9a005971675c.png" />
+<img alt="../_images/946ed830803e74e5741433e8b1d0b0b6aeb6a8b5eb07b68058c52736f95cda62.png" src="../_images/946ed830803e74e5741433e8b1d0b0b6aeb6a8b5eb07b68058c52736f95cda62.png" />
 </div>
 </div>
-<p>As expected, the untrained network has nothing to do with the triangle. Nevertheless, we now have everything we need to train it:</p>
+<p>As expected, the untrained network has nothing to do with the two moons. Nevertheless, we now have everything we need to train it:</p>
 <ul class="simple">
-<li><p>a <strong>model</strong> <span class="math notranslate nohighlight">\(f_\Theta\)</span> (the MLP), expressive enough to represent the triangle (we built one by hand!),</p></li>
-<li><p>a <strong>loss function</strong> <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> (the Cross-Entropy), measuring how wrong the network is,</p></li>
+<li><p>a <strong>model</strong> <span class="math notranslate nohighlight">\(f_\Theta\)</span> (the MLP), expressive enough to represent complex decision boundaries (remember the triangle!),</p></li>
+<li><p>a <strong>loss function</strong> <span class="math notranslate nohighlight">\(\mathcal{L}(\Theta)\)</span> (the Binary Cross-Entropy), measuring how wrong the network is,</p></li>
 <li><p>the <strong>gradient</strong> <span class="math notranslate nohighlight">\(\nabla_\Theta \mathcal{L}(\Theta)\)</span>, computed efficiently by backpropagation.</p></li>
 </ul>
 <p>The only missing piece is the answer to the question:</p>
@@ -1079,7 +1117,7 @@ Accuracy of the untrained network: 18.40%
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-one-line-is-not-enough">When one line is not enough</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-hand-made-to-learned-networks">From hand-made to learned networks</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multi-layer-perceptron-mlp">The Multi-Layer Perceptron (MLP)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-output-layer-for-classification-the-softmax">The output layer for classification: the Softmax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-output-layer-for-binary-classification-the-sigmoid">The output layer for binary classification: the sigmoid</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network-the-loss-function">Training the network: the loss function</a></li>
